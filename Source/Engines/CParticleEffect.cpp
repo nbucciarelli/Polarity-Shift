@@ -100,8 +100,6 @@ void CParticleEffect::Reset(void)
 		p->m_fCurrYPos = RAND_FLOAT(0 - (int)(GetYSpread() / 2), (int)(GetYSpread() /2) + 0);
 		p->m_fXVelocity = RAND_FLOAT(GetMinXVelocity(), GetMaxXVelocity());
 		p->m_fYVelocity = RAND_FLOAT(GetMinYVelocity(), GetMaxYVelocity());
-		p->m_fXGravity = GetXGravity();
-		p->m_fYGravity = GetYGravity();
 		vDeadParticles.push_back(p);	
 	}
 }
@@ -117,6 +115,5 @@ void CParticleEffect::ResetParticleValues(tParticle* pParticle)
 	pParticle->m_fCurrYPos = RAND_FLOAT(0 - (int)(GetYSpread() / 2), (int)(GetYSpread() /2) + 0);
 	pParticle->m_fXVelocity = RAND_FLOAT(GetMinXVelocity(), GetMaxXVelocity());
 	pParticle->m_fYVelocity = RAND_FLOAT(GetMinYVelocity(), GetMaxYVelocity());
-	pParticle->m_fXGravity = GetXGravity();
-	pParticle->m_fYGravity = GetYGravity();
+
 }

@@ -83,10 +83,6 @@ int CParticleEffectManager::LoadEffect(char* szFileName)
 	p->SetXSpread(fData);
 	fin.read((char*)&fData, sizeof(float));
 	p->SetYSpread(fData);
-	fin.read((char*)&fData, sizeof(float));
-	p->SetXGravity(fData);
-	fin.read((char*)&fData, sizeof(float));
-	p->SetYGravity(fData);
 	p->SetIsActive(false);
 	int index = -1;
 	for (unsigned i = 0; i < vParticleEffect.size() ; ++i)

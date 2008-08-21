@@ -18,8 +18,6 @@ struct tParticle
 	float m_fXVelocity;
 	float m_fYVelocity;
 	float m_fCurrScale;
-	float m_fXGravity;
-	float m_fYGravity;
 	float m_fCurrXPos;
 	float m_fCurrYPos;
 	float m_fLifeSpan;	
@@ -55,10 +53,6 @@ private:
 
 	float m_fStartScale;
 	float m_fEndScale;
-
-	float m_fXGravity;
-
-	float m_fYGravity;
 
 	bool m_bIsActive;
 	bool m_bIsLooping;
@@ -122,8 +116,6 @@ public:
 	float GetYSpread(void) { return m_fYSpread; }
 	float GetStartScale(void) { return m_fStartScale; }
 	float GetEndScale(void) { return m_fEndScale; }
-	float GetXGravity() const { return m_fXGravity; }
-	float GetYGravity() const { return m_fYGravity; }
 	bool GetIsActive(void) { return m_bIsActive; }
 	bool GetIsLooping(void) { return m_bIsLooping; }
 
@@ -152,8 +144,6 @@ public:
 	void SetYSpread(float fYSpread) { m_fYSpread = fYSpread; }
 	void SetStartScale(float fStartScale) { m_fStartScale = fStartScale; }
 	void SetEndScale(float fEndScale) { m_fEndScale = fEndScale; }
-	void SetXGravity(float val) { m_fXGravity = val; }
-	void SetYGravity(float val) { m_fYGravity = val; }
 	void SetIsActive(bool bIsActive) { m_bIsActive = bIsActive; }
 	void SetIsLooping(bool bIsLooping) { m_bIsLooping = bIsLooping; }
 
