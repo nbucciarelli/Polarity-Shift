@@ -2,7 +2,7 @@
 
 class viewManager;
 
-#define CHARSET "Resource/ScS_charset.png"
+#define CHARSET "Resource/PS_charset.png"
 #define CHARWIDTH 32
 #define CHARHEIGHT 48
 
