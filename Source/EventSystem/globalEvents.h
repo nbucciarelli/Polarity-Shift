@@ -1,0 +1,24 @@
+#pragma once
+
+enum globalEvents { GE_NULL,
+
+	BEGIN_STATE_EVENTS,
+
+	GE_STATE_PUSH,
+	GE_STATE_POP,
+	GE_STATE_CHANGETO,
+	GE_STATE_CLEARALL,
+
+	END_STATE_EVENTS,
+
+GE_MAX
+};
+
+enum gameStates { STATE_NULL,
+
+	STATE_MAINMENU,
+	STATE_PLAY,
+	STATE_PAUSE,
+
+STATE_MAX
+};
