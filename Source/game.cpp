@@ -6,6 +6,8 @@
 #include "Wrappers\viewManager.h"
 #include "Helpers\bitFont.h"
 #include "EventSystem\eventManager.h"
+#include "EventSystem/globalHandler.h"
+#include "EventSystem/globalEvents.h"
 
 #include "States\GameStates\mainMenuState.h"
 #include "Objects\objFactory.h"
@@ -13,8 +15,6 @@
 
 #include <process.h>
 
-//#define STARTSTATE mainMenuState::getInstance()
-#define STARTSTATE NULL
 #define RENDERER dxRenderer::getInstance();
 
 #pragma region constructor/destructor/singleton
@@ -48,11 +48,12 @@ void game::Initialize(HINSTANCE hInstance)
 	theInput->InitDirectInput(theDisplay->getHWnd(), hInstance, DI_KEYBOARD | DI_MOUSE);
 
 	EM = eventManager::getInstance();
+	globalHandler::getInstance()->initialize();
 	
 	isWindowed = true;
 	theRenderer->changeResolution(DEFAULT_WNDHEIGHT, DEFAULT_WNDWIDTH, isWindowed);
 
-	changeState(STARTSTATE);
+	globalHandler::getInstance()->HandleEvent(&gameEvent(GE_GAME_START));
 
 	timeStamp = GetTickCount();
 	srand(timeStamp);
@@ -62,10 +63,12 @@ void game::Shutdown()
 {
 	changeState(NULL);
 	
-	WaitForSingleObject(updateThread, INFINITE);
+	WaitForSingleObject(renderThread, INFINITE);
 
 	objFactory::getInstance()->unregisterAll();
 
+	globalHandler::getInstance()->shutdown();
+	
 	theInput->ShutdownDirectInput();
 
 	bitFont::getInstance()->shutdown();
@@ -137,22 +140,31 @@ void game::Run()
 		return;
 
 	const int stackSize = 65536;
-	updateThread = (HANDLE)_beginthreadex(0, stackSize,
-		updateLoop, 0, 0, 0);
+	renderThread = (HANDLE)_beginthreadex(0, stackSize,
+		renderLoop, 0, 0, 0);
 
-	while ( isRunning )
+
+	while(isRunning)
 	{
+		theDisplay->HandleWindowMsgs();
+
+		currentTime = GetTickCount();
+
+		dt = (currentTime - timeStamp) / 1000.0f;
+		timeStamp = currentTime;
+		gameTime += dt;
+
+		theInput->ReadDevices();
+
+		if(getInput() &&currentState)
+			currentState->input(dt);
+
 		if(currentState)
-		{
-			theRenderer->BeginScene();
-			theRenderer->BeginSprites();
+			currentState->update(0.016f);
+		else
+			isRunning = false;
 
-			for(unsigned c = 0; c < stateStack.size(); c++)
-				stateStack[c]->render();
-
-			theRenderer->EndSprites();
-			theRenderer->EndScene();
-		}
+		EM->processGlobalEvents();
 	}
 }
 
@@ -173,31 +185,23 @@ bool game::getInput()
 }
 #pragma endregion
 
-#pragma region update loop
-unsigned game::updateLoop(void* unused)
+#pragma region render loop
+unsigned game::renderLoop(void* unused)
 {
 	game* g = GetInstance();
-	while(g->isRunning)
+	while ( g->isRunning )
 	{
-		g->theDisplay->HandleWindowMsgs();
-
-		g->currentTime = GetTickCount();
-
-		g->dt = (g->currentTime - g->timeStamp) / 1000.0f;
-		g->timeStamp = g->currentTime;
-		g->gameTime += g->dt;
-
-		g->theInput->ReadDevices();
-
-		if(g->getInput() &&g->currentState)
-			g->currentState->input(g->dt);
-
 		if(g->currentState)
-			g->currentState->update(0.016f);
-		else
-			g->isRunning = false;
+		{
+			g->theRenderer->BeginScene();
+			g->theRenderer->BeginSprites();
 
-		g->EM->processGlobalEvents();
+			for(unsigned c = 0; c < g->stateStack.size(); c++)
+				g->stateStack[c]->render();
+
+			g->theRenderer->EndSprites();
+			g->theRenderer->EndScene();
+		}
 	}
 	return 0;
 }

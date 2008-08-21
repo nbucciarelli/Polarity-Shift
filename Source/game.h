@@ -9,6 +9,7 @@ class gameState;
 typedef unsigned long DWORD;
 struct HINSTANCE__;
 typedef HINSTANCE__* HINSTANCE;
+typedef void* HANDLE;
 class eventManager;
 
 #include <vector>
@@ -19,7 +20,7 @@ class game
 {
 protected:
 	volatile bool isRunning;
-	bool isWindowed;
+	volatile bool isWindowed;
 
 	//Singleton Protection
 	game(void);
@@ -27,7 +28,7 @@ protected:
 	game& operator=(const game&);
 	virtual ~game(void);
 
-	HANDLE updateThread;
+	HANDLE renderThread;
 
 	//Component pointers.  Note none care if it's DX or OGL or whatever.
 	display* theDisplay;
@@ -45,7 +46,7 @@ protected:
 	//Current updating state
 	gameState*	currentState;
 	
-	static unsigned __stdcall updateLoop(void*);
+	static unsigned __stdcall renderLoop(void*);
 
 	//For any "global" input actions that may be needed.
 	//return tells whether or not to skip state input

@@ -7,7 +7,7 @@
 
 #pragma comment(lib, "d3dx9.lib")
 
-#define WAIT while(locked) {}
+#define WAIT while(locked) {Sleep(0);}
 
 baseObj::baseObj(uint otype) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
 type(otype), locked(false)

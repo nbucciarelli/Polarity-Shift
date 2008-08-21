@@ -7,8 +7,9 @@
 #include "..\..\Helpers\datatypes.h"
 #include "..\..\Helpers\physics.h"
 #include "..\..\Helpers\bitFont.h"
+#include "../../EventSystem/eventManager.h"
 
-#define CURSOR "Resource/ScS_menuCursor.png"
+#define CURSOR "Resource/PS_menuCursor.png"
 
 menuState::menuState(int x, int y, unsigned int color, unsigned int highlight)
 	: xPos(x), yPos(y), textColor(color), highlightColor(highlight)
@@ -18,6 +19,7 @@ void menuState::enter(void)
 {
 	theInput = inputDevice::GetInstance();
 	theFont = bitFont::getInstance();
+	EM = eventManager::getInstance();
 
 	menuPos = 0;
 	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
