@@ -41,9 +41,15 @@ public:
 	int loadTexture(const char filename[], uint colorKey = 0);
 	int loadMesh(char filename[]);
 
-	void drawTexture(int id, const vector3* pos, const matrix * transform = NULL, const rect* section = NULL,
+	//drawTexture does NOT do computations for scaling, rotation, anything.
+	//Everything for that should be done with a transformation matrix.
+	//(see the "calc" class in physics.h)
+	//The vec3 position will offset the drawing from where the transformation
+	//matrix designates.  Can be null in all circumstances.
+	void drawTexture(int id, const vector3* pos = NULL, const matrix * transform = NULL, const rect* section = NULL,
 		const vector3* center = NULL, uint color = 0xffffffff);
 
+	//If you know what the ID is, it can be acquired.  Basically, for copying objects.
 	void acquireTexture(int textureID) { textureList[textureID]->ref++; }
 	void releaseTexture(int textureID);
 	void releaseMesh(int meshID);

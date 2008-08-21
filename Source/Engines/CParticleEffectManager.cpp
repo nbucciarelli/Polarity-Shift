@@ -9,7 +9,7 @@
 #include <fstream>
 #include <string>
 
-#include "..\Wrappers\CSGD_TextureManager.h"
+#include "..\Wrappers\viewManager.h"
 
 
 void CParticleEffectManager::Update(float fDelta)
@@ -42,7 +42,7 @@ int CParticleEffectManager::LoadEffect(char* szFileName)
 		szTexture += szCharacter;
 		fin.read(&szCharacter, sizeof(char));
 	}
-	p->SetImageID(CSGD_TextureManager::GetInstance()->LoadTexture((char*)szTexture.c_str()));
+	p->SetImageID(viewManager::getInstance()->loadTexture(szTexture.c_str()));
 
 	// num particles
 	fin.read((char*)&nData, sizeof(int));

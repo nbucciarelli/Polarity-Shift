@@ -6,7 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "CParticleEffect.h"
-#include "../Wrappers/CSGD_TextureManager.h"
+#include "../Wrappers/viewManager.h"
+#include "../helpers/physics.h"
 
 #define RAND_FLOAT(min,max) (((rand()/(float)RAND_MAX)*((max)-(min)))+(min))
 
@@ -62,10 +63,18 @@ void CParticleEffect::Update(float fDelta)
 }
 void CParticleEffect::Render(int nPosX, int nPosY, float fScaleX, float fScaleY, float fRotX, float fRotY, float fRot, unsigned nColor )
 {
-	for (unsigned i = 0 ; i < vParticles.size() ; ++i)
-		CSGD_TextureManager::GetInstance()->Draw(m_nImageID, (int)vParticles[i]->m_fCurrXPos + nPosX, (int)vParticles[i]->m_fCurrYPos + nPosY, vParticles[i]->m_fCurrScale, vParticles[i]->m_fCurrScale);
-	
+	matrix transform;
 
+	for (unsigned i = 0 ; i < vParticles.size() ; ++i)
+	{
+		calc::matrixTransform(transform,
+			vector3(vParticles[i]->m_fCurrXPos + nPosX, vParticles[i]->m_fCurrYPos + nPosY, 0),
+			vector3(vParticles[i]->m_fCurrScale, vParticles[i]->m_fCurrScale, 0));
+
+		viewManager::getInstance()->drawTexture(m_nImageID,
+			NULL,
+			&transform);
+	}
 }
 void CParticleEffect::Reset(void)
 {
