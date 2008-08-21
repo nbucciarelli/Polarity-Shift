@@ -1,6 +1,6 @@
 #pragma once
 
-#include "datatypes.h"
+#include "..\Helpers\datatypes.h"
 
 enum objTypes { OBJ_DEFAULT, OBJ_MOVING,
 				OBJ_MAX };

@@ -1,8 +1,8 @@
 #include "camera.h"
-#include "eventIDs.h"
-#include "gameEvent.h"
-#include "physics.h"
-#include "baseObj.h"
+#include "..\EventSystem\eventIDs.h"
+#include "..\EventSystem\gameEvent.h"
+#include "..\Helpers\physics.h"
+#include "..\Objects\baseObj.h"
 
 camera::camera() {}
 camera::~camera() {}

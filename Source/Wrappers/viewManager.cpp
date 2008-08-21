@@ -1,7 +1,7 @@
-#include "datatypes.h"
+#include "..\Helpers\datatypes.h"
 #include "viewManager.h"
 #include "renderer.h"
-#include "camera.h"
+#include "..\Objects\camera.h"
 
 #pragma region constructor/destructor
 viewManager::viewManager(void)

@@ -1,15 +1,15 @@
 #include <windows.h>
 #include "game.h"
 #include "display.h"
-#include "dxRenderer.h"
-#include "CSGD_DirectInput.h"
-#include "viewManager.h"
-#include "bitFont.h"
-#include "eventManager.h"
+#include "Wrappers\dxRenderer.h"
+#include "Wrappers\CSGD_DirectInput.h"
+#include "Wrappers\viewManager.h"
+#include "Helpers\bitFont.h"
+#include "EventSystem\eventManager.h"
 
-#include "mainMenuState.h"
-#include "objFactory.h"
-#include "movingObj.h"
+#include "States\GameStates\mainMenuState.h"
+#include "Objects\objFactory.h"
+#include "Objects\movingObj.h"
 
 #include <process.h>
 

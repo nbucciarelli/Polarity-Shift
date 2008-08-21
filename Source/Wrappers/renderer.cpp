@@ -1,5 +1,5 @@
 #include <windows.h>
-#include "datatypes.h"
+#include "..\Helpers\datatypes.h"
 #include "renderer.h"
 
 renderer::renderer(void) : cam(0) {}

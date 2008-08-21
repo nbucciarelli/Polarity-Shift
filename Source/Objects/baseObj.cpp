@@ -1,7 +1,7 @@
 #include <windows.h>
 #include "baseObj.h"
-#include "physics.h"
-#include "viewManager.h"
+#include "..\Helpers\physics.h"
+#include "..\Wrappers\viewManager.h"
 #include <d3dx9.h>
 #include "camera.h"
 

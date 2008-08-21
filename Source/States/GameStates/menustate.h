@@ -1,5 +1,5 @@
 #pragma once
-#include "gameState.h"
+#include "..\gameState.h"
 
 class objManager;
 class CSGD_DirectInput;

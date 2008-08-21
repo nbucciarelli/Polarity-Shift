@@ -1,5 +1,5 @@
 #include "movingObj.h"
-#include "physics.h"
+#include "..\Helpers\physics.h"
 
 movingObj::movingObj(uint otype) : baseObj(otype), boundingSpace(NULL)
 {

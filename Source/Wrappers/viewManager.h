@@ -9,7 +9,7 @@
 #include <vector>
 using std::vector;
 
-#include "datatypes.h"
+#include "..\Helpers\datatypes.h"
 
 class renderer;
 struct meshData;

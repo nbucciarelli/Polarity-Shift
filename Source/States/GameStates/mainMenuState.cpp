@@ -1,7 +1,7 @@
 #include "mainMenuState.h"
 #include <windows.h>
-#include "eventManager.h"
-#include "globalEvents.h"
+#include "..\..\EventSystem\eventManager.h"
+#include "..\..\EventSystem\globalEvents.h"
 
 mainMenuState::mainMenuState(void)
 {

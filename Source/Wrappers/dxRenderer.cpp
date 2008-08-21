@@ -1,5 +1,5 @@
 #include <windows.h>
-#include "datatypes.h"
+#include "..\Helpers\datatypes.h"
 #include "dxRenderer.h"
 #include <d3d9.h>
 #include <d3dx9.h>
