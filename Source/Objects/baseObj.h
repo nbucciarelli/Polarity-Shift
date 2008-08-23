@@ -38,6 +38,8 @@ protected:
 	//the coordinates of the top left corner of rendered portion
 	pt imgPos;
 
+	polygon collisionPoly;
+
 	rect getDrawRect() const;
 public:
 	baseObj(uint otype = OBJ_DEFAULT);
@@ -61,6 +63,8 @@ public:
 	const pt getDimensions() const { return dimension; }
 	const pt getImgCenter() const { return imgCenter; }
 
+	const polygon& getCollisionPoly() const { return collisionPoly; }
+
 	//This exists so that some of the "standing" functions work correctly.
 	//(hax.)
 	virtual const vector3& getVelocity() const { return nullVector; }
@@ -81,6 +85,8 @@ public:
 	void setAngPos(const vector3& aPos) { angPos = aPos; }
 	void setScale(const vector3& scl) { scale = scl; }
 	void setImgId(int id);
+
+	void setCollisionPoly(polygon& poly) { collisionPoly = poly; }
 
 	void setFacing(int face) { scale.x = (float)face; }
 

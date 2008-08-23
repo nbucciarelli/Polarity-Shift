@@ -15,7 +15,7 @@
 
 #include <process.h>
 
-#define RENDERER dxRenderer::getInstance();
+#define RENDERER dxRenderer
 
 #pragma region constructor/destructor/singleton
 game::game(void) : isRunning(true), isWindowed(true), currentState(NULL), gameTime(0) {}
@@ -38,7 +38,7 @@ void game::Initialize(HINSTANCE hInstance)
 	if(!theDisplay->getHWnd())
 		return;
 
-	theRenderer = RENDERER;
+	theRenderer = RENDERER::getInstance();
 	theRenderer->Init(theDisplay->getHWnd());
 	
 	viewManager::getInstance()->initialize(theRenderer);

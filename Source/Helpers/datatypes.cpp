@@ -37,6 +37,10 @@ matrix::matrix(const matrix& obj)
 {
 	memcpy(this, &obj, sizeof(matrix));
 }
+
+polygon::polygon() : vertexCount(0), vertecies(NULL), maxRadius(0)
+{}
+
 #pragma endregion
 
 #pragma region vec3 operators

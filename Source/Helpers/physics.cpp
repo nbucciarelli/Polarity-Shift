@@ -107,3 +107,36 @@ bool calc::sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, 
 	else
 		return false;
 }
+
+bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, vector3* intersectVect)
+{
+	return false;
+}
+
+void calc::projectPolygonToLine(const polygon& poly, const vector3& line,
+								float& min, float& max)
+{
+	if(!poly.vertecies)
+		return;
+
+	float dot = min = max = poly.vertecies[0].coords.dot2D(line);
+
+	for(int c = 1; c < poly.vertexCount; c++)
+	{
+		dot = poly.vertecies[c].coords.dot2D(line);
+
+		if(dot < min)
+			min = dot;
+		else if( dot > max)
+			max = dot;
+	}
+}
+
+float calc::distanceBetweenLines(float min1, float max1, float min2, float max2)
+{
+	//figure out which line is "higher," then do the correct subtraction.
+	if(min1 < min2)
+		return min2 - max1;
+	else
+		return min1 - max2;
+}

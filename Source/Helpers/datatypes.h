@@ -97,3 +97,22 @@ struct textureData
 
 	textureData();
 };
+
+struct objectPoint
+{
+	vector3 coords;
+	float mass;
+
+	objectPoint() : mass(0) {}
+};
+
+struct polygon
+{
+	int vertexCount;
+	objectPoint* vertecies;
+	objectPoint center;
+
+	float maxRadius;
+	
+	polygon();
+};
