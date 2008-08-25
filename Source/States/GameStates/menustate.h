@@ -16,8 +16,8 @@ protected:
 	bitFont* theFont;
 	eventManager* EM;
 	CXBOXController* Player1;
-	bool m_bDownIsBuffered;
-	bool m_bUpIsBuffered;
+	bool m_bIsBuffered;
+	
 	
 	
 

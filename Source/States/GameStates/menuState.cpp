@@ -13,7 +13,7 @@
 #define CURSOR "Resource/PS_menuCursor.png"
 
 menuState::menuState(int x, int y, unsigned int color, unsigned int highlight)
-	: xPos(x), yPos(y), textColor(color), highlightColor(highlight)
+: xPos(x), yPos(y), textColor(color), highlightColor(highlight)
 {}
 
 void menuState::enter(void)
@@ -22,8 +22,7 @@ void menuState::enter(void)
 	theFont = bitFont::getInstance();
 	EM = eventManager::getInstance();
 	Player1 = new CXBOXController(1);
-	m_bDownIsBuffered = true;
-	m_bUpIsBuffered = true;
+	m_bIsBuffered = true;
 
 	menuPos = 0;
 	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
@@ -36,40 +35,46 @@ void menuState::exit(void)
 
 bool menuState::input(float dt)
 {
-	if (theInput->KeyPressed(DIK_RETURN))
+	if (theInput->KeyPressed(DIK_RETURN) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A ))
 	{
-		menuHandler();
-	}
-
-	if (theInput->KeyPressed(DIK_DOWN)  || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN ))
-	{
-		
-		if (m_bDownIsBuffered == true)
+		if (m_bIsBuffered == true)
 		{
-		if(menuPos < menuLast)
-			menuPos++;
-		else
-			menuPos = 0;
-
-		m_bDownIsBuffered = false;
+			menuHandler();
+			Player1->Vibrate(65535, 65535);
+			m_bIsBuffered = false;
 		}
-	}else
-		m_bDownIsBuffered = true;
 
-
-	if(theInput->KeyPressed(DIK_UP)|| (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP))
+	}else if (theInput->KeyPressed(DIK_DOWN) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN ))
 	{
-		if (m_bUpIsBuffered == true)
+
+		if (m_bIsBuffered == true)
 		{
+			Player1->Vibrate(65535, 65535);
+			if(menuPos < menuLast)
+				menuPos++;
+			else
+				menuPos = 0;
+
+			m_bIsBuffered = false;
+		}
+	}else if(theInput->KeyPressed(DIK_UP) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP))
+	{
+		if (m_bIsBuffered == true)
+		{
+			Player1->Vibrate(65535, 65535);
+			
 			if(menuPos > 0)
 				menuPos--;
 			else
 				menuPos = menuLast;
 
-			m_bUpIsBuffered = false;
+			m_bIsBuffered = false;
 		}
 	}else
-		m_bUpIsBuffered = true;
+	{
+		m_bIsBuffered = true;
+		Player1->Vibrate(0, 0);
+	}
 
 
 	return true;
