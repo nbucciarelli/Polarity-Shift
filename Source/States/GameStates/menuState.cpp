@@ -8,6 +8,7 @@
 #include "..\..\Helpers\physics.h"
 #include "..\..\Helpers\bitFont.h"
 #include "../../EventSystem/eventManager.h"
+#include "..\..\Helpers\CXBOXController.h"
 
 #define CURSOR "Resource/PS_menuCursor.png"
 
@@ -20,6 +21,9 @@ void menuState::enter(void)
 	theInput = inputDevice::GetInstance();
 	theFont = bitFont::getInstance();
 	EM = eventManager::getInstance();
+	Player1 = new CXBOXController(1);
+	m_bDownIsBuffered = true;
+	m_bUpIsBuffered = true;
 
 	menuPos = 0;
 	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
@@ -37,21 +41,36 @@ bool menuState::input(float dt)
 		menuHandler();
 	}
 
-	if (theInput->KeyPressed(DIK_DOWN))
+	if (theInput->KeyPressed(DIK_DOWN)  || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN ))
 	{
+		
+		if (m_bDownIsBuffered == true)
+		{
 		if(menuPos < menuLast)
 			menuPos++;
 		else
 			menuPos = 0;
-	}
 
-	if(theInput->KeyPressed(DIK_UP))
+		m_bDownIsBuffered = false;
+		}
+	}else
+		m_bDownIsBuffered = true;
+
+
+	if(theInput->KeyPressed(DIK_UP)|| (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP))
 	{
-		if(menuPos > 0)
-			menuPos--;
-		else
-			menuPos = menuLast;
-	}
+		if (m_bUpIsBuffered == true)
+		{
+			if(menuPos > 0)
+				menuPos--;
+			else
+				menuPos = menuLast;
+
+			m_bUpIsBuffered = false;
+		}
+	}else
+		m_bUpIsBuffered = true;
+
 
 	return true;
 }

@@ -6,6 +6,7 @@ class CSGD_DirectInput;
 typedef CSGD_DirectInput inputDevice;
 class bitFont;
 class eventManager;
+class CXBOXController;
 
 class menuState : public gameState
 {
@@ -14,6 +15,11 @@ protected:
 	inputDevice* theInput;
 	bitFont* theFont;
 	eventManager* EM;
+	CXBOXController* Player1;
+	bool m_bDownIsBuffered;
+	bool m_bUpIsBuffered;
+	
+	
 
 	int menuPos, cursorID, menuLast, xPos, yPos;
 	char** menuItemString;
