@@ -46,9 +46,11 @@ void globalHandler::HandleEvent(gameEvent* ev)
 	{
 	case GE_STATE_CHANGETO:
 		theGame->changeState(state(*(int*)ev->getData()));
+		delete ev->getData();
 		break;
 	case GE_STATE_PUSH:
 		theGame->pushState(state(*(int*)ev->getData()));
+		delete ev->getData();
 		break;
 	case GE_STATE_POP:
 		theGame->popState();
