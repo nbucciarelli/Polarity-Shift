@@ -30,6 +30,7 @@ void menuState::enter(void)
 
 void menuState::exit(void)
 {
+	delete Player1;
 	viewManager::getInstance()->releaseTexture(cursorID);
 }
 

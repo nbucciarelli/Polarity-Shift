@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\globalEvents.h"
+#include "..\..\Engines\CParticleEffectManager.h"
 
 mainMenuState::mainMenuState(void)
 {
@@ -30,12 +31,14 @@ void mainMenuState::enter(void)
 	menuItemString[CREDITS] = "Credits";
 	menuItemString[EXIT] = "Exit";
 	menuLast = EXIT;
+
 }
 
 void mainMenuState::exit(void)
 {
 	delete[] menuItemString;
 	menuState::exit();
+
 }
 
 void mainMenuState::menuHandler()
