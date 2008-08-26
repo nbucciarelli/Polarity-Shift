@@ -23,6 +23,8 @@ void menuState::enter(void)
 	EM = eventManager::getInstance();
 	Player1 = new CXBOXController(1);
 	m_bIsBuffered = true;
+	m_nEmitterPosX = 100;
+	m_nEmitterPosY = 100;
 
 	menuPos = 0;
 	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
@@ -76,6 +78,18 @@ bool menuState::input(float dt)
 		m_bIsBuffered = true;
 		Player1->Vibrate(0, 0);
 	}
+
+
+	m_fUpdateTimer -= dt;
+	if (m_fUpdateTimer > 0.0f)
+		return true;
+	else
+	{
+		m_fUpdateTimer = .016f;
+		m_nEmitterPosX += Player1->GetState().Gamepad.sThumbLX % 1000;
+		m_nEmitterPosY += Player1->GetState().Gamepad.sThumbLY % 1000;
+	}
+
 
 
 	return true;

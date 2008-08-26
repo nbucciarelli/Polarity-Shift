@@ -17,6 +17,10 @@ protected:
 	eventManager* EM;
 	CXBOXController* Player1;
 	bool m_bIsBuffered;
+	int m_nEmitterPosX;
+	int m_nEmitterPosY;
+	float m_fUpdateTimer;
+	
 	
 	
 	
@@ -39,4 +43,11 @@ public:
 	virtual bool input(float dt);
 	virtual void update(float dt);
 	virtual void render(void) const;
+
+	int GetEmitterPosX() const { return m_nEmitterPosX; }
+	void SetEmitterPosX(int val) { m_nEmitterPosX = val; }
+	int GetEmitterPosY() const { return m_nEmitterPosY; }
+	void SetEmitterPosY(int val) { m_nEmitterPosY = val; }
+	float GetUpdateTimer() const { return m_fUpdateTimer; }
+	void SetUpdateTimer(float val) { m_fUpdateTimer = val; }
 };
