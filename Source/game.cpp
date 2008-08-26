@@ -160,7 +160,7 @@ void game::Run()
 			currentState->input(dt);
 
 		if(currentState)
-			currentState->update(0.016f);
+			currentState->update(dt);
 		else
 			isRunning = false;
 
