@@ -38,57 +38,93 @@ void menuState::exit(void)
 
 bool menuState::input(float dt)
 {
-	if (theInput->KeyPressed(DIK_RETURN) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A ))
+	if (theInput->KeyPressed(DIK_RETURN))
+		menuHandler();
+	else if (theInput->KeyPressed(DIK_DOWN))
 	{
-		if (m_bIsBuffered == true)
-		{
-			menuHandler();
-			Player1->Vibrate(65535, 65535);
-			m_bIsBuffered = false;
-		}
-
-	}else if (theInput->KeyPressed(DIK_DOWN) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN ))
+		if(menuPos < menuLast)
+			menuPos++;
+		else
+			menuPos = 0;
+	}else if(theInput->KeyPressed(DIK_UP))
 	{
-
-		if (m_bIsBuffered == true)
-		{
-			Player1->Vibrate(65535, 65535);
-			if(menuPos < menuLast)
-				menuPos++;
-			else
-				menuPos = 0;
-
-			m_bIsBuffered = false;
-		}
-	}else if(theInput->KeyPressed(DIK_UP) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP))
-	{
-		if (m_bIsBuffered == true)
-		{
-			Player1->Vibrate(65535, 65535);
-			
-			if(menuPos > 0)
-				menuPos--;
-			else
-				menuPos = menuLast;
-
-			m_bIsBuffered = false;
-		}
-	}else
-	{
-		m_bIsBuffered = true;
-		Player1->Vibrate(0, 0);
+		if(menuPos > 0)
+			menuPos--;
+		else
+			menuPos = menuLast;
 	}
 
+
+	if (Player1->IsConnected())
+	{
+		if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+		{
+			if (m_bIsBuffered == true)
+			{
+				Player1->Vibrate(65535, 65535);
+
+				if(menuPos > 0)
+					menuPos--;
+				else
+					menuPos = menuLast;
+
+				m_bIsBuffered = false;
+			}
+
+		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN )
+		{
+			if (m_bIsBuffered == true)
+			{
+				Player1->Vibrate(65535, 65535);
+				if(menuPos < menuLast)
+					menuPos++;
+				else
+					menuPos = 0;
+
+				m_bIsBuffered = false;
+			}
+
+		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A )
+		{
+			if (m_bIsBuffered == true)
+			{
+				menuHandler();
+				Player1->Vibrate(65535, 65535);
+				m_bIsBuffered = false;
+			}
+
+		}else
+		{
+			m_bIsBuffered = true;
+			Player1->Vibrate(0, 0);
+		}
+	}
+	
+
+
+	//float leftThumbY = Player1->GetState().Gamepad.sThumbLX;
+
+	/*
+	if (Player1->GetState().Gamepad.sThumbLX)
+	{
+	m_nEmitterPosX += (Player1->GetState().Gamepad.sThumbLX / 500000);
+	}
+
+	if (Player1->GetState().Gamepad.sThumbLY)
+	{
+	m_nEmitterPosY += (Player1->GetState().Gamepad.sThumbLY / 500000);
+	}
 
 	m_fUpdateTimer -= dt;
 	if (m_fUpdateTimer > 0.0f)
-		return true;
+	return true;
 	else
 	{
-		m_fUpdateTimer = .016f;
-		//m_nEmitterPosX += Player1->GetState().Gamepad.sThumbLX % 1000;
-		//m_nEmitterPosY += Player1->GetState().Gamepad.sThumbLY % 1000;
-	}
+
+	m_fUpdateTimer = .016f;
+	//m_nEmitterPosX += Player1->GetState().Gamepad.sThumbLX % 1000;
+	//m_nEmitterPosY += Player1->GetState().Gamepad.sThumbLY % 1000;
+	}*/
 
 
 

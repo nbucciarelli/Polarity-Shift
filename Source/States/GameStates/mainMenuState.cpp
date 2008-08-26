@@ -70,6 +70,6 @@ void mainMenuState::menuHandler()
 void mainMenuState::render(void) const
 {
 	menuState::render();
-	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(),menuState::GetEmitterPosY()); 
+	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(), menuState::GetEmitterPosY()); 
 	
 }
