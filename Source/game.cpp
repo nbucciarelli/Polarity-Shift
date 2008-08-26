@@ -72,7 +72,7 @@ void game::Shutdown()
 	theInput->ShutdownDirectInput();
 
 	bitFont::getInstance()->shutdown();
-	viewManager::getInstance()->shutdown();
+	//viewManager::getInstance()->shutdown();
 
 	theRenderer->Shutdown();
 

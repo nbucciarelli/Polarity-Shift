@@ -1,7 +1,7 @@
 #include "movingObj.h"
 #include "..\Helpers\physics.h"
 
-movingObj::movingObj(uint otype) : baseObj(otype), boundingSpace(NULL)
+movingObj::movingObj(uint otype) : baseObj(otype)
 {
 }
 
@@ -11,6 +11,8 @@ movingObj::~movingObj(void)
 
 void movingObj::update(float dt)
 {
+	//Apply gravity.
+	velocity.y += GRAVITY * dt;
 	velocity += acceleration * dt;
 	position += velocity * dt;
 
@@ -23,37 +25,31 @@ void movingObj::update(float dt)
 	baseObj::update(dt);
 }
 
-bool movingObj::checkCollision(baseObj* obj, rect* pass)
+bool movingObj::checkCollision(baseObj* obj, vector3* impactVect)
 {
-	bool hit = baseObj::checkCollision(obj, pass);
+	vector3 holder;
 
-	boundsCheck();
+	bool hit = baseObj::checkCollision(obj, &holder);
 
-	return hit;
-}
+	//If the collision check says false, we're done.
+	if(!hit)
+		return false;
 
-void movingObj::boundsCheck()
-{
-	//if(boundingSpace)
-	//{
-	//	rect col = getCollisionRect();
+	//Otherwise, it's time to react.  impactVect is the normal of the other obj. impactvect.z
+	//is the overlap amount.
 
-	//	if(col.left < boundingSpace->left)
-	//	{
-	//		position.x += 1;
-	//	}
-	//	else if(col.right > boundingSpace->right)
-	//	{
-	//		position.x -= 1;
-	//	}
+	//Jerk position out of the way.
+	position += holder * holder.z;
 
-	//	if(col.top < boundingSpace->top)
-	//	{
-	//		position.y += 1;
-	//	}
-	//	else if(col.bottom > boundingSpace->bottom)
-	//	{
-	//		position.y -= 1;
-	//	}
-	//}
+	//Apply the normal force of the surface.  At present, all surfaces are solids.
+	//This is calculated by projecting the acceleration onto -impactVector, and negating.
+//	acceleration += -(*(-holder.normalize());
+
+	if(impactVect)
+	{
+		*impactVect = holder;
+		return true;
+	}
+
+	return true;
 }

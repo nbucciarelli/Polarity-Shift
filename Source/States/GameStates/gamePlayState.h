@@ -5,7 +5,7 @@ class objManager;
 class CSGD_DirectInput;
 typedef CSGD_DirectInput inputDevice;
 class eventManager;
-class eventHandler;
+class playHandler;
 
 class gamePlayState : public gameState
 {
@@ -13,7 +13,8 @@ protected:
 	objManager * objM;
 	inputDevice* theInput;
 	eventManager* EM;
-	eventHandler* EH;
+	playHandler* handler;
+	
 
 	gamePlayState();
 	gamePlayState(const gamePlayState&);

@@ -84,6 +84,9 @@ int viewManager::loadMesh(char filename[])
 #pragma region release functions
 void viewManager::releaseTexture(int textureID)
 {
+	if(!textureList[textureID])
+		return;
+
 	textureList[textureID]->ref--;
 
 	if(0 == textureList[textureID]->ref && textureList[textureID]->texture)

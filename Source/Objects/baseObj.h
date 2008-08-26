@@ -16,10 +16,9 @@ protected:
 
 	//object's local space transformation matrix
 	matrix worldMatrix;
-	//(Technically, the vec3 position is redundant, but oh well.)
 	
 	//Simple method for critical sections.
-	//If the world matrix is being updated or used in render, this will be true.
+	//If the world matrix is being updated or used, this should be set true.
 	volatile bool locked;
 
 	uint type;
@@ -38,7 +37,7 @@ protected:
 	//the coordinates of the top left corner of rendered portion
 	pt imgPos;
 
-	polygon collisionPoly;
+	polygon* collisionPoly;
 
 	rect getDrawRect() const;
 public:
@@ -50,7 +49,7 @@ public:
 	virtual void update(float dt);
 	virtual void render();
 
-	virtual bool checkCollision(baseObj* obj, rect* over = NULL);
+	virtual bool checkCollision(baseObj* obj, vector3* impactVect = NULL);
 
 	//Ref counting functions
 	void acquire() { refCount++; }
@@ -63,7 +62,7 @@ public:
 	const pt getDimensions() const { return dimension; }
 	const pt getImgCenter() const { return imgCenter; }
 
-	const polygon& getCollisionPoly() const { return collisionPoly; }
+	const polygon* getCollisionPoly() const { return collisionPoly; }
 
 	//This exists so that some of the "standing" functions work correctly.
 	//(hax.)
@@ -86,7 +85,7 @@ public:
 	void setScale(const vector3& scl) { scale = scl; }
 	void setImgId(int id);
 
-	void setCollisionPoly(polygon& poly) { collisionPoly = poly; }
+	void setCollisionPoly(polygon* poly) { collisionPoly = poly; }
 
 	void setFacing(int face) { scale.x = (float)face; }
 

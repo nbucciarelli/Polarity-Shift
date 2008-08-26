@@ -21,9 +21,6 @@ protected:
 	int m_nEmitterPosY;
 	float m_fUpdateTimer;
 	
-	
-	
-	
 
 	int menuPos, cursorID, menuLast, xPos, yPos;
 	char** menuItemString;
@@ -34,7 +31,7 @@ protected:
 
 	menuState(int x = 100, int y = 100,
 		unsigned int color = 0xff66bb66, unsigned int highlight = 0xff88dd88);
-	virtual ~menuState(void) {}
+	virtual ~menuState(void);
 public:
 
 	virtual void enter(void);
