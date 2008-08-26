@@ -13,8 +13,18 @@
 #define CURSOR "Resource/PS_menuCursor.png"
 
 menuState::menuState(int x, int y, unsigned int color, unsigned int highlight)
-: xPos(x), yPos(y), textColor(color), highlightColor(highlight)
-{}
+: xPos(x), yPos(y), textColor(color), highlightColor(highlight), menuItemString(0)
+{
+	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
+}
+
+menuState::~menuState()
+{
+	viewManager::getInstance()->releaseTexture(cursorID);
+
+	if(menuItemString)
+		delete[] menuItemString;
+}
 
 void menuState::enter(void)
 {
@@ -28,13 +38,11 @@ void menuState::enter(void)
 	m_nEmitterPosY = 100;
 
 	menuPos = 0;
-	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
 }
 
 void menuState::exit(void)
 {
 	delete Player1;
-	viewManager::getInstance()->releaseTexture(cursorID);
 }
 
 bool menuState::input(float dt)
@@ -139,6 +147,9 @@ void menuState::update(float dt)
 
 void menuState::render(void) const
 {
+	if(!menuItemString)
+		return;
+
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)

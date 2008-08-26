@@ -39,7 +39,7 @@ void mainMenuState::enter(void)
 
 void mainMenuState::exit(void)
 {
-	delete[] menuItemString;
+//	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
 	menuState::exit();
 
 }
