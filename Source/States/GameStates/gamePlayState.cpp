@@ -1,5 +1,5 @@
 #include "gamePlayState.h"
-
+#include "..\..\Wrappers\CSGD_DirectInput.h"
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\globalEvents.h"
 
@@ -16,8 +16,8 @@ gamePlayState* gamePlayState::getInstance()
 void gamePlayState::enter(void)
 {
 	//objManager * objM;
-	//inputDevice* theInput;
-	//eventManager* EM;
+	theInput = CSGD_DirectInput::GetInstance();
+	EM = eventManager::getInstance();
 	//eventHandler* EH;
 }
 
@@ -27,6 +27,9 @@ void gamePlayState::exit(void)
 
 bool gamePlayState::input(float dt)
 {
+	if (theInput->KeyPressed(DIK_ESCAPE) || theInput->KeyPressed(DIK_F10))
+		EM->sendGlobalEvent(GE_STATE_PUSH, new int(STATE_PAUSE));
+
 	return true;
 }
 

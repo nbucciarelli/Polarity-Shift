@@ -24,6 +24,8 @@ void pauseState::enter(void)
 {
 	menuState::enter();
 
+	EM = eventManager::getInstance();
+
 	menuItemString = new char*[TOTAL];
 	menuLast = EXIT;
 
@@ -42,7 +44,7 @@ bool pauseState::input(float dt)
 {
 	if(theInput->KeyPressed(DIK_ESCAPE))
 	{
-//		game::GetInstance()->popState();
+		EM->sendGlobalEvent(GE_STATE_POP);
 	}
 
 	return menuState::input(dt);
@@ -63,11 +65,9 @@ void pauseState::menuHandler()
 	switch(menuPos)
 	{
 	case RESUME:
-//		game::GetInstance()->popState();
-
+		EM->sendGlobalEvent(GE_STATE_POP);
 		break;
 	default:
-		;
-//		game::GetInstance()->changeState(mainMenuState::getInstance());
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
 	}
 }

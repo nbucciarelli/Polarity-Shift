@@ -1,11 +1,13 @@
 #pragma once
 #include "menuState.h"
 
-class eventHandler;
+class eventManager;
 
 class pauseState : public menuState
 {
 protected:
+	eventManager* EM;
+
 	enum menuOptions { RESUME, 
 		
 		EXIT, TOTAL };

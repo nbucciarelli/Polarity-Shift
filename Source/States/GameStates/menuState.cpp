@@ -20,6 +20,7 @@ void menuState::enter(void)
 {
 	theInput = inputDevice::GetInstance();
 	theFont = bitFont::getInstance();
+	objM = objManager::getInstance();
 	EM = eventManager::getInstance();
 	Player1 = new CXBOXController(1);
 	m_bIsBuffered = true;
