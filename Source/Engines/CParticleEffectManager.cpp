@@ -30,7 +30,7 @@ int CParticleEffectManager::LoadEffect(char* szFileName)
 	CParticleEffect* p = new CParticleEffect;
 	std::string szTexture;
 	int nData;
-	float fData;
+	double fData;
 	char szCharacter;
 	
 	std::ifstream fin;
@@ -64,25 +64,25 @@ int CParticleEffectManager::LoadEffect(char* szFileName)
 	fin.read((char*)&nData, sizeof(int));
 	p->SetEndBlue(nData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetMinXVelocity((float)fData);
+	p->SetMinXVelocity((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetMaxXVelocity((float)fData);
+	p->SetMaxXVelocity((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetMinYVelocity((float)fData);
+	p->SetMinYVelocity((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetMaxYVelocity((float)fData);
+	p->SetMaxYVelocity((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetStartScale((float)fData);
+	p->SetStartScale((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetEndScale((float)fData);
+	p->SetEndScale((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetMinLifeSpan((float)fData);
+	p->SetMinLifeSpan((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetMaxLifeSpan((float)fData);
+	p->SetMaxLifeSpan((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetXSpread((float)fData);
+	p->SetXSpread((double)fData);
 	fin.read((char*)&fData, sizeof(double));
-	p->SetYSpread((float)fData);
+	p->SetYSpread((double)fData);
 	p->SetIsActive(false);
 	int index = -1;
 	for (unsigned i = 0; i < vParticleEffect.size() ; ++i)

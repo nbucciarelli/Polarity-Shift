@@ -11,6 +11,8 @@ protected:
 
 	void menuHandler();
 
+	int m_nParticleImageID;
+
 	mainMenuState(void);
 	mainMenuState(const mainMenuState&);
 	mainMenuState& operator=(const mainMenuState&);
@@ -21,6 +23,7 @@ public:
 	
 	virtual void enter(void);
 	virtual void exit(void);
+	virtual void update(float dt);
 
 	virtual void render(void) const;
 };

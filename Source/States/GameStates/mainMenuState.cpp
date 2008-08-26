@@ -20,6 +20,9 @@ mainMenuState* mainMenuState::getInstance()
 
 void mainMenuState::enter(void)
 {
+
+	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_PurpleRain.prt");
+	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	menuState::enter();
 
 	menuItemString = new char*[TOTAL];
@@ -39,6 +42,10 @@ void mainMenuState::exit(void)
 	delete[] menuItemString;
 	menuState::exit();
 
+}
+void mainMenuState::update(float dt)
+{
+	CParticleEffectManager::GetInstance()->Update(dt);
 }
 
 void mainMenuState::menuHandler()
@@ -63,4 +70,6 @@ void mainMenuState::menuHandler()
 void mainMenuState::render(void) const
 {
 	menuState::render();
+	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, 200, 300); 
+	
 }

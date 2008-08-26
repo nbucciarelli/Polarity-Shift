@@ -9,7 +9,7 @@
 #include "../Wrappers/viewManager.h"
 #include "../helpers/physics.h"
 
-#define RAND_FLOAT(min,max) (((rand()/(float)RAND_MAX)*((max)-(min)))+(min))
+#define RAND_FLOAT(min,max) (((rand()/(double)RAND_MAX)*((max)-(min)))+(min))
 
 CParticleEffect::CParticleEffect(void)
 {
@@ -68,12 +68,12 @@ void CParticleEffect::Render(int nPosX, int nPosY, float fScaleX, float fScaleY,
 	for (unsigned i = 0 ; i < vParticles.size() ; ++i)
 	{
 		calc::matrixTransform(transform,
-			vector3(vParticles[i]->m_fCurrXPos + nPosX, vParticles[i]->m_fCurrYPos + nPosY, 0),
-			vector3(vParticles[i]->m_fCurrScale, vParticles[i]->m_fCurrScale, 0));
+			vector3((float)vParticles[i]->m_fCurrXPos + nPosX, (float)vParticles[i]->m_fCurrYPos + nPosY, 0),
+			vector3((float)vParticles[i]->m_fCurrScale, (float)vParticles[i]->m_fCurrScale, 0));
 
 		viewManager::getInstance()->drawTexture(m_nImageID,
 			NULL,
-			&transform);
+			&transform, 0, 0, viewManager::getInstance()->color_argb(vParticles[i]->m_nCurrAColor, vParticles[i]->m_nCurrRColor, vParticles[i]->m_nCurrGColor, vParticles[i]->m_nCurrBColor));
 	}
 }
 void CParticleEffect::Reset(void)
