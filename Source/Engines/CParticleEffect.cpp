@@ -100,8 +100,11 @@ void CParticleEffect::Reset(void)
 		p->m_fCurrYPos = RAND_FLOAT(0 - (int)(GetYSpread() / 2), (int)(GetYSpread() /2) + 0);
 		p->m_fXVelocity = RAND_FLOAT(GetMinXVelocity(), GetMaxXVelocity());
 		p->m_fYVelocity = RAND_FLOAT(GetMinYVelocity(), GetMaxYVelocity());
-		vDeadParticles.push_back(p);	
+		vDeadParticles.push_back(p);
+		//delete p;
+		
 	}
+	
 }
 void CParticleEffect::ResetParticleValues(tParticle* pParticle)
 {
