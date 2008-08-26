@@ -6,6 +6,15 @@
 
 mainMenuState::mainMenuState(void)
 {
+	menuItemString = new char*[TOTAL];
+
+	menuItemString[PLAY] = "Play";
+	menuItemString[OPTIONS] = "Options";
+	menuItemString[HOWTO] = "How to play";
+	menuItemString[SCORES] = "High Scores";
+	menuItemString[CREDITS] = "Credits";
+	menuItemString[EXIT] = "Exit";
+	menuLast = EXIT;
 }
 
 mainMenuState::~mainMenuState(void)
@@ -24,16 +33,6 @@ void mainMenuState::enter(void)
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	menuState::enter();
-
-	menuItemString = new char*[TOTAL];
-
-	menuItemString[PLAY] = "Play";
-	menuItemString[OPTIONS] = "Options";
-	menuItemString[HOWTO] = "How to play";
-	menuItemString[SCORES] = "High Scores";
-	menuItemString[CREDITS] = "Credits";
-	menuItemString[EXIT] = "Exit";
-	menuLast = EXIT;
 
 }
 
