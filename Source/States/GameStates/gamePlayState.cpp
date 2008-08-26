@@ -22,6 +22,8 @@ void gamePlayState::enter(void)
 	handler = new playHandler;
 
 	handler->initialize();
+
+	EM->sendEvent(EVENT_GAMELOADING);
 }
 
 void gamePlayState::exit(void)
@@ -40,7 +42,6 @@ bool gamePlayState::input(float dt)
 
 void gamePlayState::update(float dt)
 {
-
 	EM->processEvents();
 }
 

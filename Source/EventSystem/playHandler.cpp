@@ -31,6 +31,7 @@ void playHandler::HandleEvent(gameEvent* ev)
 	switch(ev->getEventID())
 	{
 	case EVENT_GAMELOADING:
+		onGameLoad();
 		break;
 	case EVENT_GAMEPAUSE:
 		EM->sendGlobalEvent(GE_STATE_PUSH, new int(STATE_PAUSE));
@@ -38,4 +39,9 @@ void playHandler::HandleEvent(gameEvent* ev)
 	default:
 		break;
 	}
+}
+
+void playHandler::onGameLoad()
+{
+	
 }

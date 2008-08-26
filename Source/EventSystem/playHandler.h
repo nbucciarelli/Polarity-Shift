@@ -13,6 +13,8 @@ protected:
 	objManager* OM;
 	objFactory* OF;
 
+	void onGameLoad();
+
 public:
 	void HandleEvent(gameEvent* ev);
 

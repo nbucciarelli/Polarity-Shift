@@ -2,7 +2,7 @@
 #include "display.h"
 #include "game.h"
 
-#define DEFAULT_SCREEN_WIDTH 800
+#define DEFAULT_SCREEN_WIDTH 1024
 #define DEFAULT_SCREEN_HEIGHT 600
 
 #pragma region windows messages

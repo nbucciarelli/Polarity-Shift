@@ -18,7 +18,7 @@ typedef HWND__* HWND;
 typedef unsigned int color;
 typedef unsigned int uint;
 
-#define DEFAULT_WNDWIDTH 800
+#define DEFAULT_WNDWIDTH 1024
 #define DEFAULT_WNDHEIGHT 600
 
 class renderer
