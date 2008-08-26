@@ -131,5 +131,7 @@ void CParticleEffectManager::Stop(int nImageID)
 }
 void CParticleEffectManager::Unload(int nImageID)
 {
+	vParticleEffect[nImageID]->ShutDown();
 	if (vParticleEffect[nImageID]) delete vParticleEffect[nImageID]; vParticleEffect[nImageID] = NULL;
+	
 }

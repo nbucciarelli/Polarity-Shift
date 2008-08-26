@@ -17,6 +17,19 @@ CParticleEffect::CParticleEffect(void)
 }
 CParticleEffect::~CParticleEffect(void)
 {
+	for (unsigned i = vParticles.size() ; i >= 0 ; --i)
+	{
+		delete vParticles[i];
+		//vParticles.pop_back();
+	}
+	
+	for (unsigned i = vDeadParticles.size() ; i >= 0 ; --i)
+	{
+		delete vDeadParticles[i];
+		//vDeadParticles.pop_back();
+	}
+	vParticles.clear();
+	vDeadParticles.clear();
 
 }
 void CParticleEffect::Update(float fDelta)
@@ -47,7 +60,7 @@ void CParticleEffect::Update(float fDelta)
 	 }
 	 */
 
-
+	
 	// first time it looks like an explosion
 	for (unsigned i = 0; i < vDeadParticles.size(); ++i)
 	{
@@ -88,7 +101,7 @@ void CParticleEffect::Reset(void)
 	int m_nCurrScale;
 	float m_fLifeSpan;*/
 	for (int i = 0; i < m_nNumParticles; ++i)
-	{		//NewParticle();
+	{
 		tParticle *p = new tParticle();
 		p->m_nCurrAColor = 	GetStartAlpha();
 		p->m_nCurrRColor = 	GetStartRed();
@@ -100,9 +113,7 @@ void CParticleEffect::Reset(void)
 		p->m_fCurrYPos = RAND_FLOAT(0 - (int)(GetYSpread() / 2), (int)(GetYSpread() /2) + 0);
 		p->m_fXVelocity = RAND_FLOAT(GetMinXVelocity(), GetMaxXVelocity());
 		p->m_fYVelocity = RAND_FLOAT(GetMinYVelocity(), GetMaxYVelocity());
-		vDeadParticles.push_back(p);
-		//delete p;
-		
+		vParticles.push_back(p);
 	}
 	
 }
@@ -118,5 +129,23 @@ void CParticleEffect::ResetParticleValues(tParticle* pParticle)
 	pParticle->m_fCurrYPos = RAND_FLOAT(0 - (int)(GetYSpread() / 2), (int)(GetYSpread() /2) + 0);
 	pParticle->m_fXVelocity = RAND_FLOAT(GetMinXVelocity(), GetMaxXVelocity());
 	pParticle->m_fYVelocity = RAND_FLOAT(GetMinYVelocity(), GetMaxYVelocity());
+
+}
+
+void CParticleEffect::ShutDown()
+{
+	for (unsigned i = vParticles.size() ; i >= 0 ; --i)
+	{
+		delete vParticles[i];
+		//vParticles.pop_back();
+	}
+
+	for (unsigned i = vDeadParticles.size() ; i >= 0 ; --i)
+	{
+		delete vDeadParticles[i];
+		//vDeadParticles.pop_back();
+	}
+	vParticles.clear();
+	vDeadParticles.clear();
 
 }
