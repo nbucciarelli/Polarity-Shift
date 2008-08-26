@@ -133,3 +133,10 @@ pt viewManager::getTextureDimensions(int id) const
 {
 	return pt(textureList[id]->width, textureList[id]->height);
 }
+
+unsigned int viewManager::color_argb(char a, char r, char g, char b)
+{
+	char colors[4] = {a,r,g,b};
+
+	return *(reinterpret_cast<unsigned int*>(colors));
+}

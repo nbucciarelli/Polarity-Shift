@@ -58,4 +58,6 @@ public:
 	void releaseAllMeshes();
 
 	pt getTextureDimensions(int id) const;
+
+	unsigned int color_argb(char a, char r, char g, char b);
 };
