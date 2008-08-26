@@ -73,10 +73,10 @@ gameState* globalHandler::state(int st)
 		return mainMenuState::getInstance();
 		break;
 	case STATE_PAUSE:
-		//return pauseState::getInstance();
+		return pauseState::getInstance();
 		//break;
 	case STATE_PLAY:
-		//return playState::getInstance();
+		return gamePlayState::getInstance();
 		//break;
 	default:
 		return NULL;
