@@ -21,7 +21,7 @@ mainMenuState* mainMenuState::getInstance()
 void mainMenuState::enter(void)
 {
 
-	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_PurpleRain.prt");
+	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	menuState::enter();
 
