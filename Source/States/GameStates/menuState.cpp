@@ -86,8 +86,8 @@ bool menuState::input(float dt)
 	else
 	{
 		m_fUpdateTimer = .016f;
-		m_nEmitterPosX += Player1->GetState().Gamepad.sThumbLX % 1000;
-		m_nEmitterPosY += Player1->GetState().Gamepad.sThumbLY % 1000;
+		//m_nEmitterPosX += Player1->GetState().Gamepad.sThumbLX % 1000;
+		//m_nEmitterPosY += Player1->GetState().Gamepad.sThumbLY % 1000;
 	}
 
 
