@@ -108,8 +108,43 @@ bool calc::sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, 
 		return false;
 }
 
-bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, vector3* intersectVect)
+#pragma region polygon collision
+
+bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, vector3* impactVect)
 {
+	float min1, max1, min2, max2;
+	min1 = max1 = min2 = max2 = 0;
+	for(int c = 1; c < poly1.vertexCount; c++)
+	{
+		//get the current edge
+		vector3 edgevector = poly1.vertecies[c].coords - poly1.vertecies[c].coords;
+
+		//and the normal of the edge
+		vector3 normvect = vector3(edgevector.y, -edgevector.x, 0);
+
+		//Squish poly 1 onto the normal vector.
+		projectPolygonToLine(poly1, normvect, min1, max1);
+		//Squish poly 2 onto the normal vector.
+		projectPolygonToLine(poly2, normvect, min2, max2);
+
+
+		//If distance is less than zero, then we have a collision on this edge.
+		float distance = distanceBetweenLines(min1, max1, min2, max2);
+		if( distance <= 0)
+		{
+			if(impactVect) //If the calling function wants the vect
+			{
+				//Since Z is unused in this calculation, it is used for overlap magnitude.
+				*impactVect = normvect;
+				impactVect->z = distance;
+			}
+
+			return true;
+		}
+		//else continue the loop
+	}
+
+	//Made it through the loop?  No collision.
 	return false;
 }
 
@@ -140,3 +175,5 @@ float calc::distanceBetweenLines(float min1, float max1, float min2, float max2)
 	else
 		return min1 - max2;
 }
+
+#pragma endregion

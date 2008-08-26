@@ -37,7 +37,7 @@ display::~display(void) {}
 
 display::_wnd::_wnd() : 
 hInst(NULL), hWnd(NULL),
-className("GameDisplay"), title("The Project"),
+className("GameDisplay"), title("Polarity Shift"),
 width(DEFAULT_SCREEN_WIDTH), height(DEFAULT_SCREEN_HEIGHT),
 style(WS_OVERLAPPEDWINDOW), bgBrush((HBRUSH)(COLOR_WINDOWFRAME))
 { position.x = position.y = CW_USEDEFAULT; }

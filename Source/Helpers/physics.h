@@ -5,6 +5,8 @@ union vector3;
 union matrix;
 struct polygon;
 
+#define GRAVITY 9.8f
+
 class calc
 {
 public:
@@ -31,8 +33,10 @@ public:
 	//return true if spheres at given points overlap
 	static bool sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, float radius2);
 
-	//returns true if polygons collide. intersectVect, if defined, returns the collision vector
-	static bool polygonCollision(const polygon& poly1, const polygon& poly2, vector3* intersectVect = NULL);
+	//returns true if polygons collide. impactVect,
+	//if defined, returns the normal of the edge of
+	//poly 1 that registers collision
+	static bool polygonCollision(const polygon& poly1, const polygon& poly2, vector3* impactVect = NULL);
 
 	//min & max are return variables.
 	static void projectPolygonToLine(const polygon& poly, const vector3& line, float& min, float& max);
