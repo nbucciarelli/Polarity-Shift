@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "CParticleEffectManager.h"
+#include <windows.h>
 #include <fstream>
 #include <string>
 
@@ -36,6 +37,12 @@ int CParticleEffectManager::LoadEffect(char* szFileName)
 	std::ifstream fin;
 	fin.open(szFileName, std::ios::binary | std::ios::in);
 	// Texture
+
+	if(fin.fail())
+	{
+		MessageBox(NULL, "Error loading Particle Effect.", "Error", MB_OK);
+		return -1;
+	}
 	fin.read(&szCharacter, sizeof(char));
 	while (szCharacter != '\0')
 	{
