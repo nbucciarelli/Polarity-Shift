@@ -19,37 +19,43 @@ void movingObj::update(float dt)
 	angVel += angAcc * dt;
 	angPos += angVel * dt;
 
+	//Hax for ground.
+
+	if(position.y > 500)
+	{
+		position.y = 500;
+		velocity.y = 0;
+		acceleration.y = 0;
+	}
+
 	for(int c = 0; c < 3; c++)
 		if(angPos.e[c] > _2PI) angPos.e[c] -= _2PI;
 
 	baseObj::update(dt);
 }
 
-bool movingObj::checkCollision(baseObj* obj, vector3* impactVect)
+bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 {
-	vector3 holder;
+	polyCollision holder;
 
-	bool hit = baseObj::checkCollision(obj, &holder);
-
-	//If the collision check says false, we're done.
-	if(!hit)
-		return false;
-
-	//Otherwise, it's time to react.  impactVect is the normal of the other obj. impactvect.z
-	//is the overlap amount.
-
-	//Jerk position out of the way.
-	position += holder * holder.z;
-
-	//Apply the normal force of the surface.  At present, all surfaces are solids.
-	//This is calculated by projecting the acceleration onto -impactVector, and negating.
-//	acceleration += -(*(-holder.normalize());
-
-	if(impactVect)
+	//Make sure both objects have their bounding sphere specified.
+	if(collisionPoly->maxRadius > 0 && obj->getCollisionPoly())
 	{
-		*impactVect = holder;
-		return true;
+		//Check to see if the objects are close enough for a potential collision.
+		if(!calc::sphereOverlap(this->position, collisionPoly->maxRadius,
+				obj->getPosition(), obj->getCollisionPoly()->maxRadius))
+			return false;
 	}
 
-	return true;
+	//if the collision check returns false, there's nothing else to do.
+	if(!calc::polygonCollision(*obj->getCollisionPoly(), *getCollisionPoly(),
+		&(velocity/*frameTime*/), &holder))
+			return false;
+
+	position += holder.responseVect;
+
+	if(result)
+		*result = holder;
+
+	return true;	
 }

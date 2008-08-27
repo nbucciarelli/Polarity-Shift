@@ -46,6 +46,7 @@ union vector3 {
 
 	float dot2D(const vector3&) const;
 	void normalize();
+	vector3 normalized();
 	float length() const;
 };
 
@@ -115,4 +116,10 @@ struct polygon
 	float maxRadius;
 	
 	polygon();
+};
+
+struct polyCollision
+{
+	bool overlapped, willCollide;
+	vector3 responseVect;
 };

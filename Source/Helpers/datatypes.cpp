@@ -89,7 +89,7 @@ float vector3::length() const
 {
 	float len = 0;
 	for(int c = 0; c < 3; c++)
-		len = e[c] * e[c];
+		len += e[c] * e[c];
 
 	return len;
 }
@@ -100,6 +100,12 @@ void vector3::normalize()
 
 	for(int c = 0; c < 3; c++)
 		e[c] /= len;
+}
+
+vector3 vector3::normalized()
+{
+	float len = length();
+	return vector3(x/len,y/len,0);
 }
 
 const vector3& vector3::operator*=(const float& dat)

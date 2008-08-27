@@ -67,14 +67,10 @@ void objManager::checkCollisions()
 {
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
-		//Do not do collision checking on BG objects.
-//		if(objList[c]->getType() == OBJ_BG)
-//			continue;
-
 		for(unsigned d = 0; d < objList.size(); d++)
 		{
-//			if(objList[d]->getType() == OBJ_BG)
-//				continue;
+			if(c == d)
+				continue;
 			objList[c]->checkCollision(objList[d]);
 		}
 	}

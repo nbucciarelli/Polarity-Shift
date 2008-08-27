@@ -37,7 +37,9 @@ protected:
 	//the coordinates of the top left corner of rendered portion
 	pt imgPos;
 
-	polygon* collisionPoly;
+	const polygon* collisionPoly;
+	polygon instancePoly;
+	float frameTime;
 
 	rect getDrawRect() const;
 public:
@@ -49,7 +51,7 @@ public:
 	virtual void update(float dt);
 	virtual void render();
 
-	virtual bool checkCollision(baseObj* obj, vector3* impactVect = NULL);
+	virtual bool checkCollision(baseObj* obj, polyCollision* result = NULL);
 
 	//Ref counting functions
 	void acquire() { refCount++; }
@@ -62,7 +64,7 @@ public:
 	const pt getDimensions() const { return dimension; }
 	const pt getImgCenter() const { return imgCenter; }
 
-	const polygon* getCollisionPoly() const { return collisionPoly; }
+	const polygon* getCollisionPoly();
 
 	//This exists so that some of the "standing" functions work correctly.
 	//(hax.)

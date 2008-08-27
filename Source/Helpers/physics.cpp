@@ -110,42 +110,97 @@ bool calc::sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, 
 
 #pragma region polygon collision
 
-bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, vector3* impactVect)
+bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, const vector3* velocity, polyCollision* results)
 {
+	polyCollision result;
+	result.overlapped = result.willCollide = true;
+
+	const polygon* poly[2] = { &poly1, &poly2 };
+
+	vector3 approach = (poly1.center.coords - poly2.center.coords);
+	vector3 responseVect;
 	float min1, max1, min2, max2;
 	min1 = max1 = min2 = max2 = 0;
-	for(int c = 1; c < poly1.vertexCount; c++)
+
+	float minInterval = (float)_HUGE;
+
+	//code-efficient (read: less typing) way of checking through both polys.
+	for(int p = 0; p < 2; p++)
 	{
-		//get the current edge
-		vector3 edgevector = poly1.vertecies[c].coords - poly1.vertecies[c].coords;
-
-		//and the normal of the edge
-		vector3 normvect = vector3(edgevector.y, -edgevector.x, 0);
-
-		//Squish poly 1 onto the normal vector.
-		projectPolygonToLine(poly1, normvect, min1, max1);
-		//Squish poly 2 onto the normal vector.
-		projectPolygonToLine(poly2, normvect, min2, max2);
-
-
-		//If distance is less than zero, then we have a collision on this edge.
-		float distance = distanceBetweenLines(min1, max1, min2, max2);
-		if( distance <= 0)
+		for(int c = 0; c < poly1.vertexCount; c++)
 		{
-			if(impactVect) //If the calling function wants the vect
-			{
-				//Since Z is unused in this calculation, it is used for overlap magnitude.
-				*impactVect = normvect;
-				impactVect->z = distance;
-			}
+			//get the current edge
+			vector3 edgevector;
+			if(c)
+				edgevector = poly[p]->vertecies[c].coords - poly[p]->vertecies[c-1].coords;
+			else
+				edgevector = poly[p]->vertecies[c].coords - poly[p]->vertecies[poly1.vertexCount - 1].coords;
 
-			return true;
+			//and the normal of the edge
+			vector3 normvect = vector3(edgevector.y, -edgevector.x, 0);
+			normvect.normalize();
+
+			//Squish polygons to current edge vector
+			projectPolygonToLine(poly1, normvect, min1, max1);
+			projectPolygonToLine(poly2, normvect, min2, max2);
+
+
+			//If distance is greater than zero, then there cannot be a collsion.
+			float distance = distanceBetweenLines(min1, max1, min2, max2);
+			if(distance > 0)
+				result.overlapped = false;
+			else if(result.overlapped)
+				result.responseVect -= normvect * distance;
+
+			/***	Calculate if there WILL be a collision next frame.	***/
+
+			//Make sure there is a velocity defined.
+			if(velocity)
+			{
+				float velocityProj = normvect.dot2D(*velocity);
+
+				//Stick on velocity.
+				if (velocityProj < 0)
+					min1 += velocityProj;
+				else
+					max1 += velocityProj;
+
+				//Now do it again.
+
+				distance = distanceBetweenLines(min1, max1, min2, max2);
+
+				if(distance > 0)
+					result.willCollide = false;
+
+				if(!result.willCollide && !result.overlapped)
+					//No collision possible, end calculation.
+					return false;
+
+				//Collision still possible, continue on.
+
+				distance = fabs(distance);
+
+				if(distance < minInterval)
+				{
+					minInterval = distance;
+					responseVect = normvect;
+
+			//		if(approach.dot2D(responseVect) < 0)
+			//			responseVect *= -1;
+				}
+			}
+			else if(!result.willCollide)
+				return false;
 		}
-		//else continue the loop
 	}
 
-	//Made it through the loop?  No collision.
-	return false;
+	if(results)
+	{
+		result.responseVect += responseVect * minInterval;
+		*results = result;
+	}
+
+	return true;
 }
 
 void calc::projectPolygonToLine(const polygon& poly, const vector3& line,
@@ -156,7 +211,7 @@ void calc::projectPolygonToLine(const polygon& poly, const vector3& line,
 
 	float dot = min = max = poly.vertecies[0].coords.dot2D(line);
 
-	for(int c = 1; c < poly.vertexCount; c++)
+	for(int c = 0; c < poly.vertexCount; c++)
 	{
 		dot = poly.vertecies[c].coords.dot2D(line);
 

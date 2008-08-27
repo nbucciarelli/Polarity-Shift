@@ -3,6 +3,7 @@
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\eventIDs.h"
 #include "../../EventSystem/playHandler.h"
+#include "../../Objects/objManager.h"
 
 gamePlayState::gamePlayState() {}
 gamePlayState::~gamePlayState() {}
@@ -16,7 +17,7 @@ gamePlayState* gamePlayState::getInstance()
 
 void gamePlayState::enter(void)
 {
-	//objManager * objM;
+	OM = objManager::getInstance();
 	theInput = CSGD_DirectInput::GetInstance();
 	EM = eventManager::getInstance();
 	handler = new playHandler;
@@ -28,6 +29,7 @@ void gamePlayState::enter(void)
 
 void gamePlayState::exit(void)
 {
+	OM->clear();
 	handler->shutdown();
 	delete handler;
 }
@@ -42,9 +44,14 @@ bool gamePlayState::input(float dt)
 
 void gamePlayState::update(float dt)
 {
+	OM->update(dt);
+
+	OM->checkCollisions();
+
 	EM->processEvents();
 }
 
 void gamePlayState::render(void) const
 {
+	OM->render();
 }

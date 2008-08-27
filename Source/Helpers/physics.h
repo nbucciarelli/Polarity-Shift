@@ -4,8 +4,9 @@
 union vector3;
 union matrix;
 struct polygon;
+struct polyCollision;
 
-#define GRAVITY 9.8f
+#define GRAVITY 98.0f
 
 class calc
 {
@@ -36,7 +37,8 @@ public:
 	//returns true if polygons collide. impactVect,
 	//if defined, returns the normal of the edge of
 	//poly 1 that registers collision
-	static bool polygonCollision(const polygon& poly1, const polygon& poly2, vector3* impactVect = NULL);
+	static bool polygonCollision(const polygon& poly1, const polygon& poly2, 
+		const vector3* velocity, polyCollision* results = NULL);
 
 	//min & max are return variables.
 	static void projectPolygonToLine(const polygon& poly, const vector3& line, float& min, float& max);

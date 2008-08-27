@@ -10,7 +10,7 @@ public:
 	movingObj(uint otype = OBJ_MOVING);
 	virtual ~movingObj(void);
 
-	virtual bool checkCollision(baseObj* obj, vector3* impactVect = NULL);
+	virtual bool checkCollision(baseObj* obj, polyCollision* result = NULL);
 
 	void update(float dt);
 

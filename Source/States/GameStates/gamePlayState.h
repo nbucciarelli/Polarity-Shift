@@ -10,7 +10,7 @@ class playHandler;
 class gamePlayState : public gameState
 {
 protected:
-	objManager * objM;
+	objManager * OM;
 	inputDevice* theInput;
 	eventManager* EM;
 	playHandler* handler;
