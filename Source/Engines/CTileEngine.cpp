@@ -20,6 +20,7 @@ CTileEngine::CTileEngine() : ready(false)
 
 void CTileEngine::LoadMap(string szFileName)
 {
+	ready = false;
 	std::ifstream fin;
 	fin.open(szFileName.c_str(), std::ios::binary | std::ios::in);
 
