@@ -6,7 +6,7 @@
 
 #pragma once
 
-enum globalEvents { GE_NULL,
+enum globalEvents { GE_NULL = 0xff,
 
 	GE_STATE_PUSH,
 	GE_STATE_POP,
