@@ -41,6 +41,26 @@ void objFileLoader::loadObject(char* filename)
 
 	short type = *((short*)&holder);
 
+	//A pointer to do stuff.
+	baseObj* obj = NULL;
+
+	switch(type)
+	{
+	case PLAYER:
+		obj = new playerObj;
+		break;
+	case ENEMY:
+	case SWITCH:
+	case EXIT:
+	case PLATFORM:
+		return;
+	case CRATE:
+		obj = new movingObj;
+		break;
+	default:
+		return;
+	}
+
 	//Grab name length.
 	reader.read((char*)&holder, sizeof(char));
 
@@ -51,9 +71,6 @@ void objFileLoader::loadObject(char* filename)
 	IDType objectID = textbuffer;
 
 	memset(textbuffer, 0, sizeof(textbuffer));
-
-	//A pointer to do stuff.
-	baseObj* obj = NULL;
 
 	//grab texture path length
 	reader.read((char*)&holder, sizeof(char));
@@ -95,7 +112,6 @@ void objFileLoader::loadObject(char* filename)
 	switch(type)
 	{
 	case PLAYER:
-		obj = new playerObj;
 		OF->registerClass<playerObj>(objectID, obj);
 		break;
 	case ENEMY:
@@ -104,7 +120,6 @@ void objFileLoader::loadObject(char* filename)
 	case PLATFORM:
 		return;
 	case CRATE:
-		obj = new movingObj;
 		OF->registerClass<movingObj>(objectID, obj);
 		break;
 	default:

@@ -55,7 +55,7 @@ bool gamePlayState::input(float dt)
 	else if(theInput->KeyReleased(DIK_A) || theInput->KeyReleased(DIK_D))
 		EM->sendEvent(EVENT_PLAYERSTOP);
 
-	if(theInput->KeyDown(DIK_W))
+	if(theInput->KeyPressed(DIK_W))
 		EM->sendEvent(EVENT_PLAYERJUMP);
 
 	return true;

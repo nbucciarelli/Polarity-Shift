@@ -84,7 +84,7 @@ int viewManager::loadMesh(char filename[])
 #pragma region release functions
 void viewManager::releaseTexture(int textureID)
 {
-	if(textureID > textureList.size() || !textureList[textureID])
+	if(textureID > (int)textureList.size() || !textureList[textureID])
 		return;
 
 	textureList[textureID]->ref--;
@@ -128,6 +128,9 @@ void viewManager::releaseAllMeshes()
 void viewManager::drawTexture(int id, const vector3* pos, const matrix * transform, const rect* section,
 		const vector3* center, uint color)
 {
+	if(id < 0 || id > (int)textureList.size())
+		return;
+
 	theRenderer->RenderSprite(textureList[id]->texture, pos, transform, section, center, color);
 }
 #pragma endregion

@@ -2,11 +2,12 @@
 #include "movingObj.h"
 #include "../EventSystem/listener.h"
 
-class playerObj : public movingObj, public listener
+class playerObj : public listener, public movingObj
 {
 protected:
-	float jumpTime;
+	int jumpTime;
 	float maxJumpTime;
+	bool jumpDone;
 
 	float maxAcc;
 	float maxVel;
@@ -21,4 +22,6 @@ public:
 	void HandleEvent(gameEvent *ev);
 
 	void update(float dt);
+
+	void setAccStep(float step) { accStep = step; }
 };

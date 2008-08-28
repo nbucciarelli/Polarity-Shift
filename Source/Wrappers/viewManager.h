@@ -50,7 +50,10 @@ public:
 		const vector3* center = NULL, uint color = 0xffffffff);
 
 	//If you know what the ID is, it can be acquired.  Basically, for copying objects.
-	void acquireTexture(int textureID) { textureList[textureID]->ref++; }
+	void acquireTexture(int textureID) {
+	//	if(textureID > 0 && textureID < (int)textureList.size())
+			textureList[textureID]->ref++;
+	}
 	void releaseTexture(int textureID);
 	void releaseMesh(int meshID);
 

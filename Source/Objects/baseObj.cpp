@@ -21,7 +21,7 @@ type(otype), locked(false), isMovable(movable)
 baseObj::baseObj(const baseObj& obj)
 {
 	*this = obj;
-	if(-1 != imgId)
+	if(imgId > -1)
 		viewManager::getInstance()->acquireTexture(imgId);
 }
 
@@ -94,6 +94,9 @@ void baseObj::render()
 //	locked = true;
 //	viewManager::getInstance()->drawTexture(imgId, NULL, &worldMatrix, &getDrawRect());
 //	locked = false;
+
+	if(imgId == -1)
+		return;
 
 	CRITICAL(viewManager::getInstance()->drawTexture(imgId, NULL, &worldMatrix, &getDrawRect()));
 
