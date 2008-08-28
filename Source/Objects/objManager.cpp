@@ -67,10 +67,10 @@ void objManager::checkCollisions()
 {
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
-		for(unsigned d = 0; d < objList.size(); d++)
+		for(unsigned d = c+1; d < objList.size(); d++)
 		{
-			if(c == d)
-				continue;
+			//if(c == d)
+			//	continue;
 			objList[c]->checkCollision(objList[d]);
 		}
 	}

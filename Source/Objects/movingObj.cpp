@@ -39,7 +39,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	polyCollision holder;
 
 	//Make sure both objects have their bounding sphere specified.
-	if(collisionPoly->maxRadius > 0 && obj->getCollisionPoly())
+	if(collisionPoly->maxRadius > 0 && obj->getCollisionPoly()->maxRadius > 0)
 	{
 		//Check to see if the objects are close enough for a potential collision.
 		if(!calc::sphereOverlap(this->position, collisionPoly->maxRadius,
@@ -53,6 +53,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 			return false;
 
 	position += holder.responseVect;
+	obj->modPos(holder.responseVect * -1);
 
 	if(result)
 		*result = holder;
