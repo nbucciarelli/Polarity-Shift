@@ -28,7 +28,7 @@ struct tFrame
 class CAnimationEngine
 {
 private:
-	int m_nCurrentFrame;
+	volatile int m_nCurrentFrame;
 	int m_nNumFrames;
 	bool m_bIsPlaying;
 	bool m_bIsLooping;
