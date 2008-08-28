@@ -1,24 +1,14 @@
 /////////////////////////////////////////////////////////////
-//	File:		"CBitmampFont.H"
-//
+//	File:		"CXBOXController.H"
 //	Author:		Nick Bucciarelli
-//
-//	Purpose:	Display text using bitmaps
+//	Purpose:	XInput wrapper
 /////////////////////////////////////////////////////////////
 
-#ifndef _XBOX_CONTROLLER_H_
-#define _XBOX_CONTROLLER_H_
+#pragma once
 
-// No MFC
-#define WIN32_LEAN_AND_MEAN
-
-// We need the Windows Header and the XInput Header
 #include <windows.h>
 #include <XInput.h>
-
-// Now, the XInput Library
-// NOTE: COMMENT THIS OUT IF YOU ARE NOT USING
-// A COMPILER THAT SUPPORTS THIS METHOD OF LINKING LIBRARIES
+//XInput Library
 #pragma comment(lib, "XInput.lib")
 
 /*
@@ -49,7 +39,6 @@ XINPUT_GAMEPAD_X                0x4000
 XINPUT_GAMEPAD_Y                0x8000
 */
 
-// XBOX Controller Class Definition
 class CXBOXController
 {
 private:
@@ -57,9 +46,26 @@ private:
 	int m_nControllerNum;
 public:
 	CXBOXController(int nPlayerNumber);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Function:		"GetState"
+	//	Last Modified:	August 28th, 2008
+	//	Purpose:		Gets the state of the controller
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	XINPUT_STATE GetState();
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Function:		"IsConnected"
+	//	Last Modified:	August 28th, 2008
+	//	Purpose:		Is the controller connected?
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool IsConnected();
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	Function:		"Vibrate"
+	//	Last Modified:	August 28th, 2008
+	//	Purpose:		Vibrates the controller
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Vibrate(int nLeftVal = 0, int nRightVal = 0);
 };
 
-#endif
