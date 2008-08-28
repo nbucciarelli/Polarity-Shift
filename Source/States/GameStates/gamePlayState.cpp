@@ -68,6 +68,7 @@ void gamePlayState::update(float dt)
 
 void gamePlayState::render(void) const
 {
-	TE->Render();
+	if(TE)
+		TE->Render();
 	OM->render();
 }
