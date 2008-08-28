@@ -6,6 +6,9 @@
 playerObj::playerObj() : maxVel(50), maxAcc(0), range(0), jumpTime(0), maxJumpTime(0.2f),
 accStep(0), jumpDone(false)
 {
+	// THIS WOULD BE FOR THE PLAYER AND HIS LOADING OF TEH ACTUAL BINARY INFORMATION
+	//m_pAM->Load("C:/Documents and Settings/Administrator/My Documents/ironman.anm", this);
+	//SetAnimNumber(1);
 }
 
 playerObj::~playerObj()
@@ -15,6 +18,7 @@ playerObj::~playerObj()
 void playerObj::update(float dt)
 {
 	movingObj::update(dt);
+	// IF ANIMATION IS RENDERING, NEEDS TO UPDATE THE ANIMATION MANAGER FOR ACTUAL ANIMATION
 
 	if(maxAcc && fabs(acceleration.x) > maxAcc)
 	{
@@ -39,8 +43,32 @@ void playerObj::update(float dt)
 	{
 		jumpTime = 0;
 	}
-
 }
+
+//THIS NEEDS TO BE CODED INTO THE GAME FOR THE PLAYER WHEN THE PLAYER IS ACTUALLY ANIMATING (NEEDS TO RENDER HIS OWN)
+//void playerObj::render()
+//{
+	//if(GetAnimNumber() == 0)
+	//{
+	//	SetWidth(m_pAM->GetEngine(0)->GetCurrentFrame()->GetWidth());
+	//	SetHeight(m_pAM->GetEngine(0)->GetCurrentFrame()->GetHeight());
+
+	//	if (GetIsFlipped() == false)
+	//		m_pAM->Render(0, (int)GetPosX(), (int)GetPosY());
+	//	else
+	//		m_pAM->Render(0, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
+	//}
+	//else if(GetAnimNumber() == 1)
+	//{
+	//	SetWidth(m_pAM->GetEngine(1)->GetCurrentFrame()->GetWidth());
+	//	SetHeight(m_pAM->GetEngine(1)->GetCurrentFrame()->GetHeight());
+
+	//	if (GetIsFlipped() == false)
+	//		m_pAM->Render(1, (int)GetPosX(), (int)GetPosY());
+	//	else
+	//		m_pAM->Render(1, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
+	//}
+//}
 
 void playerObj::HandleEvent(gameEvent *ev)
 {
@@ -48,13 +76,39 @@ void playerObj::HandleEvent(gameEvent *ev)
 	{
 	case EVENT_PLAYERGOLEFT:
 		acceleration.x -= 0.55f;
+		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER MOVING LEFT FOR INFORMATION
+		//m_pPlayer->m_pAM->GetEngine(1)->Stop();
+		//if(m_bIsRunningAnim == false)
+		//{
+		//	m_bIsRunningAnim = true;
+		//	m_pPlayer->m_pAM->GetEngine(0)->Play(true);
+		//}
+		//m_pPlayer->SetAnimNumber(0);
+		//m_pES->SendEvent("MoveRight");
+		//m_pPlayer->SetIsFlipped(false);
 		break;
 	case EVENT_PLAYERGORIGHT:
 		acceleration.x += 0.55f;
+		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER MOVING RIGHT FOR INFORMATION
+		//m_pPlayer->m_pAM->GetEngine(1)->Stop();
+		//if(m_bIsRunningAnim == false)
+		//{
+		//	m_bIsRunningAnim = true;
+		//	m_pPlayer->m_pAM->GetEngine(0)->Play(true);
+		//}
+		//m_pPlayer->SetAnimNumber(0);
+		//m_pES->SendEvent("MoveRight");
+		//m_pPlayer->SetIsFlipped(false);
 		break;
 	case EVENT_PLAYERSTOP:
 		acceleration.x = 0;
 		velocity.x = 0;
+		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER STOPPING FOR INFORMATION
+		//m_bIsRunningAnim = false;
+		//m_pPlayer->m_pAM->GetEngine(0)->Stop();
+		//m_pPlayer->m_pAM->GetEngine(1)->Play(true);
+		//m_pPlayer->SetAnimNumber(1);
+		//m_pES->SendEvent("StopX");
 		break;
 	case EVENT_PLAYERJUMP:
 		if(jumpTime < 1)
