@@ -7,6 +7,8 @@
 #include "movingObj.h"
 #include "../EventSystem/listener.h"
 
+//class CAnimationManager;
+
 class playerObj : public listener, public movingObj
 {
 protected:
@@ -21,6 +23,8 @@ protected:
 
 	int range;
 	int nAnimNumber;
+
+	//CAnimationManager* m_pAM;
 
 public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

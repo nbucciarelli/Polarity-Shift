@@ -6,11 +6,15 @@
 #include "playerObj.h"
 #include "../EventSystem/gameEvent.h"
 #include "../EventSystem/eventIDs.h"
+#include "../EventSystem/eventManager.h"
+//#include "../Engines/CAnimationManager.h"
+//#include "../Engines/CAnimationEngine.h"
 #include <cmath>
 
 playerObj::playerObj() : maxVel(50), maxAcc(0), range(0), jumpTime(0), maxJumpTime(0.2f),
 accStep(0), jumpDone(false)
 {
+//	m_pAM = CAnimationManager::GetInstance();
 	// THIS WOULD BE FOR THE PLAYER AND HIS LOADING OF TEH ACTUAL BINARY INFORMATION
 	//m_pAM->Load("C:/Documents and Settings/Administrator/My Documents/ironman.anm", this);
 	//SetAnimNumber(1);
@@ -18,6 +22,7 @@ accStep(0), jumpDone(false)
 
 playerObj::~playerObj()
 {
+	eventManager::getInstance()->unregisterClient(this);
 }
 
 void playerObj::update(float dt)
@@ -51,29 +56,40 @@ void playerObj::update(float dt)
 }
 
 //THIS NEEDS TO BE CODED INTO THE GAME FOR THE PLAYER WHEN THE PLAYER IS ACTUALLY ANIMATING (NEEDS TO RENDER HIS OWN)
-//void playerObj::render()
-//{
-	//if(GetAnimNumber() == 0)
-	//{
-	//	SetWidth(m_pAM->GetEngine(0)->GetCurrentFrame()->GetWidth());
-	//	SetHeight(m_pAM->GetEngine(0)->GetCurrentFrame()->GetHeight());
+/*void playerObj::render()
+{
+	/*if(GetAnimNumber() == 0)
+	{
+		SetWidth(m_pAM->GetEngine(0)->GetCurrentFrame()->GetWidth());
+		SetHeight(m_pAM->GetEngine(0)->GetCurrentFrame()->GetHeight());
 
-	//	if (GetIsFlipped() == false)
-	//		m_pAM->Render(0, (int)GetPosX(), (int)GetPosY());
-	//	else
-	//		m_pAM->Render(0, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
-	//}
-	//else if(GetAnimNumber() == 1)
-	//{
-	//	SetWidth(m_pAM->GetEngine(1)->GetCurrentFrame()->GetWidth());
-	//	SetHeight(m_pAM->GetEngine(1)->GetCurrentFrame()->GetHeight());
+		if (GetIsFlipped() == false)
+			m_pAM->Render(0, (int)GetPosX(), (int)GetPosY());
+		else
+			m_pAM->Render(0, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
+	}
+	else if(GetAnimNumber() == 1)
+	{
+		SetWidth(m_pAM->GetEngine(1)->GetCurrentFrame()->GetWidth());
+		SetHeight(m_pAM->GetEngine(1)->GetCurrentFrame()->GetHeight());
 
-	//	if (GetIsFlipped() == false)
-	//		m_pAM->Render(1, (int)GetPosX(), (int)GetPosY());
-	//	else
-	//		m_pAM->Render(1, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
-	//}
-//}
+		if (GetIsFlipped() == false)
+			m_pAM->Render(1, (int)GetPosX(), (int)GetPosY());
+		else
+			m_pAM->Render(1, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
+	}*/
+/*	int num = GetAnimNumber();
+
+	setDimensions(m_pAM->GetEngine(num)->GetCurrentFrame()->GetWidth(),
+				m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
+	//setWidth(m_pAM->GetEngine(num)->GetCurrentFrame()->GetWidth());
+	//setHeight(m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
+
+	if (getFacing() == FACE_LEFT)
+		m_pAM->Render(num, (int)getPosition().x, (int)getPosition().y);
+	else
+		m_pAM->Render(num, (int)getPosition().x + getDimensions().x, (int)getPosition().y, -1);
+}*/
 
 void playerObj::HandleEvent(gameEvent *ev)
 {
