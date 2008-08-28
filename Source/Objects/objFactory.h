@@ -2,10 +2,20 @@
 
 #include <vector>
 using std::vector;
+#include <string>
 
-typedef int IDType;
+typedef std::string IDType;
 
 class baseObj;
+
+enum objectTypes { 
+	PLAYER,
+	ENEMY,
+	SWITCH,
+	EXIT,
+	PLATFORM,
+	CRATE
+};
 
 struct creationEntry
 {
