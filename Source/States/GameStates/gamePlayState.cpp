@@ -4,6 +4,8 @@
 #include "..\..\EventSystem\eventIDs.h"
 #include "../../EventSystem/playHandler.h"
 #include "../../Objects/objManager.h"
+#include "..\..\Engines\CTileEngine.h"
+
 
 gamePlayState::gamePlayState() {}
 gamePlayState::~gamePlayState() {}
@@ -25,6 +27,9 @@ void gamePlayState::enter(void)
 	handler->initialize();
 
 	EM->sendEvent(EVENT_GAMELOADING);
+	TE = new CTileEngine();
+	TE->LoadMap("Resource/PS_TestLevel.bmf");
+
 }
 
 void gamePlayState::exit(void)
@@ -61,5 +66,6 @@ void gamePlayState::update(float dt)
 
 void gamePlayState::render(void) const
 {
+	TE->Render();
 	OM->render();
 }

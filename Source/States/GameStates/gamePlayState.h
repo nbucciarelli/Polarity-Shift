@@ -6,10 +6,12 @@ class CSGD_DirectInput;
 typedef CSGD_DirectInput inputDevice;
 class eventManager;
 class playHandler;
+class CTileEngine;
 
 class gamePlayState : public gameState
 {
 protected:
+	CTileEngine* TE;
 	objManager * OM;
 	inputDevice* theInput;
 	eventManager* EM;
