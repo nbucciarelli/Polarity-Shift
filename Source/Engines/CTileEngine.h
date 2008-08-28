@@ -10,12 +10,10 @@
 #include <string>
 using namespace::std;
 
-
 struct tTile
 {
 	POINT pos;
 };
-
 
 class CTileEngine
 {
@@ -66,6 +64,5 @@ public:
 	//	Purpose:		modify specified type
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void SetImageID(int nImageID) {m_nImageID = nImageID;};
-
 
 };
