@@ -77,6 +77,8 @@ void game::Shutdown()
 	theRenderer->Shutdown();
 
 	theDisplay->ShutdownWindow();
+
+	viewManager::getInstance()->shutdown();
 }
 #pragma endregion
 
