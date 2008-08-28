@@ -84,8 +84,21 @@ void CAnimationManager::Shutdown(void)
 
 void CAnimationManager::Render(int ID, int nPosX, int nPosY, float fScaleX, float fScaleY, float fRotationX, float fRotationY, float fRotation, unsigned int color)
 {
-	m_pTM->drawTexture(m_pBase->getImgId(), &vector3((float)(nPosX - (m_pAE[ID]->GetCurrentFrame()->pAnchor.x - m_pAE[ID]->GetCurrentFrame()->rSource.left)), (float)(nPosY - (m_pAE[ID]->GetCurrentFrame()->pAnchor.y - m_pAE[ID]->GetCurrentFrame()->rSource.top)), 0),
-		NULL, (rect*)(&m_pAE[ID]->GetCurrentFrame()->rSource), &vector3((float)m_pAE[ID]->GetCurrentFrame()->pAnchor.x, (float)m_pAE[ID]->GetCurrentFrame()->pAnchor.y, 0), color);
+	m_pTM->drawTexture(m_pBase->getImgId(),
+		&vector3((float)(nPosX - (m_pAE[ID]->GetCurrentFrame()->pAnchor.x - m_pAE[ID]->GetCurrentFrame()->rSource.left)),
+			(float)(nPosY - (m_pAE[ID]->GetCurrentFrame()->pAnchor.y - m_pAE[ID]->GetCurrentFrame()->rSource.top)),
+			0),
+		NULL,
+		(rect*)(&m_pAE[ID]->GetCurrentFrame()->rSource),
+		&vector3((float)m_pAE[ID]->GetCurrentFrame()->pAnchor.x,
+			(float)m_pAE[ID]->GetCurrentFrame()->pAnchor.y, 0),
+		color);
+}
+
+void CAnimationManager::Render(int ID, matrix* transform)
+{
+	m_pTM->drawTexture(m_pBase->getImgId(), NULL, transform,
+		(rect*)(&m_pAE[ID]->GetCurrentFrame()->rSource));
 }
 
 void CAnimationManager::Update(float fDelta)

@@ -12,6 +12,7 @@
 #include <vector>
 using std::vector;
 class CAnimationEngine;
+union matrix;
 
 class CAnimationManager
 {
@@ -56,6 +57,7 @@ public:
 	void Render(int ID, int nPosX, int nPosY, float fScaleX = 1.0f, float fScaleY = 1.0f, float fRotationX = 0.0f, 
 		float fRotationY = 0.0f, float fRotation = 0.0f, unsigned color = 0xFFFFFFFF);
 
+	void Render(int ID, matrix* transform);
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Update”
 	// Last modified: August 27, 2008
