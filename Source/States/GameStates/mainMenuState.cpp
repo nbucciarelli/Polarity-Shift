@@ -50,6 +50,9 @@ void mainMenuState::exit(void)
 }
 void mainMenuState::update(float dt)
 {
+	if(!entered)
+		return;
+
 	CParticleEffectManager::GetInstance()->Update(dt);
 }
 
@@ -74,6 +77,9 @@ void mainMenuState::menuHandler()
 
 void mainMenuState::render(void) const
 {
+	if(!entered)
+		return;
+
 	menuState::render();
 	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(), menuState::GetEmitterPosY()); 
 	

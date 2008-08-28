@@ -57,6 +57,7 @@ bool pauseState::input(float dt)
 
 void pauseState::update(float dt)
 {
+	menuState::update(dt);
 }
 
 void pauseState::render(void) const

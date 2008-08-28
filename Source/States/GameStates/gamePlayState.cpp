@@ -51,6 +51,9 @@ void gamePlayState::exit(void)
 
 bool gamePlayState::input(float dt)
 {
+	if(!entered)
+		return true;
+
 	if (theInput->KeyPressed(DIK_ESCAPE) || theInput->KeyPressed(DIK_F10))
 		EM->sendEvent(EVENT_GAMEPAUSE);
 
@@ -69,6 +72,9 @@ bool gamePlayState::input(float dt)
 
 void gamePlayState::update(float dt)
 {
+	if(!entered)
+		return;
+
 	OM->update(dt);
 
 	OM->checkCollisions();
@@ -78,6 +84,9 @@ void gamePlayState::update(float dt)
 
 void gamePlayState::render(void) const
 {
+	if(!entered)
+		return;
+
 	if(TE)
 		TE->Render();
 	OM->render();
