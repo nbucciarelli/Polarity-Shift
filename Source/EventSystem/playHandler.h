@@ -11,6 +11,7 @@
 class eventManager;
 class objManager;
 class objFactory;
+class objFileLoader;
 
 class playHandler : public listener
 {
@@ -18,6 +19,7 @@ protected:
 	eventManager* EM;
 	objManager* OM;
 	objFactory* OF;
+	objFileLoader* FL;
 
 	void onGameLoad();
 
