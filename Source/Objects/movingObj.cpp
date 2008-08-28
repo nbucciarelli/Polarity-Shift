@@ -1,7 +1,7 @@
 #include "movingObj.h"
 #include "..\Helpers\physics.h"
 
-movingObj::movingObj(uint otype) : baseObj(otype)
+movingObj::movingObj(uint otype) : baseObj(otype, true)
 {
 }
 
@@ -38,7 +38,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 {
 	polyCollision holder;
 
-	//Make sure both objects have their bounding sphere specified.
+	//Make sure both objects have their bounding sphere specified
 	if(collisionPoly->maxRadius > 0 && obj->getCollisionPoly()->maxRadius > 0)
 	{
 		//Check to see if the objects are close enough for a potential collision.
@@ -52,8 +52,16 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 		&(velocity/*frameTime*/), &holder))
 			return false;
 
-	position += holder.responseVect;
-	obj->modPos(holder.responseVect * -1);
+	//move out of collision.
+	if(obj->IsMovable())
+	{
+		position += holder.responseVect * 0.5f;
+		obj->modPos(holder.responseVect * -0.5f);
+	}
+	else
+		position += holder.responseVect;
+
+
 
 	if(result)
 		*result = holder;

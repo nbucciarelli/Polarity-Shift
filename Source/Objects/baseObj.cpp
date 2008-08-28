@@ -14,8 +14,8 @@
 	locked = false; \
 	}
 
-baseObj::baseObj(uint otype) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
-type(otype), locked(false)
+baseObj::baseObj(uint otype, bool movable) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
+type(otype), locked(false), isMovable(movable)
 {}
 
 baseObj::baseObj(const baseObj& obj)

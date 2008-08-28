@@ -149,8 +149,6 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, const ve
 			float distance = distanceBetweenLines(min1, max1, min2, max2);
 			if(distance > 0)
 				result.overlapped = false;
-			else if(result.overlapped)
-				result.responseVect -= normvect * distance;
 
 			/***	Calculate if there WILL be a collision next frame.	***/
 

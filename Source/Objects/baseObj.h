@@ -37,13 +37,14 @@ protected:
 	//the coordinates of the top left corner of rendered portion
 	pt imgPos;
 
+	bool isMovable;
 	const polygon* collisionPoly;
 	polygon instancePoly;
 	float frameTime;
 
 	rect getDrawRect() const;
 public:
-	baseObj(uint otype = OBJ_DEFAULT);
+	baseObj(uint otype = OBJ_DEFAULT, bool movable = false);
 	baseObj(const baseObj&);
 	virtual ~baseObj(void);
 
@@ -65,6 +66,7 @@ public:
 	const pt getImgCenter() const { return imgCenter; }
 
 	const polygon* getCollisionPoly();
+	bool IsMovable() const { return isMovable; }
 
 	//This exists so that some of the "standing" functions work correctly.
 	//(hax.)
