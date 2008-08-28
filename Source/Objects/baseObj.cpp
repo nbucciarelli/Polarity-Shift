@@ -7,10 +7,7 @@
 #include "baseObj.h"
 #include "..\Helpers\physics.h"
 #include "..\Wrappers\viewManager.h"
-#include <d3dx9.h>
 #include "camera.h"
-
-#pragma comment(lib, "d3dx9.lib")
 
 #define CRITICAL(fun)  {while(locked) \
 	{Sleep(0);} \
@@ -38,41 +35,21 @@ baseObj::~baseObj(void)
 
 void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 {
-	//matrix combined;
-	//calc::matrixTranslate(combined, vector3((float)-imgCenter.x,(float)-imgCenter.y,0));
-	//
-	//matrix transform;
-	//calc::matrixRotationZ(transform, angPos.z);
-	//combined *= transform;
+	matrix combined;
+	matrix transform;
 
+	calc::matrixTranslate(transform, vector3((float)-imgCenter.x,(float)-imgCenter.y,0));
+	combined *= transform;
+	calc::matrixRotationZ(transform, angPos.z);
+	combined *= transform;
 	//calc::matrixTranslate(transform, vector3((float)imgCenter.x, (float)imgCenter.y, 0));
 	//combined *= transform;
 
-	//calc::matrixScale(transform, scale);
-	//combined *= transform;
-
-	//calc::matrixTranslate(transform, position);
-	//combined *= transform;
-
-	D3DXMATRIX transform;
-	D3DXMATRIX combined;
-
-	// Initialize the Combined matrix.
-	D3DXMatrixIdentity(&combined);
-
-	// Rotate the sprite.
-	D3DXMatrixTranslation(&transform, (float)-imgCenter.x, (float)-imgCenter.y, 0.0f);
+	calc::matrixScale(transform, scale);
 	combined *= transform;
-	D3DXMatrixRotationZ(&transform, angPos.z);
+	calc::matrixTranslate(transform, position);
 	combined *= transform;
 
-	// Scale the sprite.
-	D3DXMatrixScaling(&transform, scale.x, scale.y, 1.0f);
-	combined *= transform;
-
-	// Translate the sprite
-	D3DXMatrixTranslation(&transform, position.x, position.y, 0.0f);
-	combined *= transform;
 
 //	WAIT;
 
@@ -81,7 +58,7 @@ void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 //	locked = false;
 
 
-	CRITICAL(worldMatrix = *reinterpret_cast<matrix*>(&combined));
+	CRITICAL(worldMatrix = *((matrix*)&combined));
 
 	//Now modify for camera space
 //	worldMatrix *= camera::getInstance()->getViewMatrix();

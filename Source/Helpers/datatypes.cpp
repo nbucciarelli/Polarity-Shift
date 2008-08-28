@@ -123,17 +123,6 @@ vector3 vector3::operator*(const float& dat) const
 #pragma endregion
 
 #pragma region matrix operators
-const matrix& matrix::operator*=(const matrix& obj)
-{
-	matrix sol = *this;
-
-	for(int b = 0; b < 4; b++)
-		for(int c = 0; c < 4; c++)
-			for(int d = 0; d < 4; d++)
-				sol.m[b][c] += m[b][d] * obj.m[d][c];
-
-	return *this = sol;
-}
 
 const matrix& matrix::operator+=(const matrix& obj)
 {

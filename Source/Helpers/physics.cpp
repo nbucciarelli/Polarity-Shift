@@ -2,6 +2,28 @@
 #include "physics.h"
 #include <cmath>
 
+#include <d3dx9.h>
+
+#pragma comment(lib, "d3dx9.lib")
+
+//TODO:  RECALCULATE MATRIX EQUATIONS, get rid of d3dx references
+
+const matrix& matrix::operator*=(const matrix& obj)
+{
+	/*matrix sol = *this;
+
+	for(int b = 0; b < 4; b++)
+		for(int c = 0; c < 4; c++)
+			for(int d = 0; d < 4; d++)
+				sol.m[b][c] += m[b][d] * obj.m[d][c];
+
+	return *this = sol;*/
+
+	*((D3DXMATRIX*)this) *= *((D3DXMATRIX*)&obj);
+
+	return *this;
+}
+
 void calc::matrixRotationX(matrix& out, float rad)
 {
 	float sine = sin(rad);
@@ -16,19 +38,21 @@ void calc::matrixRotationX(matrix& out, float rad)
 
 void calc::matrixRotationY(matrix& out, float rad)
 {
-	float sine = sin(rad);
+/*	float sine = sin(rad);
 	float cosine = cos(rad);
 
 	out = matrix();
 
 	out.m[0][0] = out.m[2][2] = cosine;
 	out.m[0][2] = sine;
-	out.m[2][0] = -sine;
+	out.m[2][0] = -sine; */
+
+	D3DXMatrixRotationY((D3DXMATRIX*)(&out), rad);
 }
 
 void calc::matrixRotationZ(matrix& out, float rad)
 {
-	float sine = sin(rad);
+/*	float sine = sin(rad);
 	float cosine = cos(rad);
 
 	out = matrix();
@@ -36,6 +60,8 @@ void calc::matrixRotationZ(matrix& out, float rad)
 	out.m[0][0] = out.m[1][1] = cosine;
 	out.m[0][1] = -sine;
 	out.m[1][0] = sine;
+	*/
+	D3DXMatrixRotationZ((D3DXMATRIX*)(&out), rad);
 }
 
 void calc::matrixRotation(matrix& out, const vector3& angles)
@@ -78,18 +104,23 @@ void calc::matrixTransform(matrix& out, const vector3& pos, vector3& scale)
 
 void calc::matrixTranslate(matrix& out, const vector3& pos)
 {
-	out = matrix();
+	/*out = matrix();
 
 	for(int c = 0; c < 3; c++)
-		out.m[3][c] = pos.e[c];
+		out.m[3][c] = pos.e[c];*/
+
+	D3DXMatrixTranslation((D3DXMATRIX*)&out, pos.x, pos.y, pos.z);
 }
 
 void calc::matrixScale(matrix& out, const vector3& scale)
 {
-	out = matrix();
+/*	out = matrix();
 	out.m[0][0] = scale.x;
 	out.m[1][1] = scale.y;
 	out.m[2][2] = scale.z;
+	*/
+
+	D3DXMatrixScaling((D3DXMATRIX*)&out, scale.x, scale.y, scale.z);
 }
 
 bool calc::isZero(float val, float epsilon)
