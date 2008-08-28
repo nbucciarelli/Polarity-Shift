@@ -17,13 +17,13 @@ CParticleEffect::CParticleEffect(void)
 }
 CParticleEffect::~CParticleEffect(void)
 {
-	for (unsigned i = vParticles.size() ; i >= 0 ; --i)
+	for (unsigned i = (unsigned)vParticles.size() ; i >= 0 ; --i)
 	{
 		delete vParticles[i];
 		//vParticles.pop_back();
 	}
 	
-	for (unsigned i = vDeadParticles.size() ; i >= 0 ; --i)
+	for (unsigned i = (unsigned)vDeadParticles.size() ; i >= 0 ; --i)
 	{
 		delete vDeadParticles[i];
 		//vDeadParticles.pop_back();
@@ -134,13 +134,13 @@ void CParticleEffect::ResetParticleValues(tParticle* pParticle)
 
 void CParticleEffect::ShutDown()
 {
-	for (unsigned i = vParticles.size() ; i >= 0 ; --i)
+	for (unsigned i = (unsigned)vParticles.size() ; i >= 0 ; --i)
 	{
 		delete vParticles[i];
 		//vParticles.pop_back();
 	}
 
-	for (unsigned i = vDeadParticles.size() ; i >= 0 ; --i)
+	for (unsigned i = (unsigned)vDeadParticles.size() ; i >= 0 ; --i)
 	{
 		delete vDeadParticles[i];
 		//vDeadParticles.pop_back();

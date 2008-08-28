@@ -79,7 +79,7 @@ void objFileLoader::loadObject(char* filename)
 
 	char text2[100] = {0};
 
-	sprintf(text2, "Resource/%s", textbuffer);
+	sprintf_s(text2, "Resource/%s", textbuffer);
 
 	obj->setImgId(viewManager::getInstance()->loadTexture(text2));
 
