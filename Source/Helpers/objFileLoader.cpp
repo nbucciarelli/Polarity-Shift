@@ -55,25 +55,6 @@ void objFileLoader::loadObject(char* filename)
 	//A pointer to do stuff.
 	baseObj* obj = NULL;
 
-	switch(type)
-	{
-	case PLAYER:
-		obj = new playerObj;
-		OF->registerClass<playerObj>(objectID, obj);
-		break;
-	case ENEMY:
-	case SWITCH:
-	case EXIT:
-	case PLATFORM:
-		return;
-	case CRATE:
-		obj = new movingObj;
-		OF->registerClass<movingObj>(objectID, obj);
-		break;
-	default:
-		return;
-	}
-
 	//grab texture path length
 	reader.read((char*)&holder, sizeof(char));
 
@@ -110,5 +91,25 @@ void objFileLoader::loadObject(char* filename)
 	}
 
 	obj->setCollisionPoly(poly);
+
+	switch(type)
+	{
+	case PLAYER:
+		obj = new playerObj;
+		OF->registerClass<playerObj>(objectID, obj);
+		break;
+	case ENEMY:
+	case SWITCH:
+	case EXIT:
+	case PLATFORM:
+		return;
+	case CRATE:
+		obj = new movingObj;
+		OF->registerClass<movingObj>(objectID, obj);
+		break;
+	default:
+		return;
+	}
+
 	obj->release();
 }
