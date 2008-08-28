@@ -44,11 +44,15 @@ void menuState::enter(void)
 	m_nEmitterPosY = 100;
 
 	menuPos = 0;
+
+	gameState::enter();
 }
 
 void menuState::exit(void)
 {
 	delete Player1;
+
+	gameState::exit();
 }
 
 bool menuState::input(float dt)

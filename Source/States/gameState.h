@@ -4,6 +4,9 @@
 
 class gameState
 {
+protected:
+	volatile bool entered;
+	gameState() : entered(false) {}
 public:
 	virtual ~gameState(void) = 0 {}
 	

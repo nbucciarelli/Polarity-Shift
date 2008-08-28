@@ -30,6 +30,8 @@ void gamePlayState::enter(void)
 	TE = new CTileEngine();
 	TE->LoadMap("Resource/PS_TestLevel.bmf");
 
+	gameState::enter();
+
 }
 
 void gamePlayState::exit(void)
@@ -37,6 +39,8 @@ void gamePlayState::exit(void)
 	OM->clear();
 	handler->shutdown();
 	delete handler;
+
+	gameState::exit();
 }
 
 bool gamePlayState::input(float dt)
