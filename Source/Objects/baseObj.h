@@ -53,6 +53,7 @@ public:
 	virtual void render();
 
 	virtual bool checkCollision(baseObj* obj, polyCollision* result = NULL);
+	virtual bool checkTerrainCollision(rect& colBounds) { return false; }
 
 	//Ref counting functions
 	void acquire() { refCount++; }

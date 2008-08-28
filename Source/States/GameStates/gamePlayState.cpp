@@ -39,6 +39,14 @@ bool gamePlayState::input(float dt)
 	if (theInput->KeyPressed(DIK_ESCAPE) || theInput->KeyPressed(DIK_F10))
 		EM->sendEvent(EVENT_GAMEPAUSE);
 
+	if(theInput->KeyDown(DIK_A))
+		EM->sendEvent(EVENT_PLAYERGOLEFT);
+	else if(theInput->KeyDown(DIK_D))
+		EM->sendEvent(EVENT_PLAYERGORIGHT);
+
+	if(theInput->KeyDown(DIK_W))
+		EM->sendEvent(EVENT_PLAYERJUMP);
+
 	return true;
 }
 

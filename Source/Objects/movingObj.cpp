@@ -61,10 +61,20 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	else
 		position += holder.responseVect;
 
-
+	//Affect velocity based on collision.
+	vector3 mod = holder.responseVect.normalized() * holder.responseVect.dot2D(velocity) * frameTime;
+	velocity -= mod;
+	if(obj->IsMovable())
+		((movingObj*)obj)->modVel(mod);
 
 	if(result)
 		*result = holder;
 
 	return true;	
+}
+
+bool movingObj::checkTerrainCollision(rect& colBounds)
+{
+
+	return false;
 }
