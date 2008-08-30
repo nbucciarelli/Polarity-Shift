@@ -45,6 +45,7 @@ void mainMenuState::enter(void)
 void mainMenuState::exit(void)
 {
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
+	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
 	menuState::exit();
 
 }
