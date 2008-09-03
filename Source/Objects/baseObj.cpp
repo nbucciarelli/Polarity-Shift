@@ -14,8 +14,7 @@
 baseObj::baseObj(uint otype, bool movable) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
 type(otype), isMovable(movable)
 {
-	CS = criticalSectionControl::getInstance();
-	CSID = CS->getCriticalSection();
+	CRITICAL_INIT;
 }
 
 baseObj::baseObj(const baseObj& obj)
@@ -27,8 +26,7 @@ baseObj::baseObj(const baseObj& obj)
 
 baseObj::~baseObj(void)
 {
-	CS->waitForUnlock(CSID);
-	CS->releaseCriticalSection(CSID);
+	CRITICAL_RELEASE;
 	if(imgId != -1)
 		viewManager::getInstance()->releaseTexture(imgId);
 }

@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "..\Helpers\datatypes.h"
 
-class criticalSectionControl;
+#include "../Helpers/criticalSectionMacros.h"
 
 enum objTypes { OBJ_DEFAULT, OBJ_MOVING,
 				OBJ_MAX };
@@ -24,8 +24,9 @@ protected:
 	matrix worldMatrix;
 	
 	//critical section stuff
-	criticalSectionControl* CS;
-	uint CSID;
+	//criticalSectionControl* CS;
+	//uint CSID;
+	CRITICAL_VARS;
 
 	uint type;
 

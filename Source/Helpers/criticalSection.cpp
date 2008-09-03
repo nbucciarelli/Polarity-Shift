@@ -5,7 +5,13 @@ criticalSectionControl::criticalSectionControl()
 {}
 
 criticalSectionControl::~criticalSectionControl()
-{}
+{
+	while(criticals.size())
+	{
+		delete criticals.back();
+		criticals.pop_back();
+	}
+}
 
 criticalSectionControl* criticalSectionControl::getInstance()
 {
