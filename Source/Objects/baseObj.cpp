@@ -27,6 +27,7 @@ baseObj::baseObj(const baseObj& obj)
 baseObj::~baseObj(void)
 {
 	CRITICAL_RELEASE;
+
 	if(imgId != -1)
 		viewManager::getInstance()->releaseTexture(imgId);
 }

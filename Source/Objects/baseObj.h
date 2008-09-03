@@ -24,8 +24,6 @@ protected:
 	matrix worldMatrix;
 	
 	//critical section stuff
-	//criticalSectionControl* CS;
-	//uint CSID;
 	CRITICAL_VARS;
 
 	uint type;
