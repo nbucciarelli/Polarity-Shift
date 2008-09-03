@@ -11,13 +11,6 @@
 #include "../Wrappers/dxRenderer.h"
 #include "../Helpers/criticalSection.h"
 
-#define CRITICAL(fun)  {\
-	CS->waitForUnlock(CSID);\
-	CS->lockSection(CSID); \
-	fun; \
-	CS->unlockSection(CSID); \
-	}
-
 baseObj::baseObj(uint otype, bool movable) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
 type(otype), isMovable(movable)
 {

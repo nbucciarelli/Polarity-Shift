@@ -31,3 +31,10 @@ public:
 
 	void waitForUnlock(unsigned int id);
 };
+
+#define CRITICAL(fun)  {\
+	CS->waitForUnlock(CSID);\
+	CS->lockSection(CSID); \
+	fun; \
+	CS->unlockSection(CSID); \
+	}
