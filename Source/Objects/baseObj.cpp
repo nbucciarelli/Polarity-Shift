@@ -8,17 +8,22 @@
 #include "..\Helpers\physics.h"
 #include "..\Wrappers\viewManager.h"
 #include "camera.h"
+#include "../Wrappers/dxRenderer.h"
+#include "../Helpers/criticalSection.h"
 
-#define CRITICAL(fun)  {while(locked) \
-	{Sleep(0);} \
-	locked = true; \
+#define CRITICAL(fun)  {\
+	CS->waitForUnlock(CSID);\
+	CS->lockSection(CSID); \
 	fun; \
-	locked = false; \
+	CS->unlockSection(CSID); \
 	}
 
 baseObj::baseObj(uint otype, bool movable) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
-type(otype), locked(false), isMovable(movable)
-{}
+type(otype), isMovable(movable)
+{
+	CS = criticalSectionControl::getInstance();
+	CSID = CS->getCriticalSection();
+}
 
 baseObj::baseObj(const baseObj& obj)
 {
@@ -29,6 +34,8 @@ baseObj::baseObj(const baseObj& obj)
 
 baseObj::~baseObj(void)
 {
+	CS->waitForUnlock(CSID);
+	CS->releaseCriticalSection(CSID);
 	if(imgId != -1)
 		viewManager::getInstance()->releaseTexture(imgId);
 }
@@ -49,14 +56,6 @@ void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 	combined *= transform;
 	calc::matrixTranslate(transform, position);
 	combined *= transform;
-
-
-//	WAIT;
-
-//	locked = true;
-//	worldMatrix = *reinterpret_cast<matrix*>(&combined);
-//	locked = false;
-
 
 	CRITICAL(worldMatrix = *((matrix*)&combined));
 
@@ -155,7 +154,11 @@ const polygon* baseObj::getCollisionPoly()
 
 
 	for(int c = 0; c < instancePoly.vertexCount; c++)
+	{
 		instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
+		instancePoly.vertecies[c].coords.x -= imgCenter.x;
+
+	}
 
 	instancePoly.center.coords = position;
 

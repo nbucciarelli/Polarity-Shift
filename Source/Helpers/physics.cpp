@@ -154,6 +154,7 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, const ve
 	min1 = max1 = min2 = max2 = 0;
 
 	float minInterval = (float)_HUGE;
+	float maxOverlap = 0;
 
 	//code-efficient (read: less typing) way of checking through both polys.
 	for(int p = 0; p < 2; p++)
@@ -225,6 +226,16 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, const ve
 
 	if(results)
 	{
+		if(result.overlapped)
+		{
+			projectPolygonToLine(poly1, *velocity, min1, max1);
+			projectPolygonToLine(poly2, *velocity, min2, max2);
+
+			float distance = distanceBetweenLines(min1, max1, min2, max2);
+
+			result.overlap = (*velocity).normalized() * distance;
+		}
+
 		result.responseVect += responseVect * minInterval;
 		*results = result;
 	}

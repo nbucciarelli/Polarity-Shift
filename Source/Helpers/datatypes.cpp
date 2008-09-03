@@ -102,7 +102,7 @@ void vector3::normalize()
 		e[c] /= len;
 }
 
-vector3 vector3::normalized()
+vector3 vector3::normalized() const
 {
 	float len = length();
 	return vector3(x/len,y/len,0);

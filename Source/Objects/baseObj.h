@@ -6,6 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "..\Helpers\datatypes.h"
 
+class criticalSectionControl;
+
 enum objTypes { OBJ_DEFAULT, OBJ_MOVING,
 				OBJ_MAX };
 enum facing { FACE_LEFT = 1, FACE_RIGHT = -1 };
@@ -21,9 +23,9 @@ protected:
 	//object's local space transformation matrix
 	matrix worldMatrix;
 	
-	//Simple method for critical sections.
-	//If the world matrix is being updated or used, this should be set true.
-	volatile bool locked;
+	//critical section stuff
+	criticalSectionControl* CS;
+	uint CSID;
 
 	uint type;
 

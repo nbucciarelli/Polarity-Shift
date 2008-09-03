@@ -46,7 +46,7 @@ union vector3 {
 
 	float dot2D(const vector3&) const;
 	void normalize();
-	vector3 normalized();
+	vector3 normalized() const;
 	float length() const;
 };
 
@@ -121,5 +121,5 @@ struct polygon
 struct polyCollision
 {
 	bool overlapped, willCollide;
-	vector3 responseVect;
+	vector3 responseVect, overlap;
 };

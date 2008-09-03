@@ -55,12 +55,25 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	//move out of collision.
 	if(obj->IsMovable())
 	{
+		if(holder.willCollide)
+		{
 		position += holder.responseVect * 0.5f;
 		obj->modPos(holder.responseVect * -0.5f);
+		}
+	//	if(holder.overlapped)
+		{
+	//		position += holder.overlap * 0.5f;
+	//		obj->modPos(holder.overlap * -0.5f);
+		}
 	}
 	else
-		position += holder.responseVect;
-
+	{
+		if(holder.willCollide)
+			position += holder.responseVect;
+		
+	}
+//if(holder.overlapped)
+//			position += holder.overlap;
 	//Affect velocity based on collision.
 	vector3 mod = holder.responseVect.normalized() * holder.responseVect.dot2D(velocity) * frameTime;
 	velocity -= mod;
