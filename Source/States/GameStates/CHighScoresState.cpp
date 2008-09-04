@@ -38,13 +38,11 @@ void CHighScoresState::enter()
 {
 	menuState::enter();
 	EM = eventManager::getInstance();
-
 }
 
 void CHighScoresState::exit()
 {
 	menuState::exit();
-
 }
 
 void CHighScoresState::update(float delta)
@@ -54,7 +52,6 @@ void CHighScoresState::update(float delta)
 
 void CHighScoresState::menuHandler(void)
 {
-
 	switch(menuPos)
 	{
 	case EXIT:
