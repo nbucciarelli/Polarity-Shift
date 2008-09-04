@@ -75,14 +75,3 @@ void objManager::checkCollisions()
 		}
 	}
 }
-
-void findClosestOnVector(const vector3& source,
-						 const vector3& dest,
-						 const float radius,
-						 const lpObj& closest)
-{
-	std::vector<baseObj*> potentials;
-
-	
-
-}

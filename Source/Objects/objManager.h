@@ -26,6 +26,8 @@ public:
 	void update(float dt);
 	void render() const;
 
+	const vector<baseObj*>& getList() const { return objList; }
+
 	//Add an object
 	void addObj(baseObj* obj);
 	//Remove an object
@@ -34,7 +36,4 @@ public:
 	void clear();
 
 	void checkCollisions();
-	void findClosestOnVector(const vector3& source,
-		const vector3& dest, const float radius,
-		const lpObj& closest);
 };
