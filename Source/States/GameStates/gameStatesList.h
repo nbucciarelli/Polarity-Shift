@@ -15,3 +15,4 @@
 #include "gamePlayState.h"
 #include "pauseState.h"
 #include "optionsState.h"
+#include "CHighScoresState.h"

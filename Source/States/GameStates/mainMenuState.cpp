@@ -70,6 +70,8 @@ void mainMenuState::menuHandler()
 	case HOWTO:
 		break;
 	case SCORES:
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_HIGHSCORES));
+		break;
 	case CREDITS:
 		break;
 	default:
