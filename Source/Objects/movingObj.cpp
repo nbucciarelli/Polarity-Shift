@@ -57,8 +57,8 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	{
 		if(holder.willCollide)
 		{
-			position += holder.responseVect * -0.5f;
-			obj->modPos(holder.responseVect * 0.5f);
+	//		position += holder.responseVect * -0.5f;
+	//		obj->modPos(holder.responseVect * 0.5f);
 		}
 		if(holder.overlapped)
 		{

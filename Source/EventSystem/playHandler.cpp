@@ -64,7 +64,7 @@ void playHandler::onGameLoad()
 	movingObj* testObj = new playerObj;
 
 	testObj->setPos(vector3(100,0,0));
-	//testObj->setAngPos(vector3(0,0,PI));
+	testObj->setAngPos(vector3(0,0,PI));
 	testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle.bmp", 0xffffffff));
 	
 	polygon* poly = new polygon;

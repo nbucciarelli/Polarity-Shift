@@ -47,4 +47,6 @@ public:
 	static float distanceBetweenLines(float min1, float max1, float min2, float max2);
 
 	static bool lineIntersectPoly(const vector3& pt1, const vector3& pt2, const polygon& poly, float* distance = 0);
+
+	static vector3 rotatePointAroundOrigin(const vector3& point, const float rad);
 };

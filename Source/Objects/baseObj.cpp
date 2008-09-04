@@ -44,8 +44,8 @@ void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 	combined *= transform;
 	calc::matrixRotationZ(transform, angPos.z);
 	combined *= transform;
-	//calc::matrixTranslate(transform, vector3((float)imgCenter.x, (float)imgCenter.y, 0));
-	//combined *= transform;
+	calc::matrixTranslate(transform, vector3((float)imgCenter.x, (float)imgCenter.y, 0));
+	combined *= transform;
 
 	calc::matrixScale(transform, scale);
 	combined *= transform;
@@ -149,20 +149,18 @@ const polygon* baseObj::getCollisionPoly()
 		instancePoly.center.mass = collisionPoly->center.mass;
 	}
 
-
-
-
 	for(int c = 0; c < instancePoly.vertexCount; c++)
 	{
-		instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
-		instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
+		//instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
+		//instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
 
-		//instancePoly.vertecies[c].coords = worldMatrix * collisionPoly->vertecies[c].coords;
+		instancePoly.vertecies[c].coords =
+			calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z) + position;
 	}
 
 	instancePoly.center.coords = position;
-	instancePoly.center.coords.x += (float)imgCenter.x;
-	//instancePoly.center.coords = worldMatrix * collisionPoly->center.coords;
+	//instancePoly.center.coords.x += (float)imgCenter.x;
+	//instancePoly.center.coords = rot * collisionPoly->center.coords;
 
 	return &instancePoly;
 }

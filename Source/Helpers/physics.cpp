@@ -137,6 +137,20 @@ bool calc::isZero(float val, float epsilon)
 		return false;
 }
 
+vector3 calc::rotatePointAroundOrigin(const vector3& point, const float rad)
+{
+	//This is matrix math for a 2D rotation about the origin.
+	//Just skipping the matrix.
+
+	float sine = sin(rad), cosine = cos(rad);
+
+	return vector3(
+		point.x * cosine + point.y * -sine,
+		point.x * sine + point.y * cosine,
+		0
+		);;
+}
+
 #pragma region polygon collision
 
 bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
