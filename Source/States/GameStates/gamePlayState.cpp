@@ -76,9 +76,9 @@ void gamePlayState::update(float dt)
 	if(!entered)
 		return;
 
-	OM->update(dt);
-
 	OM->checkCollisions();
+
+	OM->update(dt);
 
 	EM->processEvents();
 }

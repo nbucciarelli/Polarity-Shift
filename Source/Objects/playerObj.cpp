@@ -96,7 +96,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 	switch(ev->getEventID())
 	{
 	case EVENT_PLAYERGOLEFT:
-		acceleration.x -= 0.55f;
+		acceleration.x -= 100.0f;
 		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER MOVING LEFT FOR INFORMATION
 		//m_pPlayer->m_pAM->GetEngine(1)->Stop();
 		//if(m_bIsRunningAnim == false)
@@ -109,7 +109,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 		//m_pPlayer->SetIsFlipped(false);
 		break;
 	case EVENT_PLAYERGORIGHT:
-		acceleration.x += 0.55f;
+		acceleration.x += 100.0f;
 		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER MOVING RIGHT FOR INFORMATION
 		//m_pPlayer->m_pAM->GetEngine(1)->Stop();
 		//if(m_bIsRunningAnim == false)
