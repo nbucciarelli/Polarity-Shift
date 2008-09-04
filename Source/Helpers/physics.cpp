@@ -281,7 +281,7 @@ bool calc::sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, 
 		return false;
 }
 
-bool lineIntersectPoly(vector3& rayStart, vector3& rayVect, polygon& poly)
+bool lineIntersectPoly(vector3& pt1, vector3& pt2, polygon& poly)
 {
 	return false;
 }

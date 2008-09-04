@@ -35,6 +35,6 @@ public:
 
 	void checkCollisions();
 	void findClosestOnVector(const vector3& source,
-		const vector3& colVect, const float radius,
+		const vector3& dest, const float radius,
 		const lpObj& closest);
 };
