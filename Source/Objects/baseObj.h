@@ -118,6 +118,7 @@ public:
 	//(hax.)
 	const pt getDimensions() const { return dimension; }
 	const pt getImgCenter() const { return imgCenter; }
+	const float getMaxRadius() const { return collisionPoly->maxRadius; }
 	virtual const vector3& getVelocity() const { return nullVector; }
 	const vector3& getPosition() const { return position; }
 	const vector3& getAngPos() const { return angPos; }

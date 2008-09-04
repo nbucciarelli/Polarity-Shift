@@ -128,7 +128,7 @@ void viewManager::releaseAllMeshes()
 void viewManager::drawTexture(int id, const vector3* pos, const matrix * transform, const rect* section,
 		const vector3* center, uint color)
 {
-	if(id < 0 || id > (int)textureList.size())
+	if(id < 0 || id > (int)textureList.size()  || !textureList[id])
 		return;
 
 	theRenderer->RenderSprite(textureList[id]->texture, pos, transform, section, center, color);

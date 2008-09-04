@@ -199,7 +199,11 @@ unsigned game::renderLoop(void* unused)
 			g->theRenderer->BeginSprites();
 
 			for(unsigned c = 0; c < g->stateStack.size(); c++)
+			{
+				g->stateStack[c]->Rendering(true);
 				g->stateStack[c]->render();
+				g->stateStack[c]->Rendering(false);
+			}
 
 			g->theRenderer->EndSprites();
 			g->theRenderer->EndScene();

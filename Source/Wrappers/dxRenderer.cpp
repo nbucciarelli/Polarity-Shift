@@ -150,6 +150,7 @@ void dxRenderer::LoadTexture(textureData* dat, const char filename[], uint color
 		char szBuffer[256] = {0};
 		sprintf_s(szBuffer, "Failed to Create Texture - %s", filename); 
 		MessageBox(0, szBuffer, "Texture Error", MB_OK);
+		dat->texture = 0;
 		return;
 	}
 

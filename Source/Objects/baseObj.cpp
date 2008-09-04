@@ -77,6 +77,7 @@ void baseObj::render()
 	CRITICAL(viewManager::getInstance()->drawTexture(imgId, NULL, &worldMatrix, &getDrawRect()));
 
 }
+
 rect baseObj::getDrawRect() const
 {
 	rect val;
@@ -91,6 +92,7 @@ rect baseObj::getDrawRect() const
 
 	return val;
 }
+
 rect baseObj::getCollisionRect() const
 {
 	rect val;
@@ -138,7 +140,7 @@ const polygon* baseObj::getCollisionPoly()
 		instancePoly.vertexCount = collisionPoly->vertexCount;
 		
 		if(instancePoly.vertecies)
-			delete instancePoly.vertecies;
+			delete[] instancePoly.vertecies;
 
 		instancePoly.vertecies = new objectPoint[collisionPoly->vertexCount];
 		for(int c = 0; c < collisionPoly->vertexCount; c++)
@@ -148,14 +150,17 @@ const polygon* baseObj::getCollisionPoly()
 	}
 
 
+
+
 	for(int c = 0; c < instancePoly.vertexCount; c++)
 	{
 		instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
-		instancePoly.vertecies[c].coords.x -= imgCenter.x;
 
+		//instancePoly.vertecies[c].coords = worldMatrix * collisionPoly->vertecies[c].coords;
 	}
 
 	instancePoly.center.coords = position;
+	//instancePoly.center.coords = worldMatrix * collisionPoly->center.coords;
 
 	return &instancePoly;
 }

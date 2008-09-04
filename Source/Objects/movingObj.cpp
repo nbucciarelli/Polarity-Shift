@@ -39,17 +39,17 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	polyCollision holder;
 
 	//Make sure both objects have their bounding sphere specified
-	if(collisionPoly->maxRadius > 0 && obj->getCollisionPoly()->maxRadius > 0)
+	if(collisionPoly->maxRadius > 0 && obj->getMaxRadius() > 0)
 	{
 		//Check to see if the objects are close enough for a potential collision.
 		if(!calc::sphereOverlap(this->position, collisionPoly->maxRadius,
-				obj->getPosition(), obj->getCollisionPoly()->maxRadius))
+				obj->getPosition(), obj->getMaxRadius()))
 			return false;
 	}
 
 	//if the collision check returns false, there's nothing else to do.
 	if(!calc::polygonCollision(*obj->getCollisionPoly(), *getCollisionPoly(),
-		&(velocity/*frameTime*/), &holder))
+		&((velocity + obj->getVelocity())*frameTime), &holder))
 			return false;
 
 	//move out of collision.
@@ -57,23 +57,26 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	{
 		if(holder.willCollide)
 		{
-		position += holder.responseVect * 0.5f;
-		obj->modPos(holder.responseVect * -0.5f);
+		position += holder.responseVect * -0.5f;
+		obj->modPos(holder.responseVect * 0.5f);
 		}
-	//	if(holder.overlapped)
+		if(holder.overlapped)
 		{
-	//		position += holder.overlap * 0.5f;
-	//		obj->modPos(holder.overlap * -0.5f);
+			position += holder.overlap * -0.5f;
+			obj->modPos(holder.overlap * 0.5f);
 		}
 	}
 	else
 	{
 		if(holder.willCollide)
 			position += holder.responseVect;
+
+		if(holder.overlapped)
+			position += holder.overlap;
 		
 	}
-//if(holder.overlapped)
-//			position += holder.overlap;
+	//if(holder.overlapped)
+			//position += holder.overlap;
 	//Affect velocity based on collision.
 	vector3 mod = holder.responseVect.normalized() * holder.responseVect.dot2D(velocity) * frameTime;
 	velocity -= mod;

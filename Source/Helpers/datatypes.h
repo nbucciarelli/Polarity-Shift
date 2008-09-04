@@ -74,6 +74,7 @@ union matrix {
 	matrix operator*(const matrix&);
 	matrix operator+(const matrix&);
 	matrix operator-(const matrix&);
+	vector3 operator*(const vector3&);
 };
 
 struct rect

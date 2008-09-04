@@ -155,9 +155,20 @@ matrix matrix::operator-(const matrix& obj)
 	return matrix(*this) -= obj;
 }
 
+vector3 matrix::operator*(const vector3& vect)
+{
+	float sol[4] = {0};
+
+	for(int c = 0; c < 3; c++)
+		for(int d = 0; d < 3; d++)
+			sol[c] = vect.e[d] * m[c][d];
+
+	return vector3(sol[0],sol[1],sol[2]);
+}
+
 #pragma endregion
 
 #pragma region texture
 textureData::textureData() : ref(0), texture(NULL), width(0), height(0)
-{ filename[0] = '\0'; }
+{ memset(filename, 0, sizeof(filename)); }
 #pragma endregion

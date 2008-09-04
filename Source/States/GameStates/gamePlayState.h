@@ -21,6 +21,8 @@ protected:
 	inputDevice* theInput;
 	eventManager* EM;
 	playHandler* handler;
+
+	volatile bool rendering;
 	
 
 	gamePlayState();

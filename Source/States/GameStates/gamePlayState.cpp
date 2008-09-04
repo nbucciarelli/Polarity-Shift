@@ -13,7 +13,7 @@
 #include "..\..\Engines\CTileEngine.h"
 
 
-gamePlayState::gamePlayState() {}
+gamePlayState::gamePlayState() : rendering(false) {}
 gamePlayState::~gamePlayState() {}
 
 gamePlayState* gamePlayState::getInstance()
@@ -42,6 +42,9 @@ void gamePlayState::enter(void)
 
 void gamePlayState::exit(void)
 {
+	while(rendering)
+		Sleep(1);
+
 	gameState::exit();
 	
 	delete TE;
