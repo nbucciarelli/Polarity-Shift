@@ -139,7 +139,8 @@ bool calc::isZero(float val, float epsilon)
 
 #pragma region polygon collision
 
-bool calc::polygonCollision(const polygon& poly1, const polygon& poly2, const vector3* velocity, polyCollision* results)
+bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
+							const vector3* velocity, polyCollision* results)
 {
 	polyCollision result;
 	result.overlapped = result.willCollide = true;
@@ -281,9 +282,26 @@ bool calc::sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, 
 		return false;
 }
 
-bool lineIntersectPoly(vector3& pt1, vector3& pt2, polygon& poly)
+bool calc::lineIntersectPoly(const vector3& pt1, const vector3& pt2,
+							 const polygon& poly, float* distance)
 {
-	return false;
+	//Do the same general idea as the poly collision checks
+	vector3 lineVect = (pt2 - pt1).normalized();
+
+	float min = 0, max = 0;
+	projectPolygonToLine(poly, lineVect, min, max);
+
+	//If the poly min is between both points on the line, we have what we want.
+		//Note that this means if the line originates INSIDE the polygon,
+		//it will not return true.
+	if(min < pt2.dot2D(lineVect) && min > pt1.dot2D(lineVect))
+	{
+		if(distance)
+			*distance = min;
+		return true;
+	}
+	else
+		return false;
 }
 
 #pragma endregion

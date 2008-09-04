@@ -46,5 +46,5 @@ public:
 	//Return the space between each 1d line.  Negative if overlapping
 	static float distanceBetweenLines(float min1, float max1, float min2, float max2);
 
-	static bool lineIntersectPoly(vector3& pt1, vector3& pt2, polygon& poly);
+	static bool lineIntersectPoly(const vector3& pt1, const vector3& pt2, const polygon& poly, float* distance = 0);
 };

@@ -8,7 +8,7 @@
 #include "..\Wrappers\viewManager.h"
 #include <fstream>
 
-CTileEngine::CTileEngine() : ready(false)
+CTileEngine::CTileEngine() : ready(false), rendering(false)
 {
 	m_Height = 0;
 	m_Width = 0;
@@ -21,6 +21,7 @@ CTileEngine::CTileEngine() : ready(false)
 void CTileEngine::LoadMap(string szFileName)
 {
 	ready = false;
+
 	std::ifstream fin;
 	fin.open(szFileName.c_str(), std::ios::binary | std::ios::in);
 
@@ -137,6 +138,7 @@ void CTileEngine::Render()
 
 	RECT source;
 	//loop through layers
+	rendering = true;
 	for(unsigned int h = 0; h < m_vMap.size(); h++)
 	{
 		for(int i = 0; i < m_Height ; i++)
@@ -150,15 +152,19 @@ void CTileEngine::Render()
 
 				viewManager::getInstance()->drawTexture(GetImageID(),
 					&vector3((float)(j* m_TileHeight), (float)(i * m_TileWidth), 0), 0, (rect*)&source);
-
 			}
 		}
 	}
+	rendering = false;
 }
 
 void CTileEngine::ShutDown()
 {
 	ready = false;
+	while(rendering)
+	{
+		Sleep(0);
+	}
 	while(m_vMap.size() != 0)
 	{
 		while(m_vMap.back().size() !=0)

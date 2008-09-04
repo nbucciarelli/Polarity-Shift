@@ -9,6 +9,15 @@ class criticalSectionControl;
 	CS->unlockSection(CSID); \
 	}
 
+#define CRITICAL_SKIP(fun) {\
+	if(!CS->isLocked(CSID))\
+	{\
+	CS->lockSection(CSID); \
+	fun; \
+	CS->unlockSection(CSID); \
+	}\
+	}
+
 #define CRITICAL_VARS criticalSectionControl * CS;\
 	unsigned int CSID
 
@@ -16,4 +25,5 @@ class criticalSectionControl;
 	CSID = CS->getCriticalSection()
 
 #define CRITICAL_RELEASE CS->waitForUnlock(CSID);\
+	CS->lockSection(CSID);\
 	CS->releaseCriticalSection(CSID)

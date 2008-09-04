@@ -29,6 +29,7 @@ unsigned int criticalSectionControl::getCriticalSection()
 			continue;
 		
 		criticals[c]->active = true;
+		criticals[c]->locked = false;
 		return c;
 	}
 

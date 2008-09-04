@@ -32,6 +32,7 @@ private:
 	vector<POINT> m_vSwitchList;
 
 	volatile bool ready;
+	volatile bool rendering;
 
 public:
 	CTileEngine(void);
