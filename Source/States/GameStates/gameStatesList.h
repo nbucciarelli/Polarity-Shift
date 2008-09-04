@@ -14,3 +14,4 @@
 #include "mainMenuState.h"
 #include "gamePlayState.h"
 #include "pauseState.h"
+#include "optionsState.h"

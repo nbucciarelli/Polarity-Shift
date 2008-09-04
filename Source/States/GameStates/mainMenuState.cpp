@@ -65,6 +65,8 @@ void mainMenuState::menuHandler()
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case OPTIONS:
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
+		break;
 	case HOWTO:
 		break;
 	case SCORES:

@@ -83,6 +83,8 @@ gameState* globalHandler::state(int st)
 		//break;
 	case STATE_PLAY:
 		return gamePlayState::getInstance();
+	case STATE_OPTIONS:
+		return optionsState::getInstance();
 		//break;
 	default:
 		return NULL;
