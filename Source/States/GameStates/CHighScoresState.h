@@ -1,14 +1,18 @@
 #pragma once
-#include "..\gameState.h"
+#include "menuState.h"
 
 class eventManager;
 
-class CHighScoresState : public gameState
+class CHighScoresState : public menuState
 {
 private:
+	
+	enum menuOptions{ EXIT , TOTAL};
 
+	void menuHandler(void);
+		
 	bool CheckScores();
-	CHighScoresState(void) {}
+	CHighScoresState(void);
 	CHighScoresState& operator=(CHighScoresState &ref);
 	~CHighScoresState(void) {}
 public:
@@ -17,6 +21,7 @@ public:
 	bool input(float);
 	void render(void) const;
 	void update(float);
+	
 
 	
 	static CHighScoresState* GetInstance(void) 
