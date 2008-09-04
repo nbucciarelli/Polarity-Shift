@@ -10,7 +10,7 @@
 class optionsState : public menuState
 {
 protected:
-	enum menuOptions { SFX, MUSIC, BACK, TOTAL };
+	enum menuOptions { SFX, MUSIC, KEYBINDINGS, BACK, TOTAL };
 
 	void menuHandler();
 

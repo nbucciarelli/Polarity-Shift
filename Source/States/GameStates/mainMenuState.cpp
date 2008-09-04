@@ -36,7 +36,7 @@ mainMenuState* mainMenuState::getInstance()
 void mainMenuState::enter(void)
 {
 
-	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
+	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_CursorParticle.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	menuState::enter();
 
@@ -85,6 +85,6 @@ void mainMenuState::render(void) const
 		return;
 
 	menuState::render();
-	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(), menuState::GetEmitterPosY()); 
+	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetXPos(), menuState::GetYPos()+ 10 + menuState::GetMenuPos() * 50); 
 	
 }

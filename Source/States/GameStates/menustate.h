@@ -29,6 +29,7 @@ protected:
 	
 
 	int menuPos, cursorID, menuLast, xPos, yPos;
+
 	char** menuItemString;
 
 	unsigned int textColor, highlightColor;
@@ -83,6 +84,10 @@ public:
 	int GetEmitterPosX() const { return m_nEmitterPosX; }	
 	int GetEmitterPosY() const { return m_nEmitterPosY; }
 	float GetUpdateTimer() const { return m_fUpdateTimer; }
+	int GetYPos() const { return yPos; }
+	int GetXPos() const { return xPos; }
+	int GetMenuPos() const { return menuPos; }	
+	
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"Mutators"
@@ -92,6 +97,9 @@ public:
 	void SetEmitterPosX(int val) { m_nEmitterPosX = val; }
 	void SetEmitterPosY(int val) { m_nEmitterPosY = val; }
 	void SetUpdateTimer(float val) { m_fUpdateTimer = val; }
+	void SetXPos(int val) { xPos = val; }
+	void SetYPos(int val) { yPos = val; }
+	void SetMenuPos(int val) { menuPos = val; }
 	
 	
 };

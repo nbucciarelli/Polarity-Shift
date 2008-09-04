@@ -16,6 +16,7 @@ optionsState::optionsState(void)
 
 	menuItemString[SFX] = "SFX: 0";
 	menuItemString[MUSIC] = "Music: 0";
+	menuItemString[KEYBINDINGS] = "Keybindings";
 	menuItemString[BACK] = "Back";
 	menuLast = BACK;
 }
@@ -59,6 +60,8 @@ void optionsState::menuHandler()
 	{
 	case SFX:
 	case MUSIC:
+		break;
+	case KEYBINDINGS:
 		break;
 	case BACK:
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
