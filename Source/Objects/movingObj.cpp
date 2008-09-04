@@ -49,7 +49,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 
 	//if the collision check returns false, there's nothing else to do.
 	if(!calc::polygonCollision(*obj->getCollisionPoly(), *getCollisionPoly(),
-		&((velocity + obj->getVelocity())*frameTime), &holder))
+		&((velocity - obj->getVelocity())*-frameTime), &holder))
 			return false;
 
 	//move out of collision.
