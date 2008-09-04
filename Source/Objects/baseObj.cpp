@@ -30,6 +30,9 @@ baseObj::~baseObj(void)
 
 	if(imgId != -1)
 		viewManager::getInstance()->releaseTexture(imgId);
+
+	if(instancePoly.vertecies)
+		delete[] instancePoly.vertecies;
 }
 
 void baseObj::updateWorldMatrix()  //Accounts for world position as well.
