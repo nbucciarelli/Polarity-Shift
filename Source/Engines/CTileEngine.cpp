@@ -167,7 +167,6 @@ void CTileEngine::ShutDown()
 		}
 		m_vMap.pop_back();
 	}
-	//m_vMap.clear();
 	m_vCollision.clear();
 	m_vCubelist.clear();
 	m_vEnemyList.clear();
