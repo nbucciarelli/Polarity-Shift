@@ -155,3 +155,27 @@ void CTileEngine::Render()
 		}
 	}
 }
+
+void CTileEngine::ShutDown()
+{
+	while(m_vMap.size() != 0)
+	{
+		while(m_vMap.back().size() !=0)
+		{
+			delete m_vMap.back().back();
+			m_vMap.back().pop_back();
+		}
+		m_vMap.pop_back();
+	}
+	//m_vMap.clear();
+	m_vCollision.clear();
+	m_vCubelist.clear();
+	m_vEnemyList.clear();
+	m_vTurretList.clear();
+	m_vSwitchList.clear();
+}
+
+CTileEngine::~CTileEngine()
+{
+	CTileEngine::ShutDown();
+}

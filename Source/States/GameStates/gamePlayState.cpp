@@ -43,7 +43,8 @@ void gamePlayState::enter(void)
 void gamePlayState::exit(void)
 {
 	gameState::exit();
-
+	
+	delete TE;
 	OM->clear();
 	handler->shutdown();
 	delete handler;
