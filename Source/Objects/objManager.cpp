@@ -75,3 +75,13 @@ void objManager::checkCollisions()
 		}
 	}
 }
+
+void findClosestOnVector(const vector3& source,
+						 const vector3& colSpace,
+						 const float radius = 0)
+{
+	std::vector<baseObj*> potentials;
+
+	polygon hitPoly;
+
+}

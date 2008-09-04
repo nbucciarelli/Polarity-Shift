@@ -3,6 +3,7 @@
 using std::vector;
 
 class baseObj;
+union vector3;
 
 class objManager
 {
@@ -31,4 +32,6 @@ public:
 	void clear();
 
 	void checkCollisions();
+	void findClosestOnVector(const vector3& source,
+		const vector3& colVect, const float radius = 0);
 };

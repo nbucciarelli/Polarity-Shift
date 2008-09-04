@@ -42,11 +42,11 @@ void gamePlayState::enter(void)
 
 void gamePlayState::exit(void)
 {
+	gameState::exit();
+
 	OM->clear();
 	handler->shutdown();
 	delete handler;
-
-	gameState::exit();
 }
 
 bool gamePlayState::input(float dt)
