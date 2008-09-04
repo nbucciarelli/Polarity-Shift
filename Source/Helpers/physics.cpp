@@ -6,6 +6,8 @@
 
 #pragma comment(lib, "d3dx9.lib")
 
+
+#pragma region matrix rotation
 //TODO:  RECALCULATE MATRIX EQUATIONS, get rid of d3dx references
 
 const matrix& matrix::operator*=(const matrix& obj)
@@ -89,7 +91,9 @@ void calc::matrixRotation(matrix& out, const vector3& angles)
 
 
 }
+#pragma endregion
 
+#pragma region matrix transforms
 void calc::matrixTransform(matrix& out, const vector3& pos, vector3& scale)
 {
 	out = matrix();
@@ -123,17 +127,11 @@ void calc::matrixScale(matrix& out, const vector3& scale)
 	D3DXMatrixScaling((D3DXMATRIX*)&out, scale.x, scale.y, scale.z);
 }
 
+#pragma endregion
+
 bool calc::isZero(float val, float epsilon)
 {
 	if(fabs(val) < epsilon)
-		return true;
-	else
-		return false;
-}
-
-bool calc::sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, float radius2)
-{
-	if((pt2 - pt1).length() < radius1 + radius2)
 		return true;
 	else
 		return false;
@@ -269,6 +267,23 @@ float calc::distanceBetweenLines(float min1, float max1, float min2, float max2)
 		return min2 - max1;
 	else
 		return min1 - max2;
+}
+
+#pragma endregion
+
+#pragma region other intersect
+
+bool calc::sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, float radius2)
+{
+	if((pt2 - pt1).length() < radius1 + radius2)
+		return true;
+	else
+		return false;
+}
+
+bool lineIntersectPoly(vector3& rayStart, vector3& rayVect, polygon& poly)
+{
+	return false;
 }
 
 #pragma endregion

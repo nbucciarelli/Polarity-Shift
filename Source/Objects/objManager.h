@@ -5,6 +5,8 @@ using std::vector;
 class baseObj;
 union vector3;
 
+typedef baseObj* lpObj;
+
 class objManager
 {
 protected:
@@ -33,5 +35,6 @@ public:
 
 	void checkCollisions();
 	void findClosestOnVector(const vector3& source,
-		const vector3& colVect, const float radius = 0);
+		const vector3& colVect, const float radius,
+		const lpObj& closest);
 };
