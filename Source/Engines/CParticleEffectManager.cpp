@@ -131,6 +131,7 @@ void CParticleEffectManager::Stop(int nImageID)
 }
 void CParticleEffectManager::Unload(int nImageID)
 {
+	
 	vParticleEffect[nImageID]->ShutDown();
 // 	for (int i = 0 ; i < vParticleEffect[nImageID]->GetNumParticles() ; ++i)
 // 	{

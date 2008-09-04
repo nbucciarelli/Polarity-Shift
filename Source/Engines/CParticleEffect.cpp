@@ -134,22 +134,22 @@ void CParticleEffect::ResetParticleValues(tParticle* pParticle)
 
 void CParticleEffect::ShutDown()
 {
-	for (unsigned i = 0 ; i <= vParticles.size() ; ++i)
+	for (unsigned i = 0 ; i < vParticles.size() ; ++i)
 	{
-		//delete vParticles[i];
-		vParticles.pop_back();
+		delete vParticles[i];
+		//vParticles.pop_back();
 	}
 
 	if (vDeadParticles.size() > 0)
 	{
 
-		for (unsigned i = 0 ; i <= vDeadParticles.size() ; ++i)
+		for (unsigned i = 0 ; i < vDeadParticles.size() ; ++i)
 		{
-			//delete vDeadParticles[i];
-			vDeadParticles.pop_back();
+			delete vDeadParticles[i];
+			//vDeadParticles.pop_back();
 		}
 	}
 	vParticles.clear();
 	vDeadParticles.clear();
-
+	
 }
