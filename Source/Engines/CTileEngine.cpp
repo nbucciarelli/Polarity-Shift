@@ -158,6 +158,7 @@ void CTileEngine::Render()
 
 void CTileEngine::ShutDown()
 {
+	ready = false;
 	while(m_vMap.size() != 0)
 	{
 		while(m_vMap.back().size() !=0)
