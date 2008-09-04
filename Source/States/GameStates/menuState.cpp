@@ -40,8 +40,8 @@ void menuState::enter(void)
 	EM = eventManager::getInstance();
 	Player1 = new CXBOXController(1);
 	m_bIsBuffered = true;
-	m_nEmitterPosX = 100;
-	m_nEmitterPosY = 100;
+	m_nEmitterPosX = 500;
+	m_nEmitterPosY = 500;
 
 	menuPos = 0;
 
