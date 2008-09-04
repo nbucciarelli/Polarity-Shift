@@ -91,7 +91,9 @@ void gamePlayState::render(void) const
 	if(!entered)
 		return;
 
+	OM->render();
+
 	if(TE)
 		TE->Render();
-	OM->render();
+
 }

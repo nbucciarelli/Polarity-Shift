@@ -151,7 +151,7 @@ void CTileEngine::Render()
 				source.bottom = source.top + m_TileHeight;
 
 				viewManager::getInstance()->drawTexture(GetImageID(),
-					&vector3((float)(j* m_TileHeight), (float)(i * m_TileWidth), 0), 0, (rect*)&source);
+					&vector3((float)(j* m_TileHeight), (float)(i * m_TileWidth), ((-1*h)+1)), 0, (rect*)&source);
 			}
 		}
 	}
