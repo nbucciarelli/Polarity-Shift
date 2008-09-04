@@ -180,6 +180,16 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 			float distance = distanceBetweenLines(min1, max1, min2, max2);
 			if(distance > 0)
 				result.overlapped = false;
+			else
+			{
+				distance = fabs(distance);
+
+				if(distance > maxOverlap)
+				{
+					maxOverlap = distance;
+					result.overlap = normvect;
+				}
+			}
 
 			/***	Calculate if there WILL be a collision next frame.	***/
 
@@ -201,12 +211,6 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 				if(distance > 0)
 					result.willCollide = false;
 
-				if(!result.willCollide && !result.overlapped)
-					//No collision possible, end calculation.
-					return false;
-
-				//Collision still possible, continue on.
-
 				distance = fabs(distance);
 
 				if(distance < minInterval)
@@ -218,8 +222,14 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 			//			responseVect *= -1;
 				}
 			}
-			else if(!result.willCollide)
+			else
+				result.willCollide = false;
+
+			if(!result.willCollide && !result.overlapped)
+				//No collision possible, end calculation.
 				return false;
+
+			//Collision still possible, continue on.
 		}
 	}
 
@@ -227,12 +237,13 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 	{
 		if(result.overlapped)
 		{
-			projectPolygonToLine(poly1, *velocity, min1, max1);
-			projectPolygonToLine(poly2, *velocity, min2, max2);
+			//projectPolygonToLine(poly1, *velocity, min1, max1);
+			//projectPolygonToLine(poly2, *velocity, min2, max2);
 
-			float distance = distanceBetweenLines(min1, max1, min2, max2);
+			//float distance = distanceBetweenLines(min1, max1, min2, max2);
 
-			result.overlap = (*velocity).normalized() * distance;
+			//result.overlap = (*velocity).normalized() * distance;
+			result.overlap *= maxOverlap;
 		}
 
 		result.responseVect += responseVect * minInterval;

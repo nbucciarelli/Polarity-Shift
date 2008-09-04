@@ -155,11 +155,13 @@ const polygon* baseObj::getCollisionPoly()
 	for(int c = 0; c < instancePoly.vertexCount; c++)
 	{
 		instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
+		instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
 
 		//instancePoly.vertecies[c].coords = worldMatrix * collisionPoly->vertecies[c].coords;
 	}
 
 	instancePoly.center.coords = position;
+	instancePoly.center.coords.x += (float)imgCenter.x;
 	//instancePoly.center.coords = worldMatrix * collisionPoly->center.coords;
 
 	return &instancePoly;

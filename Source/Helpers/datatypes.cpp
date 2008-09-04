@@ -1,6 +1,7 @@
 
 #include "datatypes.h"
 #include <cstring>
+#include <cmath>
 
 /*
 
@@ -90,6 +91,8 @@ float vector3::length() const
 	float len = 0;
 	for(int c = 0; c < 3; c++)
 		len += e[c] * e[c];
+
+	len = sqrtf(len);
 
 	return len;
 }

@@ -6,7 +6,7 @@ union matrix;
 struct polygon;
 struct polyCollision;
 
-#define GRAVITY 186.0f
+#define GRAVITY 392.0f
 
 class calc
 {

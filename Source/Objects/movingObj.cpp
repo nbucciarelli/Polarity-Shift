@@ -49,7 +49,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 
 	//if the collision check returns false, there's nothing else to do.
 	if(!calc::polygonCollision(*obj->getCollisionPoly(), *getCollisionPoly(),
-		&((velocity - obj->getVelocity())*-frameTime), &holder))
+		&((velocity - obj->getVelocity())/*-frameTime*/), &holder))
 			return false;
 
 	//move out of collision.
@@ -57,8 +57,8 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	{
 		if(holder.willCollide)
 		{
-		position += holder.responseVect * -0.5f;
-		obj->modPos(holder.responseVect * 0.5f);
+			position += holder.responseVect * -0.5f;
+			obj->modPos(holder.responseVect * 0.5f);
 		}
 		if(holder.overlapped)
 		{

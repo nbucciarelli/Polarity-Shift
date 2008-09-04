@@ -71,9 +71,9 @@ void playHandler::onGameLoad()
 
 	objectPoint *points = new objectPoint[3];
 
-	points[0].coords = vector3(5, -27, 0);
+	points[2].coords = vector3(5, -27, 0);
 	points[1].coords = vector3(29,22,0);
-	points[2].coords = vector3(-28,22,0);
+	points[0].coords = vector3(-28,22,0);
 
 	poly->vertecies = points;
 	poly->vertexCount = 3;
