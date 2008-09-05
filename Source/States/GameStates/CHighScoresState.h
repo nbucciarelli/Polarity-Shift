@@ -1,6 +1,7 @@
 #pragma once
 #include "menuState.h"
 
+
 class eventManager;
 
 class CHighScoresState : public menuState
@@ -11,7 +12,7 @@ private:
 
 	void menuHandler(void);
 		
-	bool CheckScores();
+	//bool CheckScores();
 	CHighScoresState(void);
 	CHighScoresState& operator=(CHighScoresState &ref);
 	~CHighScoresState(void) {}
@@ -21,6 +22,7 @@ public:
 	bool input(float);
 	void render(void) const;
 	void update(float);
+	static bool AddHighScore(unsigned int nScore);
 	
 
 	
