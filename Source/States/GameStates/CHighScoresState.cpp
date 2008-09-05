@@ -85,9 +85,11 @@ bool CHighScoresState::input(float delta)
 void CHighScoresState::render() const
 {
 	menuState::render();
-	mymap::const_reverse_iterator itr = score.rbegin();
+	//mymap::const_reverse_iterator itr = score.rbegin();
 	char s[100];
-	for(int i = 0; i < numScores; ++i, ++itr)
+	//for(int i = 0; i < numScores; ++i, ++itr)
+	for(mymap::const_reverse_iterator itr = score.rbegin();
+		itr != score.rend(); itr++)
 	{
 		sprintf_s(s, "%i -- %s", itr->first, itr->second->timeStamp.c_str());
 		//ViewManager::GetInstance().RenderText(300, (float)(i+1) * 20 , s, Color(255,255,255,255));
