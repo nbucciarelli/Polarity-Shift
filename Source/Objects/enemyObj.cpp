@@ -1,7 +1,7 @@
 #include "enemyObj.h"
 #include <cmath>
 
-enemyObj::enemyObj() : maxVel(50), maxAcc(50), movingObj(OBJ_ENEMY)
+enemyObj::enemyObj() : maxVel(500), maxAcc(50), movingObj(OBJ_ENEMY)
 {}
 
 enemyObj::~enemyObj()

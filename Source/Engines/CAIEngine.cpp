@@ -38,6 +38,10 @@ void CAIEngine::update()
 				enemyList[j]->modAcc(vector3(10,0,0));
 			}
 		}
+		else
+		{
+			enemyList[j]->setVel( vector3((float)(enemyList[j]->getVelocity().x * .99),enemyList[j]->getVelocity().y,0));
+		}
 	}
 
 }
