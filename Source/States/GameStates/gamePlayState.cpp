@@ -11,6 +11,7 @@
 #include "../../EventSystem/playHandler.h"
 #include "../../Objects/objManager.h"
 #include "..\..\Engines\CTileEngine.h"
+#include "..\..\Engines\CAIEngine.h"
 
 
 gamePlayState::gamePlayState() : rendering(false) {}
@@ -33,6 +34,7 @@ void gamePlayState::enter(void)
 	handler->initialize();
 
 	EM->sendEvent(EVENT_GAMELOADING);
+	AIE = new CAIEngine();
 	TE = new CTileEngine();
 	TE->LoadMap("Resource/PS_TestLevel.bmf");
 
