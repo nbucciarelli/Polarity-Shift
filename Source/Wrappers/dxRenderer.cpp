@@ -146,12 +146,17 @@ void dxRenderer::LoadTexture(textureData* dat, const char filename[], uint color
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT,
 		D3DX_DEFAULT, colorKey, 0, 0, ((LPDIRECT3DTEXTURE9*)(&dat->texture)) )))
 	{
-		// Failed.
-		char szBuffer[256] = {0};
-		sprintf_s(szBuffer, "Failed to Create Texture - %s", filename); 
-		MessageBox(0, szBuffer, "Texture Error", MB_OK);
-		dat->texture = 0;
-		return;
+		// Failed.  Give it one more try, just to be sure.
+		if (FAILED(hr = D3DXCreateTextureFromFileEx(com.device, filename, 0, 0, D3DX_DEFAULT, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT,
+		D3DX_DEFAULT, colorKey, 0, 0, ((LPDIRECT3DTEXTURE9*)(&dat->texture)) )))
+		{
+			char szBuffer[256] = {0};
+			sprintf_s(szBuffer, "Failed to Create Texture - %s", filename); 
+			MessageBox(0, szBuffer, "Texture Error", MB_OK);
+			dat->texture = 0;
+			return;
+		}
 	}
 
 	// Get surface description (to find Width/Height of the texture)
