@@ -270,11 +270,22 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 	{
 		if(result.overlapped)
 		{
+			//if the vector's the wrong way, we'll get some crazy jumping
+			if(approach.dot2D(result.overlap) < 0)
+				result.overlap *= -1;
+
 			//Apply the overlap distance to the vector
 			result.overlap *= minOverlap;
 		}
 
-		result.responseVect += responseVect * minInterval;
+		if(result.willCollide)
+		{
+			//prevent weird jumps
+			if(approach.dot2D(responseVect) < 0)
+				responseVect *= -1;
+
+			result.responseVect = responseVect * minInterval;
+		}
 		*results = result;
 	}
 
