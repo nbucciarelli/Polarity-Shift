@@ -156,6 +156,7 @@ void game::Run()
 
 	while(isRunning)
 	{
+		Sleep(1);
 		theDisplay->HandleWindowMsgs();
 
 		currentTime = GetTickCount();
@@ -206,8 +207,8 @@ unsigned game::renderLoop(void* unused)
 	g->m_timer.Start();
 	while ( g->isRunning )
 	{
-		float fElapsedTime = g->m_timer.GetTime();
 		Sleep(1);
+		float fElapsedTime = g->m_timer.GetTime();
 		if(g->currentState)
 		{
 
