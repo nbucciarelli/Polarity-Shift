@@ -2,7 +2,8 @@
 
 //Forward declarations of classes used within the game
 class display;
-class renderer;
+//class renderer;
+class dxRenderer;
 class CSGD_DirectInput;
 typedef CSGD_DirectInput inputDevice;
 class gameState;
@@ -11,6 +12,11 @@ struct HINSTANCE__;
 typedef HINSTANCE__* HINSTANCE;
 typedef void* HANDLE;
 class eventManager;
+
+#include "Wrappers/CTimer.h"
+
+#include "Wrappers\CPixelShader.h"
+//class CPixelShader;
 
 #include <vector>
 using std::vector;
@@ -30,11 +36,19 @@ protected:
 
 	HANDLE renderThread;
 
+	
+
 	//Component pointers.  Note none care if it's DX or OGL or whatever.
 	display* theDisplay;
-	renderer* theRenderer;
+	dxRenderer* theRenderer;
 	inputDevice* theInput;
 	eventManager* EM;
+
+	CPixelShader			m_pixelShader;
+	LPDIRECT3DTEXTURE9		m_pRenderTarget;			//	Where we're going to render the scene to.
+	LPDIRECT3DSURFACE9		m_pBackbuffer;				//  temp back buffer pointer.
+
+	CTimer					m_timer;
 
 	//Time tracking
 	DWORD timeStamp;

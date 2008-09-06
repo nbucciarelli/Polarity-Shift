@@ -49,6 +49,8 @@ public:
 	void LoadTexture(textureData* dat, const char filename[], uint colorKey = 0);
 	void LoadMesh(meshData* dat, const char filename[]);
 
+	IDirect3DDevice9*	GetDirect3DDevice(void) {return com.device;}
+
 	void ReleaseTexture(void* tex);
 	void ReleaseMesh(void* mesh);
 
@@ -65,4 +67,9 @@ public:
 	void EndSprites();
 	void EndScene();
 	void Shutdown();
+
+	void EndNoPresent();
+	void Present();
+	void Clear(unsigned char cRed, unsigned char cGreen, unsigned char cBlue);
+
 };

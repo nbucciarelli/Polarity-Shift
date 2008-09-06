@@ -55,6 +55,14 @@ void game::Initialize(HINSTANCE hInstance)
 
 	globalHandler::getInstance()->HandleEvent(&gameEvent(GE_GAME_START));
 
+
+	if (!m_pixelShader.Create("./Resource/Shaders/gamma.ps", theRenderer->GetDirect3DDevice()))
+		MessageBox(theDisplay->getHWnd(), "Failed to create Pixel Shader", "Error", MB_OK | MB_ICONEXCLAMATION);
+
+	theRenderer->GetDirect3DDevice()->CreateTexture(1024, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_pRenderTarget, NULL);
+
+
+
 	timeStamp = GetTickCount();
 	srand(timeStamp);
 }
@@ -190,14 +198,30 @@ bool game::getInput()
 #pragma region render loop
 unsigned game::renderLoop(void* unused)
 {
+	static float timeraslow;
+	
 	game* g = GetInstance();
+	g->m_timer.Stop();
+	
+	g->m_timer.Start();
 	while ( g->isRunning )
 	{
+		float fElapsedTime = g->m_timer.GetTime();
+		Sleep(1);
 		if(g->currentState)
 		{
+
 			g->theRenderer->BeginScene();
 			g->theRenderer->BeginSprites();
-
+			g->theRenderer->Clear(0,0,0);
+			g->theRenderer->GetDirect3DDevice()->GetRenderTarget(0, &g->m_pBackbuffer);
+			LPDIRECT3DSURFACE9 pSurface = NULL;
+			g->m_pRenderTarget->GetSurfaceLevel(0, &pSurface);
+			g->theRenderer->GetDirect3DDevice()->SetRenderTarget(0, pSurface);
+			pSurface->Release();
+			g->theRenderer->Clear(0,0,0);
+			
+			
 			for(unsigned c = 0; c < g->stateStack.size(); c++)
 			{
 				g->stateStack[c]->Rendering(true);
@@ -206,7 +230,33 @@ unsigned game::renderLoop(void* unused)
 			}
 
 			g->theRenderer->EndSprites();
+			g->theRenderer->EndNoPresent();
+
+			/////////////////////////////////////////////////////////
+			g->theRenderer->GetDirect3DDevice()->SetRenderTarget(0,g->m_pBackbuffer);
+			g->m_pBackbuffer->Release();
+
+			
+			/////////////////////////////////////////////////////////
+			// Second render loop
+			/////////////////////////////////////////////////////////
+			g->theRenderer->Clear(0,0,0);
+			g->theRenderer->BeginScene();
+			g->theRenderer->BeginSprites();
+
+			timeraslow+= (.01f * fElapsedTime);
+
+			g->m_pixelShader.SetConstantFloat("gamma", timeraslow);
+			g->m_pixelShader.Begin();
+			vector3 vec;
+			vec.x = 0;
+			vec.y = 0;
+			vec.z = 0;
+			g->theRenderer->RenderSprite(g->m_pRenderTarget,&vec);
+			g->theRenderer->EndSprites();
+			g->m_pixelShader.End();
 			g->theRenderer->EndScene();
+
 		}
 	}
 	return 0;

@@ -12,20 +12,17 @@ typedef CSGD_DirectInput inputDevice;
 class eventManager;
 class playHandler;
 class CTileEngine;
-class CAIEngine;
 
 class gamePlayState : public gameState
 {
 protected:
 	CTileEngine* TE;
-	CAIEngine* AIE;
 	objManager * OM;
 	inputDevice* theInput;
 	eventManager* EM;
 	playHandler* handler;
 
 	volatile bool rendering;
-	
 
 	gamePlayState();
 	gamePlayState(const gamePlayState&);

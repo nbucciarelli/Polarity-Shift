@@ -183,6 +183,10 @@ void dxRenderer::ReleaseMesh(void* mesh)
 #pragma endregion
 
 #pragma region conversion functions
+/*LPDIRECT3DDEVICE9	GetDirect3DDevice(void)
+{
+	return com.device;
+}*/
 const D3DXMATRIX* dxRenderer::getMatrix(const matrix* in) const 
 {
 	return reinterpret_cast<const D3DXMATRIX*>(in);
@@ -251,10 +255,21 @@ void dxRenderer::EndSprites()
 {
 	com.dxSprite->End();
 }
-
+void dxRenderer::Clear(unsigned char cRed, unsigned char cGreen, unsigned char cBlue)
+{
+	com.device->Clear(0,0,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(cRed,cGreen,cBlue), 1.0f, 0);
+}
 void dxRenderer::EndScene()
 {
-	com.device->EndScene();
+	com.device->EndScene();	
 	com.device->Present(0,0,0,0);
+}
+void dxRenderer::EndNoPresent()
+{
+	com.device->EndScene();		
+}
+void dxRenderer::Present()
+{
+	com.device->Present(0,0,0,0);	
 }
 #pragma endregion
