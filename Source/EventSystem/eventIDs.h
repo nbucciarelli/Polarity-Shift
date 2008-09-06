@@ -44,4 +44,12 @@ enum eventIDs { NULL_EVENT,
 
 	END_HANDLER_EVENTS,
 
+//Enemy events are specific to the AI
+	BEGIN_AI_EVENTS,
+
+	EVENT_ENEMYLOAD,
+	EVENT_PLAYERLOAD,
+
+	END_AI_EVENTS,
+
 };

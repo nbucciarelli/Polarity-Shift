@@ -11,7 +11,8 @@
 #include "../../EventSystem/playHandler.h"
 #include "../../Objects/objManager.h"
 #include "..\..\Engines\CTileEngine.h"
-
+#include "../../Objects/baseObj.h"
+#include "../../Engines/CAIEngine.h"
 
 gamePlayState::gamePlayState() : rendering(false) {}
 gamePlayState::~gamePlayState() {}
@@ -34,6 +35,7 @@ void gamePlayState::enter(void)
 
 	EM->sendEvent(EVENT_GAMELOADING);
 	TE = new CTileEngine();
+	AIE = new CAIEngine();
 	TE->LoadMap("Resource/PS_TestLevel.bmf");
 
 	gameState::enter();
@@ -79,10 +81,12 @@ void gamePlayState::update(float dt)
 	if(!entered)
 		return;
 
+	AIE->update();
+
 	OM->checkCollisions();
 
 	OM->update(dt);
-
+	
 	EM->processEvents();
 }
 

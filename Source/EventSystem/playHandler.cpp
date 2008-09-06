@@ -14,6 +14,7 @@
 #include "../Helpers/objFileLoader.h"
 
 #include "../Objects/playerObj.h"
+#include "../Objects/enemyObj.h"
 
 void playHandler::initialize()
 {
@@ -88,6 +89,7 @@ void playHandler::onGameLoad()
 		EM->registerClient(c, (playerObj*)testObj);
 
 	((playerObj*)testObj)->setAccStep(0.01f);
+	EM->sendEvent(EVENT_PLAYERLOAD, testObj);
 
 	OM->addObj(testObj);
 	testObj->release();
@@ -112,6 +114,32 @@ void playHandler::onGameLoad()
 	testObj->setDimensions(64,64);
 
 	OM->addObj(testObj);
+	testObj->release();
+
+	
+	testObj = new enemyObj;
+
+	testObj->setPos(vector3(700,200,0));
+	//testObj->setAngPos(vector3(0,0,PI));
+	testObj->setVel(vector3(0, -200,0));
+	testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
+	
+	poly = new polygon;
+
+	poly->vertecies = points;
+	poly->vertexCount = 3;
+	poly->maxRadius = 32;
+
+	testObj->setCollisionPoly(poly);
+
+	testObj->setImgCenter(32,32);
+	testObj->setDimensions(64,64);
+
+
+	EM->sendEvent(EVENT_ENEMYLOAD, testObj);
+	OM->addObj(testObj);
+	testObj->release();
+
 
 	// CODE NEEDS TO BE WRITTEN IN HERE FOR THE PLAYER THAT'S MADE FOR
 	// THE ANIMATION, DON'T KNOW HOW SCOTT WOULD DO IT

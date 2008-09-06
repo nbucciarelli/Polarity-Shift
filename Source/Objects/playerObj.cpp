@@ -13,7 +13,7 @@
 #include <cmath>
 
 playerObj::playerObj() : maxVel(50), maxAcc(0), range(0), jumpTime(0), maxJumpTime(0.2f),
-accStep(0), jumpDone(false)
+accStep(0), jumpDone(false), movingObj(OBJ_PLAYER)
 {
 	m_pAM = CAnimationManager::GetInstance();
 	// THIS WOULD BE FOR THE PLAYER AND HIS LOADING OF TEH ACTUAL BINARY INFORMATION
