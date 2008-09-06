@@ -16,3 +16,4 @@
 #include "pauseState.h"
 #include "optionsState.h"
 #include "CHighScoresState.h"
+#include "CCreditsState.h"

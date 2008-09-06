@@ -87,6 +87,8 @@ gameState* globalHandler::state(int st)
 		return optionsState::getInstance();
 	case STATE_HIGHSCORES:
 		return CHighScoresState::GetInstance();
+	case STATE_CREDITS:
+		return CCreditsState::getInstance();
 	default:
 		return NULL;
 	}

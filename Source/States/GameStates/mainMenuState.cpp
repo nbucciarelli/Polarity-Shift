@@ -73,6 +73,7 @@ void mainMenuState::menuHandler()
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_HIGHSCORES));
 		break;
 	case CREDITS:
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
 		break;
 	default:
 		EM->sendGlobalEvent(GE_STATE_CLEARALL);
