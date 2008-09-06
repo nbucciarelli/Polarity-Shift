@@ -26,7 +26,7 @@ enum eventIDs { NULL_EVENT,
 
 	END_PLAYER_EVENTS,
 
-//Handler events are all routed through the "handler" singleton.
+//Handler events are all routed through the playHandler.
 	BEGIN_HANDLER_EVENTS,
 	
 	EVENT_ACTORDIED,
@@ -51,5 +51,13 @@ enum eventIDs { NULL_EVENT,
 	EVENT_PLAYERLOAD,
 
 	END_AI_EVENTS,
+
+//Events for making the Play State be happy.
+	BEGIN_PLAY_EVENTS,
+
+	EVENT_LEVELLOADED,
+	EVENT_LEVELFINISHED,
+
+	END_PLAY_EVENTS
 
 };

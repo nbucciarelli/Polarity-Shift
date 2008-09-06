@@ -140,21 +140,23 @@ void dxRenderer::LoadTexture(textureData* dat, const char filename[], uint color
 	strcpy_s(dat->filename, strlen(filename)+ 1, filename);
 	//wcscpy_s(dat->filename, wcslen(filename) + 1, filename);
 
+	dat->texture = NULL;
+	LPDIRECT3DTEXTURE9 temp = NULL;
+
 	// Load the texture from the given file.
 	HRESULT hr = 0;
 	if (FAILED(hr = D3DXCreateTextureFromFileEx(com.device, filename, 0, 0, D3DX_DEFAULT, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT,
-		D3DX_DEFAULT, colorKey, 0, 0, ((LPDIRECT3DTEXTURE9*)(&dat->texture)) )))
+		D3DX_DEFAULT, colorKey, 0, 0, &temp )))
 	{
 		// Failed.  Give it one more try, just to be sure.
 		if (FAILED(hr = D3DXCreateTextureFromFileEx(com.device, filename, 0, 0, D3DX_DEFAULT, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT,
-		D3DX_DEFAULT, colorKey, 0, 0, ((LPDIRECT3DTEXTURE9*)(&dat->texture)) )))
+		D3DX_DEFAULT, colorKey, 0, 0, &temp )))
 		{
 			char szBuffer[256] = {0};
 			sprintf_s(szBuffer, "Failed to Create Texture - %s", filename); 
 			MessageBox(0, szBuffer, "Texture Error", MB_OK);
-			dat->texture = 0;
 			return;
 		}
 	}
@@ -163,10 +165,12 @@ void dxRenderer::LoadTexture(textureData* dat, const char filename[], uint color
 	D3DSURFACE_DESC d3dSurfDesc;
 	ZeroMemory(&d3dSurfDesc, sizeof(d3dSurfDesc));
 
-	((LPDIRECT3DTEXTURE9)(dat->texture))->GetLevelDesc(0, &d3dSurfDesc);
+	temp->GetLevelDesc(0, &d3dSurfDesc);
 	// Remember the Width and Height
 	dat->width	= d3dSurfDesc.Width;
 	dat->height	= d3dSurfDesc.Height;
+
+	dat->texture = temp;
 }
 
 void dxRenderer::LoadMesh(meshData* dat, const char filename[])

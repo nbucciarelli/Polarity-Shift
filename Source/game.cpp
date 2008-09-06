@@ -159,7 +159,6 @@ void game::Run()
 	renderThread = (HANDLE)_beginthreadex(0, stackSize,
 		renderLoop, 0, 0, 0);
 
-
 	while(isRunning)
 	{
 		Sleep(1);

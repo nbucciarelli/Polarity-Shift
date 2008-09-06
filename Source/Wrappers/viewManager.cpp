@@ -44,8 +44,8 @@ int viewManager::loadTexture(const char filename[], uint colorKey)
 	{
 		if(textureList[c] && strcmp(filename, textureList[c]->filename) == 0)
 		{
-			if(!textureList[c]->ref)
-				theRenderer->LoadTexture(textureList[c], filename, colorKey);
+			//if(!textureList[c]->ref)
+			//	theRenderer->LoadTexture(textureList[c], filename, colorKey);
 			textureList[c]->ref++;
 			return c;
 		}
@@ -89,7 +89,7 @@ void viewManager::releaseTexture(int textureID)
 
 	textureList[textureID]->ref--;
 
-	if(0 == textureList[textureID]->ref && textureList[textureID]->texture)
+	if(0 >= textureList[textureID]->ref && textureList[textureID]->texture)
 	{
 		theRenderer->ReleaseTexture(textureList[textureID]->texture);
 		delete textureList[textureID];
@@ -131,8 +131,7 @@ void viewManager::drawTexture(int id, const vector3* pos, const matrix * transfo
 	if(id < 0 || id > (int)textureList.size()  || !textureList[id])
 		return;
 
-	if(textureList[id]->texture)
-		theRenderer->RenderSprite(textureList[id]->texture, pos, transform, section, center, color);
+	theRenderer->RenderSprite(textureList[id]->texture, pos, transform, section, center, color);
 }
 #pragma endregion
 

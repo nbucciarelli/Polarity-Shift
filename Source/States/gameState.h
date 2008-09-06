@@ -54,4 +54,6 @@ public:
 	virtual void render(void) const = 0;
 
 	virtual void Rendering(bool set) { rendering = set; }
+	virtual void Entered(bool set) { entered = set; }
+	virtual bool Entered() const { return entered; }
 };

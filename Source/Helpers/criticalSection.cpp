@@ -71,5 +71,5 @@ bool criticalSectionControl::isLocked(unsigned int id)
 void criticalSectionControl::waitForUnlock(unsigned int id)
 {
 	while(criticals[id]->locked)
-		Sleep(0);
+		Sleep(1);
 }
