@@ -71,10 +71,10 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 // 
 // 	/*
 // 	// AH! MY EYES!!
- 	Color = tex2D( g_samSrcColor, Tex.xy);
-	Color.r = Color.r*sin(Tex.y*100)*2;
- 	Color.g = Color.g*cos(Tex.y*200)*2;
- 	Color.b = Color.b*sin(Tex.y*300)*2;
+// 	Color = tex2D( g_samSrcColor, Tex.xy);
+//	Color.r = Color.r*sin(Tex.y*100)*2;
+// 	Color.g = Color.g*cos(Tex.y*200)*2;
+// 	Color.b = Color.b*sin(Tex.y*300)*2;
 // 	*/
 // 	
 // 	/*
@@ -121,9 +121,9 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 // 
 // 	/*
 // 	// Moves screen in a circle
-// 	Tex.y = Tex.y + (sin(gamma)*0.01);
-// 	Tex.x = Tex.x + (cos(gamma)*0.01);
-// 	Color = tex2D( g_samSrcColor, Tex.xy);
+	Tex.y = Tex.y + (sin(gamma)*0.01);
+ 	Tex.x = Tex.x + (cos(gamma)*0.01);
+ 	Color = tex2D( g_samSrcColor, Tex.xy);
 // 	*/	
 // 
 // 	/*
