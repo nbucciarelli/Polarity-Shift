@@ -60,39 +60,20 @@ void playerObj::update(float dt)
 //THIS NEEDS TO BE CODED INTO THE GAME FOR THE PLAYER WHEN THE PLAYER IS ACTUALLY ANIMATING (NEEDS TO RENDER HIS OWN)
 void playerObj::render()
 {
-	//if(GetAnimNumber() == 0)
-	//{
-	//	SetWidth(m_pAM->GetEngine(0)->GetCurrentFrame()->GetWidth());
-	//	SetHeight(m_pAM->GetEngine(0)->GetCurrentFrame()->GetHeight());
-
-	//	if (GetIsFlipped() == false)
-	//		m_pAM->Render(0, (int)GetPosX(), (int)GetPosY());
-	//	else
-	//		m_pAM->Render(0, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
-	//}
-	//else if(GetAnimNumber() == 1)
-	//{
-	//	SetWidth(m_pAM->GetEngine(1)->GetCurrentFrame()->GetWidth());
-	//	SetHeight(m_pAM->GetEngine(1)->GetCurrentFrame()->GetHeight());
-
-	//	if (GetIsFlipped() == false)
-	//		m_pAM->Render(1, (int)GetPosX(), (int)GetPosY());
-	//	else
-	//		m_pAM->Render(1, (int)GetPosX() + GetWidth(), (int)GetPosY(), -1);
-	//}
 	int num = GetAnimNumber();
 
 	setDimensions(m_pAM->GetEngine(num)->GetCurrentFrame()->GetWidth(),
 				m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
 
 	CRITICAL(m_pAM->Render(num, &worldMatrix));
-		//{
-	//if (getFacing() == FACE_LEFT)
-		//m_pAM->Render(num, (int)getPosition().x, (int)getPosition().y);
+	//if(getFacing() == FACE_RIGHT)
+	//{
+	//	CRITICAL(m_pAM->Render(num, (int)getPosition().x, (int)getPosition().y));
+	//}
 	//else
-	//	//m_pAM->Render(num, (int)getPosition().x + getDimensions().x, (int)getPosition().y, -1);
-	//	m_pAM->Render(()
-	//});
+	//{
+	//	CRITICAL(m_pAM->Render(num, (int)getPosition().x + (int)getDimensions().x, (int)getPosition().y, -1));
+	//}
 }
 
 void playerObj::HandleEvent(gameEvent *ev)
@@ -108,6 +89,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 			this->m_pAM->GetEngine(0)->Play(true);
 			this->SetAnimNumber(0);
 		}
+		this->setFacing(FACE_RIGHT);
 		break;
 	case EVENT_PLAYERGORIGHT:
 		acceleration.x += 100.0f;
@@ -118,6 +100,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 			this->m_pAM->GetEngine(0)->Play(true);
 			this->SetAnimNumber(0);
 		}
+		this->setFacing(FACE_LEFT);
 		break;
 	case EVENT_PLAYERSTOP:
 		acceleration.x = 0;
