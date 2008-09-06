@@ -18,7 +18,8 @@ CAIEngine::CAIEngine()
 
 CAIEngine::~CAIEngine()
 {
-
+	for(int c = BEGIN_AI_EVENTS; c < END_AI_EVENTS; c++)
+		EM->unregisterClient(c, this);
 }
 
 void CAIEngine::update()

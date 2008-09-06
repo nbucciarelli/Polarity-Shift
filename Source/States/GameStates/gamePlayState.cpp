@@ -50,6 +50,7 @@ void gamePlayState::exit(void)
 	gameState::exit();
 	
 	delete TE;
+	delete AIE;
 	OM->clear();
 	handler->shutdown();
 	delete handler;
