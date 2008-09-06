@@ -29,6 +29,7 @@ playerObj::~playerObj()
 void playerObj::update(float dt)
 {
 	movingObj::update(dt);
+	m_pAM->Update(dt);
 	// IF ANIMATION IS RENDERING, NEEDS TO UPDATE THE ANIMATION MANAGER FOR ACTUAL ANIMATION
 
 	if(maxAcc && fabs(acceleration.x) > maxAcc)
