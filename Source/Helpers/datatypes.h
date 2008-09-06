@@ -48,6 +48,7 @@ union vector3 {
 	void normalize();
 	vector3 normalized() const;
 	float length() const;
+	void zeroDrift();
 };
 
 union quaternion {

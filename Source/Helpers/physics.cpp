@@ -6,10 +6,11 @@
 
 #pragma comment(lib, "d3dx9.lib")
 
+const float calc::infinity = (float)_HUGE;
 
-#pragma region matrix rotation
 //TODO:  RECALCULATE MATRIX EQUATIONS, get rid of d3dx references
 
+#pragma region datatype extra
 const matrix& matrix::operator*=(const matrix& obj)
 {
 	/*matrix sol = *this;
@@ -25,6 +26,16 @@ const matrix& matrix::operator*=(const matrix& obj)
 
 	return *this;
 }
+
+void vector3::zeroDrift()
+{
+	for(int c = 0; c < 3; c++)
+		if(calc::isZero(e[c]))
+			e[c] = 0;
+}
+#pragma endregion
+
+#pragma region matrix rotation
 
 void calc::matrixRotationX(matrix& out, float rad)
 {
@@ -129,6 +140,8 @@ void calc::matrixScale(matrix& out, const vector3& scale)
 
 #pragma endregion
 
+#pragma region general calculations
+
 bool calc::isZero(float val, float epsilon)
 {
 	if(fabs(val) < epsilon)
@@ -142,6 +155,9 @@ vector3 calc::rotatePointAroundOrigin(const vector3& point, const float rad)
 	//This is matrix math for a 2D rotation about the origin.
 	//Just skipping the matrix.
 
+	if(isZero(rad))
+		return point;
+
 	float sine = sin(rad), cosine = cos(rad);
 
 	return vector3(
@@ -150,9 +166,11 @@ vector3 calc::rotatePointAroundOrigin(const vector3& point, const float rad)
 		0
 		);;
 }
+#pragma endregion
 
 #pragma region polygon collision
 
+#pragma region main
 bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 							const vector3* velocity, polyCollision* results)
 {
@@ -166,8 +184,9 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 	float min1, max1, min2, max2;
 	min1 = max1 = min2 = max2 = 0;
 
-	float minInterval = (float)_HUGE;
-	float maxOverlap = 0;
+	float minInterval = (float)_HUGE, minOverlap = (float)_HUGE;
+
+	float negativeInfinity = -(float)_HUGE;
 
 	//code-efficient (read: less typing) way of checking through both polys.
 	for(int p = 0; p < 2; p++)
@@ -192,15 +211,15 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 
 			//If distance is greater than zero, then there cannot be a collsion.
 			float distance = distanceBetweenLines(min1, max1, min2, max2);
-			if(distance > 0)
+			if(distance > 0  || isZero(distance))
 				result.overlapped = false;
 			else
 			{
-				distance = fabs(distance);
+				distance = -distance;
 
-				if(distance > maxOverlap)
+				if(distance < minOverlap)
 				{
-					maxOverlap = distance;
+					minOverlap = distance;
 					result.overlap = normvect;
 				}
 			}
@@ -222,7 +241,7 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 
 				distance = distanceBetweenLines(min1, max1, min2, max2);
 
-				if(distance > 0)
+				if(distance > 0 || isZero(distance))
 					result.willCollide = false;
 
 				distance = fabs(distance);
@@ -251,13 +270,8 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 	{
 		if(result.overlapped)
 		{
-			//projectPolygonToLine(poly1, *velocity, min1, max1);
-			//projectPolygonToLine(poly2, *velocity, min2, max2);
-
-			//float distance = distanceBetweenLines(min1, max1, min2, max2);
-
-			//result.overlap = (*velocity).normalized() * distance;
-			result.overlap *= maxOverlap;
+			//Apply the overlap distance to the vector
+			result.overlap *= minOverlap;
 		}
 
 		result.responseVect += responseVect * minInterval;
@@ -266,7 +280,9 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 
 	return true;
 }
+#pragma endregion
 
+#pragma region extra
 void calc::projectPolygonToLine(const polygon& poly, const vector3& line,
 								float& min, float& max)
 {
@@ -294,7 +310,7 @@ float calc::distanceBetweenLines(float min1, float max1, float min2, float max2)
 	else
 		return min1 - max2;
 }
-
+#pragma endregion
 #pragma endregion
 
 #pragma region other intersect

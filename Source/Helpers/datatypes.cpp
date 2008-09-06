@@ -123,6 +123,7 @@ vector3 vector3::operator*(const float& dat) const
 {
 	return vector3(*this) *= dat;
 }
+
 #pragma endregion
 
 #pragma region matrix operators

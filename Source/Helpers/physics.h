@@ -6,11 +6,12 @@ union matrix;
 struct polygon;
 struct polyCollision;
 
-#define GRAVITY 392.0f
+#define GRAVITY 392.0f/2
 
 class calc
 {
 public:
+	static const float infinity;
 	//matrix Rotation functions:  Return a rotation matrix for given radians
 	static void matrixRotationX(matrix& out, float rad);
 	static void matrixRotationY(matrix& out, float rad);
@@ -49,4 +50,6 @@ public:
 	static bool lineIntersectPoly(const vector3& pt1, const vector3& pt2, const polygon& poly, float* distance = 0);
 
 	static vector3 rotatePointAroundOrigin(const vector3& point, const float rad);
+
+	static bool polyIntersectRect(const polygon& poly, const rect& box);
 };

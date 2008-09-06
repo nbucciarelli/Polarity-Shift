@@ -19,6 +19,12 @@ void movingObj::update(float dt)
 	angVel += angAcc * dt;
 	angPos += angVel * dt;
 
+	//zeroDrift checks for zero tolerance on all the floats, and sets to zero.
+	velocity.zeroDrift();
+	acceleration.zeroDrift();
+	angVel.zeroDrift();
+	angAcc.zeroDrift();
+
 	//Hax for ground.
 
 	if(position.y > 500)
@@ -49,7 +55,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 
 	//if the collision check returns false, there's nothing else to do.
 	if(!calc::polygonCollision(*obj->getCollisionPoly(), *getCollisionPoly(),
-		&((velocity - obj->getVelocity())/*-frameTime*/), &holder))
+		&((velocity - obj->getVelocity())*frameTime), &holder))
 			return false;
 
 	//move out of collision.
@@ -57,13 +63,15 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	{
 		if(holder.willCollide)
 		{
-	//		position += holder.responseVect * -0.5f;
-	//		obj->modPos(holder.responseVect * 0.5f);
+			position += holder.responseVect * -0.5f;
+			obj->modPos(holder.responseVect * 0.5f);
 		}
 		if(holder.overlapped)
 		{
 			position += holder.overlap * -0.5f;
 			obj->modPos(holder.overlap * 0.5f);
+
+		//	obj->getAngPos();
 		}
 	}
 	else
@@ -79,7 +87,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 			//position += holder.overlap;
 	//Affect velocity based on collision.
 	vector3 mod = holder.responseVect.normalized() * holder.responseVect.dot2D(velocity) * frameTime;
-	velocity -= mod;
+	velocity += mod;
 	if(obj->IsMovable())
 		((movingObj*)obj)->modVel(mod);
 
