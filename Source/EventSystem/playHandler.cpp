@@ -140,10 +140,6 @@ void playHandler::onGameLoad()
 	OM->addObj(testObj);
 	testObj->release();
 
-
-	// CODE NEEDS TO BE WRITTEN IN HERE FOR THE PLAYER THAT'S MADE FOR
-	// THE ANIMATION, DON'T KNOW HOW SCOTT WOULD DO IT
-
 	//Let play state begin.
 	EM->sendEvent(EVENT_LEVELLOADED);
 }
