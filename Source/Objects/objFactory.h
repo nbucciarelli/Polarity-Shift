@@ -8,15 +8,6 @@ typedef std::string IDType;
 
 class baseObj;
 
-enum objectTypes { 
-	PLAYER,
-	ENEMY,
-	SWITCH,
-	EXIT,
-	PLATFORM,
-	CRATE
-};
-
 struct creationEntry
 {
 	typedef baseObj* (*createFunc)(baseObj*);

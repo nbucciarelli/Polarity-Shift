@@ -250,9 +250,7 @@ unsigned game::renderLoop(void* unused)
 			g->m_pixelShader.SetConstantFloat("gamma", timeraslow);
 			g->m_pixelShader.Begin();
 			vector3 vec;
-			vec.x = 0;
-			vec.y = 0;
-			vec.z = 0;
+
 			g->theRenderer->RenderSprite(g->m_pRenderTarget,&vec);
 			g->theRenderer->EndSprites();
 			g->m_pixelShader.End();

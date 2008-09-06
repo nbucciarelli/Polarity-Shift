@@ -58,9 +58,6 @@ void playHandler::HandleEvent(gameEvent* ev)
 void playHandler::onGameLoad()
 {
 	//TODO:  Add in a config file that'll grab all the data files that are needed.
-	//FL->loadObject("Resource/Triangle.psu");
-
-	//movingObj * testing = (movingObj*)OF->spawn("Triangle");
 
 	movingObj* testObj = new playerObj;
 
@@ -88,13 +85,16 @@ void playHandler::onGameLoad()
 	for(int c = BEGIN_PLAYER_EVENTS; c < END_PLAYER_EVENTS; c++)
 		EM->registerClient(c, (playerObj*)testObj);
 
-	((playerObj*)testObj)->setAccStep(0.01f);
-	EM->sendEvent(EVENT_PLAYERLOAD, testObj);
+	((playerObj*)testObj)->setAccStep(1);
+	//EM->sendEvent(EVENT_PLAYERLOAD, testObj);
 
 	OM->addObj(testObj);
 	testObj->release();
 	//
 
+	//delete[] FL->loadObject("Resource/Triangle.psu");
+	//movingObj * testing = (movingObj*)OF->spawn("Triangle");
+	
 	testObj = new movingObj;
 
 	testObj->setPos(vector3(100,200,0));

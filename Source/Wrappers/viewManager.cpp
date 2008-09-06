@@ -131,7 +131,8 @@ void viewManager::drawTexture(int id, const vector3* pos, const matrix * transfo
 	if(id < 0 || id > (int)textureList.size()  || !textureList[id])
 		return;
 
-	theRenderer->RenderSprite(textureList[id]->texture, pos, transform, section, center, color);
+	if(textureList[id]->texture)
+		theRenderer->RenderSprite(textureList[id]->texture, pos, transform, section, center, color);
 }
 #pragma endregion
 

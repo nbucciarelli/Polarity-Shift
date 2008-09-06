@@ -27,7 +27,7 @@ void CAIEngine::update()
 
 	for(unsigned int j = 0; j < enemyList.size(); j++)
 	{
-		//if(player->getPosition().y < (enemyList[j]->getPosition().y + 25) && player->getPosition().y > (enemyList[j]->getPosition().y - 25))
+		if(player->getPosition().y < (enemyList[j]->getPosition().y + 25) && player->getPosition().y > (enemyList[j]->getPosition().y - 25))
 		{
 			if(player->getPosition().x < enemyList[j]->getPosition().x)
 			{

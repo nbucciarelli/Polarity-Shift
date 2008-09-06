@@ -24,7 +24,7 @@ void objFactory::unregisterClass(IDType id)
 		if ((*iter).id == id)
 		{
 			if((*iter)._template)
-				delete (*iter)._template;
+				iter->_template->release();
 
 			creationList.erase(iter);
 
@@ -37,8 +37,8 @@ void objFactory::unregisterAll()
 {
 	for(vector<creationEntry>::iterator iter = creationList.begin(); iter != creationList.end(); iter++)
 	{
-		if((*iter)._template)
-			delete (*iter)._template;
+		if(iter->_template)
+			iter->_template->release();
 	}
 	creationList.clear();
 }

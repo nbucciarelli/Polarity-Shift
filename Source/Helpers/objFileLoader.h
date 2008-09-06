@@ -1,9 +1,5 @@
 #pragma once
 
-class baseObj;
-class movingObj;
-class playerObj;
-
 class objFactory;
 
 class objFileLoader
@@ -13,5 +9,7 @@ protected:
 public:
 	objFileLoader();
 	~objFileLoader();
-	void loadObject(char* filename);
+
+	//Returns the object factory ID
+	const char* loadObject(char* filename);
 };

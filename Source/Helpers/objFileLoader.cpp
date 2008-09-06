@@ -9,6 +9,16 @@ using std::ifstream;
 #include "datatypes.h"
 
 #include "../Objects/playerObj.h"
+#include "../Objects/enemyObj.h"
+
+enum objectTypes { 
+	PLAYER,
+	ENEMY,
+	SWITCH,
+	EXIT,
+	PLATFORM,
+	CRATE
+};
 
 objFileLoader::objFileLoader()
 {
@@ -19,7 +29,7 @@ objFileLoader::~objFileLoader()
 {
 }
 
-void objFileLoader::loadObject(char* filename)
+const char* objFileLoader::loadObject(char* filename)
 {
 	ifstream reader;
 
@@ -28,7 +38,7 @@ void objFileLoader::loadObject(char* filename)
 	if(reader.fail())
 	{
 		MessageBox(NULL, "Error Loading Game Object.", "Error", MB_OK);
-		return;
+		return 0;
 	}
 
 	int holder = 0;
@@ -50,15 +60,17 @@ void objFileLoader::loadObject(char* filename)
 		obj = new playerObj;
 		break;
 	case ENEMY:
+		obj = new enemyObj;
+		break;
 	case SWITCH:
 	case EXIT:
 	case PLATFORM:
-		return;
+		return 0;
 	case CRATE:
 		obj = new movingObj;
 		break;
 	default:
-		return;
+		return 0;
 	}
 
 	//Grab name length.
@@ -77,11 +89,7 @@ void objFileLoader::loadObject(char* filename)
 
 	reader.read(textbuffer, *((char*)&holder));
 
-	char text2[100] = {0};
-
-	sprintf_s(text2, "Resource/%s", textbuffer);
-
-	obj->setImgId(viewManager::getInstance()->loadTexture(text2));
+	obj->setImgId(viewManager::getInstance()->loadTexture(&textbuffer[1]));
 
 	//Currently unused data.
 	reader.read((char*)&holder, sizeof(int));
@@ -115,16 +123,24 @@ void objFileLoader::loadObject(char* filename)
 		OF->registerClass<playerObj>(objectID, obj);
 		break;
 	case ENEMY:
-	case SWITCH:
-	case EXIT:
-	case PLATFORM:
-		return;
+		OF->registerClass<enemyObj>(objectID, obj);
+		break;
 	case CRATE:
 		OF->registerClass<movingObj>(objectID, obj);
 		break;
+	case SWITCH:
+	case EXIT:
+	case PLATFORM:
 	default:
-		return;
+		delete poly;
+		delete obj;
+		return 0;
 	}
 
 	obj->release();
+
+	char* returnVal = new char[objectID.size()+1];
+	strcpy_s(returnVal, objectID.size()+1, objectID.c_str());
+
+	return returnVal;
 }
