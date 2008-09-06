@@ -121,9 +121,9 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 // 
 // 	/*
 // 	// Moves screen in a circle
-	Tex.y = Tex.y + (sin(gamma)*0.01);
- 	Tex.x = Tex.x + (cos(gamma)*0.01);
- 	Color = tex2D( g_samSrcColor, Tex.xy);
+//	Tex.y = Tex.y + (sin(gamma)*0.01);
+// 	Tex.x = Tex.x + (cos(gamma)*0.01);
+// 	Color = tex2D( g_samSrcColor, Tex.xy);
 // 	*/	
 // 
 // 	/*
@@ -154,11 +154,11 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 // 
 // 	/*
 // 	//  Embossed
-//  	Color.a = 1.0f;
-// 	Color.rgb = 0.5f;
-//  	Color -= tex2D( g_samSrcColor, Tex.xy-0.001)*2.0f;
-//  	Color += tex2D( g_samSrcColor, Tex.xy+0.001)*2.0f;
-//  	Color.rgb = (Color.r+Color.g+Color.b)/3.0f;
+  	Color.a = 1.0f;
+ 	Color.rgb = 0.5f;
+  	Color -= tex2D( g_samSrcColor, Tex.xy-0.001)*2.0f;
+  	Color += tex2D( g_samSrcColor, Tex.xy+0.001)*2.0f;
+  	Color.rgb = (Color.r+Color.g+Color.b)/3.0f;
 // 	*/
 // 
 // 	Color = tex2D(g_samSrcColor, Tex.xy);
