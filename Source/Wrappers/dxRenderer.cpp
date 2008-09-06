@@ -164,7 +164,6 @@ void dxRenderer::LoadTexture(textureData* dat, const char filename[], uint color
 	ZeroMemory(&d3dSurfDesc, sizeof(d3dSurfDesc));
 
 	((LPDIRECT3DTEXTURE9)(dat->texture))->GetLevelDesc(0, &d3dSurfDesc);
-
 	// Remember the Width and Height
 	dat->width	= d3dSurfDesc.Width;
 	dat->height	= d3dSurfDesc.Height;

@@ -18,7 +18,8 @@
 #define RENDERER dxRenderer
 
 #pragma region constructor/destructor/singleton
-game::game(void) : isRunning(true), isWindowed(true), currentState(NULL), gameTime(0) {}
+game::game(void) : isRunning(true), isWindowed(true), renderLock(false),
+					currentState(NULL), gameTime(0) {}
 
 game::~game(void) {}
 
@@ -130,6 +131,10 @@ void game::popState()
 
 void game::clearStates()
 {
+	while(renderLock)
+		Sleep(1);
+
+	renderLock = true;
 	currentState = NULL;
 
 	//Grab the topmost state, tell it it's finished, remove, repeat
@@ -140,6 +145,7 @@ void game::clearStates()
 		running->exit();
 		stateStack.pop_back();
 	}
+	renderLock = false;
 }
 #pragma endregion
 
@@ -208,7 +214,7 @@ unsigned game::renderLoop(void* unused)
 	while ( g->isRunning )
 	{
 		Sleep(1);
-		float fElapsedTime = g->m_timer.GetTime();
+		float fElapsedTime = (float)g->m_timer.GetTime();
 		if(g->currentState)
 		{
 
@@ -222,13 +228,16 @@ unsigned game::renderLoop(void* unused)
 			pSurface->Release();
 			g->theRenderer->Clear(0,0,0);
 			
-			
+			while(g->renderLock)
+				Sleep(1);
+			g->renderLock = true;
 			for(unsigned c = 0; c < g->stateStack.size(); c++)
 			{
 				g->stateStack[c]->Rendering(true);
 				g->stateStack[c]->render();
 				g->stateStack[c]->Rendering(false);
 			}
+			g->renderLock = false;
 
 			g->theRenderer->EndSprites();
 			g->theRenderer->EndNoPresent();
@@ -245,7 +254,10 @@ unsigned game::renderLoop(void* unused)
 			g->theRenderer->BeginScene();
 			g->theRenderer->BeginSprites();
 
-			timeraslow+= (.01f * fElapsedTime);
+			if(int(fElapsedTime)%2)
+				timeraslow+= (.001f);
+			else
+				timeraslow-= (.001f);
 
 			g->m_pixelShader.SetConstantFloat("gamma", timeraslow);
 			g->m_pixelShader.Begin();
