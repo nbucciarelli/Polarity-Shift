@@ -81,6 +81,8 @@ void gamePlayState::update(float dt)
 {
 	if(!entered)
 		return;
+	
+	AIE->update();
 
 	OM->checkCollisions();
 
