@@ -58,20 +58,23 @@ void menuState::exit(void)
 
 bool menuState::input(float dt)
 {
-	if (theInput->KeyPressed(DIK_RETURN))
-		menuHandler();
-	else if (theInput->KeyPressed(DIK_DOWN))
+	if(m_bIsMoving == false)
 	{
-		if(menuPos < menuLast)
-			menuPos++;
-		else
-			menuPos = 0;
-	}else if(theInput->KeyPressed(DIK_UP))
-	{
-		if(menuPos > 0)
-			menuPos--;
-		else
-			menuPos = menuLast;
+		if (theInput->KeyPressed(DIK_RETURN))
+			menuHandler();
+		else if (theInput->KeyPressed(DIK_DOWN))
+		{
+			if(menuPos < menuLast)
+				menuPos++;
+			else
+				menuPos = 0;
+		}else if(theInput->KeyPressed(DIK_UP))
+		{
+			if(menuPos > 0)
+				menuPos--;
+			else
+				menuPos = menuLast;
+		}
 	}
 
 

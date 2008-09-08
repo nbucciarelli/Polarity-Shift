@@ -15,6 +15,9 @@ protected:
 		EXIT, TOTAL
 	};
 
+	int foregroundID;
+	float m_fTime, m_fXPer, m_fXLerp;
+
 	void menuHandler();
 
 	int m_nParticleImageID;

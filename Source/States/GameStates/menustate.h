@@ -26,7 +26,8 @@ protected:
 	int m_nEmitterPosX;
 	int m_nEmitterPosY;
 	float m_fUpdateTimer;
-	
+
+	bool m_bIsMoving, m_bIsEntering, m_bIsExiting;
 
 	int menuPos, cursorID, menuLast, xPos, yPos;
 

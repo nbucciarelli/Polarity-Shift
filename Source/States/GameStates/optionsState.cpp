@@ -11,6 +11,7 @@
 #include "..\..\Wrappers\viewManager.h"
 #include "../../Helpers/SGD_Math.h"
 #include "..\..\game.h"
+#include "..\..\Helpers\bitFont.h"
 //#include "..\..\Engines\CParticleEffectManager.h"
 
 optionsState::optionsState(void)
@@ -29,7 +30,6 @@ optionsState::optionsState(void)
 optionsState::~optionsState(void)
 {
 	viewManager::getInstance()->releaseTexture(foregroundID);
-
 }
 
 optionsState* optionsState::getInstance()
@@ -45,11 +45,13 @@ void optionsState::enter(void)
 	//CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	m_fXPer = 0;
 	m_fXLerp = 0;
+	m_bIsMoving = true;
 	menuState::enter();
 }
 
 void optionsState::exit(void)
 {
+	m_bIsMoving = true;
 	menuState::exit();
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
@@ -60,12 +62,18 @@ void optionsState::update(float dt)
 		return;
 
 	m_fTime += dt; 
-	if (dt >= .016f) 
-	{ 
-		m_fXPer += .02f; 
-		m_fXLerp = Lerp(1024, 0, m_fXPer); 
-		if(m_fXPer >= 1)
-			m_fXPer = 1;
+	if(m_bIsMoving == true)
+	{
+		if (dt >= .016f) 
+		{ 
+			m_fXPer += .02f; 
+			m_fXLerp = Lerp(1024, 0, m_fXPer); 
+			if(m_fXPer >= 1)
+			{
+				m_fXPer = 1;
+				m_bIsMoving = false;
+			}
+		}
 	}
 }
 
@@ -89,8 +97,19 @@ void optionsState::render(void) const
 	if(!entered)
 		return;
 
-	viewManager::getInstance()->drawTexture(foregroundID, &vector3(m_fXLerp, 0, 0));
+	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	menuState::render();
+	//Draw menu items
+	for(int c = 0; c < menuLast+1; c++)
+		if(c != menuPos)
+			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, textColor);
+		else //For the selected item, use highlight color
+			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, highlightColor);
+
+	//Draw meun cursor at the selected item
+	viewManager::getInstance()->drawTexture(cursorID,
+		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
+
+	//menuState::render();
 	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(), menuState::GetEmitterPosY()); 
 }

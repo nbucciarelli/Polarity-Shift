@@ -8,10 +8,15 @@
 #include <windows.h>
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\globalEvents.h"
+#include "..\..\Wrappers\viewManager.h"
+#include "../../Helpers/SGD_Math.h"
+#include "..\..\game.h"
+#include "..\..\Helpers\bitFont.h"
 #include "..\..\Engines\CParticleEffectManager.h"
 
 mainMenuState::mainMenuState(void)
 {
+	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 	menuItemString = new char*[TOTAL];
 
 	menuItemString[PLAY] = "Play";
@@ -25,6 +30,7 @@ mainMenuState::mainMenuState(void)
 
 mainMenuState::~mainMenuState(void)
 {
+	viewManager::getInstance()->releaseTexture(foregroundID);
 }
 
 mainMenuState* mainMenuState::getInstance()
@@ -39,7 +45,9 @@ void mainMenuState::enter(void)
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_CursorParticle.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	menuState::enter();
-
+	m_fXPer = 0;
+	m_fXLerp = 0;
+	m_bIsMoving = true;
 }
 
 void mainMenuState::exit(void)
@@ -52,6 +60,21 @@ void mainMenuState::update(float dt)
 {
 	if(!entered)
 		return;
+
+	m_fTime += dt; 
+	if(m_bIsMoving == true)
+	{
+		if (dt >= .016f) 
+		{ 
+			m_fXPer += .02f; 
+			m_fXLerp = Lerp(1024, 0, m_fXPer); 
+			if(m_fXPer >= 1)
+			{
+				m_fXPer = 1;
+				m_bIsMoving = false;
+			}
+		}
+	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
 }
@@ -85,7 +108,19 @@ void mainMenuState::render(void) const
 	if(!entered)
 		return;
 
-	menuState::render();
+	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
+
+	//Draw menu items
+	for(int c = 0; c < menuLast+1; c++)
+		if(c != menuPos)
+			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, textColor);
+		else //For the selected item, use highlight color
+			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, highlightColor);
+
+	//Draw meun cursor at the selected item
+	viewManager::getInstance()->drawTexture(cursorID,
+		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
+
 	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetXPos(), menuState::GetYPos()+ 10 + menuState::GetMenuPos() * 50); 
 	
 }
