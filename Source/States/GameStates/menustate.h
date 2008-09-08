@@ -28,7 +28,7 @@ protected:
 	float m_fUpdateTimer;
 	
 
-	int menuPos, cursorID, menuLast, xPos, yPos;
+	int menuPos, foregroundID, cursorID, menuLast, xPos, yPos;
 
 	char** menuItemString;
 
