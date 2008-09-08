@@ -17,12 +17,13 @@
 #include "..\..\Helpers\CXBOXController.h"
 
 #define CURSOR "Resource/PS_menuCursor.png"
+#define FOREGROUND "Resource/Images/PS_tempmenu.bmp"
 
 menuState::menuState(int x, int y, unsigned int color, unsigned int highlight)
 : xPos(x), yPos(y), textColor(color), highlightColor(highlight), menuItemString(0)
 {
 	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
-	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
+	foregroundID = viewManager::getInstance()->loadTexture(FOREGROUND, D3DCOLOR_XRGB(255, 0, 255));
 }
 
 menuState::~menuState()
