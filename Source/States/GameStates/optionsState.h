@@ -12,6 +12,9 @@ class optionsState : public menuState
 protected:
 	enum menuOptions { SFX, MUSIC, KEYBINDINGS, BACK, TOTAL };
 
+	int foregroundID;
+	float m_fTime, m_fXPer, m_fXLerp;
+
 	void menuHandler();
 
 	//int m_nParticleImageID;

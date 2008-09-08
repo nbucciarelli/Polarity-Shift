@@ -15,21 +15,19 @@
 #include "..\..\Helpers\bitFont.h"
 #include "../../EventSystem/eventManager.h"
 #include "..\..\Helpers\CXBOXController.h"
+#include "../../Helpers/SGD_Math.h"
 
 #define CURSOR "Resource/PS_menuCursor.png"
-#define FOREGROUND "Resource/Images/PS_tempmenu.bmp"
 
 menuState::menuState(int x, int y, unsigned int color, unsigned int highlight)
 : xPos(x), yPos(y), textColor(color), highlightColor(highlight), menuItemString(0)
 {
 	cursorID = viewManager::getInstance()->loadTexture(CURSOR);
-	foregroundID = viewManager::getInstance()->loadTexture(FOREGROUND, D3DCOLOR_XRGB(255, 0, 255));
 }
 
 menuState::~menuState()
 {
 	viewManager::getInstance()->releaseTexture(cursorID);
-	viewManager::getInstance()->releaseTexture(foregroundID);
 
 	if(menuItemString)
 		delete[] menuItemString;
@@ -162,8 +160,6 @@ void menuState::render(void) const
 {
 	if(!menuItemString)
 		return;
-
-	viewManager::getInstance()->drawTexture(foregroundID, &vector3(0, 0, 0));
 
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
