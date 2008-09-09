@@ -15,9 +15,9 @@ protected:
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp;
 
-	char* m_szJump;
-	char* m_szMoveLeft;
-	char* m_szMoveRight;
+	int m_nJump;
+	int m_nMoveLeft;
+	int m_nMoveRight;
 	
 
 	void menuHandler();

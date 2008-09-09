@@ -19,7 +19,7 @@ CKeyState::CKeyState(void)
 
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[JUMP] = "Jump: 0";
+	menuItemString[JUMP] = "Jump: ";
 	menuItemString[MOVELEFT] = "Move Left: ";
 	menuItemString[MOVERIGHT] = "Move Right: ";
 	menuItemString[BACK] = "Back";
@@ -27,6 +27,8 @@ CKeyState::CKeyState(void)
 
 	//strcpy_s(m_szJump, sizeof((char*)game::GetInstance()->GetKeys().m_nJump),(char*)game::GetInstance()->GetKeys().m_nJump) ;
 	//m_szMoveLeft = (char*)game::GetInstance()->GetKeys().m_nRunLeft;
+	m_nJump = game::GetInstance()->GetKeys().m_nJump;
+	m_nMoveLeft = game::GetInstance()->GetKeys().m_nRunLeft;
 }
 
 CKeyState::~CKeyState(void)
@@ -81,6 +83,7 @@ void CKeyState::menuHandler()
 	switch(menuPos)
 	{
 	case JUMP:
+		break;
 	case MOVELEFT:
 		break;
 	case MOVERIGHT:
@@ -101,9 +104,9 @@ void CKeyState::render(void) const
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, textColor);
+			theFont->drawText(menuItemString[c], 20 + (int)m_fXLerp + xPos, yPos + c * 50, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, highlightColor);
+			theFont->drawText(menuItemString[c], 20 + (int)m_fXLerp + xPos, yPos + c * 50, highlightColor);
 
 	//Draw meun cursor at the selected item
 	viewManager::getInstance()->drawTexture(cursorID,
