@@ -93,7 +93,10 @@ void mainMenuState::update(float dt)
 	}
 
 	if(m_bIsExited == true)
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
+	{
+		if(m_bOptions)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
+	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
 }
@@ -108,6 +111,7 @@ void mainMenuState::menuHandler()
 		break;
 	case OPTIONS:
 		m_bIsExiting = true;
+		m_bOptions = true;
 		break;
 	case HOWTO:
 		break;
