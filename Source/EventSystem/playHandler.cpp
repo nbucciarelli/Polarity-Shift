@@ -92,7 +92,7 @@ void playHandler::onGameLoad()
 	testObj->release();
 	//
 
-	FL->loadObject("Resource/Triangle.psu");
+	FL->loadObject("Resource/PS_triangle.psu");
 	/*movingObj */ testObj = (movingObj*)OF->spawn("Gadzooks");
 	
 	//testObj = new movingObj;

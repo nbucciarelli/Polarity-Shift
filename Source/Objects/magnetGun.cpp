@@ -16,7 +16,7 @@ magnetGun::~magnetGun()
 {
 }
 
-void magnetGun::fire(const vector3 &trajectory)
+void magnetGun::openFire(const vector3 &trajectory)
 {
 	//TODO:  IT!
 
@@ -27,6 +27,11 @@ void magnetGun::fire(const vector3 &trajectory)
 
 	fireLine *= (float)range;
 	radiusLine *= baseRadius * beamWidthFactor;
+}
+
+void magnetGun::ceaseFire()
+{
+
 }
 
 baseObj* magnetGun::getTarget(const vector3& farPoint)
@@ -56,4 +61,24 @@ baseObj* magnetGun::getTarget(const vector3& farPoint)
 		return objList[selection];
 	else
 		return 0;
+}
+
+void magnetGun::update(float dt)
+{
+	if(isActive)
+	{
+		switch(mode)
+		{
+		case MAG_OFF:
+		case MAG_PUSH:
+		case MAG_PULL:
+		case MAG_HOLD:
+		default:
+			break;
+		}
+	}
+}
+
+void magnetGun::render() const
+{
 }
