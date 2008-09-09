@@ -99,7 +99,7 @@ void playHandler::onGameLoad()
 	weapon* weapy = ((playerObj*)testObj)->getWeapon();
 
 	weapy->setPower(200);
-	weapy->setRange(400);
+	weapy->setRange(800);
 	//EM->sendEvent(EVENT_PLAYERLOAD, testObj);
 
 	OM->addObj(testObj);
