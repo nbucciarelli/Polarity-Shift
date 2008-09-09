@@ -12,6 +12,7 @@
 #include "eventIDs.h"
 #include "globalEvents.h"
 #include "../Helpers/objFileLoader.h"
+#include "../Wrappers/Mouse.h"
 
 #include "../Objects/playerObj.h"
 #include "../Objects/enemyObj.h"
@@ -58,6 +59,13 @@ void playHandler::HandleEvent(gameEvent* ev)
 void playHandler::onGameLoad()
 {
 	//TODO:  Add in a config file that'll grab all the data files that are needed.
+
+	mouse* mousy = mouse::getInstance();
+	mousy->initialize();
+
+	mousy->setImgID(viewManager::getInstance()->loadTexture("resource/images/PS_cursor.tga", 0xffff00ff));
+	mousy->setPos(vector3(512,320,0));
+	mousy->setClickPos(pt(32,32));
 
 	movingObj* testObj = new playerObj;
 

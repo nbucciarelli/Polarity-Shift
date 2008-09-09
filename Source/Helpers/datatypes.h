@@ -23,6 +23,8 @@ typedef unsigned short ushort;
 typedef unsigned char uchar;
 typedef uint color;
 
+struct pt;
+
 union vector3 {
 	float e[3];
 
@@ -37,6 +39,11 @@ union vector3 {
 	vector3 operator-(const vector3&) const;
 	const vector3& operator+=(const vector3&);
 	const vector3& operator-=(const vector3&);
+
+	const vector3& operator+=(const pt&);
+	const vector3& operator-=(const pt&);
+	vector3 operator+(const pt&) const;
+	vector3 operator-(const pt&) const;
 
 	vector3 operator*(const float&) const;
 	const vector3& operator*=(const float&);

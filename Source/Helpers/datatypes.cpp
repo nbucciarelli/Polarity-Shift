@@ -81,6 +81,32 @@ float vector3::operator*(const vector3& obj) const
 	return dot;
 }
 
+const vector3& vector3::operator+=(const pt& p)
+{
+	x += p.x;
+	y += p.y;
+
+	return *this;
+}
+
+const vector3& vector3::operator-=(const pt& p)
+{
+	x -= p.x;
+	y -= p.y;
+
+	return *this;
+}
+
+vector3 vector3::operator+(const pt& p) const
+{
+	return vector3(*this) += p;
+}
+
+vector3 vector3::operator-(const pt& p) const
+{
+	return vector3(*this) -= p;
+}
+
 float vector3::dot2D(const vector3& obj) const
 {
 	return x * obj.x + y * obj.y;

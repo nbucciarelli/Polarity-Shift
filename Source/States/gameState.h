@@ -9,7 +9,8 @@ class gameState
 {
 protected:
 	volatile bool entered, rendering;
-	gameState() : entered(false) {}
+
+	gameState() : entered(false), rendering(false) {}
 public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Deconstructor”

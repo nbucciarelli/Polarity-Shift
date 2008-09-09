@@ -14,6 +14,8 @@ class eventManager;
 class playHandler;
 class CTileEngine;
 class CAIEngine;
+union vector3;
+class mouse;
 
 class gamePlayState : public gameState, public listener
 {
@@ -26,6 +28,8 @@ protected:
 	playHandler* handler;
 
 	volatile bool rendering;
+
+	mouse* theMouse;
 
 	gamePlayState();
 	gamePlayState(const gamePlayState&);

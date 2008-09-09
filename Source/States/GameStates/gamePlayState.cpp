@@ -15,8 +15,10 @@
 #include "..\..\Engines\CAIEngine.h"
 #include "..\..\game.h"
 #include "levelChooseState.h"
+#include "../../helpers/datatypes.h"
+#include "../../wrappers/mouse.h"
 
-gamePlayState::gamePlayState() : rendering(false) {}
+gamePlayState::gamePlayState() {}
 gamePlayState::~gamePlayState() {}
 
 gamePlayState* gamePlayState::getInstance()
@@ -28,6 +30,8 @@ gamePlayState* gamePlayState::getInstance()
 
 void gamePlayState::enter(void)
 {
+	theMouse = mouse::getInstance();
+
 	OM = objManager::getInstance();
 	theInput = CSGD_DirectInput::GetInstance();
 	EM = eventManager::getInstance();
@@ -60,6 +64,8 @@ void gamePlayState::exit(void)
 	OM->clear();
 	handler->shutdown();
 	delete handler;
+
+	theMouse->shutdown();
 }
 
 bool gamePlayState::input(float dt)
@@ -93,6 +99,8 @@ void gamePlayState::update(float dt)
 		OM->checkCollisions();
 
 		OM->update(dt);
+
+		theMouse->update(dt);
 	}
 
 	EM->processEvents();
@@ -108,6 +116,8 @@ void gamePlayState::render(void) const
 
 	if(TE)
 		TE->Render();
+
+	theMouse->render();
 
 }
 

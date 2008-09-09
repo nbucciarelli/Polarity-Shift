@@ -49,7 +49,7 @@ void game::Initialize(HINSTANCE hInstance)
 	bitFont::getInstance()->initialize(viewManager::getInstance());
 	
 	theInput = inputDevice::GetInstance();
-	theInput->InitDirectInput(theDisplay->getHWnd(), hInstance, DI_KEYBOARD | DI_MOUSE);
+	theInput->InitDirectInput(theDisplay->getHWnd(), hInstance, DI_KEYBOARD | DI_MOUSE, DI_MOUSE);
 
 	EM = eventManager::getInstance();
 	globalHandler::getInstance()->initialize();
