@@ -18,3 +18,4 @@
 #include "CHighScoresState.h"
 #include "CCreditsState.h"
 #include "CKeyState.h"
+#include "levelChooseState.h"

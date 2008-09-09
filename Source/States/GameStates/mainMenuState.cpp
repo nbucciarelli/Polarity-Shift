@@ -107,7 +107,7 @@ void mainMenuState::menuHandler()
 	{
 	case PLAY:
 		//game::GetInstance()->changeState(playState::getInstance());
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
 		break;
 	case OPTIONS:
 		m_bIsExiting = true;

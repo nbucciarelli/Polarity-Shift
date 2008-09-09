@@ -91,6 +91,8 @@ gameState* globalHandler::state(int st)
 		return CCreditsState::getInstance();
 	case STATE_KEYBINDINGS:
 		return CKeyState::getInstance();
+	case STATE_LEVELSELECT:
+		return levelChooseState::getInstance();
 	default:
 		return NULL;
 	}
