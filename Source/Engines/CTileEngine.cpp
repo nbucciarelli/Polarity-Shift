@@ -126,6 +126,57 @@ void CTileEngine::LoadMap(string szFileName)
 		m_vSwitchList.push_back(temp);
 	}
 
+	fin.read((char*)&List, sizeof(int));
+
+	//load in switches
+	for(int i = 0; i < List; i ++)
+	{
+		POINT temp;
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		
+		m_vDoorList.push_back(temp);
+	}
+
+	fin.read((char*)&List, sizeof(int));
+
+	//load in switches
+	for(int i = 0; i < List; i ++)
+	{
+		POINT temp;
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		
+		m_vTriggerList.push_back(temp);
+	}
+
+	fin.read((char*)&List, sizeof(int));
+
+	//load in switches
+	for(int i = 0; i < List; i ++)
+	{
+		POINT temp;
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		
+		m_vTrapList.push_back(temp);
+	}
+
+		fin.read((char*)&List, sizeof(int));
+
+
+		POINT temp;
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		m_PlayerSpawn = temp;
+
+
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		m_PlayerEnd = temp;
+		
+
+
 	fin.close();
 
 	ready = true;

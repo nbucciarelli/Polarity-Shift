@@ -30,6 +30,11 @@ private:
 	vector<POINT> m_vEnemyList;
 	vector<POINT> m_vTurretList;
 	vector<POINT> m_vSwitchList;
+	vector<POINT> m_vDoorList;
+	vector<POINT> m_vTriggerList;
+	vector<POINT> m_vTrapList;
+	POINT m_PlayerSpawn;
+	POINT m_PlayerEnd;
 
 	volatile bool ready;
 	volatile bool rendering;
@@ -61,11 +66,20 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		Accessors
-	//	Last Modified:	August 26, 2008
+	//	Last Modified:	September 9, 2008
 	//	Purpose:		return specified type
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	int GetImageID() {return m_nImageID;}
 	vector<RECT> GetCollisions() {return m_vCollision;}
+	vector<POINT> GetCubes() {return m_vCubelist;}
+	vector<POINT> GetEnemies() {return m_vEnemyList;}
+	vector<POINT> GetTurrets() {return m_vTurretList;}
+	vector<POINT> GetSwitches() {return m_vSwitchList;}
+	vector<POINT> GetDoors() {return m_vDoorList;}
+	vector<POINT> GetTriggers() {return m_vTriggerList;}
+	vector<POINT> GetTraps() {return m_vTrapList;}
+	POINT GetPlayerSpawn() {return m_PlayerSpawn;}
+	POINT GetPlayerEnd() {return m_PlayerEnd;}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		Mutators
