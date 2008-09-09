@@ -11,6 +11,7 @@ class CKeyState : public menuState
 {
 protected:
 	enum menuOptions { JUMP, MOVELEFT, MOVERIGHT, BACK, TOTAL };
+	enum keybindingStates { KB_NULL, KB_BEGINCHECK, KB_WAITING, KBS};
 
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp;
@@ -22,9 +23,12 @@ protected:
 	char* m_szJump;
 	char* m_szMoveLeft;
 	char* m_szMoveRight;
-
+	bool m_bIsHighlighted;
 	bool IsPressed;
 
+	unsigned state;
+	unsigned character;
+	unsigned oldhighlight;
 
 	void menuHandler();
 
@@ -54,6 +58,8 @@ public:
 	//	Purpose:		exits the main menu state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void exit(void);
+
+	bool input(float dt);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"udpate"

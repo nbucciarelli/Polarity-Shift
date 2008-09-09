@@ -14,7 +14,7 @@
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_DirectInput.h"
 
-CKeyState::CKeyState(void)
+CKeyState::CKeyState(void) : state(NULL), character(0)
 {
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 
@@ -69,6 +69,7 @@ void CKeyState::enter(void)
 	m_bIsMoving = true;
 	m_bIsExiting = false;
 	m_bIsExited = false;
+	m_bIsHighlighted = false;
 	menuState::enter();
 }
 
@@ -78,6 +79,14 @@ void CKeyState::exit(void)
 	m_fXLerp = 1024;
 	menuState::exit();
 }
+bool CKeyState::input(float dt)
+{
+	if(state == KB_WAITING)
+		return true;
+
+	return menuState::input(dt);
+}
+
 void CKeyState::update(float dt)
 {
 	if(!entered)
@@ -112,6 +121,59 @@ void CKeyState::update(float dt)
 		}
 	}
 
+
+	switch(state)
+	{
+	case KB_BEGINCHECK:
+		if(theInput->KeyReleased(DIK_RETURN))
+		{
+			state = KB_WAITING;
+		}
+		break;
+	case KB_WAITING:
+		
+		if(theInput->KeyPressed(DIK_ESCAPE))
+			state = KB_NULL;
+
+		if(character = theInput->GetBufferedDIKCodeEx())
+		{
+			switch(menuPos)
+			{
+			case JUMP:
+				if (game::GetInstance()->GetKeys().m_nJump != character)
+					game::GetInstance()->SetJump(character);
+				else
+					MessageBox(0, "Insert a different key", "Key Already Used", MB_OK);
+				
+				break;
+			case MOVELEFT:
+				if (game::GetInstance()->GetKeys().m_nRunLeft != character)
+					game::GetInstance()->SetMoveLeft(character);
+				else
+					MessageBox(0, "Insert a different key", "Key Already Used",MB_OK);
+				
+				break;
+			case MOVERIGHT:
+				if (game::GetInstance()->GetKeys().m_nRunRight != character)
+					game::GetInstance()->SetMoveRight(character);
+				else
+					MessageBox(0, "Insert a different key", "Key Already Used",MB_OK);
+				
+			break;
+			case BACK:
+				m_bIsExiting = true;
+				break;
+			}
+
+			
+			//MessageBox(0, ":(", ":O", MB_OK);
+			state = KB_NULL;
+			highlightColor = oldhighlight;
+		}
+	default:
+		break;
+	}
+
 	char* buffer;
 	m_szJump = new char[128];
 	m_szMoveLeft = new char[128];
@@ -132,6 +194,8 @@ void CKeyState::update(float dt)
 
 	if(m_bIsExited == true)
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
+
+
 }
 
 void CKeyState::menuHandler()
@@ -139,19 +203,21 @@ void CKeyState::menuHandler()
 	switch(menuPos)
 	{
 	case JUMP:
-		IsPressed = false;
-		while (!IsPressed)
-		{
-			if (theInput->GetBufferedDIKCodeEx())
-			{
-				game::GetInstance()->SetJump(theInput->GetBufferedDIKCodeEx());
-				IsPressed = true;
-			}
-		}
-		break;
+		//IsPressed = false;
+		//while(!IsPressed)
+		//{
+		//	if (theInput->GetBufferedDIKCodeEx() != DIK_RETURN || !theInput->GetBufferedDIKCodeEx())
+		//	{
+		//		game::GetInstance()->SetJump((int)theInput->GetBufferedDIKCodeEx());
+		//		IsPressed = true;
+		//	}
+		//}
 	case MOVELEFT:
-		break;
 	case MOVERIGHT:
+		oldhighlight = highlightColor;
+		highlightColor = 0xffff0000;
+		menuState::render();
+		state = KB_BEGINCHECK;
 		break;
 	case BACK:
 		m_bIsExiting = true;
@@ -185,6 +251,8 @@ void CKeyState::render(void) const
 char* CKeyState::SetKeyString(unsigned int nKey)
 {
 	char* szString;
+
+#pragma region "Bitchin' huge switch"
 	switch(nKey)
 	{
 	case 0x0F:
@@ -221,7 +289,7 @@ char* CKeyState::SetKeyString(unsigned int nKey)
 		szString = "P";
 		break;
 	case 0x1C:
-		szString = "L Control";
+		szString = "ENTER";
 		break;
 	case 0x1E:
 		szString = "A";
@@ -330,8 +398,12 @@ char* CKeyState::SetKeyString(unsigned int nKey)
 		break;
 	case 0xCD:
 		szString = "Right Arrow";
-		break;		
+		break;	
+	default:
+		szString = "Not a Valid Key";
+		break;
 	}
+#pragma endregion
 
 	return szString;
 
