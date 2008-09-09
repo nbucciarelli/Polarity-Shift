@@ -3,6 +3,8 @@
 
 #include <fstream>
 using std::ifstream;
+#include <exception>
+using std::exception;
 
 #include "../Objects/objFactory.h"
 #include "../Wrappers/viewManager.h"
@@ -29,7 +31,7 @@ objFileLoader::~objFileLoader()
 {
 }
 
-const char* objFileLoader::loadObject(char* filename)
+char* objFileLoader::loadObject(char* filename)
 {
 	ifstream reader;
 
@@ -42,14 +44,16 @@ const char* objFileLoader::loadObject(char* filename)
 	}
 
 	int holder = 0;
+	short shorty = 0;
+	short type = 0;
 
-	//Grab, ignore, version information
-	reader.read((char*)&holder, sizeof(float));
+	//Grab & ignore version information
+	reader.read((char*)&holder, sizeof(int));
 
-	//Grab type.
-	reader.read((char*)&holder, sizeof(short));
+	//Grab object class
+	reader.read((char*)&type, sizeof(short));
 
-	short type = *((short*)&holder);
+	// *((short*)&holder);
 
 	//A pointer to do stuff.
 	baseObj* obj = NULL;
@@ -89,11 +93,16 @@ const char* objFileLoader::loadObject(char* filename)
 
 	reader.read(textbuffer, *((char*)&holder));
 
-	obj->setImgId(viewManager::getInstance()->loadTexture(&textbuffer[1]));
+	obj->setImgId(viewManager::getInstance()->loadTexture(&textbuffer[1], 0xffffffff));
 
-	//Currently unused data.
-	reader.read((char*)&holder, sizeof(int));
-	reader.read((char*)&holder, sizeof(int));
+	//Read center information.  (Dump for now.)
+	objectPoint center;
+	reader.read((char*)&shorty, sizeof(short));
+	center.coords.x = (float)shorty;
+	reader.read((char*)&shorty, sizeof(short));
+	center.coords.y = (float)shorty;
+	reader.read((char*)&shorty, sizeof(short));
+	center.mass = (float)shorty;
 
 	//Now grab point count
 	reader.read((char*)&holder, sizeof(short));
@@ -103,7 +112,7 @@ const char* objFileLoader::loadObject(char* filename)
 	poly->vertexCount = *((short*)&holder);
 	poly->vertecies = new objectPoint[*((short*)&holder)];
 
-	for(int c = 0; c < *((short*)&holder); c++)
+	for(int c = 0; c < poly->vertexCount; c++)
 	{
 		reader.read((char*)&holder, sizeof(int));
 
@@ -133,11 +142,9 @@ const char* objFileLoader::loadObject(char* filename)
 	case PLATFORM:
 	default:
 		delete poly;
-		delete obj;
+		obj->release();
 		return 0;
 	}
-
-	obj->release();
 
 	char* returnVal = new char[objectID.size()+1];
 	strcpy_s(returnVal, objectID.size()+1, objectID.c_str());

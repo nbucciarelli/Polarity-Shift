@@ -24,6 +24,4 @@ class criticalSectionControl;
 #define CRITICAL_INIT CS = criticalSectionControl::getInstance();\
 	CSID = CS->getCriticalSection()
 
-#define CRITICAL_RELEASE CS->waitForUnlock(CSID);\
-	CS->lockSection(CSID);\
-	CS->releaseCriticalSection(CSID)
+#define CRITICAL_RELEASE CS->releaseCriticalSection(CSID)

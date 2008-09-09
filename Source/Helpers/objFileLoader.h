@@ -11,5 +11,5 @@ public:
 	~objFileLoader();
 
 	//Returns the object factory ID
-	const char* loadObject(char* filename);
+	char* loadObject(char* filename);
 };
