@@ -8,6 +8,7 @@
 #include "bitFont.h"
 #include "..\Wrappers\viewManager.h"
 #include "physics.h"
+#include <windows.h>
 
 #define CHARSET "Resource/Images/PS_bitfont.png"
 #define CHARWIDTH 32
@@ -55,7 +56,7 @@ void bitFont::drawText(char* text, int x, int y, unsigned int color, float scale
 	for(int c = 0; text[c] != '\0'; c++)
 	{
 		if(text[c] != ' ') //Don't bother calling render on a space.
-			VM->drawTexture(csId, &pos, &scaling, &charRect(text[c]), NULL, color);
+			VM->drawTexture(csId, &pos, &scaling, &charRect(toupper(text[c])), NULL, color);
 		pos.x += charWidth;
 	}
 }

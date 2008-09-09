@@ -16,8 +16,8 @@ pauseState::pauseState(void) : menuState(500, 200)
 	menuItemString = new char*[TOTAL];
 	menuLast = EXIT;
 
-	menuItemString[RESUME] = "RESUME";
-	menuItemString[EXIT] = "EXIT";
+	menuItemString[RESUME] = "Resume";
+	menuItemString[EXIT] = "Exit";
 }
 
 pauseState::~pauseState(void)

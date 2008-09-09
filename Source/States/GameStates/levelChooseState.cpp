@@ -20,10 +20,10 @@ levelChooseState::levelChooseState(void)
 
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[LEVEL1] = "LEVEL 1";
-	menuItemString[LEVEL2] = "LEVEL 2";
-	menuItemString[LEVEL3] = "LEVEL 3";
-	menuItemString[BACK] = "BACK";
+	menuItemString[LEVEL1] = "Level 1";
+	menuItemString[LEVEL2] = "Level 2";
+	menuItemString[LEVEL3] = "Level 3";
+	menuItemString[BACK] = "Back";
 	menuLast = BACK;
 }
 

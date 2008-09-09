@@ -21,9 +21,9 @@ optionsState::optionsState(void)
 	menuItemString = new char*[TOTAL];
 
 	menuItemString[SFX] = "SFX: 0";
-	menuItemString[MUSIC] = "MUSIC: 0";
-	menuItemString[KEYBINDINGS] = "KEYBINDINGS";
-	menuItemString[BACK] = "BACK";
+	menuItemString[MUSIC] = "Music: 0";
+	menuItemString[KEYBINDINGS] = "Keybindings";
+	menuItemString[BACK] = "Back";
 	menuLast = BACK;
 }
 

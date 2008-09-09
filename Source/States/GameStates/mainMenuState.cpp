@@ -19,12 +19,12 @@ mainMenuState::mainMenuState(void)
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[PLAY] = "PLAY";
-	menuItemString[OPTIONS] = "OPTIONS";
-	menuItemString[HOWTO] = "HOW TO PLAY";
-	menuItemString[SCORES] = "HIGH SCORES";
-	menuItemString[CREDITS] = "CREDITS";
-	menuItemString[EXIT] = "EXIT";
+	menuItemString[PLAY] = "Play";
+	menuItemString[OPTIONS] = "Options";
+	menuItemString[HOWTO] = "How To Play";
+	menuItemString[SCORES] = "High Scores";
+	menuItemString[CREDITS] = "Credits";
+	menuItemString[EXIT] = "Exit";
 	menuLast = EXIT;
 }
 
