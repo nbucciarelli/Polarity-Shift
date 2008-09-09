@@ -35,6 +35,7 @@ menuState::~menuState()
 
 void menuState::enter(void)
 {
+	highlightColor = 0xff88dd88;
 	theInput = inputDevice::GetInstance();
 	theFont = bitFont::getInstance();
 	objM = objManager::getInstance();
@@ -61,7 +62,11 @@ bool menuState::input(float dt)
 	if(m_bIsMoving == false)
 	{
 		if (theInput->KeyPressed(DIK_RETURN))
+		{
+			
+			highlightColor = 0xffff0000;
 			menuHandler();
+		}
 		else if (theInput->KeyPressed(DIK_DOWN))
 		{
 			if(menuPos < menuLast)
@@ -122,6 +127,7 @@ bool menuState::input(float dt)
 			Player1->Vibrate(0, 0);
 		}
 	}
+	highlightColor = 0xff88dd88;
 	
 
 

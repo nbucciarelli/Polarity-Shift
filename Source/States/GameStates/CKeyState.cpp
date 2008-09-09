@@ -12,23 +12,43 @@
 #include "../../Helpers/SGD_Math.h"
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
+#include "..\..\Wrappers\CSGD_DirectInput.h"
 
 CKeyState::CKeyState(void)
 {
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 
-	menuItemString = new char*[TOTAL];
+	IsPressed = false;
 
-	menuItemString[JUMP] = "Jump: ";
-	menuItemString[MOVELEFT] = "Move Left: ";
-	menuItemString[MOVERIGHT] = "Move Right: ";
-	menuItemString[BACK] = "Back";
-	menuLast = BACK;
-
-	//strcpy_s(m_szJump, sizeof((char*)game::GetInstance()->GetKeys().m_nJump),(char*)game::GetInstance()->GetKeys().m_nJump) ;
-	//m_szMoveLeft = (char*)game::GetInstance()->GetKeys().m_nRunLeft;
 	m_nJump = game::GetInstance()->GetKeys().m_nJump;
 	m_nMoveLeft = game::GetInstance()->GetKeys().m_nRunLeft;
+	m_nMoveRight = game::GetInstance()->GetKeys().m_nRunRight;
+
+	char* buffer;
+	m_szJump = new char[128];
+	m_szMoveLeft = new char[128];
+	m_szMoveRight = new char[128];
+	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
+	sprintf_s(m_szJump, 128, "Jump: %s", buffer);
+	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
+	sprintf_s(m_szMoveLeft, 128, "Move Left: %s", buffer);
+	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
+	sprintf_s(m_szMoveRight, 128, "Move Left: %s", buffer);
+
+	menuItemString = new char*[TOTAL];
+
+	menuItemString[JUMP] = m_szJump;
+	menuItemString[MOVELEFT] = m_szMoveLeft;
+	menuItemString[MOVERIGHT] = m_szMoveRight;
+	menuItemString[BACK] = "Back";
+	menuLast = BACK;
+	
+	
+	//strcpy_s(m_szJump, sizeof((char*)game::GetInstance()->GetKeys().m_nJump),(char*)game::GetInstance()->GetKeys().m_nJump) ;
+	//m_szMoveLeft = (char*)game::GetInstance()->GetKeys().m_nRunLeft;
+
+
+
 }
 
 CKeyState::~CKeyState(void)
@@ -68,7 +88,7 @@ void CKeyState::update(float dt)
 	{
 		if (dt >= .016f) 
 		{ 
-			m_fXPer += .02f; 
+			m_fXPer += .1f; 
 			m_fXLerp = Lerp(1024, 0, m_fXPer); 
 			if(m_fXPer >= 1)
 			{
@@ -81,7 +101,7 @@ void CKeyState::update(float dt)
 	{
 		if (dt >= .016f) 
 		{ 
-			m_fXPer -= .02f; 
+			m_fXPer -= .1f; 
 			m_fXLerp = Lerp(1024, 0, m_fXPer);
 			if(m_fXPer <= 0)
 			{
@@ -92,6 +112,24 @@ void CKeyState::update(float dt)
 		}
 	}
 
+	char* buffer;
+	m_szJump = new char[128];
+	m_szMoveLeft = new char[128];
+	m_szMoveRight = new char[128];
+	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
+	sprintf_s(m_szJump, 128, "Jump: %s", buffer);
+	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
+	sprintf_s(m_szMoveLeft, 128, "Move Left: %s", buffer);
+	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
+	sprintf_s(m_szMoveRight, 128, "Move Left: %s", buffer);
+
+
+	menuItemString[JUMP] = m_szJump;
+	menuItemString[MOVELEFT] = m_szMoveLeft;
+	menuItemString[MOVERIGHT] = m_szMoveRight;
+	menuItemString[BACK] = "Back";
+	menuLast = BACK;
+
 	if(m_bIsExited == true)
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
 }
@@ -101,6 +139,15 @@ void CKeyState::menuHandler()
 	switch(menuPos)
 	{
 	case JUMP:
+		IsPressed = false;
+		while (!IsPressed)
+		{
+			if (theInput->GetBufferedDIKCodeEx())
+			{
+				game::GetInstance()->SetJump(theInput->GetBufferedDIKCodeEx());
+				IsPressed = true;
+			}
+		}
 		break;
 	case MOVELEFT:
 		break;
@@ -119,6 +166,9 @@ void CKeyState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
+
+
+
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
@@ -129,5 +179,160 @@ void CKeyState::render(void) const
 	//Draw meun cursor at the selected item
 	viewManager::getInstance()->drawTexture(cursorID,
 		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
+
+}
+
+char* CKeyState::SetKeyString(unsigned int nKey)
+{
+	char* szString;
+	switch(nKey)
+	{
+	case 0x0F:
+		szString = "Tab";
+		break;
+	case 0x10:
+		szString = "Q";
+		break;
+	case 0x11:
+		szString = "W";
+		break;
+	case 0x12:
+		szString = "E";
+		break;
+	case 0x13:
+		szString = "R";
+		break;
+	case 0x14:
+		szString = "T";
+		break;
+	case 0x15:
+		szString = "Y";
+		break;
+	case 0x16:
+		szString = "U";
+		break;
+	case 0x17:
+		szString = "I";
+		break;
+	case 0x18:
+		szString = "O";
+		break;
+	case 0x19:
+		szString = "P";
+		break;
+	case 0x1C:
+		szString = "L Control";
+		break;
+	case 0x1E:
+		szString = "A";
+		break;
+	case 0x1F:
+		szString = "S";
+		break;
+	case 0x20:
+		szString = "D";
+		break;
+	case 0x21:
+		szString = "F";
+		break;
+	case 0x22:
+		szString = "G";
+		break;
+	case 0x23:
+		szString = "H";
+		break;
+	case 0x24:
+		szString = "J";
+		break;
+	case 0x25:
+		szString = "K";
+		break;
+	case 0x26:
+		szString = "L";
+		break;
+	case 0x2C:
+		szString = "Z";
+		break;
+	case 0x2D:
+		szString = "X";
+		break;
+	case 0x2E:
+		szString = "C";
+		break;
+	case 0x2F:
+		szString = "V";
+		break;
+	case 0x30:
+		szString = "B";
+		break;
+	case 0x31:
+		szString = "N";
+		break;
+	case 0x32:
+		szString = "M";
+		break;
+	case 0x36:
+		szString = "R Shift";
+		break;
+	case 0x39:
+		szString = "Space";
+		break;
+	case 0x3A:
+		szString = "Caps Lock";
+		break;
+	case 0x47:
+		szString = "Numpad 7";
+		break;
+	case 0x48:
+		szString = "Numpad 8";
+		break;
+	case 0x49:
+		szString = "Numpad 9";
+		break;
+	case 0x4A:
+		szString = "Numpad -";
+		break;
+	case 0x4B:
+		szString = "Numpad 4";
+		break;
+	case 0x4C:
+		szString = "Numpad 5";
+		break;
+	case 0x4D:
+		szString = "Numpad 6";
+		break;
+	case 0x4E:
+		szString = "Numpad +";
+		break;
+	case 0x4F:
+		szString = "Numpad 1";
+		break;
+	case 0x50:
+		szString = "Numpad 2";
+		break;
+	case 0x51:
+		szString = "Numpad 3";
+		break;
+	case 0x52:
+		szString = "Numpad 0";
+		break;
+	case 0x53:
+		szString = "Numpad .";
+		break;
+	case 0xC8:
+		szString = "Up Arrow";
+		break;
+	case 0xD0:
+		szString = "Down Arrow";
+		break;
+	case 0xCB:
+		szString = "Left Arrow";
+		break;
+	case 0xCD:
+		szString = "Right Arrow";
+		break;		
+	}
+
+	return szString;
 
 }

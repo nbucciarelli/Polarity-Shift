@@ -39,6 +39,7 @@ protected:
 
 	
 	Keys m_cKeys;
+		
 	//Component pointers.  Note none care if it's DX or OGL or whatever.
 	display* theDisplay;
 	dxRenderer* theRenderer;
@@ -85,4 +86,9 @@ public:
 	float getGameTime() { return gameTime; }
 
 	Keys GetKeys(){return m_cKeys;}
+	void SetJump(unsigned val) { m_cKeys.m_nJump = val; }
+	void SetMoveLeft(unsigned val) { m_cKeys.m_nRunLeft = val; }
+	void SetMoveRight(unsigned val) { m_cKeys.m_nRunRight = val; }
+	
+	
 };
