@@ -30,17 +30,6 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 	m_nMoveLeft = game::GetInstance()->GetKeys().m_nRunLeft;
 	m_nMoveRight = game::GetInstance()->GetKeys().m_nRunRight;
 
-// 	char* buffer;
-// 	m_szJump = new char[128];
-// 	m_szMoveLeft = new char[128];
-// 	m_szMoveRight = new char[128];
-// 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
-// 	sprintf_s(m_szJump, 128, "Jump: %s", buffer);
-// 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
-// 	sprintf_s(m_szMoveLeft, 128, "Move Left: %s", buffer);
-// 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
-// 	sprintf_s(m_szMoveRight, 128, "Move Left: %s", buffer);
-
 	menuItemString = new char*[TOTAL];
 
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
@@ -56,25 +45,12 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 	menuItemString[MOVERIGHT] = m_szMoveRight;
 	menuItemString[BACK] = "Back";
 	menuLast = BACK;
-// 	menuItemString[JUMP] = m_szJump;
-// 	menuItemString[MOVELEFT] = m_szMoveLeft;
-// 	menuItemString[MOVERIGHT] = m_szMoveRight;
-// 	menuItemString[BACK] = "Back";
-// 	menuLast = BACK;
-// 	
 	
-	//strcpy_s(m_szJump, sizeof((char*)game::GetInstance()->GetKeys().m_nJump),(char*)game::GetInstance()->GetKeys().m_nJump) ;
-	//m_szMoveLeft = (char*)game::GetInstance()->GetKeys().m_nRunLeft;
-
-
 
 }
 
 CKeyState::~CKeyState(void)
 {
-// 	delete[] m_szJump;
-// 	delete[] m_szMoveLeft;
-// 	delete[] m_szMoveRight;
 
 	viewManager::getInstance()->releaseTexture(foregroundID);
 }
@@ -227,15 +203,6 @@ void CKeyState::menuHandler()
 	switch(menuPos)
 	{
 	case JUMP:
-		//IsPressed = false;
-		//while(!IsPressed)
-		//{
-		//	if (theInput->GetBufferedDIKCodeEx() != DIK_RETURN || !theInput->GetBufferedDIKCodeEx())
-		//	{
-		//		game::GetInstance()->SetJump((int)theInput->GetBufferedDIKCodeEx());
-		//		IsPressed = true;
-		//	}
-		//}
 	case MOVELEFT:
 	case MOVERIGHT:
 		oldhighlight = highlightColor;
