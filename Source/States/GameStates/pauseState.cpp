@@ -11,7 +11,7 @@
 #include "..\..\EventSystem\globalEvents.h"
 
 #pragma region constructor/destructor, singleton
-pauseState::pauseState(void) : menuState(500, 200)
+pauseState::pauseState(void) : menuState(700, 400)
 {
 	menuItemString = new char*[TOTAL];
 	menuLast = EXIT;
