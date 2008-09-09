@@ -14,6 +14,7 @@
 #include "../Helpers/objFileLoader.h"
 #include "../Wrappers/Mouse.h"
 
+#include "../Objects/weapon.h"
 #include "../Objects/playerObj.h"
 #include "../Objects/enemyObj.h"
 
@@ -94,6 +95,11 @@ void playHandler::onGameLoad()
 		EM->registerClient(c, (playerObj*)testObj);
 
 	((playerObj*)testObj)->setAccStep(1);
+	((playerObj*)testObj)->setWeapon(WEAPON_MAGNET);
+	weapon* weapy = ((playerObj*)testObj)->getWeapon();
+
+	weapy->setPower(200);
+	weapy->setRange(400);
 	//EM->sendEvent(EVENT_PLAYERLOAD, testObj);
 
 	OM->addObj(testObj);

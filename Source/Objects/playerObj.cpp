@@ -10,6 +10,7 @@
 #include "../Engines/CAnimationManager.h"
 #include "../Engines/CAnimationEngine.h"
 #include "../Helpers/criticalSection.h"
+#include "magnetGun.h"
 #include <cmath>
 
 playerObj::playerObj() : maxVel(200), maxAcc(0), range(0), jumpTime(0), maxJumpTime(0.2f),
@@ -129,9 +130,19 @@ void playerObj::HandleEvent(gameEvent *ev)
 	case EVENT_PLAYERJUMPSTOP:
 		jumpDone = true;
 		break;
+	case EVENT_PLAYERFIRE:
+		theWeapon->openFire(0, MAG_PUSH);
+		break;
+	case EVENT_PLAYERSPECFIRE:
+		theWeapon->openFire(0, MAG_PULL);
+		break;
+	case EVENT_PLAYERCEASEFIRE:
+		theWeapon->ceaseFire();
+		break;
 	}
 }
 
-void setWeapon(int weapID)
+void playerObj::setWeapon(int weapID)
 {
+	theWeapon = weapon::createWeapon(weapID, this);
 }

@@ -87,6 +87,15 @@ bool gamePlayState::input(float dt)
 		EM->sendEvent(EVENT_PLAYERJUMP);
 	}
 
+	if(theInput->MouseButtonPressedEx(0))
+		EM->sendEvent(EVENT_PLAYERFIRE);
+
+	if(theInput->MouseButtonPressedEx(1))
+		EM->sendEvent(EVENT_PLAYERSPECFIRE);
+
+	if(theInput->MouseButtonReleased(0) || theInput->MouseButtonReleased(1))
+		EM->sendEvent(EVENT_PLAYERCEASEFIRE);
+
 	return true;
 }
 

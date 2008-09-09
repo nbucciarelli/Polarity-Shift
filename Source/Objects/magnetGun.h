@@ -13,10 +13,13 @@ enum magMode {
 	MAG_MODES
 };
 
+class mouse;
+
 class magnetGun : public weapon
 {
 protected:
 	float beamWidthFactor;
+	mouse* theMouse;
 
 	bool getTarget(const vector3& farPoint);
 
@@ -27,7 +30,7 @@ public:
 	magnetGun();
 	~magnetGun();
 
-	virtual void openFire(const vector3& trajectory, int fireMode = 0);
+	virtual void openFire(const vector3* trajectory = 0, int fireMode = 0);
 	virtual void ceaseFire();
 
 	float getWidthFactor() const { return beamWidthFactor; }

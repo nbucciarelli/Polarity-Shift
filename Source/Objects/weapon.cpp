@@ -8,6 +8,7 @@ weapon* weapon::createWeapon(int weapID, baseObj* receiver)
 	{
 	case WEAPON_MAGNET:
 		holder = new magnetGun;
+		break;
 	default:
 		return 0;
 	}

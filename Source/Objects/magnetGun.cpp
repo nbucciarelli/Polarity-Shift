@@ -3,12 +3,14 @@
 #include "../helpers/physics.h"
 #include "playerObj.h"
 #include "objManager.h"
+#include "../wrappers/mouse.h"
 #include <vector>
 #include <cmath>
 
 #define baseRadius 10
 
-magnetGun::magnetGun() : beamWidthFactor(1)
+magnetGun::magnetGun() : beamWidthFactor(1), theMouse(mouse::getInstance()),
+mode(0), target(0)
 {
 }
 
@@ -16,7 +18,7 @@ magnetGun::~magnetGun()
 {
 }
 
-void magnetGun::openFire(const vector3 &trajectory, int fireMode)
+void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 {
 	//If already firing, do nothing.
 	if(isActive)
@@ -24,8 +26,15 @@ void magnetGun::openFire(const vector3 &trajectory, int fireMode)
 
 	//Start by putting the range on the trajectory
 	//Also, the perpendicular vector
-	vector3 fireLine = trajectory.normalized();
+	vector3 fireLine;
+	
+	if(trajectory)
+		fireLine = trajectory->normalized();
 	//vector3 radiusLine(fireLine.y, -fireLine.x, 0);
+	else
+	{
+		fireLine = (theMouse->getPos() - owner->getPosition()).normalized();
+	}
 
 	fireLine *= (float)range;
 	//radiusLine *= baseRadius * beamWidthFactor;
@@ -81,14 +90,14 @@ bool magnetGun::getTarget(const vector3& farPoint)
 		if(objList[c]->IsMovable()
 			&& calc::lineIntersectPoly(owner->getPosition(), farPoint,
 									   *objList[c]->getCollisionPoly(), &dist)
-			&& dist < minDist)
+			&& dist < minDist  && dist > 0)
 		{
 			minDist = dist;
 			selection = c;
 		}
 	}
 
-	if(selection != -1)
+	if(selection != -1 && minDist < range)
 	{
 		target = (movingObj*)(objList[selection]);
 		return true;
@@ -99,23 +108,24 @@ bool magnetGun::getTarget(const vector3& farPoint)
 
 void magnetGun::update(float dt)
 {
-	vector3 traj = ((playerObj*)owner)->getLook().normalized();
 	if(mode != MAG_OFF)
 	{
 		target->setVel(vector3());
 		target->setAcc(vector3());
-	}
-	
-	switch(mode)
-	{
-	case MAG_PUSH:
-		target->modPos(traj * (float)power);
-		break;
-	case MAG_PULL:
-		target->modPos(traj * -(float)power);
-		break;
-	default:
-		break;
+
+		vector3 traj = (theMouse->getPos() - owner->getPosition()).normalized();
+
+		switch(mode)
+		{
+		case MAG_PUSH:
+			target->modPos(traj * (power * dt));
+			break;
+		case MAG_PULL:
+			target->modPos(traj * -(power * dt));
+			break;
+		default:
+			break;
+		}
 	}
 }
 
