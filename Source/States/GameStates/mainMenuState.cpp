@@ -68,7 +68,7 @@ void mainMenuState::update(float dt)
 	{
 		if (dt >= .016f) 
 		{ 
-			m_fXPer += .02f; 
+			m_fXPer += .1f; 
 			m_fXLerp = Lerp(1024, 0, m_fXPer); 
 			if(m_fXPer >= 1)
 			{
@@ -81,7 +81,7 @@ void mainMenuState::update(float dt)
 	{
 		if (dt >= .016f) 
 		{ 
-			m_fXPer -= .02f; 
+			m_fXPer -= .1f; 
 			m_fXLerp = Lerp(1024, 0, m_fXPer);
 			if(m_fXPer <= 0)
 			{
