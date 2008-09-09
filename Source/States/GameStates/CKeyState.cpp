@@ -16,18 +16,33 @@
 
 CKeyState::CKeyState(void) : state(NULL), character(0)
 {
-	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
+	m_szJump = new char[128];
+	m_szMoveLeft = new char[128];
+	m_szMoveRight = new char[128];
 
+	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
+	
+	char* buffer;
+	
 	IsPressed = false;
 
 	m_nJump = game::GetInstance()->GetKeys().m_nJump;
 	m_nMoveLeft = game::GetInstance()->GetKeys().m_nRunLeft;
 	m_nMoveRight = game::GetInstance()->GetKeys().m_nRunRight;
 
-	char* buffer;
-	m_szJump = new char[128];
-	m_szMoveLeft = new char[128];
-	m_szMoveRight = new char[128];
+// 	char* buffer;
+// 	m_szJump = new char[128];
+// 	m_szMoveLeft = new char[128];
+// 	m_szMoveRight = new char[128];
+// 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
+// 	sprintf_s(m_szJump, 128, "Jump: %s", buffer);
+// 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
+// 	sprintf_s(m_szMoveLeft, 128, "Move Left: %s", buffer);
+// 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
+// 	sprintf_s(m_szMoveRight, 128, "Move Left: %s", buffer);
+
+	menuItemString = new char*[TOTAL];
+
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
 	sprintf_s(m_szJump, 128, "Jump: %s", buffer);
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
@@ -35,14 +50,18 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
 	sprintf_s(m_szMoveRight, 128, "Move Left: %s", buffer);
 
-	menuItemString = new char*[TOTAL];
 
 	menuItemString[JUMP] = m_szJump;
 	menuItemString[MOVELEFT] = m_szMoveLeft;
 	menuItemString[MOVERIGHT] = m_szMoveRight;
 	menuItemString[BACK] = "Back";
 	menuLast = BACK;
-	
+// 	menuItemString[JUMP] = m_szJump;
+// 	menuItemString[MOVELEFT] = m_szMoveLeft;
+// 	menuItemString[MOVERIGHT] = m_szMoveRight;
+// 	menuItemString[BACK] = "Back";
+// 	menuLast = BACK;
+// 	
 	
 	//strcpy_s(m_szJump, sizeof((char*)game::GetInstance()->GetKeys().m_nJump),(char*)game::GetInstance()->GetKeys().m_nJump) ;
 	//m_szMoveLeft = (char*)game::GetInstance()->GetKeys().m_nRunLeft;
@@ -53,6 +72,10 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 
 CKeyState::~CKeyState(void)
 {
+// 	delete[] m_szJump;
+// 	delete[] m_szMoveLeft;
+// 	delete[] m_szMoveRight;
+
 	viewManager::getInstance()->releaseTexture(foregroundID);
 }
 
@@ -77,6 +100,9 @@ void CKeyState::exit(void)
 {
 	m_bIsMoving = true;
 	m_fXLerp = 1024;
+	delete[] m_szJump;
+	delete[] m_szMoveLeft;
+	delete[] m_szMoveRight;
 	menuState::exit();
 }
 bool CKeyState::input(float dt)
@@ -175,9 +201,7 @@ void CKeyState::update(float dt)
 	}
 
 	char* buffer;
-	m_szJump = new char[128];
-	m_szMoveLeft = new char[128];
-	m_szMoveRight = new char[128];
+	
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
 	sprintf_s(m_szJump, 128, "Jump: %s", buffer);
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
@@ -231,9 +255,6 @@ void CKeyState::render(void) const
 		return;
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
-
-
-
 
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
