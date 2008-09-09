@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // File: "bitFont.cpp"
-// Author: Scott Smallback (SS)
+// Author: Scott Smallback (SS) / Jared Hamby (JH)
 // Purpose: This file is necessary to render bitmap fonts onto the screen.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -9,9 +9,9 @@
 #include "..\Wrappers\viewManager.h"
 #include "physics.h"
 
-#define CHARSET "Resource/PS_charset.png"
+#define CHARSET "Resource/Images/PS_bitfont.png"
 #define CHARWIDTH 32
-#define CHARHEIGHT 48
+#define CHARHEIGHT 32
 
 bitFont::bitFont(void)
 {
@@ -37,7 +37,7 @@ void bitFont::initialize(viewManager* _VM, char* fontImg, int char_width, int ch
 	charHeight = char_height;
 
 	pt dim = VM->getTextureDimensions(csId);
-	columns = dim.x / charWidth;
+	columns = 10;
 }
 
 void bitFont::shutdown()
@@ -66,8 +66,8 @@ rect bitFont::charRect(char ch)
 
 	ch -= 32;
 
-	holder.top = (ch / columns) * charHeight;
-	holder.bottom = holder.top + charHeight;
+	holder.top = (ch / columns) * charHeight + 1;
+	holder.bottom = holder.top + charHeight - 2;
 	holder.left = (ch % columns) * charWidth;
 	holder.right = holder.left + charWidth;
 

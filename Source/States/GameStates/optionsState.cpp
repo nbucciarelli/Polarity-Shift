@@ -21,9 +21,9 @@ optionsState::optionsState(void)
 	menuItemString = new char*[TOTAL];
 
 	menuItemString[SFX] = "SFX: 0";
-	menuItemString[MUSIC] = "Music: 0";
-	menuItemString[KEYBINDINGS] = "Keybindings";
-	menuItemString[BACK] = "Back";
+	menuItemString[MUSIC] = "MUSIC: 0";
+	menuItemString[KEYBINDINGS] = "KEYBINDINGS";
+	menuItemString[BACK] = "BACK";
 	menuLast = BACK;
 }
 
@@ -133,9 +133,9 @@ void optionsState::render(void) const
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, textColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, highlightColor);
 
 	//Draw meun cursor at the selected item
 	viewManager::getInstance()->drawTexture(cursorID,

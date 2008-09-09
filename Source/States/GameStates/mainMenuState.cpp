@@ -19,12 +19,12 @@ mainMenuState::mainMenuState(void)
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[PLAY] = "Play";
-	menuItemString[OPTIONS] = "Options";
-	menuItemString[HOWTO] = "How to play";
-	menuItemString[SCORES] = "High Scores";
-	menuItemString[CREDITS] = "Credits";
-	menuItemString[EXIT] = "Exit";
+	menuItemString[PLAY] = "PLAY";
+	menuItemString[OPTIONS] = "OPTIONS";
+	menuItemString[HOWTO] = "HOW TO PLAY";
+	menuItemString[SCORES] = "HIGH SCORES";
+	menuItemString[CREDITS] = "CREDITS";
+	menuItemString[EXIT] = "EXIT";
 	menuLast = EXIT;
 }
 
@@ -141,9 +141,9 @@ void mainMenuState::render(void) const
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, textColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, highlightColor);
 
 	//Draw meun cursor at the selected item
 	viewManager::getInstance()->drawTexture(cursorID,

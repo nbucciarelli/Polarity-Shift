@@ -20,10 +20,10 @@ levelChooseState::levelChooseState(void)
 
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[LEVEL1] = "Level 1";
-	menuItemString[LEVEL2] = "Level 2";
-	menuItemString[LEVEL3] = "Level 3";
-	menuItemString[BACK] = "Back";
+	menuItemString[LEVEL1] = "LEVEL 1";
+	menuItemString[LEVEL2] = "LEVEL 2";
+	menuItemString[LEVEL3] = "LEVEL 3";
+	menuItemString[BACK] = "BACK";
 	menuLast = BACK;
 }
 
@@ -131,9 +131,9 @@ void levelChooseState::render(void) const
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, textColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], 20 + m_fXLerp + xPos, yPos + c * 50, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, highlightColor);
 
 	//Draw meun cursor at the selected item
 	viewManager::getInstance()->drawTexture(cursorID,

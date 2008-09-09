@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // File: "bitFont.h"
-// Author: Scott Smallback (SS)
+// Author: Scott Smallback (SS) / Jared Hamby (JH)
 // Purpose: This file is necessary to render bitmap fonts onto the screen.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -8,9 +8,9 @@
 
 class viewManager;
 
-#define CHARSET "Resource/PS_charset.png"
+#define CHARSET "Resource/Images/PS_bitfont.png"
 #define CHARWIDTH 32
-#define CHARHEIGHT 48
+#define CHARHEIGHT 32
 
 class bitFont
 {
@@ -63,5 +63,5 @@ public:
 	//	Last Modified:	August 25, 2008
 	//	Purpose:		Draws selected text out to the screen
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void drawText(char* text, int x, int y, unsigned int color = 0xffffffff, float scale = 1, float depth = 0);
+	void drawText(char* text, int x, int y, unsigned int color = 0xffffffff, float scale = .75f, float depth = 0);
 };
