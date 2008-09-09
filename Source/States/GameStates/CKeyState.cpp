@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	File:			"optionsState.cpp"
+//	File:			"CKeyState.cpp"
 //	Author:			Jared Hamby (JH)
-//	Purpose:		Handles the options state
+//	Purpose:		Handles the Keys state
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "optionsState.h"
+#include "CKeyState.h"
 #include <windows.h>
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\globalEvents.h"
@@ -12,54 +12,50 @@
 #include "../../Helpers/SGD_Math.h"
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
-//#include "..\..\Engines\CParticleEffectManager.h"
 
-optionsState::optionsState(void)
+CKeyState::CKeyState(void)
 {
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[SFX] = "SFX: 0";
-	menuItemString[MUSIC] = "Music: 0";
-	menuItemString[KEYBINDINGS] = "Keybindings";
+	menuItemString[JUMP] = "Jump: 0";
+	menuItemString[MOVELEFT] = "Move Left: ";
+	menuItemString[MOVERIGHT] = "Move Right: ";
 	menuItemString[BACK] = "Back";
 	menuLast = BACK;
+
+	//strcpy_s(m_szJump, sizeof((char*)game::GetInstance()->GetKeys().m_nJump),(char*)game::GetInstance()->GetKeys().m_nJump) ;
+	//m_szMoveLeft = (char*)game::GetInstance()->GetKeys().m_nRunLeft;
 }
 
-optionsState::~optionsState(void)
+CKeyState::~CKeyState(void)
 {
 	viewManager::getInstance()->releaseTexture(foregroundID);
 }
 
-optionsState* optionsState::getInstance()
+CKeyState* CKeyState::getInstance()
 {
-	static optionsState Elgoog;
+	static CKeyState Elgoog;
 	return &Elgoog;
 }
 
-void optionsState::enter(void)
+void CKeyState::enter(void)
 {
 
-	//m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
-	//CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	m_fXPer = 0;
-	m_fXLerp = 1024;
+	m_fXLerp = 0;
 	m_bIsMoving = true;
-	m_bIsExiting = false;
-	m_bIsExited = false;
 	menuState::enter();
 }
 
-void optionsState::exit(void)
+void CKeyState::exit(void)
 {
 	m_bIsMoving = true;
-	m_fXLerp = 1024;
 	menuState::exit();
-	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
-	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
+	
 }
-void optionsState::update(float dt)
+void CKeyState::update(float dt)
 {
 	if(!entered)
 		return;
@@ -78,42 +74,24 @@ void optionsState::update(float dt)
 			}
 		}
 	}
-	else if(m_bIsExiting == true)
-	{
-		if (dt >= .016f) 
-		{ 
-			m_fXPer -= .02f; 
-			m_fXLerp = Lerp(1024, 0, m_fXPer);
-			if(m_fXPer <= 0)
-			{
-				m_fXPer = 0;
-				m_bIsExiting = false;
-				m_bIsExited = true;
-			}
-		}
-	}
-
-	if(m_bIsExited == true)
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
 }
 
-void optionsState::menuHandler()
+void CKeyState::menuHandler()
 {
 	switch(menuPos)
 	{
-	case SFX:
-	case MUSIC:
+	case JUMP:
+	case MOVELEFT:
 		break;
-	case KEYBINDINGS:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_KEYBINDINGS));
+	case MOVERIGHT:
 		break;
 	case BACK:
-		m_bIsExiting = true;
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
 		break;
 	}
 }
 
-void optionsState::render(void) const
+void CKeyState::render(void) const
 {
 	if(!entered)
 		return;
@@ -131,6 +109,4 @@ void optionsState::render(void) const
 	viewManager::getInstance()->drawTexture(cursorID,
 		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
-	//menuState::render();
-	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(), menuState::GetEmitterPosY()); 
 }

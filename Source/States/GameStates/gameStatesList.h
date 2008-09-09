@@ -17,3 +17,4 @@
 #include "optionsState.h"
 #include "CHighScoresState.h"
 #include "CCreditsState.h"
+#include "CKeyState.h"

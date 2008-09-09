@@ -33,6 +33,9 @@ game * game::GetInstance()
 #pragma region initialize/shutdown
 void game::Initialize(HINSTANCE hInstance)
 {
+	m_cKeys.m_nJump =DIK_W;
+	m_cKeys.m_nRunLeft = DIK_A;
+	m_cKeys.m_nRunRight = DIK_D;
 	theDisplay = display::getInstance();
 	theDisplay->InitWindow(hInstance);
 

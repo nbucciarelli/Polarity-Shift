@@ -14,7 +14,7 @@ typedef void* HANDLE;
 class eventManager;
 
 #include "Wrappers/CTimer.h"
-
+#include "Helpers\CKeyBindings.h"
 #include "Wrappers\CPixelShader.h"
 //class CPixelShader;
 
@@ -38,7 +38,7 @@ protected:
 	HANDLE renderThread;
 
 	
-
+	Keys m_cKeys;
 	//Component pointers.  Note none care if it's DX or OGL or whatever.
 	display* theDisplay;
 	dxRenderer* theRenderer;
@@ -83,4 +83,6 @@ public:
 	bool getIsRunning() { return isRunning; }
 	void setIsRunning(bool set) { isRunning = set; }
 	float getGameTime() { return gameTime; }
+
+	Keys GetKeys(){return m_cKeys;}
 };

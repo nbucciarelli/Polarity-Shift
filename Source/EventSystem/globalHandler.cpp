@@ -89,6 +89,8 @@ gameState* globalHandler::state(int st)
 		return CHighScoresState::GetInstance();
 	case STATE_CREDITS:
 		return CCreditsState::getInstance();
+	case STATE_KEYBINDINGS:
+		return CKeyState::getInstance();
 	default:
 		return NULL;
 	}

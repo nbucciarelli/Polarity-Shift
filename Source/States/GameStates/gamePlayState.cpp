@@ -13,7 +13,7 @@
 #include "../../Objects/objManager.h"
 #include "..\..\Engines\CTileEngine.h"
 #include "..\..\Engines\CAIEngine.h"
-
+#include "..\..\game.h"
 
 gamePlayState::gamePlayState() : rendering(false) {}
 gamePlayState::~gamePlayState() {}
@@ -66,14 +66,14 @@ bool gamePlayState::input(float dt)
 
 	if(entered)
 	{
-	if(theInput->KeyDown(DIK_A))
+		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunLeft))
 		EM->sendEvent(EVENT_PLAYERGOLEFT);
-	else if(theInput->KeyDown(DIK_D))
+	else if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunRight))
 		EM->sendEvent(EVENT_PLAYERGORIGHT);
 	else if(theInput->KeyReleased(DIK_A) || theInput->KeyReleased(DIK_D))
 		EM->sendEvent(EVENT_PLAYERSTOP);
 
-	if(theInput->KeyPressed(DIK_W))
+	if(theInput->KeyPressed(game::GetInstance()->GetKeys().m_nJump))
 		EM->sendEvent(EVENT_PLAYERJUMP);
 	}
 
