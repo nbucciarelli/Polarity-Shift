@@ -13,7 +13,7 @@
 #include <cmath>
 
 playerObj::playerObj() : maxVel(200), maxAcc(0), range(0), jumpTime(0), maxJumpTime(0.2f),
-accStep(0), jumpDone(false), movingObj(OBJ_PLAYER)
+accStep(0), jumpDone(false), theWeapon(0), weaponType(0), movingObj(OBJ_PLAYER)
 {
 	eventManager::getInstance()->sendEvent(EVENT_PLAYERLOAD, this);
 	m_pAM = CAnimationManager::GetInstance();
@@ -22,9 +22,22 @@ accStep(0), jumpDone(false), movingObj(OBJ_PLAYER)
 	SetAnimNumber(1);
 }
 
+playerObj::playerObj(const playerObj& obj)
+{
+	memcpy_s(this, sizeof(playerObj), &obj, sizeof(playerObj));
+
+	if(theWeapon)
+	{
+		theWeapon = weapon::createWeapon(weaponType, this);
+	}
+}
+
 playerObj::~playerObj()
 {
 	eventManager::getInstance()->unregisterClient(this);
+
+	if(theWeapon)
+		delete theWeapon;
 }
 
 void playerObj::update(float dt)
@@ -56,6 +69,9 @@ void playerObj::update(float dt)
 	{
 		jumpTime = 0;
 	}
+
+	if(theWeapon)
+		theWeapon->update(dt);
 }
 
 //THIS NEEDS TO BE CODED INTO THE GAME FOR THE PLAYER WHEN THE PLAYER IS ACTUALLY ANIMATING (NEEDS TO RENDER HIS OWN)
@@ -67,14 +83,6 @@ void playerObj::render()
 				m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
 
 	CRITICAL(m_pAM->Render(num, &worldMatrix));
-	//if(getFacing() == FACE_RIGHT)
-	//{
-	//	CRITICAL(m_pAM->Render(num, (int)getPosition().x, (int)getPosition().y));
-	//}
-	//else
-	//{
-	//	CRITICAL(m_pAM->Render(num, (int)getPosition().x + (int)getDimensions().x, (int)getPosition().y, -1));
-	//}
 }
 
 void playerObj::HandleEvent(gameEvent *ev)
@@ -122,4 +130,8 @@ void playerObj::HandleEvent(gameEvent *ev)
 		jumpDone = true;
 		break;
 	}
+}
+
+void setWeapon(int weapID)
+{
 }

@@ -2,6 +2,8 @@
 
 #include "weapon.h"
 
+class movingObj;
+
 enum magMode {
 	MAG_OFF,
 	MAG_PUSH,
@@ -16,17 +18,16 @@ class magnetGun : public weapon
 protected:
 	float beamWidthFactor;
 
-	baseObj* getTarget(const vector3& farPoint);
+	bool getTarget(const vector3& farPoint);
+
+	movingObj* target;
 
 	int mode;
 public:
 	magnetGun();
 	~magnetGun();
 
-	virtual int getMode() const { return mode; }
-	virtual void setMode(int value) { mode = value; }
-
-	virtual void openFire(const vector3& trajectory);
+	virtual void openFire(const vector3& trajectory, int fireMode = 0);
 	virtual void ceaseFire();
 
 	float getWidthFactor() const { return beamWidthFactor; }
