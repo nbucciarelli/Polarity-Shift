@@ -14,6 +14,7 @@
 #include "..\..\Engines\CTileEngine.h"
 #include "..\..\Engines\CAIEngine.h"
 #include "..\..\game.h"
+#include "levelChooseState.h"
 
 gamePlayState::gamePlayState() : rendering(false) {}
 gamePlayState::~gamePlayState() {}
@@ -41,7 +42,10 @@ void gamePlayState::enter(void)
 
 	AIE = new CAIEngine();
 	TE = new CTileEngine();
-	TE->LoadMap("Resource/PS_TestLevel.bmf");
+	if(levelChooseState::getInstance()->GetPlayLevel1() == true)
+		TE->LoadMap("Resource/PS_TestLevel.bmf");
+	else if(levelChooseState::getInstance()->GetPlayLevel2() == true)
+		TE->LoadMap("Resource/PS_TestLevel2.bmf");
 }
 
 void gamePlayState::exit(void)

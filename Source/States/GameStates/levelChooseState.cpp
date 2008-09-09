@@ -104,15 +104,15 @@ void levelChooseState::menuHandler()
 	switch(menuPos)
 	{
 	case LEVEL1:
-		m_bPlayLevel1 = true;
+		SetPlayLevel1(true);
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case LEVEL2:
-		m_bPlayLevel2 = true;
+		SetPlayLevel2(true);
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case LEVEL3:
-		m_bPlayLevel3 = true;
+		SetPlayLevel3(true);
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case BACK:

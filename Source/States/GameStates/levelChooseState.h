@@ -60,4 +60,12 @@ public:
 	//	Purpose:		renders the main menu state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	virtual void render(void) const;
+
+	bool GetPlayLevel1() const { return m_bPlayLevel1; }
+	bool GetPlayLevel2() const { return m_bPlayLevel2; }
+	bool GetPlayLevel3() const { return m_bPlayLevel3; }
+
+	void SetPlayLevel1(bool val) { m_bPlayLevel1 = val; }
+	void SetPlayLevel2(bool val) { m_bPlayLevel2 = val; }
+	void SetPlayLevel3(bool val) { m_bPlayLevel3 = val; }
 };
