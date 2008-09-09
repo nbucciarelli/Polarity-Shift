@@ -44,18 +44,19 @@ CKeyState* CKeyState::getInstance()
 
 void CKeyState::enter(void)
 {
-
 	m_fXPer = 0;
-	m_fXLerp = 0;
+	m_fXLerp = 1024;
 	m_bIsMoving = true;
+	m_bIsExiting = false;
+	m_bIsExited = false;
 	menuState::enter();
 }
 
 void CKeyState::exit(void)
 {
 	m_bIsMoving = true;
+	m_fXLerp = 1024;
 	menuState::exit();
-	
 }
 void CKeyState::update(float dt)
 {
@@ -76,6 +77,23 @@ void CKeyState::update(float dt)
 			}
 		}
 	}
+	else if(m_bIsExiting == true)
+	{
+		if (dt >= .016f) 
+		{ 
+			m_fXPer -= .02f; 
+			m_fXLerp = Lerp(1024, 0, m_fXPer);
+			if(m_fXPer <= 0)
+			{
+				m_fXPer = 0;
+				m_bIsExiting = false;
+				m_bIsExited = true;
+			}
+		}
+	}
+
+	if(m_bIsExited == true)
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
 }
 
 void CKeyState::menuHandler()
@@ -89,7 +107,7 @@ void CKeyState::menuHandler()
 	case MOVERIGHT:
 		break;
 	case BACK:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
+		m_bIsExiting = true;
 		break;
 	}
 }

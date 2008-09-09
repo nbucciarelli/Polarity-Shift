@@ -14,6 +14,7 @@ protected:
 
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp;
+	bool m_bMainMenu, m_bKeyBind;
 
 	void menuHandler();
 

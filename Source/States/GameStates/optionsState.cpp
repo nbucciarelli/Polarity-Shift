@@ -94,7 +94,13 @@ void optionsState::update(float dt)
 	}
 
 	if(m_bIsExited == true)
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
+	{
+		if(m_bMainMenu == true)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
+		else if(m_bKeyBind == true)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_KEYBINDINGS));
+
+	}
 }
 
 void optionsState::menuHandler()
@@ -105,10 +111,12 @@ void optionsState::menuHandler()
 	case MUSIC:
 		break;
 	case KEYBINDINGS:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_KEYBINDINGS));
+		m_bIsExiting = true;
+		m_bKeyBind = true;
 		break;
 	case BACK:
 		m_bIsExiting = true;
+		m_bMainMenu = true;
 		break;
 	}
 }
