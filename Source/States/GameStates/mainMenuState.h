@@ -18,7 +18,7 @@ protected:
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp;
 
-	bool m_bOptions, m_bHowTo, m_bScores, m_bCredits;
+	bool m_bOptions, m_bHowTo, m_bScores, m_bCredits, m_bLevelSelect;
 
 	void menuHandler();
 

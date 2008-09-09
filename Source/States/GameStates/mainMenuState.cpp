@@ -94,8 +94,10 @@ void mainMenuState::update(float dt)
 
 	if(m_bIsExited == true)
 	{
-		if(m_bOptions)
+		if(m_bOptions == true)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
+		else if(m_bLevelSelect == true)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
 	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
@@ -107,7 +109,8 @@ void mainMenuState::menuHandler()
 	{
 	case PLAY:
 		//game::GetInstance()->changeState(playState::getInstance());
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
+		m_bIsExiting = true;
+		m_bLevelSelect = true;
 		break;
 	case OPTIONS:
 		m_bIsExiting = true;
