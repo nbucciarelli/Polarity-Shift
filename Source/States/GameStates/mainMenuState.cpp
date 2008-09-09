@@ -46,6 +46,8 @@ void mainMenuState::enter(void)
 	m_bIsMoving = true;
 	m_bIsExiting = false;
 	m_bIsExited = false;
+	m_bLevelSelect = false;
+	m_bOptions = false;
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_CursorParticle.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	menuState::enter();
