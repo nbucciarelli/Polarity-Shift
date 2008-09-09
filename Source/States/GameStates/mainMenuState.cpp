@@ -41,17 +41,19 @@ mainMenuState* mainMenuState::getInstance()
 
 void mainMenuState::enter(void)
 {
-
+	m_fXPer = 0;
+	m_fXLerp = 1024;
+	m_bIsMoving = true;
+	m_bIsExiting = false;
+	m_bIsExited = false;
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_CursorParticle.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	menuState::enter();
-	m_fXPer = 0;
-	m_fXLerp = 0;
-	m_bIsMoving = true;
 }
 
 void mainMenuState::exit(void)
 {
+	m_fXLerp = 1024;
 	menuState::exit();
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
 	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
@@ -75,6 +77,23 @@ void mainMenuState::update(float dt)
 			}
 		}
 	}
+	else if(m_bIsExiting == true)
+	{
+		if (dt >= .016f) 
+		{ 
+			m_fXPer -= .02f; 
+			m_fXLerp = Lerp(1024, 0, m_fXPer);
+			if(m_fXPer <= 0)
+			{
+				m_fXPer = 0;
+				m_bIsExiting = false;
+				m_bIsExited = true;
+			}
+		}
+	}
+
+	if(m_bIsExited == true)
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
 
 	CParticleEffectManager::GetInstance()->Update(dt);
 }
@@ -88,7 +107,7 @@ void mainMenuState::menuHandler()
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case OPTIONS:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
+		m_bIsExiting = true;
 		break;
 	case HOWTO:
 		break;
