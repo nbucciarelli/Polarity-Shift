@@ -45,6 +45,8 @@ void optionsState::enter(void)
 	//CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	m_fXPer = 0;
 	m_fXLerp = 1024;
+	m_bMainMenu = false;
+	m_bKeyBind = false;
 	m_bIsMoving = true;
 	m_bIsExiting = false;
 	m_bIsExited = false;
