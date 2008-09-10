@@ -35,7 +35,7 @@ menuState::~menuState()
 
 void menuState::enter(void)
 {
-	highlightColor = 0xff88dd88;
+	highlightColor = 0xffa4a4ff;
 	theInput = inputDevice::GetInstance();
 	theFont = bitFont::getInstance();
 	objM = objManager::getInstance();
@@ -64,7 +64,7 @@ bool menuState::input(float dt)
 		if (theInput->KeyPressed(DIK_RETURN))
 		{
 			
-			highlightColor = 0xffff0000;
+			highlightColor = 0xffa4a4ff;
 			menuHandler();
 		}
 		else if (theInput->KeyPressed(DIK_DOWN))
@@ -127,7 +127,7 @@ bool menuState::input(float dt)
 			Player1->Vibrate(0, 0);
 		}
 	}
-	highlightColor = 0xff88dd88;
+	highlightColor = 0xffa4a4ff;
 	
 
 #pragma region "Thumb Sticks"

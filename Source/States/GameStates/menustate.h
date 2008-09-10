@@ -40,7 +40,7 @@ protected:
 	virtual void menuHandler() = 0;
 
 	menuState(int x = 300, int y = 200,
-		unsigned int color = 0xffffffff, unsigned int highlight = 0xff929ffe);
+		unsigned int color = 0xffffffff, unsigned int highlight = 0xffa4a4ff);
 	virtual ~menuState(void);
 public:
 	

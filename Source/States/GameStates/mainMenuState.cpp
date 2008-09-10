@@ -156,8 +156,8 @@ void mainMenuState::render(void) const
 			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, highlightColor);
 
 	//Draw meun cursor at the selected item
-	viewManager::getInstance()->drawTexture(cursorID,
-		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
+	//viewManager::getInstance()->drawTexture(cursorID,
+	//	&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
 	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetXPos(), menuState::GetYPos()+ 10 + menuState::GetMenuPos() * 50); 
 	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, 1024, 600); 
