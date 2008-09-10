@@ -128,16 +128,18 @@ void levelChooseState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
+	theFont->drawText("Level Select", (int)(233 + m_fXLerp), 35, textColor, 1.25f);
+
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, textColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, highlightColor);
 
 	//Draw meun cursor at the selected item
-	viewManager::getInstance()->drawTexture(cursorID,
-		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
+	//viewManager::getInstance()->drawTexture(cursorID,
+	//	&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
 	//menuState::render();
 	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(), menuState::GetEmitterPosY()); 

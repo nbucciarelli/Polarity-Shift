@@ -178,8 +178,8 @@ void menuState::render(void) const
 			theFont->drawText(menuItemString[c], xPos, yPos + c * 50, highlightColor);
 
 	//Draw meun cursor at the selected item
-	viewManager::getInstance()->drawTexture(cursorID,
-		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
+	//viewManager::getInstance()->drawTexture(cursorID,
+	//	&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
 	
 }
