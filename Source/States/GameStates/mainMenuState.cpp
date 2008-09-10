@@ -134,7 +134,7 @@ void mainMenuState::menuHandler()
 	case CREDITS:
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
 		break;
-	default:
+	default:	
 		EM->sendGlobalEvent(GE_STATE_CLEARALL);
 	}
 }
@@ -146,12 +146,14 @@ void mainMenuState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
+	theFont->drawText("Polarity Shift", (int)(193 + m_fXLerp), 35, textColor, 1.25f);
+
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, textColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 50, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, highlightColor);
 
 	//Draw meun cursor at the selected item
 	viewManager::getInstance()->drawTexture(cursorID,
@@ -159,7 +161,4 @@ void mainMenuState::render(void) const
 
 	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetXPos(), menuState::GetYPos()+ 10 + menuState::GetMenuPos() * 50); 
 	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, 1024, 600); 
-
-	
-	
 }
