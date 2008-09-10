@@ -81,7 +81,8 @@ bool gamePlayState::input(float dt)
 		EM->sendEvent(EVENT_PLAYERGOLEFT);
 	else if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunRight))
 		EM->sendEvent(EVENT_PLAYERGORIGHT);
-	else if(theInput->KeyReleased(DIK_A) || theInput->KeyReleased(DIK_D))
+	else if(theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunLeft)
+		|| theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunRight))
 		EM->sendEvent(EVENT_PLAYERSTOP);
 
 	if(theInput->KeyPressed(game::GetInstance()->GetKeys().m_nJump))
