@@ -168,8 +168,6 @@ void CTileEngine::LoadMap(string szFileName)
 		m_vTrapList.push_back(temp);
 	}
 
-		//fin.read((char*)&List, sizeof(int));
-
 
 		POINT temp;
 		fin.read((char*)&temp.x, sizeof(int));
