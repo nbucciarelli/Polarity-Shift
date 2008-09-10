@@ -13,6 +13,8 @@
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
 
+#include "..\..\Engines\CParticleEffectManager.h"
+
 mainMenuState::mainMenuState(void)
 {
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
@@ -47,6 +49,10 @@ void mainMenuState::enter(void)
 	m_bIsExited = false;
 	m_bLevelSelect = false;
 	m_bOptions = false;
+
+	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
+	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
+
 	
 	menuState::enter();
 }
@@ -56,6 +62,7 @@ void mainMenuState::exit(void)
 	m_fXLerp = 1024;
 	menuState::exit();
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
+	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
 	
 }
 void mainMenuState::update(float dt)
@@ -101,6 +108,8 @@ void mainMenuState::update(float dt)
 		else if(m_bLevelSelect == true)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
 	}
+
+	CParticleEffectManager::GetInstance()->Update(dt);
 
 	
 }
@@ -151,6 +160,8 @@ void mainMenuState::render(void) const
 		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
 	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetXPos(), menuState::GetYPos()+ 10 + menuState::GetMenuPos() * 50); 
+	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, 1024, 600); 
+
 	
 	
 }

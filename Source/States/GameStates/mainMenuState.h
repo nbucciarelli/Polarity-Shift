@@ -22,6 +22,7 @@ protected:
 
 	void menuHandler();
 
+	int m_nParticleImageID;
 
 	mainMenuState(void);
 	mainMenuState(const mainMenuState&);
