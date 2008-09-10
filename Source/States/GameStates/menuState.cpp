@@ -49,8 +49,10 @@ void menuState::enter(void)
 
 	menuPos = 0;
 	
-	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
-	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
+	m_nParticleImageID[0] = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
+	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID[0], true);
+	m_nParticleImageID[1] = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomLeft.prt");
+	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID[1], true);
 
 	gameState::enter();
 }
@@ -59,7 +61,8 @@ void menuState::exit(void)
 {
 	delete Player1;
 
-	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
+	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID[1]);
+	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID[2]);
 	gameState::exit();
 }
 
@@ -136,7 +139,7 @@ bool menuState::input(float dt)
 	highlightColor = 0xff88dd88;
 	
 
-
+#pragma region "Thumb Sticks"
 	//float leftThumbY = Player1->GetState().Gamepad.sThumbLX;
 
 	/*
@@ -160,7 +163,7 @@ bool menuState::input(float dt)
 	//m_nEmitterPosX += Player1->GetState().Gamepad.sThumbLX % 1000;
 	//m_nEmitterPosY += Player1->GetState().Gamepad.sThumbLY % 1000;
 	}*/
-
+#pragma endregion
 
 
 	return true;
@@ -188,7 +191,8 @@ void menuState::render(void) const
 	viewManager::getInstance()->drawTexture(cursorID,
 		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
-	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, 1024, 600); 
+	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID[0], 1024, 600); 
+	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID[1], 0, 600); 
 
 	
 

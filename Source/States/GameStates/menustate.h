@@ -27,7 +27,7 @@ protected:
 	int m_nEmitterPosY;
 	float m_fUpdateTimer;
 
-	int m_nParticleImageID;
+	int m_nParticleImageID[2];
 
 	bool m_bIsMoving, m_bIsExiting, m_bIsExited;
 
