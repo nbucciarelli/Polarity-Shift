@@ -35,7 +35,13 @@ void gamePlayState::enter(void)
 	OM = objManager::getInstance();
 	theInput = CSGD_DirectInput::GetInstance();
 	EM = eventManager::getInstance();
-	
+
+	TE = CTileEngine::GetInstance();
+	if(levelChooseState::getInstance()->GetPlayLevel1() == true)
+		TE->LoadMap("Resource/PS_TestLevel.bmf");
+	else if(levelChooseState::getInstance()->GetPlayLevel2() == true)
+		TE->LoadMap("Resource/PS_TestLevel2.bmf");
+
 	handler = new playHandler;
 	handler->initialize();
 
@@ -45,11 +51,6 @@ void gamePlayState::enter(void)
 	EM->sendEvent(EVENT_GAMELOADING);
 
 	AIE = new CAIEngine();
-	TE = new CTileEngine();
-	if(levelChooseState::getInstance()->GetPlayLevel1() == true)
-		TE->LoadMap("Resource/PS_TestLevel.bmf");
-	else if(levelChooseState::getInstance()->GetPlayLevel2() == true)
-		TE->LoadMap("Resource/PS_TestLevel2.bmf");
 }
 
 void gamePlayState::exit(void)
@@ -59,7 +60,7 @@ void gamePlayState::exit(void)
 
 	gameState::exit();
 	
-	delete TE;
+	TE->ShutDown();
 	delete AIE;
 	OM->clear();
 	handler->shutdown();

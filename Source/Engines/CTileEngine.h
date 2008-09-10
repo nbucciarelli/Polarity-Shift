@@ -39,10 +39,12 @@ private:
 	volatile bool ready;
 	volatile bool rendering;
 
-public:
 	CTileEngine(void);
 	~CTileEngine(void);
 
+public:
+
+	static CTileEngine* GetInstance();
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"Render"
 	//	Last Modified:	August 26, 2008

@@ -13,6 +13,7 @@
 #include "globalEvents.h"
 #include "../Helpers/objFileLoader.h"
 #include "../Wrappers/Mouse.h"
+#include "../Engines/CTileEngine.h"
 
 #include "../Objects/weapon.h"
 #include "../Objects/playerObj.h"
@@ -70,7 +71,7 @@ void playHandler::onGameLoad()
 
 	movingObj* testObj = new playerObj;
 
-	testObj->setPos(vector3(100,0,0));
+	testObj->setPos(vector3(CTileEngine::GetInstance()->GetPlayerSpawn().x,CTileEngine::GetInstance()->GetPlayerSpawn().y,0));
 	//testObj->setAngPos(vector3(0,0,PI));
 	testObj->setImgId(viewManager::getInstance()->loadTexture("Resource/Images/PS_8bitIronMan.png", 0xffffffff));
 	

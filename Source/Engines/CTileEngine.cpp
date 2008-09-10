@@ -18,6 +18,12 @@ CTileEngine::CTileEngine() : ready(false), rendering(false)
 
 }
 
+CTileEngine* CTileEngine::GetInstance()
+{
+	static CTileEngine CTile;
+	return &CTile;
+}
+
 void CTileEngine::LoadMap(string szFileName)
 {
 	ready = false;
@@ -162,7 +168,7 @@ void CTileEngine::LoadMap(string szFileName)
 		m_vTrapList.push_back(temp);
 	}
 
-		fin.read((char*)&List, sizeof(int));
+		//fin.read((char*)&List, sizeof(int));
 
 
 		POINT temp;
