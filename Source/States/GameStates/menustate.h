@@ -27,6 +27,8 @@ protected:
 	int m_nEmitterPosY;
 	float m_fUpdateTimer;
 
+	int m_nParticleImageID;
+
 	bool m_bIsMoving, m_bIsExiting, m_bIsExited;
 
 	int menuPos, cursorID, menuLast, xPos, yPos;

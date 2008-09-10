@@ -17,6 +17,8 @@
 #include "..\..\Helpers\CXBOXController.h"
 #include "../../Helpers/SGD_Math.h"
 
+#include "..\..\Engines\CParticleEffectManager.h"
+
 #define CURSOR "Resource/PS_menuCursor.png"
 
 menuState::menuState(int x, int y, unsigned int color, unsigned int highlight)
@@ -46,6 +48,9 @@ void menuState::enter(void)
 	m_nEmitterPosY = 500;
 
 	menuPos = 0;
+	
+	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
+	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 
 	gameState::enter();
 }
@@ -54,6 +59,7 @@ void menuState::exit(void)
 {
 	delete Player1;
 
+	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
 	gameState::exit();
 }
 
@@ -162,7 +168,8 @@ bool menuState::input(float dt)
 
 void menuState::update(float dt)
 {
-
+	CParticleEffectManager::GetInstance()->Update(dt);
+		
 }
 
 void menuState::render(void) const
@@ -180,4 +187,12 @@ void menuState::render(void) const
 	//Draw meun cursor at the selected item
 	viewManager::getInstance()->drawTexture(cursorID,
 		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
+
+	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, 1024, 600); 
+
+	
+
+	
+
+	
 }

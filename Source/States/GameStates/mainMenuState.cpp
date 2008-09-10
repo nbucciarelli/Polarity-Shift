@@ -12,7 +12,6 @@
 #include "../../Helpers/SGD_Math.h"
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
-#include "..\..\Engines\CParticleEffectManager.h"
 
 mainMenuState::mainMenuState(void)
 {
@@ -48,8 +47,7 @@ void mainMenuState::enter(void)
 	m_bIsExited = false;
 	m_bLevelSelect = false;
 	m_bOptions = false;
-	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_CursorParticle.prt");
-	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
+	
 	menuState::enter();
 }
 
@@ -58,13 +56,15 @@ void mainMenuState::exit(void)
 	m_fXLerp = 1024;
 	menuState::exit();
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
-	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
+	
 }
 void mainMenuState::update(float dt)
 {
 	if(!entered)
 		return;
 
+
+	menuState::update(dt);
 	m_fTime += dt; 
 	if(m_bIsMoving == true)
 	{
@@ -102,7 +102,7 @@ void mainMenuState::update(float dt)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
 	}
 
-	CParticleEffectManager::GetInstance()->Update(dt);
+	
 }
 
 void mainMenuState::menuHandler()
@@ -136,6 +136,7 @@ void mainMenuState::render(void) const
 	if(!entered)
 		return;
 
+	menuState::render();
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
 	//Draw menu items
@@ -149,6 +150,7 @@ void mainMenuState::render(void) const
 	viewManager::getInstance()->drawTexture(cursorID,
 		&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
-	CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetXPos(), menuState::GetYPos()+ 10 + menuState::GetMenuPos() * 50); 
+	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetXPos(), menuState::GetYPos()+ 10 + menuState::GetMenuPos() * 50); 
+	
 	
 }
