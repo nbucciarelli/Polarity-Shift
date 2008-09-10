@@ -37,7 +37,7 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
 	sprintf_s(m_szMoveLeft, 128, "Move Left: %s", buffer);
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
-	sprintf_s(m_szMoveRight, 128, "Move Left: %s", buffer);
+	sprintf_s(m_szMoveRight, 128, "Move Right: %s", buffer);
 
 
 	menuItemString[JUMP] = m_szJump;
@@ -183,7 +183,7 @@ void CKeyState::update(float dt)
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
 	sprintf_s(m_szMoveLeft, 128, "Move Left: %s", buffer);
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
-	sprintf_s(m_szMoveRight, 128, "Move Left: %s", buffer);
+	sprintf_s(m_szMoveRight, 128, "Move Right: %s", buffer);
 
 
 	menuItemString[JUMP] = m_szJump;
