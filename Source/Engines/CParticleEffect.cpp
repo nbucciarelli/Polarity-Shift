@@ -17,6 +17,8 @@ CParticleEffect::CParticleEffect(void)
 }
 CParticleEffect::~CParticleEffect(void)
 {
+	ShutDown();
+	/*
 	for (unsigned i = (unsigned)vParticles.size() ; i >= 0 ; --i)
 	{
 		delete vParticles[i];
@@ -30,7 +32,7 @@ CParticleEffect::~CParticleEffect(void)
 	}
 	vParticles.clear();
 	vDeadParticles.clear();
-
+*/
 }
 void CParticleEffect::Update(float fDelta)
 {

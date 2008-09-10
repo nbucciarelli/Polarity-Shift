@@ -96,7 +96,7 @@ int CParticleEffectManager::LoadEffect(char* szFileName)
 	{
 		if (vParticleEffect[i] == NULL)
 		{
-			index = 1;
+			index = i;
 			break;
 
 		}
@@ -133,6 +133,8 @@ void CParticleEffectManager::Unload(int nImageID)
 {
 	
 	vParticleEffect[nImageID]->ShutDown();
+	delete vParticleEffect[nImageID];
+	vParticleEffect[nImageID] = 0;
 // 	for (int i = 0 ; i < vParticleEffect[nImageID]->GetNumParticles() ; ++i)
 // 	{
 // 		vParticleEffect[nImageID]->ShutDown();
