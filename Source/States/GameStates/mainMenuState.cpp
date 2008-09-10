@@ -71,7 +71,6 @@ void mainMenuState::update(float dt)
 		return;
 
 
-	menuState::update(dt);
 	m_fTime += dt; 
 	if(m_bIsMoving == true)
 	{
@@ -145,7 +144,6 @@ void mainMenuState::render(void) const
 	if(!entered)
 		return;
 
-	menuState::render();
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
 	//Draw menu items
