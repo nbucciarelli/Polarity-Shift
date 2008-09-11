@@ -15,7 +15,7 @@
 #include "../States/GameStates/gamePlayState.h"
 #include <cmath>
 
-CAIEngine::CAIEngine()
+CAIEngine::CAIEngine() : trackPos(NULL)
 {
 	player = NULL;
 	//register events
@@ -37,7 +37,8 @@ void CAIEngine::update()
 	for(unsigned int j = 0; j < enemyList.size(); j++)
 	{
 		//check players y position
-		if(player->getPosition().y < (enemyList[j]->getPosition().y + 50) && player->getPosition().y > (enemyList[j]->getPosition().y - 50))
+		//if(player->getPosition().e[1] < (enemyList[j]->getPosition().e[1] + 50) && player->getPosition().e[1] > (enemyList[j]->getPosition().e[1] - 50))
+		if(trackPos->y < (enemyList[j]->getPosition().e[1] + 50) && trackPos->y > (enemyList[j]->getPosition().e[1] - 50))
 		{
 			//check players x position
 			if(player->getPosition().x < enemyList[j]->getPosition().x)
@@ -78,6 +79,7 @@ void CAIEngine::HandleEvent(gameEvent *ev)
 	//adds the player to the AI engine
 	case EVENT_PLAYERLOAD:
 		player = (playerObj*)(ev->getData());
+		trackPos = &((baseObj*)(ev->getData()))->getPosition();
 		break;
 	}
 }

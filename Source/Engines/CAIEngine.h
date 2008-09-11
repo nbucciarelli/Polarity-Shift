@@ -13,12 +13,14 @@ using std::vector;
 class enemyObj;
 class playerObj;
 class eventManager;
+union vector3;
 
 class CAIEngine: public listener
 {
 private:
 	vector<enemyObj*> enemyList;
 	playerObj* player;
+	const vector3* trackPos;
 
 public:
 	CAIEngine();
