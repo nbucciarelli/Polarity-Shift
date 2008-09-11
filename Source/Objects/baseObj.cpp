@@ -158,7 +158,9 @@ const polygon* baseObj::getCollisionPoly()
 			//instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
 
 			instancePoly.vertecies[c].coords =
-				calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z) + position;
+				calc::rotatePointAroundOrigin(
+					collisionPoly->vertecies[c].coords - imgCenter, angPos.z)
+						+ position;
 		}
 
 		//instancePoly.center.coords = position;

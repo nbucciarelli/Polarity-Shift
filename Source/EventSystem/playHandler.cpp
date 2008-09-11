@@ -83,7 +83,7 @@ void playHandler::onGameLoad()
 
 	weapy->setPower(200);
 	weapy->setRange(800);
-	//EM->sendEvent(EVENT_PLAYERLOAD, testObj);
+	EM->sendEvent(EVENT_PLAYERLOAD, testObj);
 
 	OM->addObj(testObj);
 	testObj->release();

@@ -16,7 +16,7 @@
 playerObj::playerObj() : maxVel(200), maxAcc(0), range(0), jumpTime(0), maxJumpTime(0.2f),
 accStep(0), jumpDone(false), theWeapon(0), weaponType(0), movingObj(OBJ_PLAYER)
 {
-	eventManager::getInstance()->sendEvent(EVENT_PLAYERLOAD, this);
+	//eventManager::getInstance()->sendEvent(EVENT_PLAYERLOAD, this);
 	m_pAM = CAnimationManager::GetInstance();
 	// THIS WOULD BE FOR THE PLAYER AND HIS LOADING OF TEH ACTUAL BINARY INFORMATION
 	m_pAM->Load("Resource/PS_ironman.anm", this);
