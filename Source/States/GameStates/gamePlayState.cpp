@@ -17,6 +17,9 @@
 #include "levelChooseState.h"
 #include "../../helpers/datatypes.h"
 #include "../../wrappers/mouse.h"
+#include "../../Objects/playerObj.h"
+#include "../../Engines/CParticleEffectManager.h"
+
 
 gamePlayState::gamePlayState() {}
 gamePlayState::~gamePlayState() {}
@@ -41,6 +44,9 @@ void gamePlayState::enter(void)
 		TE->LoadMap("Resource/PS_TestLevel.bmf");
 	else if(levelChooseState::getInstance()->GetPlayLevel2() == true)
 		TE->LoadMap("Resource/PS_TestLevel2.bmf");
+	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
+
+	m_bTrapActive = false;
 
 	handler = new playHandler;
 	handler->initialize();
@@ -128,7 +134,13 @@ void gamePlayState::render(void) const
 	if(TE)
 		TE->Render();
 
+	
 	theMouse->render();
+
+	if(m_bTrapActive == true)
+	{
+		CParticleEffectManager::GetInstance()->Render(m_nParticleImageID,TE->GetTraps()[0].x,TE->GetTraps()[0].y);
+	}
 
 }
 

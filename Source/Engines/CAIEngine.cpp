@@ -11,6 +11,8 @@
 #include"../Objects/enemyObj.h"
 #include"../Objects/playerObj.h"
 #include"../EventSystem/eventManager.h"
+#include "CTileEngine.h"
+#include "../States/GameStates/gamePlayState.h"
 #include <cmath>
 
 CAIEngine::CAIEngine()
@@ -53,6 +55,13 @@ void CAIEngine::update()
 			if(fabs(enemyList[j]->getVelocity().x) < 10)
 				enemyList[j]->setVelX(0);
 			enemyList[j]->setVel( vector3((float)(enemyList[j]->getVelocity().x * .99),enemyList[j]->getVelocity().y,0));
+		}
+	}
+	for(unsigned int i = 0; i < CTileEngine::GetInstance()->GetTriggers().size(); i++)
+	{
+		if(player->getPosition().x > CTileEngine::GetInstance()->GetTriggers()[i].x)
+		{
+			gamePlayState::getInstance()->m_bTrapActive = true;
 		}
 	}
 

@@ -27,6 +27,8 @@ protected:
 	eventManager* EM;
 	playHandler* handler;
 
+	int m_nParticleImageID;
+
 	volatile bool rendering;
 
 	mouse* theMouse;
@@ -37,6 +39,8 @@ protected:
 	~gamePlayState();
 
 public:
+
+	bool m_bTrapActive;
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “getInstance”
 	// Last modified: August 27, 2008
