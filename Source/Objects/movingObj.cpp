@@ -1,7 +1,6 @@
 #include "movingObj.h"
 #include "..\Helpers\physics.h"
 #include "../engines/ctileengine.h"
-#include "../helpers/polygon.h"
 #include <cmath>
 #include <windows.h>
 
