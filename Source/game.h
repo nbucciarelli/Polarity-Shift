@@ -29,6 +29,10 @@ protected:
 	volatile bool isWindowed;
 	volatile bool renderLock;
 
+	int m_nVideoID;
+
+
+
 	//Singleton Protection
 	game(void);
 	game(const game&);

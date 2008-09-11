@@ -2,6 +2,8 @@
 #include "display.h"
 #include "game.h"
 
+#include "Wrappers/CVideoMaster.h"
+
 #define DEFAULT_SCREEN_WIDTH 1024
 #define DEFAULT_SCREEN_HEIGHT 600
 
@@ -13,6 +15,9 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case ( WM_DESTROY ):
 		game::GetInstance()->setIsRunning(false);
+		break;
+	case WM_GRAPHNOTIFY:
+		CVideoMaster::GetInstance()->HandleEvent();
 		break;
 	}
 

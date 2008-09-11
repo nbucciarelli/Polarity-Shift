@@ -9,6 +9,8 @@
 #include "EventSystem/globalHandler.h"
 #include "EventSystem/globalEvents.h"
 
+#include "Wrappers\CVideoMaster.h"
+
 #include "States\GameStates\mainMenuState.h"
 #include "Objects\objFactory.h"
 #include "Objects\movingObj.h"
@@ -19,7 +21,7 @@
 
 #pragma region constructor/destructor/singleton
 game::game(void) : isRunning(true), isWindowed(true), renderLock(false),
-					currentState(NULL), gameTime(0) {}
+currentState(NULL), gameTime(0) {}
 
 game::~game(void) {}
 
@@ -38,22 +40,25 @@ void game::Initialize(HINSTANCE hInstance)
 	m_cKeys.m_nRunRight = DIK_D;
 	theDisplay = display::getInstance();
 	theDisplay->InitWindow(hInstance);
+	CVideoMaster::GetInstance()->Init(theDisplay->getHWnd());
+
+	
 
 	if(!theDisplay->getHWnd())
 		return;
 
 	theRenderer = RENDERER::getInstance();
 	theRenderer->Init(theDisplay->getHWnd());
-	
+
 	viewManager::getInstance()->initialize(theRenderer);
 	bitFont::getInstance()->initialize(viewManager::getInstance());
-	
+
 	theInput = inputDevice::GetInstance();
 	theInput->InitDirectInput(theDisplay->getHWnd(), hInstance, DI_KEYBOARD | DI_MOUSE, DI_MOUSE);
 
 	EM = eventManager::getInstance();
 	globalHandler::getInstance()->initialize();
-	
+
 	isWindowed = true;
 	theRenderer->changeResolution(DEFAULT_WNDHEIGHT, DEFAULT_WNDWIDTH, isWindowed);
 
@@ -65,6 +70,8 @@ void game::Initialize(HINSTANCE hInstance)
 
 	theRenderer->GetDirect3DDevice()->CreateTexture(1024, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_pRenderTarget, NULL);
 
+	m_nVideoID = CVideoMaster::GetInstance()->Load(L"Resource/PS_Intro.wmv");
+	CVideoMaster::GetInstance()->Play(m_nVideoID, 1024,600,true);
 
 
 	timeStamp = GetTickCount();
@@ -74,13 +81,15 @@ void game::Initialize(HINSTANCE hInstance)
 void game::Shutdown()
 {
 	changeState(NULL);
-	
+
 	WaitForSingleObject(renderThread, INFINITE);
+
+	CVideoMaster::GetInstance()->Shutdown();
 
 	objFactory::getInstance()->unregisterAll();
 
 	globalHandler::getInstance()->shutdown();
-	
+
 	theInput->ShutdownDirectInput();
 
 	bitFont::getInstance()->shutdown();
@@ -207,71 +216,78 @@ bool game::getInput()
 #pragma region render loop
 unsigned game::renderLoop(void* unused)
 {
-	static float timeraslow;
 	
-	game* g = GetInstance();
-	g->m_timer.Stop();
-	
-	g->m_timer.Start();
-	while ( g->isRunning )
-	{
-		Sleep(1);
-		float fElapsedTime = (float)g->m_timer.GetTime();
-		if(g->currentState)
+
+		static float timeraslow;
+
+		game* g = GetInstance();
+		g->m_timer.Stop();
+
+		g->m_timer.Start();
+		while ( g->isRunning )
 		{
-
-			g->theRenderer->BeginScene();
-			g->theRenderer->BeginSprites();
-			g->theRenderer->Clear(0,0,0);
-			g->theRenderer->GetDirect3DDevice()->GetRenderTarget(0, &g->m_pBackbuffer);
-			LPDIRECT3DSURFACE9 pSurface = NULL;
-			g->m_pRenderTarget->GetSurfaceLevel(0, &pSurface);
-			g->theRenderer->GetDirect3DDevice()->SetRenderTarget(0, pSurface);
-			pSurface->Release();
-			g->theRenderer->Clear(0,0,0);
-			
-			while(g->renderLock)
-				Sleep(1);
-			g->renderLock = true;
-			for(unsigned c = 0; c < g->stateStack.size(); c++)
+			if (!CVideoMaster::GetInstance()->GetIsPlaying())
+		{
+			Sleep(1);
+			float fElapsedTime = (float)g->m_timer.GetTime();
+			if(g->currentState)
 			{
-				g->stateStack[c]->Rendering(true);
-				g->stateStack[c]->render();
-				g->stateStack[c]->Rendering(false);
+
+				g->theRenderer->BeginScene();
+				g->theRenderer->BeginSprites();
+				g->theRenderer->Clear(0,0,0);
+				g->theRenderer->GetDirect3DDevice()->GetRenderTarget(0, &g->m_pBackbuffer);
+				LPDIRECT3DSURFACE9 pSurface = NULL;
+				g->m_pRenderTarget->GetSurfaceLevel(0, &pSurface);
+				g->theRenderer->GetDirect3DDevice()->SetRenderTarget(0, pSurface);
+				pSurface->Release();
+				g->theRenderer->Clear(0,0,0);
+
+				while(g->renderLock)
+					Sleep(1);
+				g->renderLock = true;
+				for(unsigned c = 0; c < g->stateStack.size(); c++)
+				{
+					g->stateStack[c]->Rendering(true);
+					g->stateStack[c]->render();
+					g->stateStack[c]->Rendering(false);
+				}
+				g->renderLock = false;
+
+				g->theRenderer->EndSprites();
+				g->theRenderer->EndNoPresent();
+
+				/////////////////////////////////////////////////////////
+				g->theRenderer->GetDirect3DDevice()->SetRenderTarget(0,g->m_pBackbuffer);
+				g->m_pBackbuffer->Release();
+
+
+				/////////////////////////////////////////////////////////
+				// Second render loop
+				/////////////////////////////////////////////////////////
+				g->theRenderer->Clear(0,0,0);
+				g->theRenderer->BeginScene();
+				g->theRenderer->BeginSprites();
+
+				if(int(fElapsedTime)%2)
+					timeraslow+= (.001f);
+				else
+					timeraslow-= (.001f);
+
+				g->m_pixelShader.SetConstantFloat("gamma", timeraslow);
+				g->m_pixelShader.Begin();
+				vector3 vec;
+
+				g->theRenderer->RenderSprite(g->m_pRenderTarget,&vec);
+				g->theRenderer->EndSprites();
+				g->m_pixelShader.End();
+				g->theRenderer->EndScene();
+
 			}
-			g->renderLock = false;
-
-			g->theRenderer->EndSprites();
-			g->theRenderer->EndNoPresent();
-
-			/////////////////////////////////////////////////////////
-			g->theRenderer->GetDirect3DDevice()->SetRenderTarget(0,g->m_pBackbuffer);
-			g->m_pBackbuffer->Release();
-
-			
-			/////////////////////////////////////////////////////////
-			// Second render loop
-			/////////////////////////////////////////////////////////
-			g->theRenderer->Clear(0,0,0);
-			g->theRenderer->BeginScene();
-			g->theRenderer->BeginSprites();
-
-			if(int(fElapsedTime)%2)
-				timeraslow+= (.001f);
-			else
-				timeraslow-= (.001f);
-
-			g->m_pixelShader.SetConstantFloat("gamma", timeraslow);
-			g->m_pixelShader.Begin();
-			vector3 vec;
-
-			g->theRenderer->RenderSprite(g->m_pRenderTarget,&vec);
-			g->theRenderer->EndSprites();
-			g->m_pixelShader.End();
-			g->theRenderer->EndScene();
-
+			}
 		}
-	}
-	return 0;
+		return 0;
+	
+	
 }
 #pragma endregion
