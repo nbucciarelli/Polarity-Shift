@@ -234,6 +234,9 @@ void CTileEngine::ShutDown()
 	m_vEnemyList.clear();
 	m_vTurretList.clear();
 	m_vSwitchList.clear();
+	m_vDoorList.clear();
+	m_vTriggerList.clear();
+	m_vTrapList.clear();
 }
 
 CTileEngine::~CTileEngine()
