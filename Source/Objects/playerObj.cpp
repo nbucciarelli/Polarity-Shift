@@ -43,9 +43,18 @@ playerObj::~playerObj()
 
 void playerObj::update(float dt)
 {
-	movingObj::update(dt);
 	m_pAM->Update(dt);
-	// IF ANIMATION IS RENDERING, NEEDS TO UPDATE THE ANIMATION MANAGER FOR ACTUAL ANIMATION
+
+	int num = GetAnimNumber();
+
+	setDimensions(m_pAM->GetEngine(num)->GetCurrentFrame()->GetWidth(),
+				m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
+
+	imgCenter = *(pt*)(&m_pAM->GetEngine(num)->GetCurrentFrame()->pAnchor);
+
+	//rect a = *(rect*)&m_pAM->GetEngine(num)->GetCurrentFrame()->rSource;
+
+	movingObj::update(dt);
 
 	if(maxAcc && fabs(acceleration.x) > maxAcc)
 	{
@@ -66,7 +75,7 @@ void playerObj::update(float dt)
 	}
 
 	//Should be "isOnGround" or some such.
-	if(jumpTime && position.y == 500)
+	if(jumpTime && onGround)
 	{
 		jumpTime = 0;
 	}
@@ -79,9 +88,6 @@ void playerObj::update(float dt)
 void playerObj::render()
 {
 	int num = GetAnimNumber();
-
-	setDimensions(m_pAM->GetEngine(num)->GetCurrentFrame()->GetWidth(),
-				m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
 
 	CRITICAL(m_pAM->Render(num, &worldMatrix));
 }
@@ -121,10 +127,11 @@ void playerObj::HandleEvent(gameEvent *ev)
 		this->SetAnimNumber(1);
 		break;
 	case EVENT_PLAYERJUMP:
-		if(jumpTime < 1)
+		if(true)
 		{
 			jumpTime++;
 			velocity.y = -250;
+			onGround = false;
 		}
 		break;
 	case EVENT_PLAYERJUMPSTOP:
@@ -145,4 +152,16 @@ void playerObj::HandleEvent(gameEvent *ev)
 void playerObj::setWeapon(int weapID)
 {
 	theWeapon = weapon::createWeapon(weapID, this);
+}
+
+rect playerObj::getCollisionRect() const
+{
+	rect val = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rCollision;
+
+	val.top += (int)position.y;
+	val.bottom += (int)position.y;
+	val.left = (int)(val.left * scale.x + position.x);
+	val.right = (int)(val.right * scale.x + position.x);
+
+	return val;
 }

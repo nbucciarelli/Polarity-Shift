@@ -12,7 +12,7 @@
 #include "../Helpers/criticalSection.h"
 
 baseObj::baseObj(uint otype, bool movable) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
-type(otype), isMovable(movable)
+type(otype), isMovable(movable), polyEditedThisFrame(false), frameTime(0)
 {
 	CRITICAL_INIT;
 }
@@ -61,16 +61,11 @@ void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 void baseObj::update(float dt)
 {
 	frameTime = dt;
+	polyEditedThisFrame = false;
 	updateWorldMatrix();
 }
 void baseObj::render()
 {
-//	WAIT;
-
-//	locked = true;
-//	viewManager::getInstance()->drawTexture(imgId, NULL, &worldMatrix, &getDrawRect());
-//	locked = false;
-
 	if(imgId == -1)
 		return;
 
@@ -96,7 +91,7 @@ rect baseObj::getDrawRect() const
 rect baseObj::getCollisionRect() const
 {
 	rect val;
-	int x,y,xOffset,yOffset;
+	/*int x,y,xOffset,yOffset;
 	x = dimension.x / 2;
 	y = dimension.y / 2;
 	xOffset = (imgSize.x - dimension.x) / 2;
@@ -104,7 +99,13 @@ rect baseObj::getCollisionRect() const
 	val.top = (int)position.y - y - yOffset;
 	val.bottom = (int)position.y + y - yOffset;
 	val.left = (int)(position.x - x - scale.x * xOffset);
-	val.right = (int)(position.x + x - scale.x * xOffset);
+	val.right = (int)(position.x + x - scale.x * xOffset);*/
+
+	val.top = (int)position.y - imgCenter.y;
+	val.bottom = (int)position.y + dimension.y - imgCenter.y;
+	val.left = (int)position.x - imgCenter.x;
+	val.right = (int)position.x + dimension.x - imgCenter.x;
+
 
 	return val;
 }
@@ -149,18 +150,23 @@ const polygon* baseObj::getCollisionPoly()
 		instancePoly.center.mass = collisionPoly->center.mass;
 	}
 
-	for(int c = 0; c < instancePoly.vertexCount; c++)
+	if(!polyEditedThisFrame)
 	{
-		//instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
-		//instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
+		for(int c = 0; c < instancePoly.vertexCount; c++)
+		{
+			//instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
+			//instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
 
-		instancePoly.vertecies[c].coords =
-			calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z) + position;
+			instancePoly.vertecies[c].coords =
+				calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z) + position;
+		}
+
+		//instancePoly.center.coords = position;
+		instancePoly.center.coords -= imgCenter;
+		//instancePoly.center.coords = rot * collisionPoly->center.coords;
+
+		polyEditedThisFrame = true;
 	}
-
-	instancePoly.center.coords = position;
-	//instancePoly.center.coords.x += (float)imgCenter.x;
-	//instancePoly.center.coords = rot * collisionPoly->center.coords;
 
 	return &instancePoly;
 }

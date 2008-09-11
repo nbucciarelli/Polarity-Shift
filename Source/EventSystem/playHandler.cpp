@@ -69,29 +69,11 @@ void playHandler::onGameLoad()
 	mousy->setPos(vector3(512,320,0));
 	mousy->setClickPos(pt(32,32));
 
-	movingObj* testObj = new playerObj;
+	movingObj* testObj = (movingObj*)OF->spawn(
+		FL->loadObject("Resource/PS_ironman.psu"));
 
 	testObj->setPos(vector3(CTileEngine::GetInstance()->GetPlayerSpawn().x,CTileEngine::GetInstance()->GetPlayerSpawn().y,0));
-	//testObj->setAngPos(vector3(0,0,PI));
-	testObj->setImgId(viewManager::getInstance()->loadTexture("Resource/Images/PS_8bitIronMan.png", 0xffffffff));
-	
-	polygon* poly = new polygon;
-
-	objectPoint *points = new objectPoint[3];
-
-	points[2].coords = vector3(5, -27, 0);
-	points[1].coords = vector3(29,22,0);
-	points[0].coords = vector3(-28,22,0);
-
-	poly->vertecies = points;
-	poly->vertexCount = 3;
-	poly->maxRadius = 32;
-
-	testObj->setCollisionPoly(poly);
-
-	testObj->setImgCenter(32,32);
-	testObj->setDimensions(64,64);
-
+	//testObj->setPos(vector3(200,0,0));
 	for(int c = BEGIN_PLAYER_EVENTS; c < END_PLAYER_EVENTS; c++)
 		EM->registerClient(c, (playerObj*)testObj);
 
@@ -108,22 +90,11 @@ void playHandler::onGameLoad()
 	//
 
 	FL->loadObject("Resource/PS_triangle.psu");
-	/*movingObj */ testObj = (movingObj*)OF->spawn("Gadzooks");
-	
-	//testObj = new movingObj;
+	testObj = (movingObj*)OF->spawn("Gadzooks");
 
 	testObj->setPos(vector3(100,200,0));
 	//testObj->setAngPos(vector3(0,0,PI));
 	testObj->setVel(vector3(0, -200,0));
-	/*testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
-	
-	poly = new polygon;
-
-	poly->vertecies = points;
-	poly->vertexCount = 3;
-	poly->maxRadius = 32;
-
-	testObj->setCollisionPoly(poly);*/
 
 	testObj->setImgCenter(32,32);
 	testObj->setDimensions(64,64);
@@ -139,7 +110,12 @@ void playHandler::onGameLoad()
 	testObj->setVel(vector3(0, -200,0));
 	testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
 	
-	poly = new polygon;
+	polygon* poly = new polygon;
+	objectPoint *points = new objectPoint[3];
+
+	points[2].coords = vector3(5, -27, 0);
+	points[1].coords = vector3(29,22,0);
+	points[0].coords = vector3(-28,22,0);
 
 	poly->vertecies = points;
 	poly->vertexCount = 3;

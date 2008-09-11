@@ -93,7 +93,10 @@ char* objFileLoader::loadObject(char* filename)
 
 	reader.read(textbuffer, *((char*)&holder));
 
-	obj->setImgId(viewManager::getInstance()->loadTexture(&textbuffer[1], 0xffffffff));
+	if(textbuffer[0] == '\\')
+		obj->setImgId(viewManager::getInstance()->loadTexture(&textbuffer[1], 0xffffffff));
+	else
+		obj->setImgId(viewManager::getInstance()->loadTexture(textbuffer, 0xffffffff));
 
 	//Read center information.  (Dump for now.)
 	objectPoint center;

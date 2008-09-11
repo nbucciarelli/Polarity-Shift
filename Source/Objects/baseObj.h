@@ -107,6 +107,7 @@ public:
 	void updateWorldMatrix();
 
 	const polygon* getCollisionPoly();
+	bool polyEditedThisFrame;
 	bool IsMovable() const { return isMovable; }
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +128,7 @@ public:
 	int getImgId() const { return imgId; }
 	int getType() const { return type; }
 	int getFacing() const { return (int)scale.x; }
-	rect getCollisionRect() const;
+	virtual rect getCollisionRect() const;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Mutators”

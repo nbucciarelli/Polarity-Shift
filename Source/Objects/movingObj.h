@@ -1,10 +1,17 @@
 #pragma once
 #include "baseObj.h"
 
+struct polygon;
+
 class movingObj : public baseObj
 {
 protected:
 	vector3 velocity, acceleration, angVel, angAcc;
+
+	bool onGround;
+	virtual bool mapCollisionCheck();
+
+	bool collisionHandling(const polygon& poly, polyCollision& result, baseObj* obj = NULL);
 	
 public:
 	movingObj(uint otype = OBJ_MOVING);

@@ -31,6 +31,7 @@ public:
 	
 	//returns true if given value is within zero tolerance
 	static bool isZero(float, float epsilon = EPSILON);
+	static bool isZero(const vector3&, float epsilon = EPSILON);
 
 	//return true if spheres at given points overlap
 	static bool sphereOverlap(const vector3& pt1, float radius1, const vector3& pt2, float radius2);
@@ -51,5 +52,10 @@ public:
 
 	static vector3 rotatePointAroundOrigin(const vector3& point, const float rad);
 
-	static bool polyIntersectRect(const polygon& poly, const rect& box);
+	//If defined, overlapVect will be assigned as the distance overlapped 
+	static bool polyIntersectRect(const polygon& poly, const rect& box,
+								  vector3* overlapVect = NULL);
+
+	//Basically the same as poly/poly, except with a rect.
+	static void rectToPoly(const rect &box, polygon* poly);
 };

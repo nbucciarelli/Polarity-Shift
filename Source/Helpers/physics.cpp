@@ -150,6 +150,15 @@ bool calc::isZero(float val, float epsilon)
 		return false;
 }
 
+bool calc::isZero(const vector3& vec, float epsilon)
+{
+	for(int c = 0; c < 3; c++)
+		if(!isZero(vec.e[c]))
+			return false;
+
+	return true;
+}
+
 vector3 calc::rotatePointAroundOrigin(const vector3& point, const float rad)
 {
 	//This is matrix math for a 2D rotation about the origin.
@@ -354,6 +363,77 @@ bool calc::lineIntersectPoly(const vector3& pt1, const vector3& pt2,
 	}
 	else
 		return false;
+}
+
+bool calc::polyIntersectRect(const polygon& poly, const rect& box,
+					   vector3* overlapVect)
+{
+	vector3 checkAngle(1,0,0), overlap;
+
+	float min = 0, max = 0;
+	projectPolygonToLine(poly, checkAngle, min, max);
+	float distance = distanceBetweenLines(min, max, (float)box.left, (float)box.right);
+	bool collided = true;
+
+	//Less than zero tolerance
+	if(distance < EPSILON)
+	{
+		if(poly.center.coords.x > box.left)
+			overlap.x = -distance;
+		else if(poly.center.coords.x < box.right)
+			overlap.x = distance;
+	}
+	else
+		collided = false;
+
+	if(collided)
+	{
+		checkAngle = vector3(0,1,0);
+		projectPolygonToLine(poly, checkAngle, min, max);
+		distance = distanceBetweenLines(min, max, (float)box.top, (float)box.bottom);
+
+		if(distance < EPSILON)
+		{
+			if(poly.center.coords.y > box.top)
+				overlap.y = -distance;
+			else if(poly.center.coords.y < box.bottom)
+				overlap.y = distance;
+		}
+		else
+			return false;
+
+		//It'll do some crazy stuff if the overlap vect gives both overlaps, and gets
+		//applied straight up.
+		if(fabs(overlap.x) > fabs(overlap.y))
+			overlap.x = 0;
+	}
+
+	if(overlapVect)
+	{
+		*overlapVect = overlap;
+	}
+
+	return collided;
+}
+
+void calc::rectToPoly(const rect &box, polygon* poly)
+{
+	vector3 bc = vector3(
+		(float)box.bottom, (float)box.right, 0)
+		- vector3((float)box.top, (float)box.left, 0);
+
+	polygon boxy;
+	boxy.vertecies = new objectPoint[4];
+	boxy.vertexCount = 4;
+	boxy.maxRadius = (bc - vector3((float)box.top, (float)box.left, 0)).length();
+
+	boxy.vertecies[0].coords = vector3((float)box.top, (float)box.left, 0);
+	boxy.vertecies[1].coords = vector3((float)box.top, (float)box.right, 0);
+	boxy.vertecies[2].coords = vector3((float)box.bottom, (float)box.right, 0);
+	boxy.vertecies[3].coords = vector3((float)box.bottom, (float)box.left, 0);
+
+	*poly = boxy;
+
 }
 
 #pragma endregion

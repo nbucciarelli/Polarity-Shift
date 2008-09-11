@@ -81,4 +81,5 @@ public:
 	int GetAnimNumber() const { return nAnimNumber; }
 	weapon* getWeapon() const { return theWeapon; }
 	const vector3& getLook() const { return lookVector; }
+	rect getCollisionRect() const;
 };

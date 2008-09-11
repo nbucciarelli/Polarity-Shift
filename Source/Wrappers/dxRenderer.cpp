@@ -70,6 +70,7 @@ void dxRenderer::Init(HWND _hWnd, int width, int height, bool isWindowed, bool v
 	com.device->SetRenderState(D3DRS_LIGHTING, true);
 
 	D3DXCreateSprite(com.device, &com.dxSprite);
+	D3DXCreateFont(com.device, 0,0,0,0,0,0,0,0,0,0, &com.dxFont);
 }
 
 void dxRenderer::Shutdown()
@@ -85,11 +86,11 @@ void dxRenderer::changeResolution(int height, int width, bool isWindowed)
 	d3dpp->BackBufferWidth = width;
 	d3dpp->BackBufferHeight = height;
 
-//	com.dxFont->OnLostDevice();
+	com.dxFont->OnLostDevice();
 	com.dxSprite->OnLostDevice();
 	com.device->Reset(d3dpp);
 	com.dxSprite->OnResetDevice();
-//	com.dxFont->OnResetDevice();
+	com.dxFont->OnResetDevice();
 
 	DWORD styleFlags = WS_VISIBLE;
 
