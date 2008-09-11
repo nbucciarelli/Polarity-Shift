@@ -3,12 +3,10 @@
 //
 //	Full Sail Real World Education
 //
-//	Agoraphobic Games
-//
 //	Purpose: to handle and manage all the videos
 //
 //	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial 
-//
+//			   09/11/08 - Nick Bucciarelli (NB)
 ////////////////////////////////////////////////////////////////////
 #pragma once
 #define _VIDEO_
@@ -28,9 +26,9 @@
 #include <string>
 using std::string;
 using std::vector;
-
-#define int32 int
-#define uint32 unsigned
+// 
+// #define int32 int
+// #define uint32 unsigned
 
 // windows message sent by direct show you need to catch this in winmain
 #define WM_GRAPHNOTIFY WM_APP + 1
@@ -44,7 +42,7 @@ private:
 	{
 		// LPCWSTR for the file name it needs to be this for direct show
 		LPCWSTR m_szFileName;
-		int32 m_nRef;
+		int m_nRef;
 		bool m_bPlaying, m_bStop, m_bPaused;
 
 		tVid()
@@ -101,7 +99,7 @@ public:
 	//
 	//	Purpose: Initializes the all the direct show components 
 	//
-	//	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	//////////////////////////////////////////////////////////////
 	void Init(HWND);
@@ -111,17 +109,17 @@ public:
 	//
 	//	Purpose: Plays the Video from the beginning
 	//
-	//	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	////////////////////////////////////////////////////
-	void Play(int32 _ID, int _nWindowWidth, int _nWindowHeight, bool _bIsWindowed);
+	void Play(int _ID, int _nWindowWidth, int _nWindowHeight, bool _bIsWindowed);
 
 	////////////////////////////////////////////////
 	//	Function: Shutdown
 	//
 	//	Purpose: Shuts down all the direct show components
 	//
-	//	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	////////////////////////////////////////////////////
 	void Shutdown();
@@ -132,17 +130,17 @@ public:
 	//	Purpose: loads a video in from a file prefixe string with L 
 	//	to convert to unicode
 	//
-	//	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	////////////////////////////////////////////////////
-	int32 Load(LPCWSTR);
+	int Load(LPCWSTR);
 
 	////////////////////////////////////////////////
 	//	Function: HandleEvent
 	//
 	//	Purpose: handles the messages sent from the video
 	//
-	//	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	////////////////////////////////////////////////////
 	void HandleEvent();
@@ -152,7 +150,7 @@ public:
 	//
 	//	Purpose: stops the video
 	//
-	//	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	////////////////////////////////////////////////////
 	void Stop();
@@ -162,17 +160,17 @@ public:
 	//
 	//	Purpose: unloads the video
 	//
-	//	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	////////////////////////////////////////////////////
-	void UnLoad(int32 _nId);
+	void UnLoad(int _nId);
 
 	////////////////////////////////////////////////
 	//	Function: Repaly
 	//
 	//	Purpose: Restarts and plays the video
 	//
-	//	Revisions: 08/26/08 - Steve Emmerich (SDE) - Initial
+	//	Revisions: 09/11/08 - Nick Bucciarelli (NB)
 	//
 	////////////////////////////////////////////////////
 	void RePlay();

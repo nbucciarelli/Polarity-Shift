@@ -3,12 +3,10 @@
 //
 //	Full Sail Real World Education
 //
-//	Agoraphobic Games
-//
 //	Purpose: to handle and manage all the videos
 //
 //	Revisions: 08/19/08 - Steve Emmerich (SDE) - Initial 
-//
+//			   09/11/08 - Nick Bucciarelli (NB)
 ////////////////////////////////////////////////////////////////////
 
 #include "CVideoMaster.h"
@@ -36,12 +34,10 @@ void CVideoMaster::Init(HWND _hWnd)
 	m_pGB->QueryInterface(IID_IVideoWindow, (void**) &m_pVW);
 	m_pGB->QueryInterface(IID_IMediaEvent,	 (void **) &m_pME);
 	m_pGB->QueryInterface(IID_IMediaSeeking, (void**) &m_pMS);
-
-	//
-	
+		
 }
 
-int32 CVideoMaster::Load(LPCWSTR _szFileName)
+int CVideoMaster::Load(LPCWSTR _szFileName)
 {
 
 	// if there is no filename return -1
@@ -49,8 +45,8 @@ int32 CVideoMaster::Load(LPCWSTR _szFileName)
 		return -1;
 
 	
-	int32 id = -1;
-	for(uint32 i = 0; i < m_vVideos.size(); ++i)
+	int id = -1;
+	for(unsigned i = 0; i < m_vVideos.size(); ++i)
 	{
 		// check if that one is all ready loaded if it is return that index else set the id equal to i
 		if ( _szFileName == m_vVideos[i].m_szFileName)
@@ -83,11 +79,9 @@ int32 CVideoMaster::Load(LPCWSTR _szFileName)
 	else return -1;
 }
 
-void CVideoMaster::Play(int32 _ID, int32 _nWindowWidth, int32 _nWindowHeight, bool _bIsWindowed)
+void CVideoMaster::Play(int _ID, int _nWindowWidth, int _nWindowHeight, bool _bIsWindowed)
 {
-	
-		
-	
+				
 	// create a DWORD for the window style
 	DWORD dwWindowStyleFlags = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
 
