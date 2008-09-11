@@ -16,6 +16,7 @@ class CTileEngine;
 class CAIEngine;
 union vector3;
 class mouse;
+class bitFont;
 
 class gamePlayState : public gameState, public listener
 {
@@ -26,8 +27,9 @@ protected:
 	inputDevice* theInput;
 	eventManager* EM;
 	playHandler* handler;
+	bitFont* theFont;
 
-	int m_nParticleImageID;
+	int m_nParticleImageID, m_nLevelNum;
 
 	volatile bool rendering;
 

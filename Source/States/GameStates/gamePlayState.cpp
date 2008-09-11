@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // File: “gamePlayState.cpp”
-// Author: Scott Smallback (SS)
+// Author: Scott Smallback (SS) / Jared Hamby (JH)
 // Purpose: This is the code file for the game play state
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,7 @@
 #include "../../wrappers/mouse.h"
 #include "../../Objects/playerObj.h"
 #include "../../Engines/CParticleEffectManager.h"
-
+#include "..\..\Helpers\bitFont.h"
 
 gamePlayState::gamePlayState() {}
 gamePlayState::~gamePlayState() {}
@@ -38,12 +38,19 @@ void gamePlayState::enter(void)
 	OM = objManager::getInstance();
 	theInput = CSGD_DirectInput::GetInstance();
 	EM = eventManager::getInstance();
+	theFont = bitFont::getInstance();
 
 	TE = CTileEngine::GetInstance();
 	if(levelChooseState::getInstance()->GetPlayLevel1() == true)
+	{
+		m_nLevelNum = 1;
 		TE->LoadMap("Resource/PS_TestLevel.bmf");
+	}
 	else if(levelChooseState::getInstance()->GetPlayLevel2() == true)
+	{
+		m_nLevelNum = 2;
 		TE->LoadMap("Resource/PS_TestLevel2.bmf");
+	}
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
 
 	m_bTrapActive = false;
@@ -141,6 +148,15 @@ void gamePlayState::render(void) const
 
 	
 	theMouse->render();
+	//NEED TO SPRINT_F THIS, WOULDN'T WORK FOR ME.. LOLOLOL?
+	if(m_nLevelNum == 1)
+		theFont->drawText("Level: 1", 200, 30, 0xffffffff, .5f);
+	else if (m_nLevelNum == 2)
+		theFont->drawText("Level: 2", 200, 30, 0xffffffff, .5f);
+	else if (m_nLevelNum == 3)
+		theFont->drawText("Level: 3", 200, 30, 0xffffffff, .5f);
+
+	theFont->drawText("Time: 0.00", 1600, 30, 0xffffffff, .5f);
 
 	if(m_bTrapActive == true)
 	{
