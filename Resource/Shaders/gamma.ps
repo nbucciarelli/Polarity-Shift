@@ -2,7 +2,7 @@ sampler2D g_samSrcColor;
 
 float gamma;
 
-/* 
+ /*
 // Gamma correction pixel shader
 float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 {
@@ -31,13 +31,21 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 //	// Inverted
 //	Color = 1.0f-tex2D( g_samSrcColor, Tex.xy);
 //	Color.a = 1.0f;
-//	*/
+//	/**/
 //
 //	/*
 //	// Greyscale (Luminance filter)
 //	float fLuminance = 0.299f*Color.r + 0.587f*Color.g + 0.114f*Color.b;
-//	Color = float4( fLuminance, fLuminance, fLuminance, 1.0f ); 
-//	*/
+//	//gamma = 1.0f - gamma;
+//	Color = float4( fLuminance * gamma, fLuminance * gamma, fLuminance * gamma, 1.0f ); 
+//	/**/
+//	
+//	/*
+//	// Greyscale (Luminance filter)
+//	float fLuminance = (Color.r + Color.g + Color.b);//0.299f*Color.r + 0.587f*Color.g + 0.114f*Color.b;
+//	gamma = 0.0f + gamma;
+//	Color = float4( Color.r * gamma, Color.g * gamma, Color.b * gamma, 1.0f ); 
+//	/**/
 //	
 //	/*
 //	// This makes it grey out over time (if gamma is changed by game code)
@@ -67,7 +75,7 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 //	// RED!
 //	Color = tex2D( g_samSrcColor, Tex.xy);
 //	Color.r = Color.r*2;
-//	*/
+//	/**/
 //
 //	/*
 //	// AH! MY EYES!!
@@ -75,12 +83,12 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 //	Color.r = Color.r*sin(Tex.y*100)*2;
 //	Color.g = Color.g*cos(Tex.y*200)*2;
 //	Color.b = Color.b*sin(Tex.y*300)*2;
-//	*/
+//	/**/
 //	
-//	/*
+//	
 //	// Weird fade	
 //	Color = tex2D( g_samSrcColor, Tex.xy)*Tex.y;
-//	*/
+//	/**/
 //
 //	/*
 //	// Stretch
@@ -95,10 +103,12 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 //	Color = tex2D( g_samSrcColor, Tex.xy);
 //	*/
 //	
+//	/*
 //	// Wavey (moving) Special Thanks to Paul
-//	Tex.y = Tex.y + ((sin((Tex.x + gamma) * 5.0) * 0.15) * 0.1);
-//	Tex.x = Tex.x + ((cos((Tex.y + gamma) * 5.0) * 0.15) * 0.1);
-//	Color = tex2D( g_samSrcColor, Tex.xy);
+	Tex.y = Tex.y + ((sin((Tex.x + gamma) * 5.0) * 0.15) * 0.1);
+	Tex.x = Tex.x + ((cos((Tex.y + gamma) * 5.0) * 0.15) * 0.1);
+	Color = tex2D( g_samSrcColor, Tex.xy);
+//	*/
 //
 //	/*
 //	// Pixelate (doesn't work yet)
@@ -160,21 +170,15 @@ float4 ps_main( float2 Tex : TEXCOORD0 ) : COLOR0
 //	Color += tex2D( g_samSrcColor, Tex.xy+0.001)*2.0f;
 //	Color.rgb = (Color.r+Color.g+Color.b)/3.0f;
 //	*/
-//
-//	Color = tex2D(g_samSrcColor, Tex.xy);
-//	Color.r = Color.r * 2;
-//	Color.g = Color.g * 2;
-//	Color.b = Color.b / 4.0f;
-//	//return Color;
 //	
-//	/*
+//	
 //	// EARTH QUAKE!!!
 //	Tex.y = Tex.y + (sin(gamma)*0.01);
-//  	Tex.x = Tex.x + (cos(gamma)*0.01);
-//  	Color = tex2D( g_samSrcColor, Tex.xy);
-//	*/
-	
-
-	
+//  Tex.x = Tex.x + (cos(gamma)*0.01);
+// 	Color = tex2D( g_samSrcColor, Tex.xy);
+//	
+//	
+//
+//	
     return Color;
 }
