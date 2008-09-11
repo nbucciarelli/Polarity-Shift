@@ -4,6 +4,7 @@
 #include "..\..\Wrappers\CSGD_DirectInput.h"
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\globalEvents.h"
+#include "..\..\Helpers\bitFont.h"
 #include "ctime"
 #include <map>
 #include <iostream>
@@ -87,12 +88,17 @@ void CHighScoresState::render() const
 	menuState::render();
 	//mymap::const_reverse_iterator itr = score.rbegin();
 	char s[100];
+	int i = 0;
 	//for(int i = 0; i < numScores; ++i, ++itr)
 	for(mymap::const_reverse_iterator itr = score.rbegin();
 		itr != score.rend(); itr++)
 	{
+
 		sprintf_s(s, "%i -- %s", itr->first, itr->second->timeStamp.c_str());
 		//ViewManager::GetInstance().RenderText(300, (float)(i+1) * 20 , s, Color(255,255,255,255));
+		//theFont->drawText(s,(float)(i+1) * 20, 20, 0xffff0000 );
+		bitFont::getInstance()->drawText(s,20, (float)(i+7) * 40, 0xffffffff);
+		i++;
 	}
 }
 
