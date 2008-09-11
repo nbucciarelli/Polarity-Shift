@@ -74,6 +74,6 @@ void pauseState::menuHandler()
 		EM->sendGlobalEvent(GE_STATE_POP);
 		break;
 	default:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
 	}
 }
