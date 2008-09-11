@@ -68,6 +68,8 @@ void CAnimationManager::Load(char* szFileName, baseObj* object)
 			fin.read((char*)&randomframes[i].rCollision.right, sizeof(int));
 			fin.read((char*)&randomframes[i].rCollision.bottom, sizeof(int));
 		}	
+
+		delete[] randomframes;
 	}
 }
 

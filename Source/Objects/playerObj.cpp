@@ -37,6 +37,7 @@ playerObj::~playerObj()
 {
 	eventManager::getInstance()->unregisterClient(this);
 
+	m_pAM->Shutdown();
 	if(theWeapon)
 		delete theWeapon;
 }
