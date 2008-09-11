@@ -18,7 +18,6 @@ public:
 	virtual ~movingObj(void);
 
 	virtual bool checkCollision(baseObj* obj, polyCollision* result = NULL);
-	virtual bool checkTerrainCollision(rect& colBounds);
 
 	void update(float dt);
 

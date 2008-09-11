@@ -19,6 +19,12 @@ void movingObj::update(float dt)
 	//Apply gravity.
 	if(!onGround)
 		velocity.y += GRAVITY * dt;
+	else
+	{
+		velocity.y = 0;
+		acceleration.y = 0;
+	}
+
 	velocity += acceleration * dt;
 	position += velocity * dt;
 
@@ -30,15 +36,6 @@ void movingObj::update(float dt)
 	acceleration.zeroDrift();
 	angVel.zeroDrift();
 	angAcc.zeroDrift();
-
-
-	//Hax for ground.
-	if(1 > 500)
-	{
-		position.y = 500;
-		velocity.y = 0;
-		acceleration.y = 0;
-	}
 
 	for(int c = 0; c < 3; c++)
 		if(angPos.e[c] > _2PI) angPos.e[c] -= _2PI;
@@ -67,12 +64,6 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	return true;	
 }
 
-bool movingObj::checkTerrainCollision(rect& colBounds)
-{
-
-	return false;
-}
-
 bool movingObj::mapCollisionCheck()
 {
 	const vector<RECT>& collisionBox = CTileEngine::GetInstance()->GetCollisions();
@@ -99,27 +90,35 @@ bool movingObj::mapCollisionCheck()
 			(RECT*)(&getCollisionRect()),
 			(RECT*)(box))
 			)
+		{
+			yHit = onGround;
 			continue;
+		}
 
 		if(intersect.bottom - intersect.top > intersect.right - intersect.left)
 		{	//Side hit
+			velocity.x = 0;
+			acceleration.x = 0;
+
 			if(intersect.left < position.x) //Left side
-				position.x += intersect.right - intersect.left + 1;
+				position.x += intersect.right - intersect.left;
 			else //right side
-				position.x -= intersect.right - intersect.left + 1;
+				position.x -= intersect.right - intersect.left;
 		}
-		else //Vertical hit
+		else if(!onGround)//Vertical hit
 		{
+			velocity.y = 0;
+			acceleration.y = 0;
+			
 			if(intersect.top < position.y/* && !onGround*/) //top hit, don't react
-				position.y += intersect.bottom - intersect.top + 1; //if standing
+				position.y += intersect.bottom - intersect.top; //if standing
 			else if(intersect.bottom > position.y)
 			{ //bottom hit.  You're standing.
-				position.y -= intersect.bottom - intersect.top + 1;
+				position.y -= intersect.bottom - intersect.top;
 				yHit = true;
-				velocity.y = 0;
-				acceleration.y = 0;
 			}
 		}
+
 
 	}
 

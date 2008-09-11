@@ -163,5 +163,12 @@ rect playerObj::getCollisionRect() const
 	val.left = (int)(val.left * scale.x + position.x);
 	val.right = (int)(val.right * scale.x + position.x);
 
+	if(val.left > val.right)
+	{
+		int holder = val.left;
+		val.left = val.right;
+		val.right = holder;
+	}
+
 	return val;
 }
