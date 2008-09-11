@@ -41,11 +41,11 @@ void CAIEngine::update()
 		if(trackPos->y < (enemyList[j]->getPosition().e[1] + 50) && trackPos->y > (enemyList[j]->getPosition().e[1] - 50))
 		{
 			//check players x position
-			if(player->getPosition().x < enemyList[j]->getPosition().x)
+			if(trackPos->x < enemyList[j]->getPosition().x)
 			{
 				enemyList[j]->modAcc(vector3(-10,0,0));
 			}
-			else if(player->getPosition().x > enemyList[j]->getPosition().x)
+			else if(trackPos->x > enemyList[j]->getPosition().x)
 			{
 				enemyList[j]->modAcc(vector3(10,0,0));
 			}
