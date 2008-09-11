@@ -1,7 +1,6 @@
 #include "datatypes.h"
 #include "physics.h"
 #include <cmath>
-#include "polygon.h"
 
 #include <d3dx9.h>
 

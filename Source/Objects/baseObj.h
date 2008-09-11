@@ -5,7 +5,6 @@
 // Purpose: This is the header file for any object that will be created
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "..\Helpers\datatypes.h"
-#include "../helpers/polygon.h"
 
 #include "../Helpers/criticalSectionMacros.h"
 
