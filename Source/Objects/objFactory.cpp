@@ -38,8 +38,8 @@ void objFactory::unregisterAll()
 	for(vector<creationEntry>::iterator iter = creationList.begin(); iter != creationList.end(); iter++)
 	{
 		if(iter->_template)
-			//iter->_template->release();
-			delete iter->_template;
+			iter->_template->release();
+			//delete iter->_template;
 	}
 	creationList.clear();
 }

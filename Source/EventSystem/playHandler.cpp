@@ -69,10 +69,14 @@ void playHandler::onGameLoad()
 	mousy->setPos(vector3(512,320,0));
 	mousy->setClickPos(pt(32,32));
 
-	movingObj* testObj = (movingObj*)OF->spawn(
-		FL->loadObject("Resource/PS_ironman.psu"));
+	char* obid = FL->loadObject("Resource/PS_ironman.psu");
+	movingObj* testObj = (movingObj*)OF->spawn(obid);
 
-	testObj->setPos(vector3(CTileEngine::GetInstance()->GetPlayerSpawn().x,CTileEngine::GetInstance()->GetPlayerSpawn().y,0));
+	delete[] obid;
+
+	testObj->setPos(
+		vector3((float)CTileEngine::GetInstance()->GetPlayerSpawn().x,
+			(float)CTileEngine::GetInstance()->GetPlayerSpawn().y,0));
 	//testObj->setPos(vector3(200,0,0));
 	for(int c = BEGIN_PLAYER_EVENTS; c < END_PLAYER_EVENTS; c++)
 		EM->registerClient(c, (playerObj*)testObj);
@@ -88,9 +92,9 @@ void playHandler::onGameLoad()
 	OM->addObj(testObj);
 	testObj->release();
 	//
-
-	FL->loadObject("Resource/PS_triangle.psu");
-	testObj = (movingObj*)OF->spawn("Gadzooks");
+	obid = FL->loadObject("Resource/PS_triangle.psu");
+	testObj = (movingObj*)OF->spawn(obid);
+	delete[] obid;
 
 	testObj->setPos(vector3(CTileEngine::GetInstance()->GetCubes()[0].x,CTileEngine::GetInstance()->GetCubes()[0].y,0));
 	//testObj->setAngPos(vector3(0,0,PI));
@@ -101,7 +105,6 @@ void playHandler::onGameLoad()
 
 	OM->addObj(testObj);
 	testObj->release();
-
 	
 	testObj = new enemyObj;
 
@@ -121,7 +124,7 @@ void playHandler::onGameLoad()
 	poly->vertexCount = 3;
 	poly->maxRadius = 32;
 
-	testObj->setCollisionPoly(poly);
+	testObj->setCollisionPolyID(OM->addPoly(poly));
 
 	testObj->setImgCenter(32,32);
 	testObj->setDimensions(64,64);

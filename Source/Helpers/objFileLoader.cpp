@@ -7,6 +7,7 @@ using std::ifstream;
 using std::exception;
 
 #include "../Objects/objFactory.h"
+#include "../Objects/objManager.h"
 #include "../Wrappers/viewManager.h"
 #include "datatypes.h"
 
@@ -112,22 +113,26 @@ char* objFileLoader::loadObject(char* filename)
 
 	polygon * poly = new polygon;
 
-	poly->vertexCount = *((short*)&holder);
-	poly->vertecies = new objectPoint[*((short*)&holder)];
+	short vc = *((short*)&holder);
+	short ptDat = 0;
 
-	for(int c = 0; c < poly->vertexCount; c++)
+	poly->vertecies = new objectPoint[vc];
+	poly->vertexCount = vc;
+
+	for(int c = 0; c < vc; c++)
 	{
-		reader.read((char*)&holder, sizeof(int));
+		reader.read((char*)&ptDat, sizeof(short));
+		poly->vertecies[c].coords.x = (float)ptDat;
 
-		poly->vertecies[c].coords.x = (float)((short*)&holder)[0];
-		poly->vertecies[c].coords.y = (float)((short*)&holder)[1];
+		reader.read((char*)&ptDat, sizeof(short));
+		poly->vertecies[c].coords.y = (float)ptDat;
 		
-		reader.read((char*)&holder, sizeof(short));
+		reader.read((char*)&ptDat, sizeof(short));
+		poly->vertecies[c].mass = (float)ptDat;
 
-		poly->vertecies[c].mass = (float)(*((short*)&holder));
 	}
 
-	obj->setCollisionPoly(poly);
+	obj->setCollisionPolyID(objManager::getInstance()->addPoly(poly));
 
 	switch(type)
 	{
@@ -144,7 +149,6 @@ char* objFileLoader::loadObject(char* filename)
 	case EXIT:
 	case PLATFORM:
 	default:
-		delete poly;
 		obj->release();
 		return 0;
 	}

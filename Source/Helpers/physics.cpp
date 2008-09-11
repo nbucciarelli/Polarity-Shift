@@ -1,6 +1,7 @@
 #include "datatypes.h"
 #include "physics.h"
 #include <cmath>
+#include "polygon.h"
 
 #include <d3dx9.h>
 
@@ -195,19 +196,17 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 
 	float minInterval = (float)_HUGE, minOverlap = (float)_HUGE;
 
-	float negativeInfinity = -(float)_HUGE;
-
 	//code-efficient (read: less typing) way of checking through both polys.
 	for(int p = 0; p < 2; p++)
 	{
-		for(int c = 0; c < poly1.vertexCount; c++)
+		for(int c = 0; c < poly[p]->vertexCount; c++)
 		{
 			//get the current edge
 			vector3 edgevector;
 			if(c)
 				edgevector = poly[p]->vertecies[c].coords - poly[p]->vertecies[c-1].coords;
 			else
-				edgevector = poly[p]->vertecies[c].coords - poly[p]->vertecies[poly1.vertexCount - 1].coords;
+				edgevector = poly[p]->vertecies[c].coords - poly[p]->vertecies[poly[p]->vertexCount - 1].coords;
 
 			//and the normal of the edge
 			vector3 normvect = vector3(edgevector.y, -edgevector.x, 0);
@@ -306,7 +305,7 @@ bool calc::polygonCollision(const polygon& poly1, const polygon& poly2,
 void calc::projectPolygonToLine(const polygon& poly, const vector3& line,
 								float& min, float& max)
 {
-	if(!poly.vertecies)
+	if(!poly.vertexCount)
 		return;
 
 	float dot = min = max = poly.vertecies[0].coords.dot2D(line);
@@ -423,14 +422,15 @@ void calc::rectToPoly(const rect &box, polygon* poly)
 		- vector3((float)box.top, (float)box.left, 0);
 
 	polygon boxy;
-	boxy.vertecies = new objectPoint[4];
-	boxy.vertexCount = 4;
 	boxy.maxRadius = (bc - vector3((float)box.top, (float)box.left, 0)).length();
 
-	boxy.vertecies[0].coords = vector3((float)box.top, (float)box.left, 0);
-	boxy.vertecies[1].coords = vector3((float)box.top, (float)box.right, 0);
-	boxy.vertecies[2].coords = vector3((float)box.bottom, (float)box.right, 0);
-	boxy.vertecies[3].coords = vector3((float)box.bottom, (float)box.left, 0);
+	boxy.vertexCount = 4;
+	boxy.vertecies = new objectPoint[4];
+
+	boxy.vertecies[0] = objectPoint((float)box.top, (float)box.left);
+	boxy.vertecies[1] = objectPoint((float)box.top, (float)box.right);
+	boxy.vertecies[2] = objectPoint((float)box.bottom, (float)box.right);
+	boxy.vertecies[3] = objectPoint((float)box.bottom, (float)box.left);
 
 	*poly = boxy;
 

@@ -113,7 +113,8 @@ struct objectPoint
 	vector3 coords;
 	float mass;
 
-	objectPoint() : mass(0) {}
+	objectPoint(float x = 0, float y = 0, float z = 0, float m = 0)
+		: mass(m), coords(x,y,z) {}
 };
 
 struct polygon
@@ -125,6 +126,7 @@ struct polygon
 	float maxRadius;
 	
 	polygon();
+	~polygon();
 };
 
 struct polyCollision

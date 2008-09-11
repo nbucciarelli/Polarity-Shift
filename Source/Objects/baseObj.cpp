@@ -10,9 +10,10 @@
 #include "camera.h"
 #include "../Wrappers/dxRenderer.h"
 #include "../Helpers/criticalSection.h"
+#include "objManager.h"
 
 baseObj::baseObj(uint otype, bool movable) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
-type(otype), isMovable(movable), polyEditedThisFrame(false), frameTime(0)
+type(otype), isMovable(movable), polyEditedThisFrame(false), frameTime(0), collisionPolyID(0)
 {
 	CRITICAL_INIT;
 }
@@ -30,9 +31,6 @@ baseObj::~baseObj(void)
 
 	if(imgId != -1)
 		viewManager::getInstance()->releaseTexture(imgId);
-
-	if(instancePoly.vertecies)
-		delete[] instancePoly.vertecies;
 }
 
 void baseObj::updateWorldMatrix()  //Accounts for world position as well.
@@ -136,6 +134,7 @@ void baseObj::setImgId(int id)
 
 const polygon* baseObj::getCollisionPoly()
 {
+	const polygon* collisionPoly = objManager::getInstance()->getPoly(collisionPolyID);
 	if(instancePoly.vertexCount != collisionPoly->vertexCount)
 	{
 		instancePoly.vertexCount = collisionPoly->vertexCount;
@@ -171,4 +170,9 @@ const polygon* baseObj::getCollisionPoly()
 	}
 
 	return &instancePoly;
+}
+
+float baseObj::getMaxRadius() const
+{
+	return objManager::getInstance()->getPoly(collisionPolyID)->maxRadius;
 }

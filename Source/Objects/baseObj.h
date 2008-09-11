@@ -5,6 +5,7 @@
 // Purpose: This is the header file for any object that will be created
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "..\Helpers\datatypes.h"
+#include "../helpers/polygon.h"
 
 #include "../Helpers/criticalSectionMacros.h"
 
@@ -43,7 +44,7 @@ protected:
 	pt imgPos;
 
 	bool isMovable;
-	const polygon* collisionPoly;
+	int collisionPolyID;
 	polygon instancePoly;
 	float frameTime;
 
@@ -115,11 +116,9 @@ public:
 	// Last Modified: August 27, 2008
 	// Purpose: These are the accessors for the base object
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//This exists so that some of the "standing" functions work correctly.
-	//(hax.)
 	const pt getDimensions() const { return dimension; }
 	const pt getImgCenter() const { return imgCenter; }
-	const float getMaxRadius() const { return collisionPoly->maxRadius; }
+	float getMaxRadius() const;
 	virtual const vector3& getVelocity() const { return nullVector; }
 	const vector3& getPosition() const { return position; }
 	const vector3& getAngPos() const { return angPos; }
@@ -142,7 +141,7 @@ public:
 	void setAngPos(const vector3& aPos) { angPos = aPos; }
 	void setScale(const vector3& scl) { scale = scl; }
 	void setImgId(int id);
-	void setCollisionPoly(polygon* poly) { collisionPoly = poly; }
+	void setCollisionPolyID(int id) { collisionPolyID = id; }
 	void setFacing(int face) { scale.x = (float)face; }
 
 	//Mod Mutators: Add given data to variable

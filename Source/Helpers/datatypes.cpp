@@ -42,6 +42,12 @@ matrix::matrix(const matrix& obj)
 polygon::polygon() : vertexCount(0), vertecies(NULL), maxRadius(0)
 {}
 
+polygon::~polygon()
+{
+	if(vertecies)
+		delete[] vertecies;
+}
+
 #pragma endregion
 
 #pragma region vec3 operators

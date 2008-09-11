@@ -1,6 +1,7 @@
 #include "movingObj.h"
 #include "..\Helpers\physics.h"
 #include "../engines/ctileengine.h"
+#include "../helpers/polygon.h"
 #include <cmath>
 #include <windows.h>
 
@@ -47,11 +48,13 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 {
 	polyCollision holder;
 
+	const polygon* thisPoly = getCollisionPoly();
+
 	//Make sure both objects have their bounding sphere specified
-	if(collisionPoly->maxRadius > 0 && obj->getMaxRadius() > 0)
+	if(thisPoly->maxRadius > 0 && obj->getMaxRadius() > 0)
 	{
 		//Check to see if the objects are close enough for a potential collision.
-		if(!calc::sphereOverlap(this->position, collisionPoly->maxRadius,
+		if(!calc::sphereOverlap(this->position, thisPoly->maxRadius,
 				obj->getPosition(), obj->getMaxRadius()))
 			return false;
 	}

@@ -61,6 +61,12 @@ void objManager::clear()
 		objList[c]->release();
 
 	objList.clear();
+
+	while(polyList.size())
+	{
+		delete polyList.back();
+		polyList.pop_back();
+	}
 }
 
 void objManager::checkCollisions()
@@ -74,4 +80,16 @@ void objManager::checkCollisions()
 			objList[c]->checkCollision(objList[d]);
 		}
 	}
+}
+
+int objManager::addPoly(polygon* p)
+{
+	polyList.push_back(p);
+
+	return (int)polyList.size() - 1;
+}
+
+polygon* objManager::getPoly(int id)
+{
+	return polyList[id];
 }
