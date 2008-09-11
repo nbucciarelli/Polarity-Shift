@@ -59,7 +59,7 @@ void CAIEngine::update()
 	}
 	for(unsigned int i = 0; i < CTileEngine::GetInstance()->GetTriggers().size(); i++)
 	{
-		//if(player->getPosition().x > CTileEngine::GetInstance()->GetTriggers()[i].x)
+		if(player->getPosition().x > CTileEngine::GetInstance()->GetTriggers()[i].x)
 		{
 			gamePlayState::getInstance()->m_bTrapActive = true;
 		}
