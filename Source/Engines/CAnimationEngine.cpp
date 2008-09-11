@@ -129,6 +129,8 @@ void CAnimationEngine::Load(char *szFileName, int nIndex)
 			fin.read((char*)&prandframes[i].rCollision.right, sizeof(int));
 			fin.read((char*)&prandframes[i].rCollision.bottom, sizeof(int));
 		}
+
+		delete[] prandframes;
 	}
 
 	fin.close();

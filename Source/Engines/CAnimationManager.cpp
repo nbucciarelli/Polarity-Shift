@@ -75,13 +75,19 @@ void CAnimationManager::Load(char* szFileName, baseObj* object)
 
 void CAnimationManager::Shutdown(void)
 {
-	for (int i = (int)m_pAE.size()-1; i > 0; --i)
+	/*for (int i = (int)m_pAE.size()-1; i > 0; --i)
 	{
 		delete m_pAE[i];
 		m_pAE.pop_back();
 	}
 
-	m_pAE.clear();
+	m_pAE.clear();*/
+
+	while(m_pAE.size())
+	{
+		delete m_pAE.back();
+		m_pAE.pop_back();
+	}
 }
 
 void CAnimationManager::Render(int ID, int nPosX, int nPosY, float fScaleX, float fScaleY, float fRotationX, float fRotationY, float fRotation, unsigned int color)
