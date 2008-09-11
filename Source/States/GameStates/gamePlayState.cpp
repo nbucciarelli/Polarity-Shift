@@ -65,7 +65,8 @@ void gamePlayState::exit(void)
 		Sleep(1);
 
 	gameState::exit();
-	
+	m_bTrapActive = false;
+
 	TE->ShutDown();
 	delete AIE;
 	OM->clear();
@@ -73,6 +74,8 @@ void gamePlayState::exit(void)
 	delete handler;
 
 	theMouse->shutdown();
+	CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
+
 }
 
 bool gamePlayState::input(float dt)
@@ -119,6 +122,8 @@ void gamePlayState::update(float dt)
 
 		theMouse->update(dt);
 	}
+
+	CParticleEffectManager::GetInstance()->Update(dt);
 
 	EM->processEvents();
 }
