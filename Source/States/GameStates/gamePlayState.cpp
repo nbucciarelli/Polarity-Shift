@@ -44,7 +44,7 @@ void gamePlayState::enter(void)
 	if(levelChooseState::getInstance()->GetPlayLevel1() == true)
 	{
 		m_nLevelNum = 1;
-		TE->LoadMap("Resource/PS_TestLevel.bmf");
+		TE->LoadMap("Resource/PS_Level1.bmf");
 	}
 	else if(levelChooseState::getInstance()->GetPlayLevel2() == true)
 	{

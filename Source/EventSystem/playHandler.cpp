@@ -92,7 +92,7 @@ void playHandler::onGameLoad()
 	FL->loadObject("Resource/PS_triangle.psu");
 	testObj = (movingObj*)OF->spawn("Gadzooks");
 
-	testObj->setPos(vector3(100,200,0));
+	testObj->setPos(vector3(CTileEngine::GetInstance()->GetCubes()[0].x,CTileEngine::GetInstance()->GetCubes()[0].y,0));
 	//testObj->setAngPos(vector3(0,0,PI));
 	testObj->setVel(vector3(0, -200,0));
 
@@ -105,7 +105,7 @@ void playHandler::onGameLoad()
 	
 	testObj = new enemyObj;
 
-	testObj->setPos(vector3(700,200,0));
+	testObj->setPos(vector3(CTileEngine::GetInstance()->GetEnemies()[0].x,CTileEngine::GetInstance()->GetEnemies()[0].y,0));
 	//testObj->setAngPos(vector3(0,0,PI));
 	testObj->setVel(vector3(0, -200,0));
 	testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
