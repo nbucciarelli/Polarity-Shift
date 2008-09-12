@@ -160,7 +160,12 @@ void playerObj::setWeapon(int weapID)
 
 rect playerObj::getCollisionRect() const
 {
-	rect val = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rCollision;
+	//rect val = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rCollision;
+	rect val = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rSource;
+
+	val.bottom = val.bottom - val.top;
+	val.right = val.right - val.left;
+	val.left = val.top = 0;
 
 	val.top += (int)position.y;
 	val.bottom += (int)position.y;
