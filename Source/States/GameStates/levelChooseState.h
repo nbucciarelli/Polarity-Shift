@@ -14,7 +14,7 @@ protected:
 
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp;
-	bool m_bPlayLevel1, m_bPlayLevel2, m_bPlayLevel3;
+	int m_nSelectedLevel;
 
 	void menuHandler();
 
@@ -66,16 +66,12 @@ public:
 	//	Last Modified:	September 9th, 2008
 	//	Purpose:		accesses certain variables in the level choose state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	bool GetPlayLevel1() const { return m_bPlayLevel1; }
-	bool GetPlayLevel2() const { return m_bPlayLevel2; }
-	bool GetPlayLevel3() const { return m_bPlayLevel3; }
+	int GetPlayLevel() const { return m_nSelectedLevel; }
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"Mutators"
 	//	Last Modified:	September 9th, 2008
 	//	Purpose:		modifies certain variables in the level choose state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void SetPlayLevel1(bool val) { m_bPlayLevel1 = val; }
-	void SetPlayLevel2(bool val) { m_bPlayLevel2 = val; }
-	void SetPlayLevel3(bool val) { m_bPlayLevel3 = val; }
+	void SetPlayLevel(int val) { m_nSelectedLevel = val; }
 };

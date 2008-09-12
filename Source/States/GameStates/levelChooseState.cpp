@@ -40,11 +40,9 @@ levelChooseState* levelChooseState::getInstance()
 
 void levelChooseState::enter(void)
 {
-	m_bPlayLevel1 = false;
-	m_bPlayLevel2 = false;
-	m_bPlayLevel3 = false;
 	//m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
 	//CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
+	m_nSelectedLevel = 1;
 	m_fXPer = 0;
 	m_fXLerp = 1024;
 	m_bIsMoving = true;
@@ -104,16 +102,16 @@ void levelChooseState::menuHandler()
 	switch(menuPos)
 	{
 	case LEVEL1:
-		SetPlayLevel1(true);
+		SetPlayLevel(1);
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case LEVEL2:
-		SetPlayLevel2(true);
+		SetPlayLevel(2);
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
-	case LEVEL3:
-		SetPlayLevel3(true);
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+	//case LEVEL3:
+	//	SetPlayLevel(3);
+	//	EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case BACK:
 		m_bIsExiting = true;

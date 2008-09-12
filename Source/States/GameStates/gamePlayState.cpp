@@ -41,16 +41,12 @@ void gamePlayState::enter(void)
 	theFont = bitFont::getInstance();
 
 	TE = CTileEngine::GetInstance();
-	if(levelChooseState::getInstance()->GetPlayLevel1() == true)
-	{
-		m_nLevelNum = 1;
-		TE->LoadMap("Resource/PS_Level1.bmf");
-	}
-	else if(levelChooseState::getInstance()->GetPlayLevel2() == true)
-	{
-		m_nLevelNum = 2;
-		TE->LoadMap("Resource/PS_TestLevel2.bmf");
-	}
+
+	//string buff;
+	char buff[256] = {0};
+	sprintf_s(buff,256,"Resource/PS_Level%d.bmf",levelChooseState::getInstance()->GetPlayLevel());
+	TE->LoadMap(string(buff));
+
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
 
 	m_bTrapActive = false;
