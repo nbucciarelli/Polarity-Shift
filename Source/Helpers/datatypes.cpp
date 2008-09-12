@@ -12,14 +12,8 @@ Constructors for structs/unions to ensure default values of zero automatically.
 */
 
 #pragma region constructors
-vector3::vector3()
-{
-	memset(&e, 0, sizeof(float) * 3);
-}
-vector3::vector3(float _x, float _y, float _z)
-{
-	x = _x; y = _y; z = _z;
-}
+vector3::vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z)
+{}
 
 quaternion::quaternion()
 {

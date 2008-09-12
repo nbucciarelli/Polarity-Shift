@@ -76,7 +76,7 @@ void playerObj::update(float dt)
 	}
 
 	//Should be "isOnGround" or some such.
-	if(jumpTime && onGround)
+	if(jumpTime && onSurface)
 	{
 		jumpTime = 0;
 	}
@@ -132,7 +132,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 		{
 			jumpTime++;
 			velocity.y = -250;
-			onGround = false;
+			onSurface = false;
 		}
 		break;
 	case EVENT_PLAYERJUMPSTOP:
@@ -141,8 +141,11 @@ void playerObj::HandleEvent(gameEvent *ev)
 	case EVENT_PLAYERFIRE:
 		theWeapon->openFire(0, MAG_PUSH);
 		break;
-	case EVENT_PLAYERSPECFIRE:
+	case EVENT_PLAYERFIRE2:
 		theWeapon->openFire(0, MAG_PULL);
+		break;
+	case EVENT_PLAYERFIRE3:
+		theWeapon->openFire(0, MAG_HOLD);
 		break;
 	case EVENT_PLAYERCEASEFIRE:
 		theWeapon->ceaseFire();

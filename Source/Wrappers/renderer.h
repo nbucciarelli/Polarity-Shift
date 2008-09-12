@@ -47,6 +47,7 @@ public:
 
 	virtual void BeginScene() = 0;
 	virtual void BeginSprites() = 0;
+	virtual void BeginLines() = 0;
 
 	virtual void RenderMesh(meshData * obj) = 0;
 	virtual void RenderSprite(const void* texture, const vector3* pos, const matrix * transform = NULL,
@@ -55,6 +56,9 @@ public:
 		const char* text,
 		const color _color = 0xffffffff) const = 0;
 
+	virtual void drawLine(vector3& pt1, vector3& pt2, color fillColor = 0xffffffff) = 0;
+
+	virtual void EndLines() = 0;
 	virtual void EndSprites() = 0;
 	virtual void EndScene() = 0;
 	virtual void Shutdown() = 0;

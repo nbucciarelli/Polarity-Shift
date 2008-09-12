@@ -8,7 +8,7 @@ class movingObj : public baseObj
 protected:
 	vector3 velocity, acceleration, angVel, angAcc;
 
-	bool onGround;
+	bool onSurface;
 	virtual bool mapCollisionCheck();
 
 	bool collisionHandling(const polygon& poly, polyCollision& result, baseObj* obj = NULL);

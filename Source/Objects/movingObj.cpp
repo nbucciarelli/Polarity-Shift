@@ -4,7 +4,7 @@
 #include <cmath>
 #include <windows.h>
 
-movingObj::movingObj(uint otype) : baseObj(otype, true), onGround(false)
+movingObj::movingObj(uint otype) : baseObj(otype, true), onSurface(false)
 {
 }
 
@@ -14,10 +14,10 @@ movingObj::~movingObj(void)
 
 void movingObj::update(float dt)
 {
-	onGround = mapCollisionCheck();
+	onSurface = mapCollisionCheck();
 
 	//Apply gravity.
-	if(!onGround)
+	if(!onSurface)
 		velocity.y += GRAVITY * dt;
 	else
 	{
@@ -76,12 +76,12 @@ bool movingObj::mapCollisionCheck()
 
 	//polyCollision result;
 
-	bool yHit = false;
 	const rect* box = NULL;
+	const rect& thisBox = getCollisionRect();
 	const vector3* point = NULL;
 
 	float distancex = 0, distancey = 0, minDistance = (float)_HUGE;
-	bool Y = false;
+	bool floor = false;
 
 	for(unsigned c = 0; c < collisionBox.size(); c++)
 	{
@@ -89,42 +89,42 @@ bool movingObj::mapCollisionCheck()
 
 		RECT intersect;
 		if(!IntersectRect(&intersect,
-			(RECT*)(&getCollisionRect()),
+			(RECT*)&thisBox,
 			(RECT*)(box))
 			)
 		{
-			yHit = onGround;
 			continue;
 		}
 
-		if(intersect.bottom - intersect.top > intersect.right - intersect.left)
-		{	//Side hit
-			velocity.x = 0;
-			acceleration.x = 0;
-
-			if(intersect.left < position.x) //Left side
-				position.x += intersect.right - intersect.left;
-			else //right side
-				position.x -= intersect.right - intersect.left;
-		}
-		else if(!onGround)//Vertical hit
+		if(intersect.bottom - intersect.top < 0 || intersect.right - intersect.left < 0)
+			MessageBox(NULL, "Oh shit, the world's backwards!", "Oh NOES", MB_OK);
+		//First, check if vertical hit
+		if(intersect.bottom - intersect.top < intersect.right - intersect.left)
 		{
-			velocity.y = 0;
-			acceleration.y = 0;
-			
-			if(intersect.top < position.y/* && !onGround*/) //top hit, don't react
-				position.y += intersect.bottom - intersect.top; //if standing
-			else if(intersect.bottom > position.y)
-			{ //bottom hit.  You're standing.
-				position.y -= intersect.bottom - intersect.top;
-				yHit = true;
+			velocity.y = 0; acceleration.y = 0;
+
+			if(intersect.bottom == thisBox.bottom) //bottom hit
+			{
+				position.y += intersect.top - intersect.bottom;
+				floor = true;
+				continue;
 			}
+
+			if(intersect.top == thisBox.top) //Top hit
+				position.y += intersect.bottom - intersect.top;
 		}
+		else //Else horizontal hit
+		{
+			velocity.x = 0; acceleration.x = 0;
 
-
+			if(intersect.left == thisBox.left) //left hit
+				position.x += intersect.right - intersect.left;
+			else if(intersect.right == thisBox.right)
+				position.x += intersect.left - intersect.right;
+		}
 	}
 
-	return yHit;
+	return floor;
 }
 
 bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, baseObj* obj)

@@ -32,8 +32,7 @@ union vector3 {
 		float x,y,z;
 	};
 
-	vector3();
-	vector3(float _x, float _y, float _z);
+	vector3(float _x = 0, float _y = 0, float _z = 0);
 
 	vector3 operator+(const vector3&) const;
 	vector3 operator-(const vector3&) const;
