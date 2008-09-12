@@ -144,13 +144,10 @@ void gamePlayState::render(void) const
 
 	
 	theMouse->render();
-	//NEED TO SPRINT_F THIS, WOULDN'T WORK FOR ME.. LOLOLOL?
-	if(m_nLevelNum == 1)
-		theFont->drawText("Level: 1", 200, 30, 0xffffffff, .5f);
-	else if (m_nLevelNum == 2)
-		theFont->drawText("Level: 2", 200, 30, 0xffffffff, .5f);
-	else if (m_nLevelNum == 3)
-		theFont->drawText("Level: 3", 200, 30, 0xffffffff, .5f);
+
+	char buff[256] = {0};
+	sprintf_s(buff,256,"Level: %d",levelChooseState::getInstance()->GetPlayLevel());
+	theFont->drawText(buff, 200, 30, 0xffffffff, .5f);
 
 	theFont->drawText("Time: 0.00", 1600, 30, 0xffffffff, .5f);
 
