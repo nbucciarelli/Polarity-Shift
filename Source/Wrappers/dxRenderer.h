@@ -5,6 +5,7 @@ struct IDirect3D9;
 struct IDirect3DDevice9;
 struct ID3DXFont;
 struct ID3DXSprite;
+struct ID3DXLine;
 struct _D3DPRESENT_PARAMETERS_;
 struct D3DXMATRIX;
 struct D3DXVECTOR3;
@@ -20,6 +21,7 @@ protected:
 		IDirect3DDevice9 *device;
 		ID3DXFont *dxFont;
 		ID3DXSprite *dxSprite;
+		ID3DXLine *dxLine;
 
 		_com();
 		~_com();
@@ -56,6 +58,7 @@ public:
 
 	void BeginScene();
 	void BeginSprites();
+	void BeginLines();
 
 	void RenderMesh(meshData * obj);
 	void RenderSprite(const void* texture, const vector3* pos, const matrix * transform = NULL,
@@ -64,6 +67,9 @@ public:
 		const char* text,
 		const color _color = 0xffffffff) const;
 
+	void drawLine(vector3& pt1, vector3& pt2, color fillColor = 0xffffffff);
+
+	void EndLines();
 	void EndSprites();
 	void EndScene();
 	void Shutdown();

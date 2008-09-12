@@ -19,10 +19,11 @@ dxRenderer::dxRenderer(void)
 
 dxRenderer::~dxRenderer(void) {}
 
-dxRenderer::_com::_com() : d3d(0), device(0), dxFont(0), dxSprite(0) {}
+dxRenderer::_com::_com() : d3d(0), device(0), dxFont(0), dxSprite(0), dxLine(0) {}
 
 dxRenderer::_com::~_com()
 {
+	SAFE_RELEASE(dxLine);
 	SAFE_RELEASE(dxFont);
 	SAFE_RELEASE(dxSprite);
 	SAFE_RELEASE(device);
@@ -71,6 +72,8 @@ void dxRenderer::Init(HWND _hWnd, int width, int height, bool isWindowed, bool v
 
 	D3DXCreateSprite(com.device, &com.dxSprite);
 	D3DXCreateFont(com.device, 0,0,0,0,0,0,0,0,0,0, &com.dxFont);
+
+	D3DXCreateLine(com.device, &com.dxLine);
 }
 
 void dxRenderer::Shutdown()
@@ -86,6 +89,7 @@ void dxRenderer::changeResolution(int height, int width, bool isWindowed)
 	d3dpp->BackBufferWidth = width;
 	d3dpp->BackBufferHeight = height;
 
+	com.dxLine->OnLostDevice();
 	com.dxFont->OnLostDevice();
 	com.dxSprite->OnLostDevice();
 	com.device->Reset(d3dpp);
@@ -219,6 +223,10 @@ void dxRenderer::BeginSprites()
 {
 	com.dxSprite->Begin(D3DXSPRITE_SORT_DEPTH_BACKTOFRONT | D3DXSPRITE_ALPHABLEND);	
 }
+void dxRenderer::BeginLines()
+{
+	com.dxLine->Begin();
+}
 #pragma endregion
 
 #pragma region render functions
@@ -257,9 +265,26 @@ void dxRenderer::RenderText(int _x, int _y,
 	d3dBackBuffer->ReleaseDC(hdc);
 	SAFE_RELEASE(d3dBackBuffer);
 }
+
+void dxRenderer::drawLine(vector3 &pt1, vector3 &pt2, color fillColor)
+{
+	D3DXVECTOR2 lp[2];
+	unsigned char* c = (unsigned char*)&fillColor;
+
+	lp[0].x = pt1.x;
+	lp[0].y = pt1.y;
+	lp[1].x = pt2.x;
+	lp[1].y = pt2.y;
+
+	com.dxLine->Draw(lp, 2, D3DCOLOR_ARGB(c[0], c[1], c[2], c[3]));
+}
 #pragma endregion
 
 #pragma region end functions
+void dxRenderer::EndLines()
+{
+	com.dxLine->End();
+}
 void dxRenderer::EndSprites()
 {
 	com.dxSprite->End();
