@@ -215,7 +215,7 @@ const D3DXVECTOR3* dxRenderer::getVec3(const vector3* in) const
 
 void dxRenderer::BeginScene()
 {
-	com.device->Clear(0,0,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(10,10,40), 1.0f, 0);
+	//com.device->Clear(0,0,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(10,10,40), 1.0f, 0);
 	com.device->BeginScene();
 }
 

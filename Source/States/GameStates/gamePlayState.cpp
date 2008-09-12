@@ -20,8 +20,9 @@
 #include "../../Objects/playerObj.h"
 #include "../../Engines/CParticleEffectManager.h"
 #include "..\..\Helpers\bitFont.h"
+#include "../../engines/debugControl.h"
 
-gamePlayState::gamePlayState() {}
+gamePlayState::gamePlayState() : debugger(0) {}
 gamePlayState::~gamePlayState() {}
 
 gamePlayState* gamePlayState::getInstance()
@@ -67,6 +68,13 @@ void gamePlayState::exit(void)
 	while(rendering)
 		Sleep(1);
 
+	if(debugger)
+	{
+		debugger->shutdown();
+		delete debugger;
+		debugger = 0;
+	}
+
 	gameState::exit();
 	m_bTrapActive = false;
 
@@ -110,6 +118,10 @@ bool gamePlayState::input(float dt)
 	if(theInput->MouseButtonReleased(0) || theInput->MouseButtonReleased(1))
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE);
 
+
+	if(theInput->KeyPressed(DIK_DELETE))
+		EM->sendEvent(EVENT_DEBUG_SWITCH);
+
 	return true;
 }
 
@@ -124,6 +136,9 @@ void gamePlayState::update(float dt)
 		OM->update(dt);
 
 		theMouse->update(dt);
+
+		if(debugger)
+			debugger->update(dt);
 	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
@@ -156,6 +171,9 @@ void gamePlayState::render(void) const
 		CParticleEffectManager::GetInstance()->Render(m_nParticleImageID,TE->GetTraps()[0].x,TE->GetTraps()[0].y);
 	}
 
+	if(debugger)
+		debugger->render();
+
 }
 
 void gamePlayState::HandleEvent(gameEvent* ev)
@@ -167,6 +185,19 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 		break;
 	case EVENT_LEVELFINISHED:
 		entered = false;
+		break;
+	case EVENT_DEBUG_SWITCH:
+		if(!debugger)
+		{
+			debugger = new debugControl;
+			debugger->initialize();
+		}
+		else
+		{
+			debugger->shutdown();
+			delete debugger;
+			debugger = 0;
+		}
 		break;
 	}
 }

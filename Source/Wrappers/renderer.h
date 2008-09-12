@@ -61,6 +61,7 @@ public:
 	virtual void EndLines() = 0;
 	virtual void EndSprites() = 0;
 	virtual void EndScene() = 0;
+	virtual void EndNoPresent() = 0;
 	virtual void Shutdown() = 0;
 
 	virtual void AttachCamera(camera* _cam);

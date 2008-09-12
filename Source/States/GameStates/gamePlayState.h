@@ -17,6 +17,7 @@ class CAIEngine;
 union vector3;
 class mouse;
 class bitFont;
+class debugControl;
 
 class gamePlayState : public gameState, public listener
 {
@@ -28,6 +29,7 @@ protected:
 	eventManager* EM;
 	playHandler* handler;
 	bitFont* theFont;
+	debugControl* debugger;
 
 	int m_nParticleImageID, m_nLevelNum;
 
