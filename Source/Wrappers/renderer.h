@@ -56,7 +56,8 @@ public:
 		const char* text,
 		const color _color = 0xffffffff) const = 0;
 
-	virtual void drawLine(vector3& pt1, vector3& pt2, color fillColor = 0xffffffff) = 0;
+	virtual void drawLine(const vector3& pt1, const vector3& pt2, color fillColor = 0xffffffff) = 0;
+	virtual void drawRect(const rect& box, color fillColor = 0xffffffff) = 0;
 
 	virtual void EndLines() = 0;
 	virtual void EndSprites() = 0;

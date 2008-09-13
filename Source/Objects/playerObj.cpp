@@ -51,9 +51,11 @@ void playerObj::update(float dt)
 	setDimensions(m_pAM->GetEngine(num)->GetCurrentFrame()->GetWidth(),
 				m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
 
-	imgCenter = *(pt*)(&m_pAM->GetEngine(num)->GetCurrentFrame()->pAnchor);
+	pt anchor = *(pt*)(&m_pAM->GetEngine(num)->GetCurrentFrame()->pAnchor);
+	rect draw = *(rect*)&m_pAM->GetEngine(num)->GetCurrentFrame()->rSource; 
 
-	//rect a = *(rect*)&m_pAM->GetEngine(num)->GetCurrentFrame()->rSource;
+	imgCenter.x = anchor.x - draw.left;
+	imgCenter.y = anchor.y - draw.top;
 
 	movingObj::update(dt);
 
@@ -167,10 +169,11 @@ rect playerObj::getCollisionRect() const
 	val.right = val.right - val.left;
 	val.left = val.top = 0;
 
-	val.top += (int)position.y;
-	val.bottom += (int)position.y;
-	val.left = (int)(val.left * scale.x + position.x);
-	val.right = (int)(val.right * scale.x + position.x);
+
+	val.top += (int)position.y - imgCenter.y;
+	val.bottom += (int)position.y - imgCenter.y;
+	val.left = (int)(val.left + position.x) - imgCenter.x;
+	val.right = (int)(val.right + position.x) - imgCenter.x;
 
 	if(val.left > val.right)
 	{

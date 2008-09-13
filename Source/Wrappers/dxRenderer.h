@@ -67,7 +67,8 @@ public:
 		const char* text,
 		const color _color = 0xffffffff) const;
 
-	void drawLine(vector3& pt1, vector3& pt2, color fillColor = 0xffffffff);
+	void drawLine(const vector3& pt1, const vector3& pt2, color fillColor = 0xffffffff);
+	void drawRect(const rect& box, color fillColor = 0xffffffff);
 
 	void EndLines();
 	void EndSprites();

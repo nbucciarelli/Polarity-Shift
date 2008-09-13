@@ -266,7 +266,7 @@ void dxRenderer::RenderText(int _x, int _y,
 	SAFE_RELEASE(d3dBackBuffer);
 }
 
-void dxRenderer::drawLine(vector3 &pt1, vector3 &pt2, color fillColor)
+void dxRenderer::drawLine(const vector3 &pt1, const vector3 &pt2, color fillColor)
 {
 	D3DXVECTOR2 lp[2];
 	unsigned char* c = (unsigned char*)&fillColor;
@@ -277,6 +277,13 @@ void dxRenderer::drawLine(vector3 &pt1, vector3 &pt2, color fillColor)
 	lp[1].y = pt2.y;
 
 	com.dxLine->Draw(lp, 2, D3DCOLOR_ARGB(c[0], c[1], c[2], c[3]));
+}
+
+void dxRenderer::drawRect(const rect &box, color fillColor)
+{
+	unsigned char* c = (unsigned char*)&fillColor;
+	com.device->Clear(1, (const D3DRECT*)&box, D3DCLEAR_TARGET, D3DCOLOR_ARGB(c[0],c[1],c[2],c[3]),
+		1.0f, 0);
 }
 #pragma endregion
 

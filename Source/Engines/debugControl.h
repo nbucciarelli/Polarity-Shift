@@ -22,6 +22,8 @@ protected:
 	volatile int uCount;
 	volatile int rCount;
 
+	rect dot;
+
 	//I was going to do something more...but yeah.
 	struct drawGroup
 	{
@@ -32,6 +34,7 @@ protected:
 
 	std::vector<drawGroup> lineGroups;
 	std::vector<drawGroup> mapLines;
+	std::vector<vector3> posPts;
 
 	void getMapCollisions();
 

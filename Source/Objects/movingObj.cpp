@@ -5,7 +5,7 @@
 #include <windows.h>
 
 movingObj::movingObj(uint otype) : baseObj(otype, true), onSurface(false),
-							leftWall(false),rightWall(false),topWall(false)
+leftWall(false),rightWall(false),topWall(false)
 {
 }
 
@@ -20,7 +20,7 @@ void movingObj::update(float dt)
 
 	angVel += angAcc * dt;
 	angPos += angVel * dt;
-	
+
 	mapCollisionCheck();
 
 	//Apply gravity.
@@ -80,7 +80,7 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	{
 		//Check to see if the objects are close enough for a potential collision.
 		if(!calc::sphereOverlap(this->position, thisPoly->maxRadius,
-				obj->getPosition(), obj->getMaxRadius()))
+			obj->getPosition(), obj->getMaxRadius()))
 			return false;
 	}
 
@@ -96,11 +96,7 @@ bool movingObj::mapCollisionCheck()
 {
 	const vector<RECT>& collisionBox = CTileEngine::GetInstance()->GetCollisions();
 
-	const polygon& poly = *getCollisionPoly();
-//	polygon box;
-//	vector3 overlap;
-
-	//polyCollision result;
+	//const polygon& poly = *getCollisionPoly();
 
 #define EXCESS 2
 
@@ -132,33 +128,31 @@ bool movingObj::mapCollisionCheck()
 		if(intersect.bottom - intersect.top < intersect.right - intersect.left)
 		{
 			if(intersect.bottom == overBox.bottom) //bottom hit
-			//if(intersect.bottom == overBox.bottom && intersect.top < thisBox.bottom)
 			{
 				if(!onSurface)
 				{
-				position.y += intersect.top - intersect.bottom + EXCESS;
-				onSurface = true;
+					position.y += intersect.top - intersect.bottom + EXCESS;
+					onSurface = true;
 				}
 			}
-			else //if(intersect.top + EXCESS > thisBox.bottom)
+			else
 				onSurface = false;
 
 			if(intersect.top == overBox.top) //Top hit
-			//if(intersect.top == overBox.top && intersect.bottom > thisBox.top)
 			{
 				if(!topWall)
 				{
-				position.y += intersect.bottom - intersect.top - EXCESS;
-				topWall = true;
+					position.y += intersect.bottom - intersect.top - EXCESS;
+					topWall = true;
 				}
-				
+
 			}
-			else //if(intersect.bottom - EXCESS < thisBox.top)
+			else
 				topWall = false;
 		}
 		else
 			onSurface = topWall = false;
-		
+
 		if(intersect.bottom - intersect.top > intersect.right - intersect.left)
 			//horizontal hit
 		{
@@ -166,22 +160,22 @@ bool movingObj::mapCollisionCheck()
 			{
 				if(!leftWall)
 				{
-				position.x += intersect.right - intersect.left + EXCESS;
-				leftWall = true;
+					position.x += intersect.right - intersect.left + EXCESS;
+					leftWall = true;
 				}
 			}
-			else //if(intersect.right - EXCESS > thisBox.left)
+			else
 				leftWall = false;
 
 			if(intersect.right == overBox.right)
 			{
 				if(!rightWall)
 				{
-				position.x += intersect.left - intersect.right - EXCESS;
-				rightWall = true;
+					position.x += intersect.left - intersect.right - EXCESS;
+					rightWall = true;
 				}
 			}
-			else //if(intersect.right - EXCESS < thisBox.right)
+			else
 				rightWall = false;
 		}
 		else
@@ -202,7 +196,7 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 
 	if(!calc::polygonCollision(poly, *getCollisionPoly(),
 		&vel, &result))
-			return false;
+		return false;
 
 	//move out of collision.
 	if(obj && obj->IsMovable())
@@ -217,7 +211,7 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 			position += result.overlap * -0.5f;
 			obj->modPos(result.overlap * 0.5f);
 
-		//	obj->getAngPos();
+			//	obj->getAngPos();
 		}
 	}
 	else
@@ -227,7 +221,7 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 
 		if(result.overlapped)
 			position += result.overlap;
-		
+
 	}
 
 	//Affect velocity based on collision.

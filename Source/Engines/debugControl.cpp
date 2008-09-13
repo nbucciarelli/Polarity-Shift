@@ -15,6 +15,9 @@ debugControl::debugControl() : ready(false), locked(false)
 	VM = viewManager::getInstance();
 	TE = CTileEngine::GetInstance();
 	Re = RENDERER::getInstance();
+
+	dot.top = dot.left = -2;
+	dot.bottom = dot.right = 2;
 }
 
 debugControl::~debugControl()
@@ -44,6 +47,7 @@ void debugControl::update(float dt)
 
 	locked = true;
 	lineGroups.clear();
+	posPts.clear();
 	
 	const std::vector<baseObj*> objl = OM->getList();
 	for(unsigned c = 0; c < objl.size(); c++)
@@ -66,6 +70,8 @@ void debugControl::update(float dt)
 		box.pts.push_back(vector3((float)re.left, (float)re.bottom));
 
 		lineGroups.push_back(box);
+
+		posPts.push_back(objl[c]->getPosition());
 
 	}
 	uCount++;
@@ -113,6 +119,16 @@ void debugControl::render()
 		if(mapLines[c].pts.size() > 2)
 			Re->drawLine(mapLines[c].pts[mapLines[c].pts.size() -1], mapLines[c].pts[0], 0xff00ffff);
 	
+	}
+	rect draw;
+	for(unsigned c = 0; c < posPts.size(); c++)
+	{
+		draw.left = dot.left + (int)posPts[c].x;
+		draw.right = dot.right + (int)posPts[c].x;
+		draw.top = dot.top + (int)posPts[c].y;
+		draw.bottom = dot.bottom + (int)posPts[c].y;
+
+		Re->drawRect(draw, 0x000000ff);
 	}
 	rCount++;
 	locked = false;

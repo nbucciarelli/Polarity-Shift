@@ -42,15 +42,19 @@ void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 	combined *= transform;
 	calc::matrixRotationZ(transform, angPos.z);
 	combined *= transform;
-	calc::matrixTranslate(transform, vector3((float)imgCenter.x, (float)imgCenter.y, 0));
-	combined *= transform;
+
+	/*if(scale.x == -1)
+	{
+		calc::matrixTranslate(transform, vector3(-(float)dimension.x));
+		combined *= transform;
+	}*/
 
 	calc::matrixScale(transform, scale);
 	combined *= transform;
 	calc::matrixTranslate(transform, position);
 	combined *= transform;
 
-	CRITICAL(worldMatrix = *((matrix*)&combined));
+	CRITICAL(worldMatrix = combined);
 
 	//Now modify for camera space
 //	worldMatrix *= camera::getInstance()->getViewMatrix();
@@ -156,9 +160,16 @@ const polygon* baseObj::getCollisionPoly()
 			//instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
 			//instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
 
-			instancePoly.vertecies[c].coords =
-				calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z)
-						+ position;
+			if(!calc::isZero(angPos))
+				instancePoly.vertecies[c].coords =
+					calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z)
+							+ position;
+			else
+			{
+				instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords;
+				instancePoly.vertecies[c].coords.x *= scale.x;
+				instancePoly.vertecies[c].coords += position;
+			}
 		}
 
 		//instancePoly.center.coords = position;
