@@ -4,7 +4,8 @@
 #include <cmath>
 #include <windows.h>
 
-movingObj::movingObj(uint otype) : baseObj(otype, true), onSurface(false)
+movingObj::movingObj(uint otype) : baseObj(otype, true), onSurface(false),
+							leftWall(false),rightWall(false),topWall(false)
 {
 }
 
@@ -14,22 +15,47 @@ movingObj::~movingObj(void)
 
 void movingObj::update(float dt)
 {
-	onSurface = mapCollisionCheck();
+	velocity += acceleration * dt;
+	position += velocity * dt;
+
+	angVel += angAcc * dt;
+	angPos += angVel * dt;
+	
+	mapCollisionCheck();
 
 	//Apply gravity.
 	if(!onSurface)
 		velocity.y += GRAVITY * dt;
 	else
 	{
-		velocity.y = 0;
-		acceleration.y = 0;
+		if( velocity.y > 0 )
+			velocity.y = 0;
+		if(acceleration.y > 0)
+			acceleration.y = 0;
+
 	}
 
-	velocity += acceleration * dt;
-	position += velocity * dt;
-
-	angVel += angAcc * dt;
-	angPos += angVel * dt;
+	if(leftWall)
+	{
+		if( velocity.x < 0 )
+			velocity.x = 0;
+		if( acceleration.x < 0 )
+			acceleration.x = 0;
+	}
+	if(rightWall)
+	{
+		if( velocity.x > 0 )
+			velocity.x = 0;
+		if( acceleration.x > 0 )
+			acceleration.x = 0;
+	}
+	if(topWall)
+	{
+		if(velocity.y < 0 )
+			velocity.y = 0;
+		if(acceleration.y < 0 )
+			acceleration.y = 0;
+	}
 
 	//zeroDrift checks for zero tolerance on all the floats, and sets to zero.
 	velocity.zeroDrift();
@@ -76,12 +102,18 @@ bool movingObj::mapCollisionCheck()
 
 	//polyCollision result;
 
-	const rect* box = NULL;
-	const rect& thisBox = getCollisionRect();
-	const vector3* point = NULL;
+#define EXCESS 2
 
-	float distancex = 0, distancey = 0, minDistance = (float)_HUGE;
-	bool floor = false;
+	const rect* box = NULL;
+	rect& thisBox = getCollisionRect();
+
+	rect overBox = thisBox;
+	overBox.top -= EXCESS;
+	overBox.left -= EXCESS;
+	overBox.right += EXCESS;
+	overBox.bottom += EXCESS;
+
+	onSurface = topWall = rightWall = leftWall = false;
 
 	for(unsigned c = 0; c < collisionBox.size(); c++)
 	{
@@ -89,42 +121,74 @@ bool movingObj::mapCollisionCheck()
 
 		RECT intersect;
 		if(!IntersectRect(&intersect,
-			(RECT*)&thisBox,
+			(RECT*)&overBox,
 			(RECT*)(box))
 			)
 		{
 			continue;
 		}
 
-		if(intersect.bottom - intersect.top < 0 || intersect.right - intersect.left < 0)
-			MessageBox(NULL, "Oh shit, the world's backwards!", "Oh NOES", MB_OK);
 		//First, check if vertical hit
 		if(intersect.bottom - intersect.top < intersect.right - intersect.left)
 		{
-			velocity.y = 0; acceleration.y = 0;
-
-			if(intersect.bottom == thisBox.bottom) //bottom hit
+			if(intersect.bottom == overBox.bottom) //bottom hit
+			//if(intersect.bottom == overBox.bottom && intersect.top < thisBox.bottom)
 			{
-				position.y += intersect.top - intersect.bottom;
-				floor = true;
-				continue;
+				if(!onSurface)
+				{
+				position.y += intersect.top - intersect.bottom + EXCESS;
+				onSurface = true;
+				}
 			}
+			else //if(intersect.top + EXCESS > thisBox.bottom)
+				onSurface = false;
 
-			if(intersect.top == thisBox.top) //Top hit
-				position.y += intersect.bottom - intersect.top;
+			if(intersect.top == overBox.top) //Top hit
+			//if(intersect.top == overBox.top && intersect.bottom > thisBox.top)
+			{
+				if(!topWall)
+				{
+				position.y += intersect.bottom - intersect.top - EXCESS;
+				topWall = true;
+				}
+				
+			}
+			else //if(intersect.bottom - EXCESS < thisBox.top)
+				topWall = false;
 		}
-		else //Else horizontal hit
+		else
+			onSurface = topWall = false;
+		
+		if(intersect.bottom - intersect.top > intersect.right - intersect.left)
+			//horizontal hit
 		{
-			velocity.x = 0; acceleration.x = 0;
+			if(intersect.left == overBox.left) //left hit
+			{
+				if(!leftWall)
+				{
+				position.x += intersect.right - intersect.left + EXCESS;
+				leftWall = true;
+				}
+			}
+			else //if(intersect.right - EXCESS > thisBox.left)
+				leftWall = false;
 
-			if(intersect.left == thisBox.left) //left hit
-				position.x += intersect.right - intersect.left;
-			else if(intersect.right == thisBox.right)
-				position.x += intersect.left - intersect.right;
+			if(intersect.right == overBox.right)
+			{
+				if(!rightWall)
+				{
+				position.x += intersect.left - intersect.right - EXCESS;
+				rightWall = true;
+				}
+			}
+			else //if(intersect.right - EXCESS < thisBox.right)
+				rightWall = false;
 		}
+		else
+			leftWall = rightWall = false;
 	}
 
-	return floor;
+	return true;
 }
 
 bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, baseObj* obj)
@@ -165,8 +229,7 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 			position += result.overlap;
 		
 	}
-	//if(result.overlapped)
-			//position += result.overlap;
+
 	//Affect velocity based on collision.
 	vector3 mod = result.responseVect.normalized() * result.responseVect.dot2D(velocity) * frameTime;
 	velocity += mod;

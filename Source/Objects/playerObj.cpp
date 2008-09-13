@@ -132,7 +132,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 		{
 			jumpTime++;
 			velocity.y = -250;
-			onSurface = false;
+			//onSurface = false;
 		}
 		break;
 	case EVENT_PLAYERJUMPSTOP:

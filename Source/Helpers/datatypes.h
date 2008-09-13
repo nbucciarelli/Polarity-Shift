@@ -12,7 +12,7 @@ All Unions/structs are set up to start with zero-values.
 #define PI 3.14159f
 #define _2PI 6.28318f
 #define PIHALF 1.570795f
-#define EPSILON 0.01f
+#define EPSILON 0.001f
 #ifndef NULL
 #define NULL 0
 #endif

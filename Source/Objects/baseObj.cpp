@@ -100,9 +100,9 @@ rect baseObj::getCollisionRect() const
 	val.right = (int)(position.x + x - scale.x * xOffset);*/
 
 	val.top = (int)position.y - imgCenter.y;
-	val.bottom = (int)position.y + dimension.y - imgCenter.y;
+	val.bottom = (int)position.y + (dimension.y - imgCenter.y);
 	val.left = (int)position.x - imgCenter.x;
-	val.right = (int)position.x + dimension.x - imgCenter.x;
+	val.right = (int)position.x + (dimension.x - imgCenter.x);
 
 
 	return val;
@@ -157,13 +157,12 @@ const polygon* baseObj::getCollisionPoly()
 			//instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
 
 			instancePoly.vertecies[c].coords =
-				calc::rotatePointAroundOrigin(
-					collisionPoly->vertecies[c].coords - imgCenter, angPos.z)
+				calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z)
 						+ position;
 		}
 
 		//instancePoly.center.coords = position;
-		instancePoly.center.coords -= imgCenter;
+		instancePoly.center.coords = position;
 		//instancePoly.center.coords = rot * collisionPoly->center.coords;
 
 		polyEditedThisFrame = true;
