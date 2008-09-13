@@ -96,12 +96,20 @@ bool movingObj::mapCollisionCheck()
 {
 	const vector<RECT>& collisionBox = CTileEngine::GetInstance()->GetCollisions();
 
-	//const polygon& poly = *getCollisionPoly();
+	const polygon& poly = *getCollisionPoly();
 
 #define EXCESS 2
 
 	const rect* box = NULL;
-	rect& thisBox = getCollisionRect();
+	rect thisBox;
+	float min, max;
+
+	calc::projectPolygonToLine(poly, vector3(1), min, max);
+	thisBox.left = (int)min;
+	thisBox.right = (int)max;
+	calc::projectPolygonToLine(poly, vector3(0,1), min, max);
+	thisBox.top = (int)min;
+	thisBox.bottom = (int)max;
 
 	rect overBox = thisBox;
 	overBox.top -= EXCESS;

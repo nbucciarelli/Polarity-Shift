@@ -62,14 +62,14 @@ void debugControl::update(float dt)
 
 		const rect& re = objl[c]->getCollisionRect();
 
-		drawGroup box;
+		/*drawGroup box;
 
 		box.pts.push_back(vector3((float)re.left, (float)re.top));
 		box.pts.push_back(vector3((float)re.right, (float)re.top));
 		box.pts.push_back(vector3((float)re.right, (float)re.bottom));
 		box.pts.push_back(vector3((float)re.left, (float)re.bottom));
 
-		lineGroups.push_back(box);
+		lineGroups.push_back(box);*/
 
 		posPts.push_back(objl[c]->getPosition());
 
