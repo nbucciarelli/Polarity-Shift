@@ -9,10 +9,14 @@ using std::exception;
 #include "../Objects/objFactory.h"
 #include "../Objects/objManager.h"
 #include "../Wrappers/viewManager.h"
+#include "../EventSystem/EventManager.h"
+#include "../EventSystem/EventIDs.h"
 #include "datatypes.h"
 
 #include "../Objects/playerObj.h"
 #include "../Objects/enemyObj.h"
+
+#include "../Engines/canimationmanager.h"
 
 enum objectTypes { 
 	PLAYER,
@@ -78,26 +82,42 @@ char* objFileLoader::loadObject(char* filename)
 		return 0;
 	}
 
+	char len = 0;
 	//Grab name length.
-	reader.read((char*)&holder, sizeof(char));
+	reader.read(&len, sizeof(char));
 
 	char textbuffer[100] = {0};
 
 	//Read name, assign as factory designator
-	reader.read(textbuffer, *((char*)&holder));
+	reader.read(textbuffer, len);
 	IDType objectID = textbuffer;
 
 	memset(textbuffer, 0, sizeof(textbuffer));
 
-	//grab texture path length
-	reader.read((char*)&holder, sizeof(char));
+	//grab anim path.
+	reader.read(&len, sizeof(char));
+	reader.read(textbuffer, len);
 
-	reader.read(textbuffer, *((char*)&holder));
+	char animFile[100] = {0};
 
 	if(textbuffer[0] == '\\')
-		obj->setImgId(viewManager::getInstance()->loadTexture(&textbuffer[1], 0xffffffff));
+		strcpy_s(animFile, len, &textbuffer[1]);
 	else
-		obj->setImgId(viewManager::getInstance()->loadTexture(textbuffer, 0xffffffff));
+		strcpy_s(animFile, len, textbuffer);
+
+	memset(textbuffer, 0, sizeof(textbuffer));
+
+	//grab texture path length
+	reader.read(&len, sizeof(char));
+
+	reader.read(textbuffer, len);
+
+	char textureFile[100] = {0};
+
+	if(textbuffer[0] == '\\')
+		strcpy_s(textureFile, len, &textbuffer[1]);
+	else
+		strcpy_s(textureFile, len, textbuffer);
 
 	//Read center information.  (Dump for now.)
 	objectPoint center;
@@ -133,6 +153,30 @@ char* objFileLoader::loadObject(char* filename)
 	}
 
 	obj->setCollisionPolyID(objManager::getInstance()->addPoly(poly));
+
+	//Now for weapon.
+
+	bool we = false;
+
+	reader.read((char*)&we, sizeof(bool));
+
+	if(we)
+	{
+		reader.read((char*)&shorty, sizeof(short));
+
+		((actorObj*)obj)->setWeapon(shorty);
+
+		reader.read((char*)&shorty, sizeof(short));
+	}
+
+	//And that concludes file reading.
+	reader.close();
+
+	//Time for finishing touches.
+
+	obj->loadAnim(animFile);
+	obj->setImgId(viewManager::getInstance()->loadTexture(textureFile, 0xffffffff));
+
 
 	switch(type)
 	{

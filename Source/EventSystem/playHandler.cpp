@@ -78,16 +78,19 @@ void playHandler::onGameLoad()
 		vector3((float)CTileEngine::GetInstance()->GetPlayerSpawn().x,
 			(float)CTileEngine::GetInstance()->GetPlayerSpawn().y,0));
 	//testObj->setPos(vector3(200,0,0));
+
+
+	//((playerObj*)testObj)->setAccStep(1);
+	//((playerObj*)testObj)->setWeapon(WEAPON_MAGNET);
+	//weapon* weapy = ((playerObj*)testObj)->getWeapon();
+
+	//weapy->setPower(200);
+	//weapy->setRange(800);
+	//EM->sendEvent(EVENT_PLAYERLOAD, testObj);
+
 	for(int c = BEGIN_PLAYER_EVENTS; c < END_PLAYER_EVENTS; c++)
-		EM->registerClient(c, (playerObj*)testObj);
-
-	((playerObj*)testObj)->setAccStep(1);
-	((playerObj*)testObj)->setWeapon(WEAPON_MAGNET);
-	weapon* weapy = ((playerObj*)testObj)->getWeapon();
-
-	weapy->setPower(200);
-	weapy->setRange(800);
-	EM->sendEvent(EVENT_PLAYERLOAD, testObj);
+		eventManager::getInstance()->registerClient(c, (playerObj*)testObj);
+	eventManager::getInstance()->sendEvent(EVENT_PLAYERLOAD, testObj);
 
 	OM->addObj(testObj);
 	testObj->release();
@@ -98,41 +101,43 @@ void playHandler::onGameLoad()
 
 	testObj->setPos(vector3(CTileEngine::GetInstance()->GetCubes()[0].x,CTileEngine::GetInstance()->GetCubes()[0].y,0));
 	//testObj->setAngPos(vector3(0,0,PI));
-	testObj->setVel(vector3(0, -200,0));
+	//testObj->setVel(vector3(0, -200,0));
 
-	testObj->setImgCenter(32,32);
-	testObj->setDimensions(64,64);
+	//testObj->setImgCenter(32,32);
+	//testObj->setDimensions(64,64);
 
 	OM->addObj(testObj);
 	testObj->release();
 	
-	testObj = new enemyObj;
+	//testObj = new enemyObj;
+	//obid = FL->loadObject("Resource/PS_triangle2.psu");
+	//testObj = (movingObj*)OF->spawn(obid);
 
-	testObj->setPos(vector3(CTileEngine::GetInstance()->GetEnemies()[0].x,CTileEngine::GetInstance()->GetEnemies()[0].y,0));
-	//testObj->setAngPos(vector3(0,0,PI));
-	testObj->setVel(vector3(0, -200,0));
-	testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
-	
-	polygon* poly = new polygon;
-	objectPoint *points = new objectPoint[3];
+	//testObj->setPos(vector3(CTileEngine::GetInstance()->GetEnemies()[0].x,CTileEngine::GetInstance()->GetEnemies()[0].y,0));
+	////testObj->setAngPos(vector3(0,0,PI));
+	//testObj->setVel(vector3(0, -200,0));
+	////testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
+	//
+	///*polygon* poly = new polygon;
+	//objectPoint *points = new objectPoint[3];
 
-	points[2].coords = vector3(5, -27, 0);
-	points[1].coords = vector3(29,22,0);
-	points[0].coords = vector3(-28,22,0);
+	//points[2].coords = vector3(5, -27, 0);
+	//points[1].coords = vector3(29,22,0);
+	//points[0].coords = vector3(-28,22,0);
 
-	poly->vertecies = points;
-	poly->vertexCount = 3;
-	poly->maxRadius = 32;
+	//poly->vertecies = points;
+	//poly->vertexCount = 3;
+	//poly->maxRadius = 32;
 
-	testObj->setCollisionPolyID(OM->addPoly(poly));
+	//testObj->setCollisionPolyID(OM->addPoly(poly));
 
-	testObj->setImgCenter(32,32);
-	testObj->setDimensions(64,64);
+	//testObj->setImgCenter(32,32);
+	//testObj->setDimensions(64,64);*/
 
 
-	EM->sendEvent(EVENT_ENEMYLOAD, testObj);
-	OM->addObj(testObj);
-	testObj->release();
+	//EM->sendEvent(EVENT_ENEMYLOAD, testObj);
+	//OM->addObj(testObj);
+	//testObj->release();
 
 	//Let play state begin.
 	EM->sendEvent(EVENT_LEVELLOADED);

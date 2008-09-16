@@ -7,6 +7,8 @@ union vector3;
 
 enum weaponTypes {
 	WEAPON_MAGNET,
+	WEAPON_PROJECTILE,
+	WEAPON_BEAM,
 
 	WEAPON_TOTAL
 };
@@ -25,11 +27,12 @@ protected:
 	int power;
 	int mode;
 public:
-	weapon(type ID = 0) : typeID(ID), owner(0), range(0), power(0),
+	weapon(type ID = 0) : typeID(ID), owner(0), range(800), power(200),
 						  cooldownTime(0), cooldown(0), isActive(false) {}
 	virtual ~weapon() = 0 {}
 
 	static weapon* createWeapon(int weapID, baseObj* receiver = 0);
+	void release();
 
 	type getTypeID() const { return typeID; }
 	const baseObj* getOwner() const { return owner; }

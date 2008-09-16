@@ -6,93 +6,29 @@
 #include "playerObj.h"
 #include "../EventSystem/gameEvent.h"
 #include "../EventSystem/eventIDs.h"
-#include "../EventSystem/eventManager.h"
 #include "../Engines/CAnimationManager.h"
 #include "../Engines/CAnimationEngine.h"
 #include "../Helpers/criticalSection.h"
 #include "magnetGun.h"
 #include <cmath>
 
-playerObj::playerObj() : maxVel(200), maxAcc(0), range(0), jumpTime(0), maxJumpTime(0.2f),
-accStep(0), jumpDone(false), theWeapon(0), weaponType(0), movingObj(OBJ_PLAYER)
-{
-	//eventManager::getInstance()->sendEvent(EVENT_PLAYERLOAD, this);
-	m_pAM = CAnimationManager::GetInstance();
-	// THIS WOULD BE FOR THE PLAYER AND HIS LOADING OF TEH ACTUAL BINARY INFORMATION
-	m_pAM->Load("Resource/PS_ironman.anm", this);
-	SetAnimNumber(1);
-}
-
-playerObj::playerObj(const playerObj& obj)
-{
-	memcpy_s(this, sizeof(playerObj), &obj, sizeof(playerObj));
-
-	if(theWeapon)
-	{
-		theWeapon = weapon::createWeapon(weaponType, this);
-	}
-}
+playerObj::playerObj() : jumpTime(0), maxJumpTime(0.2f), jumpCount(0), jumpDone(false),
+						 actorObj(OBJ_PLAYER)
+{}
 
 playerObj::~playerObj()
 {
-	eventManager::getInstance()->unregisterClient(this);
-
-	m_pAM->Shutdown();
-	if(theWeapon)
-		delete theWeapon;
 }
 
 void playerObj::update(float dt)
 {
-	m_pAM->Update(dt);
-
-	int num = GetAnimNumber();
-
-	setDimensions(m_pAM->GetEngine(num)->GetCurrentFrame()->GetWidth(),
-				m_pAM->GetEngine(num)->GetCurrentFrame()->GetHeight());
-
-	pt anchor = *(pt*)(&m_pAM->GetEngine(num)->GetCurrentFrame()->pAnchor);
-	rect draw = *(rect*)&m_pAM->GetEngine(num)->GetCurrentFrame()->rSource; 
-
-	imgCenter.x = anchor.x - draw.left;
-	imgCenter.y = anchor.y - draw.top;
-
-	movingObj::update(dt);
-
-	if(maxAcc && fabs(acceleration.x) > maxAcc)
-	{
-		if(acceleration.x < 0)
-			acceleration.x = -maxAcc;
-		else
-			acceleration.x = maxAcc;
-	}
-
-	if(maxVel && fabs(velocity.x) > maxVel)
-	{
-		if(velocity.x < 0)
-			velocity.x = -maxVel;
-		else
-			velocity.x = maxVel;
-
-		acceleration.x = 0;
-	}
+	actorObj::update(dt);
 
 	//Should be "isOnGround" or some such.
 	if(jumpTime && onSurface)
 	{
 		jumpTime = 0;
 	}
-
-	if(theWeapon)
-		theWeapon->update(dt);
-}
-
-//THIS NEEDS TO BE CODED INTO THE GAME FOR THE PLAYER WHEN THE PLAYER IS ACTUALLY ANIMATING (NEEDS TO RENDER HIS OWN)
-void playerObj::render()
-{
-	int num = GetAnimNumber();
-
-	CRITICAL(m_pAM->Render(num, &worldMatrix));
 }
 
 void playerObj::HandleEvent(gameEvent *ev)
@@ -134,7 +70,6 @@ void playerObj::HandleEvent(gameEvent *ev)
 		{
 			jumpTime++;
 			velocity.y = -250;
-			//onSurface = false;
 		}
 		break;
 	case EVENT_PLAYERJUMPSTOP:
@@ -152,35 +87,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 	case EVENT_PLAYERCEASEFIRE:
 		theWeapon->ceaseFire();
 		break;
+	default:
+		actorObj::HandleEvent(ev);
 	}
-}
-
-void playerObj::setWeapon(int weapID)
-{
-	theWeapon = weapon::createWeapon(weapID, this);
-}
-
-rect playerObj::getCollisionRect() const
-{
-	//rect val = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rCollision;
-	rect val = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rSource;
-
-	val.bottom = val.bottom - val.top;
-	val.right = val.right - val.left;
-	val.left = val.top = 0;
-
-
-	val.top += (int)position.y - imgCenter.y;
-	val.bottom += (int)position.y - imgCenter.y;
-	val.left = (int)(val.left + position.x) - imgCenter.x;
-	val.right = (int)(val.right + position.x) - imgCenter.x;
-
-	if(val.left > val.right)
-	{
-		int holder = val.left;
-		val.left = val.right;
-		val.right = holder;
-	}
-
-	return val;
 }

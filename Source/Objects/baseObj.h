@@ -8,9 +8,11 @@
 
 #include "../Helpers/criticalSectionMacros.h"
 
-enum objTypes { OBJ_DEFAULT, OBJ_MOVING, OBJ_PLAYER, OBJ_ENEMY,
+enum objTypes { OBJ_DEFAULT, OBJ_MOVING, OBJ_ACTOR, OBJ_PLAYER, OBJ_ENEMY,
 				OBJ_MAX };
 enum facing { FACE_LEFT = 1, FACE_RIGHT = -1 };
+
+class CAnimationManager;
 
 class baseObj
 {
@@ -46,6 +48,9 @@ protected:
 	int collisionPolyID;
 	polygon instancePoly;
 	float frameTime;
+
+	int nAnimNumber;
+	CAnimationManager* m_pAM;
 
 	rect getDrawRect() const;
 public:
@@ -110,6 +115,8 @@ public:
 	bool polyEditedThisFrame;
 	bool IsMovable() const { return isMovable; }
 
+	void loadAnim(const char* filename);
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Accessors”
 	// Last Modified: August 27, 2008
@@ -127,6 +134,7 @@ public:
 	int getType() const { return type; }
 	int getFacing() const { return (int)scale.x; }
 	virtual rect getCollisionRect() const;
+	int GetAnimNumber() const { return nAnimNumber; }
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Mutators”
@@ -142,6 +150,7 @@ public:
 	void setImgId(int id);
 	void setCollisionPolyID(int id) { collisionPolyID = id; }
 	void setFacing(int face) { scale.x = (float)face; }
+	void SetAnimNumber(int val) { nAnimNumber = val; }
 
 	//Mod Mutators: Add given data to variable
 	void modPos(const vector3& change) { position += change; }

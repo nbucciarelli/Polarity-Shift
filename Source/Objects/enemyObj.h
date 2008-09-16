@@ -1,18 +1,15 @@
 #pragma once
 
-#include "movingObj.h"
-#include "../EventSystem/listener.h"
+#include "actorObj.h"
 
 enum enemyTypes {
 	ET_COUNT,
 };
 
-class enemyObj : /*public listener,*/ public movingObj
+class enemyObj : public actorObj
 {
 protected:
 	int enemyType;
-	float maxAcc;
-	float maxVel;
 public:
 	enemyObj();
 	~enemyObj();

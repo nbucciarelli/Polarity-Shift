@@ -7,15 +7,31 @@
 #include "../Engines/CAnimationManager.h"
 #include "../Engines/CAnimationEngine.h"
 #include "../Helpers/physics.h"
+#include "../objects/baseObj.h"
 #include <fstream>
 
 CAnimationManager* CAnimationManager::GetInstance(void)
 {
-	static CAnimationManager instance;
-	return &instance;
+	//static CAnimationManager instance;
+	return new CAnimationManager;
 }
 
-void CAnimationManager::Load(char* szFileName, baseObj* object)
+void CAnimationManager::releaseInstance()
+{
+	references--;
+
+	if(references < 1)
+		delete this;
+}
+
+void CAnimationManager::acquireInstance()
+{
+	references++;
+}
+
+#if 1 == 2
+
+void CAnimationManager::Load(const char* szFileName, baseObj* object)
 {
 	std::ifstream fin;
 	fin.open(szFileName, std::ios::binary | std::ios::in);
@@ -73,6 +89,93 @@ void CAnimationManager::Load(char* szFileName, baseObj* object)
 	}
 }
 
+#else
+
+void CAnimationManager::Load(const char* szFileName, baseObj* object)
+{
+	//Let me start of by saying that the way this entire class is arranged is
+	//pretty convoluded, and not very practical for the idea of a "manager."
+	//And I'm not going to spend a couple of days re-writing the whole thing.
+
+	std::ifstream reader;
+
+	reader.open(szFileName, std::ios_base::in | std::ios_base::binary);
+
+	//It's nice to check fail.
+	if(reader.fail())
+	{
+		MessageBox(NULL, "Failed to load Animation", "Error", MB_OK);
+		return;
+	}
+
+	m_pBase = object;
+
+	//How many "engines" will be collected today.
+	int animCount = 0;
+	reader.read((char*)&animCount, sizeof(int));
+
+	for(int c = 0; c < animCount; c++)
+	{
+		CAnimationEngine* engine = new CAnimationEngine();
+
+		//C# strings save out their size before them.
+		char strSize = 0;
+		reader.read(&strSize, sizeof(char));
+
+		//Collect name.
+		char buffer[100] = {0};
+		reader.read(buffer, strSize);
+
+		//There's a newline in there for some reason or another.  Grab it & dump.
+		reader.read(&strSize, sizeof(char));
+
+		//Tell the engine its title.
+		engine->m_Name = buffer;
+
+		//Now collect some variables that serve some purpose.
+
+		// Animation timer
+		reader.read((char*)&engine->m_dAnimationSpeed, sizeof(double));		
+		//Frame timer
+		reader.read((char*)&engine->m_dFrameTime, sizeof(double));
+
+		//Now we can get the frames.
+
+		int frameCount = 0;
+		reader.read((char*)&frameCount, sizeof(int));
+		tFrame *frames = new tFrame[frameCount];
+		engine->SetNumFrames(frameCount);
+
+		for (int i = 0; i < frameCount; i++)
+		{
+			// Frame rectangle
+			reader.read((char*)&frames[i].rSource.left, sizeof(int));
+			reader.read((char*)&frames[i].rSource.top, sizeof(int));
+			reader.read((char*)&frames[i].rSource.right, sizeof(int));
+			reader.read((char*)&frames[i].rSource.bottom, sizeof(int));
+
+			// Anchor point
+			reader.read((char*)&frames[i].pAnchor.x, sizeof(int));
+			reader.read((char*)&frames[i].pAnchor.y, sizeof(int));
+
+			// Collision rectangle
+			reader.read((char*)&frames[i].rCollision.left, sizeof(int));
+			reader.read((char*)&frames[i].rCollision.top, sizeof(int));
+			reader.read((char*)&frames[i].rCollision.right, sizeof(int));
+			reader.read((char*)&frames[i].rCollision.bottom, sizeof(int));
+		}
+
+		engine->SetFrames(frames);
+
+		//And now that we have those, we can add this thing to The List.
+		m_pAE.push_back(engine);
+
+	}
+
+}
+
+#endif
+
 void CAnimationManager::Shutdown(void)
 {
 	/*for (int i = (int)m_pAE.size()-1; i > 0; --i)
@@ -90,7 +193,7 @@ void CAnimationManager::Shutdown(void)
 	}
 }
 
-void CAnimationManager::Render(int ID, int nPosX, int nPosY, float fScaleX, float fScaleY, float fRotationX, float fRotationY, float fRotation, unsigned int color)
+/*void CAnimationManager::Render(int ID, int nPosX, int nPosY, float fScaleX, float fScaleY, float fRotationX, float fRotationY, float fRotation, unsigned int color)
 {
 	m_pTM->drawTexture(m_pBase->getImgId(),
 		&vector3((float)(nPosX - (m_pAE[ID]->GetCurrentFrame()->pAnchor.x - m_pAE[ID]->GetCurrentFrame()->rSource.left)),
@@ -101,7 +204,7 @@ void CAnimationManager::Render(int ID, int nPosX, int nPosY, float fScaleX, floa
 		&vector3((float)m_pAE[ID]->GetCurrentFrame()->pAnchor.x,
 			(float)m_pAE[ID]->GetCurrentFrame()->pAnchor.y, 0),
 		color);
-}
+}*/
 
 void CAnimationManager::Render(int ID, matrix* transform)
 {

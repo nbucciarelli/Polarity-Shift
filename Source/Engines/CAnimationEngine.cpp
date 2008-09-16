@@ -5,12 +5,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "../Engines/CAnimationEngine.h"
-#include "../Wrappers/viewManager.h"
-#include "../Engines/CAnimationManager.h"
-#include "../Objects/baseObj.h"
 #include <fstream>
 
-CAnimationEngine::CAnimationEngine()
+CAnimationEngine::CAnimationEngine(baseObj* obj)
 {
 	m_nCurrentFrame = 0;
 	m_nNumFrames = 0;
@@ -30,7 +27,7 @@ CAnimationEngine::~CAnimationEngine()
 	m_pFrames = NULL;
 }
 
-void CAnimationEngine::Load(char *szFileName, int nIndex)
+void CAnimationEngine::Load(const char *szFileName, int nIndex)
 {
 	std::ifstream fin;
 	fin.open(szFileName, std::ios::binary | std::ios::in);

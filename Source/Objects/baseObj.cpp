@@ -11,11 +11,16 @@
 #include "../Wrappers/dxRenderer.h"
 #include "../Helpers/criticalSection.h"
 #include "objManager.h"
+#include "../Engines/CAnimationManager.h"
+#include "../Engines/CAnimationEngine.h"
 
 baseObj::baseObj(uint otype, bool movable) : refCount(1), isActive(true), scale(1,1,1), imgId(-1),
-type(otype), isMovable(movable), polyEditedThisFrame(false), frameTime(0), collisionPolyID(0)
+type(otype), isMovable(movable), polyEditedThisFrame(false), frameTime(0), collisionPolyID(0),
+nAnimNumber(0)
 {
 	CRITICAL_INIT;
+
+	m_pAM = CAnimationManager::GetInstance();
 }
 
 baseObj::baseObj(const baseObj& obj)
@@ -23,6 +28,8 @@ baseObj::baseObj(const baseObj& obj)
 	*this = obj;
 	if(imgId > -1)
 		viewManager::getInstance()->acquireTexture(imgId);
+
+	m_pAM->acquireInstance();
 }
 
 baseObj::~baseObj(void)
@@ -31,6 +38,8 @@ baseObj::~baseObj(void)
 
 	if(imgId != -1)
 		viewManager::getInstance()->releaseTexture(imgId);
+
+	m_pAM->releaseInstance();
 }
 
 void baseObj::updateWorldMatrix()  //Accounts for world position as well.
@@ -42,12 +51,6 @@ void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 	combined *= transform;
 	calc::matrixRotationZ(transform, angPos.z);
 	combined *= transform;
-
-	/*if(scale.x == -1)
-	{
-		calc::matrixTranslate(transform, vector3(-(float)dimension.x));
-		combined *= transform;
-	}*/
 
 	calc::matrixScale(transform, scale);
 	combined *= transform;
@@ -62,6 +65,17 @@ void baseObj::updateWorldMatrix()  //Accounts for world position as well.
 
 void baseObj::update(float dt)
 {
+	m_pAM->Update(dt);
+
+	setDimensions(m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->GetWidth(),
+				m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->GetHeight());
+
+	pt anchor = *(pt*)(&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->pAnchor);
+	rect draw = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rSource; 
+
+	imgCenter.x = anchor.x - draw.left;
+	imgCenter.y = anchor.y - draw.top;
+
 	frameTime = dt;
 	polyEditedThisFrame = false;
 	updateWorldMatrix();
@@ -71,7 +85,9 @@ void baseObj::render()
 	if(imgId == -1)
 		return;
 
-	CRITICAL(viewManager::getInstance()->drawTexture(imgId, NULL, &worldMatrix, &getDrawRect()));
+	//CRITICAL(viewManager::getInstance()->drawTexture(imgId, NULL, &worldMatrix, &getDrawRect()));
+
+	CRITICAL(m_pAM->Render(nAnimNumber, &worldMatrix));
 
 }
 
@@ -92,22 +108,24 @@ rect baseObj::getDrawRect() const
 
 rect baseObj::getCollisionRect() const
 {
-	rect val;
-	/*int x,y,xOffset,yOffset;
-	x = dimension.x / 2;
-	y = dimension.y / 2;
-	xOffset = (imgSize.x - dimension.x) / 2;
-	yOffset = (imgSize.y - dimension.y) / 2;
-	val.top = (int)position.y - y - yOffset;
-	val.bottom = (int)position.y + y - yOffset;
-	val.left = (int)(position.x - x - scale.x * xOffset);
-	val.right = (int)(position.x + x - scale.x * xOffset);*/
+	rect val = *(rect*)&m_pAM->GetEngine(nAnimNumber)->GetCurrentFrame()->rSource;
 
-	val.top = (int)position.y - imgCenter.y;
-	val.bottom = (int)position.y + (dimension.y - imgCenter.y);
-	val.left = (int)position.x - imgCenter.x;
-	val.right = (int)position.x + (dimension.x - imgCenter.x);
+	val.bottom = val.bottom - val.top;
+	val.right = val.right - val.left;
+	val.left = val.top = 0;
 
+
+	val.top += (int)position.y - imgCenter.y;
+	val.bottom += (int)position.y - imgCenter.y;
+	val.left = (int)(val.left + position.x) - imgCenter.x;
+	val.right = (int)(val.right + position.x) - imgCenter.x;
+
+	if(val.left > val.right)
+	{
+		int holder = val.left;
+		val.left = val.right;
+		val.right = holder;
+	}
 
 	return val;
 }
@@ -157,9 +175,6 @@ const polygon* baseObj::getCollisionPoly()
 	{
 		for(int c = 0; c < instancePoly.vertexCount; c++)
 		{
-			//instancePoly.vertecies[c].coords = collisionPoly->vertecies[c].coords + position;
-			//instancePoly.vertecies[c].coords.x += (float)imgCenter.x;
-
 			if(!calc::isZero(angPos))
 				instancePoly.vertecies[c].coords =
 					calc::rotatePointAroundOrigin(collisionPoly->vertecies[c].coords, angPos.z)
@@ -172,9 +187,7 @@ const polygon* baseObj::getCollisionPoly()
 			}
 		}
 
-		//instancePoly.center.coords = position;
 		instancePoly.center.coords = position;
-		//instancePoly.center.coords = rot * collisionPoly->center.coords;
 
 		polyEditedThisFrame = true;
 	}
@@ -185,4 +198,10 @@ const polygon* baseObj::getCollisionPoly()
 float baseObj::getMaxRadius() const
 {
 	return objManager::getInstance()->getPoly(collisionPolyID)->maxRadius;
+}
+
+void baseObj::loadAnim(const char* filename)
+{
+	m_pAM->Load(filename, this);
+	//nAnimNumber = 1;
 }

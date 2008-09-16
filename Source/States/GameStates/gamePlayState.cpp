@@ -141,11 +141,11 @@ void gamePlayState::update(float dt)
 
 		theMouse->update(dt);
 
+		CParticleEffectManager::GetInstance()->Update(dt);
+
 		if(debugger)
 			debugger->update(dt);
 	}
-
-	CParticleEffectManager::GetInstance()->Update(dt);
 
 	EM->processEvents();
 }

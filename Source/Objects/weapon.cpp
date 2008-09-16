@@ -17,3 +17,8 @@ weapon* weapon::createWeapon(int weapID, baseObj* receiver)
 
 	return holder;
 }
+
+void weapon::release()
+{
+	delete this;
+}

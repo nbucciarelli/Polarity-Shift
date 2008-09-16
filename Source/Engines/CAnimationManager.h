@@ -8,39 +8,45 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "../Wrappers/viewManager.h"
-#include "../Objects/baseObj.h"
 #include <vector>
 using std::vector;
 class CAnimationEngine;
 union matrix;
+class baseObj;
 
 class CAnimationManager
 {
 private:
 	viewManager* m_pTM;
 
-	CAnimationManager(void) { m_pTM = viewManager::getInstance(); }
+	int references;
+
+	baseObj* m_pBase;
+
+	CAnimationManager(void) : references(1), m_pBase(0)
+		{ m_pTM = viewManager::getInstance(); }
 	CAnimationManager(const CAnimationManager&);
 	CAnimationManager& operator=(const CAnimationManager&);
 
 	~CAnimationManager(void) {};
 public:
 	vector<CAnimationEngine*> m_pAE;
-	baseObj* m_pBase;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “GetInstance”
 	// Last modified: August 27, 2008
-	// Purpose: This gets the instance of the animation manager
+	// Purpose: This gets an instance of the animation manager
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static CAnimationManager* GetInstance(void);
+	void acquireInstance();
+	void releaseInstance();
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Load”
 	// Last modified: August 27, 2008
 	// Purpose: This loads a file for the animation manager to then call on the animation engine
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Load(char* szFileName, baseObj* object);
+	void Load(const char* szFileName, baseObj* object);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Shutdown”
@@ -54,8 +60,8 @@ public:
 	// Last modified: August 27, 2008
 	// Purpose: This renders the specific frame for the specific animation engine
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Render(int ID, int nPosX, int nPosY, float fScaleX = 1.0f, float fScaleY = 1.0f, float fRotationX = 0.0f, 
-		float fRotationY = 0.0f, float fRotation = 0.0f, unsigned color = 0xFFFFFFFF);
+	//void Render(int ID, int nPosX, int nPosY, float fScaleX = 1.0f, float fScaleY = 1.0f, float fRotationX = 0.0f, 
+	//	float fRotationY = 0.0f, float fRotation = 0.0f, unsigned color = 0xFFFFFFFF);
 
 	void Render(int ID, matrix* transform);
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

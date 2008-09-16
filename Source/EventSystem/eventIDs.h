@@ -28,6 +28,11 @@ enum eventIDs { NULL_EVENT,
 
 	END_PLAYER_EVENTS,
 
+//Actor events are global to player & enemies
+	BEGIN_ACTOR_EVENTS,
+
+	END_ACTOR_EVENTS,
+
 //Handler events are all routed through the playHandler.
 	BEGIN_HANDLER_EVENTS,
 	
@@ -49,8 +54,8 @@ enum eventIDs { NULL_EVENT,
 //Enemy events are specific to the AI
 	BEGIN_AI_EVENTS,
 
-	EVENT_ENEMYLOAD,
 	EVENT_PLAYERLOAD,
+	EVENT_ENEMYLOAD,
 
 	END_AI_EVENTS,
 
