@@ -128,11 +128,11 @@ bool gamePlayState::input(float dt)
 	if(theInput->KeyPressed(DIK_DELETE))
 		EM->sendEvent(EVENT_DEBUG_SWITCH);
 
-	if (theInput->KeyPressed(DIK_P))
-	{
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
-		CTallySheetState::getInstance()->Initialize(/*LevelNum*/1 ,100.0f, m_fLevelTime);
-	}
+// 	if (theInput->KeyPressed(DIK_P))
+// 	{
+// 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
+// 		CTallySheetState::getInstance()->Initialize(/*LevelNum*/1 ,100.0f, m_fLevelTime);
+// 	}
 
 
 	return true;
