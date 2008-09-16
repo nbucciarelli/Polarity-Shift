@@ -20,3 +20,4 @@
 #include "CKeyState.h"
 #include "levelChooseState.h"
 #include "..\GamePlayStates\CTallySheet.h"
+#include "..\GamePlayStates\CDeathState.h"

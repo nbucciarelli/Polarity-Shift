@@ -95,6 +95,8 @@ gameState* globalHandler::state(int st)
 		return levelChooseState::getInstance();
 	case STATE_TALLYSHEET:
 		return CTallySheetState::getInstance();
+	case STATE_DEATH:
+		return CDeathState::GetInstance();
 	default:
 		return NULL;
 	}
