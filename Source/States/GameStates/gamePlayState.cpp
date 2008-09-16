@@ -43,6 +43,8 @@ void gamePlayState::enter(void)
 
 	TE = CTileEngine::GetInstance();
 
+	m_fLevelTime = 0;
+
 	//string buff;
 	char buff[256] = {0};
 	sprintf_s(buff,256,"Resource/PS_Level%d.bmf",levelChooseState::getInstance()->GetPlayLevel());
@@ -127,6 +129,8 @@ bool gamePlayState::input(float dt)
 
 void gamePlayState::update(float dt)
 {
+	m_fLevelTime += dt;
+
 	if(entered)
 	{
 		AIE->update();
@@ -164,7 +168,8 @@ void gamePlayState::render(void) const
 	sprintf_s(buff,256,"Level: %d",levelChooseState::getInstance()->GetPlayLevel());
 	theFont->drawText(buff, 200, 30, 0xffffffff, .5f);
 
-	theFont->drawText("Time: 0.00", 1600, 30, 0xffffffff, .5f);
+	sprintf_s(buff, 256, "Time: %.2f", m_fLevelTime);
+	theFont->drawText(buff, 1600, 30, 0xffffffff, .5f);
 
 	if(m_bTrapActive == true)
 	{

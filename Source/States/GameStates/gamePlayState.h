@@ -32,6 +32,7 @@ protected:
 	debugControl* debugger;
 
 	int m_nParticleImageID, m_nLevelNum;
+	float m_fLevelTime;
 
 	volatile bool rendering;
 
