@@ -9,7 +9,7 @@
 #include "EventSystem/globalHandler.h"
 #include "EventSystem/globalEvents.h"
 
-#include "Wrappers\CVideoMaster.h"
+//#include "Wrappers\CVideoMaster.h"
 
 #include "States\GameStates\mainMenuState.h"
 #include "Objects\objFactory.h"
@@ -41,7 +41,7 @@ void game::Initialize(HINSTANCE hInstance)
 	m_cKeys.m_nRunRight = DIK_D;
 	theDisplay = display::getInstance();
 	theDisplay->InitWindow(hInstance);
-	CVideoMaster::GetInstance()->Init(theDisplay->getHWnd());
+	//CVideoMaster::GetInstance()->Init(theDisplay->getHWnd());
 
 	
 
@@ -74,8 +74,8 @@ void game::Initialize(HINSTANCE hInstance)
 
 	theRenderer->GetDirect3DDevice()->CreateTexture(1024, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_pRenderTarget, NULL);
 
-	m_nVideoID = CVideoMaster::GetInstance()->Load(L"Resource/PS_Intro.wmv");
-	CVideoMaster::GetInstance()->Play(m_nVideoID, 1024,600,true);
+//	m_nVideoID = CVideoMaster::GetInstance()->Load(L"Resource/PS_Intro.wmv");
+	//CVideoMaster::GetInstance()->Play(m_nVideoID, 1024,600,true);
 
 
 	timeStamp = GetTickCount();
@@ -88,7 +88,7 @@ void game::Shutdown()
 
 	WaitForSingleObject(renderThread, INFINITE);
 
-	CVideoMaster::GetInstance()->Shutdown();
+	//CVideoMaster::GetInstance()->Shutdown();
 
 	objFactory::getInstance()->unregisterAll();
 
@@ -232,7 +232,7 @@ unsigned game::renderLoop(void* unused)
 		g->m_timer.Start();
 		while ( g->isRunning )
 		{
-			if (!CVideoMaster::GetInstance()->GetIsPlaying())
+//			if (!CVideoMaster::GetInstance()->GetIsPlaying())
 		{
 			Sleep(1);
 			float fElapsedTime = (float)g->m_timer.GetTime();
