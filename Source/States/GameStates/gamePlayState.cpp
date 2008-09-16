@@ -131,7 +131,7 @@ bool gamePlayState::input(float dt)
 	if (theInput->KeyPressed(DIK_P))
 	{
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
-		CTallySheetState::getInstance()->Initialize(100.0f, m_fLevelTime);
+		CTallySheetState::getInstance()->Initialize(/*LevelNum*/1 ,100.0f, m_fLevelTime);
 	}
 
 

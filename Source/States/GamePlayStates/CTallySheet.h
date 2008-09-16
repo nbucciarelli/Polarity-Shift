@@ -71,7 +71,7 @@ public:
 	//	Last Modified:	September 16, 2008
 	//	Purpose:		initializes the values in the state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void Initialize(float fScoreGiven, float fTimeTaken);
+	void Initialize(int nLevelNum, float fScoreGiven, float fTimeTaken);
 
 	float GetTimeTaken() const { return m_fTimeTaken; }
 	float GetScoreGiven() const { return m_fScoreGiven; }

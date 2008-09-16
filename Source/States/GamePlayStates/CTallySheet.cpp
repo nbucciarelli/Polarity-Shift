@@ -27,7 +27,7 @@ CTallySheetState::~CTallySheetState()
 
 }
 
-void CTallySheetState::Initialize(float fScoreGiven, float fTimeTaken)
+void CTallySheetState::Initialize(int nLevelNum, float fScoreGiven, float fTimeTaken)
 {
 	m_fScoreGiven = fScoreGiven;
 	m_fTimeTaken = fTimeTaken;
