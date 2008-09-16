@@ -14,6 +14,7 @@
 #include "States\GameStates\mainMenuState.h"
 #include "Objects\objFactory.h"
 #include "Objects\movingObj.h"
+#include "Wrappers\CSGD_FModManager.h"
 
 #include <process.h>
 
@@ -53,6 +54,9 @@ void game::Initialize(HINSTANCE hInstance)
 	viewManager::getInstance()->initialize(theRenderer);
 	bitFont::getInstance()->initialize(viewManager::getInstance());
 
+	m_pFMOD = CSGD_FModManager::GetInstance();
+	m_pFMOD->InitFModManager(theDisplay->getHWnd());
+
 	theInput = inputDevice::GetInstance();
 	theInput->InitDirectInput(theDisplay->getHWnd(), hInstance, DI_KEYBOARD | DI_MOUSE, DI_MOUSE);
 
@@ -91,6 +95,8 @@ void game::Shutdown()
 	globalHandler::getInstance()->shutdown();
 
 	theInput->ShutdownDirectInput();
+
+	m_pFMOD->ShutdownFModManager();
 
 	bitFont::getInstance()->shutdown();
 	//viewManager::getInstance()->shutdown();

@@ -12,6 +12,7 @@
 #include "../../Helpers/SGD_Math.h"
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
+#include "..\..\Wrappers\CSGD_FModManager.h"
 //#include "..\..\Engines\CParticleEffectManager.h"
 
 optionsState::optionsState(void)
@@ -43,7 +44,7 @@ void optionsState::enter(void)
 
 	//m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
 	//CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
-	m_fXPer = 0;
+	m_fSoundLerp = 100;
 	m_fXLerp = 1024;
 	m_bMainMenu = false;
 	m_bKeyBind = false;
@@ -57,6 +58,7 @@ void optionsState::exit(void)
 {
 	m_bIsMoving = true;
 	m_fXLerp = 1024;
+	m_fSoundLerp = 100;
 	menuState::exit();
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
 	//CParticleEffectManager::GetInstance()->Unload(m_nParticleImageID);
@@ -71,11 +73,16 @@ void optionsState::update(float dt)
 	{
 		if (dt >= .016f) 
 		{ 
-			m_fXPer += .1f; 
+			m_fXPer += .1f;
 			m_fXLerp = Lerp(1024, 0, m_fXPer); 
+			m_fSoundLerp = Lerp(100, 0, m_fXPer);
+			m_fSoundLerp *= -1;
+			// SET PAN FROM RIGHT TO CENTER WITH SOUND LERP
+			// PLAY SOUND HERE
 			if(m_fXPer >= 1)
 			{
 				m_fXPer = 1;
+				// STOP SOUND HERE
 				m_bIsMoving = false;
 			}
 		}
@@ -86,9 +93,14 @@ void optionsState::update(float dt)
 		{ 
 			m_fXPer -= .1f; 
 			m_fXLerp = Lerp(1024, 0, m_fXPer);
+			m_fSoundLerp = Lerp(0, 100, m_fSoundLerp);
+			m_fSoundLerp *= -1;
+			// SET PAN FROM CENTER TO RIGHT WITH SOUND LERP
+			// PLAY SOUND HERE
 			if(m_fXPer <= 0)
 			{
 				m_fXPer = 0;
+				// STOP SOUND HERE
 				m_bIsExiting = false;
 				m_bIsExited = true;
 			}

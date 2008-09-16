@@ -6,6 +6,7 @@
 
 #pragma once
 #include "menuState.h"
+class CSGD_FModManager;
 
 class optionsState : public menuState
 {
@@ -13,8 +14,9 @@ protected:
 	enum menuOptions { SFX, MUSIC, KEYBINDINGS, BACK, TOTAL };
 
 	int foregroundID;
-	float m_fTime, m_fXPer, m_fXLerp;
+	float m_fTime, m_fXPer, m_fXLerp, m_fSoundLerp;
 	bool m_bMainMenu, m_bKeyBind;
+	CSGD_FModManager* m_pFMOD;
 
 	void menuHandler();
 

@@ -12,6 +12,7 @@ struct HINSTANCE__;
 typedef HINSTANCE__* HINSTANCE;
 typedef void* HANDLE;
 class eventManager;
+class CSGD_FModManager;
 
 #include "Wrappers/CTimer.h"
 #include "Helpers\CKeyBindings.h"
@@ -49,6 +50,7 @@ protected:
 	dxRenderer* theRenderer;
 	inputDevice* theInput;
 	eventManager* EM;
+	CSGD_FModManager* m_pFMOD;
 
 	CPixelShader			m_pixelShader;
 	LPDIRECT3DTEXTURE9		m_pRenderTarget;			//	Where we're going to render the scene to.
