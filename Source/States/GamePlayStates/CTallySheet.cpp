@@ -11,6 +11,7 @@
 
 CTallySheetState::CTallySheetState()
 {
+	somethingtime = 0;
 	m_fTimeTaken = 0.0f;
 	m_fScoreGiven = 0.0f;
 	m_fTempScore = 0.0f;
@@ -40,12 +41,13 @@ void CTallySheetState::enter(void)
 
 void CTallySheetState::exit(void)
 {
+
+	somethingtime = 0;
 	menuState::exit();
 }
 
 void CTallySheetState::update(float dt)
 {
-	static float somethingtime = 0;
 	somethingtime += dt;
 
 	if (somethingtime >= .01f)
@@ -61,7 +63,10 @@ void CTallySheetState::update(float dt)
 			m_fTempTime += .42f;
 
 		if (m_fTempTime == m_fTimeTaken && m_fTempScore == m_fScoreGiven)
+		{
+			somethingtime = 0;
 			return;
+		}
 
 		somethingtime = 0;
 	}

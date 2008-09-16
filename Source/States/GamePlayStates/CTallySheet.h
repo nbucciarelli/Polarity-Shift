@@ -11,6 +11,7 @@ class CTallySheetState : public menuState
 {
 private:
 	enum menuOptions { 	EXIT, TOTAL	};
+	float somethingtime;
 
 	float m_fTimeTaken;
 	float m_fTempTime;
