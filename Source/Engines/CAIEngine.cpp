@@ -65,6 +65,10 @@ void CAIEngine::update()
 			gamePlayState::getInstance()->m_bTrapActive = true;
 		}
 	}
+	if(trackPos->y < (CTileEngine::GetInstance()->GetPlayerEnd().y + 25) && trackPos->y > (CTileEngine::GetInstance()->GetPlayerEnd().y - 25) && trackPos->x >= CTileEngine::GetInstance()->GetPlayerEnd().x)
+	{
+		eventManager::getInstance()->sendEvent(EVENT_LEVELFINISHED);
+	}
 
 }
 

@@ -200,7 +200,11 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 		entered = true;
 		break;
 	case EVENT_LEVELFINISHED:
-		entered = false;
+		{
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
+			CTallySheetState::getInstance()->Initialize(/*LevelNum*/1 ,100.0f, m_fLevelTime);
+			entered = false;
+		}
 		break;
 	case EVENT_DEBUG_SWITCH:
 		if(!debugger)
