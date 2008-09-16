@@ -22,6 +22,10 @@
 #include "..\..\Helpers\bitFont.h"
 #include "../../engines/debugControl.h"
 
+#include "..\GamePlayStates\CTallySheet.h"
+#include "../../EventSystem\globalEvents.h"
+
+
 gamePlayState::gamePlayState() : debugger(0) {}
 gamePlayState::~gamePlayState() {}
 
@@ -123,6 +127,13 @@ bool gamePlayState::input(float dt)
 
 	if(theInput->KeyPressed(DIK_DELETE))
 		EM->sendEvent(EVENT_DEBUG_SWITCH);
+
+	if (theInput->KeyPressed(DIK_P))
+	{
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
+		CTallySheetState::getInstance()->Initialize(100.0f, m_fLevelTime);
+	}
+
 
 	return true;
 }
