@@ -19,3 +19,4 @@
 #include "CCreditsState.h"
 #include "CKeyState.h"
 #include "levelChooseState.h"
+#include "..\GamePlayStates\CTallySheet.h"

@@ -93,6 +93,8 @@ gameState* globalHandler::state(int st)
 		return CKeyState::getInstance();
 	case STATE_LEVELSELECT:
 		return levelChooseState::getInstance();
+	case STATE_TALLYSHEET:
+		return CTallySheetState::getInstance();
 	default:
 		return NULL;
 	}
