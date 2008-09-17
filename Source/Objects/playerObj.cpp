@@ -24,7 +24,6 @@ void playerObj::update(float dt)
 {
 	actorObj::update(dt);
 
-	//Should be "isOnGround" or some such.
 	if(jumpTime && onSurface)
 	{
 		jumpTime = 0;
@@ -37,7 +36,6 @@ void playerObj::HandleEvent(gameEvent *ev)
 	{
 	case EVENT_PLAYERGOLEFT:
 		acceleration.x -= 100.0f;
-		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER MOVING LEFT FOR INFORMATION
 		this->m_pAM->GetEngine(1)->Stop();
 		if(GetAnimNumber() != 0)
 		{
@@ -48,7 +46,6 @@ void playerObj::HandleEvent(gameEvent *ev)
 		break;
 	case EVENT_PLAYERGORIGHT:
 		acceleration.x += 100.0f;
-		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER MOVING RIGHT FOR INFORMATION
 		this->m_pAM->GetEngine(1)->Stop();
 		if(GetAnimNumber() != 0)
 		{
@@ -60,7 +57,6 @@ void playerObj::HandleEvent(gameEvent *ev)
 	case EVENT_PLAYERSTOP:
 		acceleration.x = 0;
 		velocity.x = 0;
-		// THIS CODE NEEDS TO BE SUITED FOR THE ACTUAL PLAYER STOPPING FOR INFORMATION
 		this->m_pAM->GetEngine(0)->Stop();
 		this->m_pAM->GetEngine(1)->Play(true);
 		this->SetAnimNumber(1);

@@ -78,6 +78,11 @@ bool magnetGun::getTarget(const vector3& farPoint)
 	int selection = -1;
 	float minDist = (float)_HUGE, min = 0, max = 0, dist = 0;
 
+	vector3 perp = (farPoint - owner->getPosition()).normalized();
+	perp = vector3(perp.y, -perp.x);
+	float centerLineProj = owner->getPosition() * perp;
+	float radius = baseRadius * beamWidthFactor;
+
 	//Just to sneak in this variable.  Makes it look less scary in class declaration.
 	//And magical, too.
 	static const std::vector<baseObj*>& objList = objManager::getInstance()->getList();
@@ -88,10 +93,18 @@ bool magnetGun::getTarget(const vector3& farPoint)
 			continue;
 
 		if(objList[c]->IsMovable()
-			&& calc::lineIntersectPoly(owner->getPosition(), farPoint,
+			&&  calc::lineIntersectPoly(owner->getPosition(), farPoint,
 									   *objList[c]->getCollisionPoly(), &dist)
-			&& dist < minDist  && dist > 0)
+			&& fabs(dist) < minDist)//  && dist > 0)
 		{
+			//So, we have a potential.  Let's make sure it's within radius.
+			//If not, this isn't it.  Keep going.
+			float miny, maxy;
+			calc::projectPolygonToLine(*objList[c]->getCollisionPoly(), perp, miny, maxy);
+
+			if(centerLineProj + radius < miny || centerLineProj - radius > maxy)
+				continue;
+
 			minDist = dist;
 			selection = c;
 		}
