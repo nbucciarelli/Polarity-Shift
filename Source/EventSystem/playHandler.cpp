@@ -94,20 +94,27 @@ void playHandler::onGameLoad()
 
 	OM->addObj(testObj);
 	testObj->release();
-	//
-	obid = FL->loadObject("Resource/PS_triangle.psu");
-	testObj = (movingObj*)OF->spawn(obid);
+
+		obid = FL->loadObject("Resource/PS_triangle.psu");
+
+	for(int i = 0; i <CTileEngine::GetInstance()->GetCubes().size(); i ++)
+	{
+
+		//
+		testObj = (movingObj*)OF->spawn(obid);
+
+		testObj->setPos(vector3(CTileEngine::GetInstance()->GetCubes()[i].x,CTileEngine::GetInstance()->GetCubes()[i].y,0));
+		//testObj->setAngPos(vector3(0,0,PI));
+		//testObj->setVel(vector3(0, -200,0));
+
+		//testObj->setImgCenter(32,32);
+		//testObj->setDimensions(64,64);
+
+		OM->addObj(testObj);
+		testObj->release();
+	}
 	delete[] obid;
 
-	testObj->setPos(vector3(CTileEngine::GetInstance()->GetCubes()[0].x,CTileEngine::GetInstance()->GetCubes()[0].y,0));
-	//testObj->setAngPos(vector3(0,0,PI));
-	//testObj->setVel(vector3(0, -200,0));
-
-	//testObj->setImgCenter(32,32);
-	//testObj->setDimensions(64,64);
-
-	OM->addObj(testObj);
-	testObj->release();
 	
 	//testObj = new enemyObj;
 	//obid = FL->loadObject("Resource/PS_triangle2.psu");
