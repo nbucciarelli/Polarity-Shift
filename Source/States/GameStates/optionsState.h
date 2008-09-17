@@ -14,7 +14,7 @@ protected:
 	enum menuOptions { SFX, MUSIC, KEYBINDINGS, BACK, TOTAL };
 
 	int foregroundID;
-	float m_fTime, m_fXPer, m_fXLerp, m_fSoundLerp;
+	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
 	bool m_bMainMenu, m_bKeyBind;
 	CSGD_FModManager* m_pFMOD;
 

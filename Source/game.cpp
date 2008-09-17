@@ -56,6 +56,7 @@ void game::Initialize(HINSTANCE hInstance)
 
 	m_pFMOD = CSGD_FModManager::GetInstance();
 	m_pFMOD->InitFModManager(theDisplay->getHWnd());
+	m_SZSCHHHSound = m_pFMOD->LoadSound("Resource/SZSCHHH.mp3");
 
 	theInput = inputDevice::GetInstance();
 	theInput->InitDirectInput(theDisplay->getHWnd(), hInstance, DI_KEYBOARD | DI_MOUSE, DI_MOUSE);

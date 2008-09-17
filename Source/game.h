@@ -51,6 +51,7 @@ protected:
 	inputDevice* theInput;
 	eventManager* EM;
 	CSGD_FModManager* m_pFMOD;
+	int m_SZSCHHHSound;
 
 	CPixelShader			m_pixelShader;
 	LPDIRECT3DTEXTURE9		m_pRenderTarget;			//	Where we're going to render the scene to.
@@ -96,5 +97,5 @@ public:
 	void SetMoveLeft(unsigned val) { m_cKeys.m_nRunLeft = val; }
 	void SetMoveRight(unsigned val) { m_cKeys.m_nRunRight = val; }
 	
-	
+	int GetSZSCHHHSound() const { return m_SZSCHHHSound; }
 };

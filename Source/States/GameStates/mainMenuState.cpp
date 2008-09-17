@@ -12,6 +12,7 @@
 #include "../../Helpers/SGD_Math.h"
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
+#include "..\..\Wrappers\CSGD_FModManager.h"
 
 #include "..\..\Engines\CParticleEffectManager.h"
 
@@ -78,9 +79,19 @@ void mainMenuState::update(float dt)
 		{ 
 			m_fXPer += .1f; 
 			m_fXLerp = Lerp(1024, 0, m_fXPer); 
+			m_fSoundPer -= .2f;
+			m_fSoundLerp = Lerp(100, 0, m_fXPer);
+			m_fSoundLerp *= -1;
+			// SET PAN FROM RIGHT TO CENTER WITH SOUND LERP
+			if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetSZSCHHHSound()))
+				CSGD_FModManager::GetInstance()->SetPan(game::GetInstance()->GetSZSCHHHSound(), m_fSoundLerp);
+			// PLAY SOUND HERE
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
 			if(m_fXPer >= 1)
 			{
 				m_fXPer = 1;
+				// STOP SOUND HERE
+				CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetSZSCHHHSound());
 				m_bIsMoving = false;
 			}
 		}
@@ -91,9 +102,19 @@ void mainMenuState::update(float dt)
 		{ 
 			m_fXPer -= .1f; 
 			m_fXLerp = Lerp(1024, 0, m_fXPer);
+			m_fSoundPer -= .2f;
+			m_fSoundLerp = Lerp(0, 100, m_fSoundPer);
+			m_fSoundLerp *= -1;
+			// SET PAN FROM CENTER TO RIGHT WITH SOUND LERP
+			CSGD_FModManager::GetInstance()->SetPan(game::GetInstance()->GetSZSCHHHSound(), m_fSoundLerp);
+			// PLAY SOUND HERE
+			if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetSZSCHHHSound()))
+				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
 			if(m_fXPer <= 0)
 			{
 				m_fXPer = 0;
+				// STOP SOUND HERE
+				CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetSZSCHHHSound());
 				m_bIsExiting = false;
 				m_bIsExited = true;
 			}
@@ -134,7 +155,7 @@ void mainMenuState::menuHandler()
 	case CREDITS:
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
 		break;
-	default:	
+	default:		
 		EM->sendGlobalEvent(GE_STATE_CLEARALL);
 	}
 }
