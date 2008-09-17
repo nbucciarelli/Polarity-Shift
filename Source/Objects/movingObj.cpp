@@ -189,13 +189,11 @@ bool movingObj::mapCollisionCheck()
 		else
 			leftWall = rightWall = false;
 	}
-
 	return true;
 }
 
 bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, baseObj* obj)
 {
-	//if the collision check returns false, there's nothing else to do.
 	vector3 vel;
 	if(obj)
 		vel = (velocity - obj->getVelocity())*frameTime;
@@ -216,11 +214,30 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 		}
 		if(result.overlapped)
 		{
+			movingObj* movey = (movingObj*)obj;
+
+		//if(movey->topWall && result.responseVect * vector3(0,-1) <= 0)
+		if(movey->onSurface && result.overlap * vector3(0,1) <= 0)
+		{
+			position += vector3(result.overlap.x*-0.5f,-result.overlap.y);
+			movey->position += vector3(result.overlap.x*0.5f);
+			onSurface = true;
+		}
+		else if(onSurface && result.overlap * vector3(0,-1) <= 0)
+		{
+			position += vector3(result.overlap.x * -0.5f);
+			movey->position += vector3(result.overlap.x *0.5f, result.overlap.y);
+			movey->onSurface = true;
+		}
+		else
+		{
 			position += result.overlap * -0.5f;
 			obj->modPos(result.overlap * 0.5f);
+		}
 
 			//	obj->getAngPos();
 		}
+			
 	}
 	else
 	{
@@ -234,7 +251,7 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 
 	//Affect velocity based on collision.
 	vector3 mod = result.responseVect.normalized() * result.responseVect.dot2D(velocity) * frameTime;
-	velocity += mod;
+	velocity -= mod;
 	if(obj && obj->IsMovable())
 		((movingObj*)obj)->modVel(mod);
 
