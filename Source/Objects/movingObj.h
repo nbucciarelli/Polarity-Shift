@@ -1,15 +1,25 @@
 #pragma once
 #include "baseObj.h"
+#include <queue>
 
 struct polygon;
 
 class movingObj : public baseObj
 {
 protected:
+	struct colSet
+	{
+		polyCollision result;
+		baseObj* obj;
+
+		colSet(polyCollision& res, baseObj* ob) : result(res), obj(ob) {}
+	};
+
 	vector3 velocity, acceleration, angVel, angAcc;
 
+	std::queue<colSet*> collisionQueue;
+
 	bool onSurface, leftWall, rightWall, topWall;
-	virtual bool mapCollisionCheck();
 
 	bool collisionHandling(const polygon& poly, polyCollision& result, baseObj* obj = NULL);
 	
@@ -17,7 +27,9 @@ public:
 	movingObj(uint otype = OBJ_MOVING);
 	virtual ~movingObj(void);
 
+	virtual bool mapCollisionCheck();
 	virtual bool checkCollision(baseObj* obj, polyCollision* result = NULL);
+	virtual void collisionReact();
 
 	void update(float dt);
 

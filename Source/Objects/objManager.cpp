@@ -73,10 +73,20 @@ void objManager::checkCollisions()
 {
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
+		objList[c]->mapCollisionCheck();
+	}
+
+	for(unsigned c = 0; c < objList.size(); c++)
+	{
 		for(unsigned d = c+1; d < objList.size(); d++)
 		{
 			objList[c]->checkCollision(objList[d]);
 		}
+	}
+
+	for(unsigned c = 0; c < objList.size(); c++)
+	{
+		objList[c]->collisionReact();
 	}
 }
 

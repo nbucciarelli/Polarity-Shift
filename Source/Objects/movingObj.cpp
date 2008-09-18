@@ -17,7 +17,7 @@ movingObj::~movingObj(void)
 
 void movingObj::update(float dt)
 {
-	mapCollisionCheck();
+	//mapCollisionCheck();
 
 	//Apply gravity.
 	if(!onSurface)
@@ -115,7 +115,48 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 			return false;
 	}
 
-	collisionHandling(*obj->getCollisionPoly(), holder, obj);
+	//collisionHandling(*obj->getCollisionPoly(), holder, obj);
+	vector3 vel;
+	if(obj)
+		vel = (velocity - obj->getVelocity())*frameTime;
+	else
+		vel = velocity;
+
+	if(!calc::polygonCollision(*obj->getCollisionPoly(), *thisPoly,
+		&vel, &holder))
+		return false;
+
+	movingObj* other = (movingObj*)obj;
+	vector3 y = vector3(0,1);
+	vector3 x = vector3(1);
+
+	if (other->onSurface && holder.responseVect * y > 0)
+	{
+		onSurface = true;
+	}
+	else if(onSurface && holder.responseVect * y < 0)
+	{
+		other->onSurface = true;
+	}
+
+	if (other->onSurface && holder.overlap * y > 0)
+	{
+		onSurface = true;
+	}
+	else if(onSurface && holder.overlap * y < 0)
+	{
+		other->onSurface = true;
+	}
+
+	holder.overlap *= 0.5f;
+	holder.responseVect *= 0.5f;
+		
+	other->collisionQueue.push(new colSet(holder, this));
+
+	holder.overlap *= -1;
+	holder.responseVect *= -1;
+
+	collisionQueue.push(new colSet(holder, obj));
 
 	if(result)
 		*result = holder;
@@ -413,4 +454,37 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 	}
 
 	return true;
+}
+
+void movingObj::collisionReact()
+{
+#define current collisionQueue.front()->result
+#define currentObj collisionQueue.front()->obj
+#define moving ((movingObj*)collisionQueue.front()->obj)
+	
+	vector3 y = vector3(0,1);
+	vector3 x = vector3(1);
+
+	while(!collisionQueue.empty())
+	{
+		if(current.overlapped)
+		{
+			if(onSurface && current.overlap * y > 0)
+				position.x += current.overlap.x;
+			else
+				position += current.overlap;
+				
+		}
+
+		if(current.willCollide)
+		{
+			if(onSurface && current.responseVect * y > 0)
+				position.x += current.responseVect.x;
+			else
+				position += current.responseVect;
+		}
+
+		delete collisionQueue.front();
+		collisionQueue.pop();
+	}
 }
