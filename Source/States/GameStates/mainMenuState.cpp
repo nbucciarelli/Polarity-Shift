@@ -51,6 +51,7 @@ void mainMenuState::enter(void)
 	m_bIsExited = false;
 	m_bLevelSelect = false;
 	m_bOptions = false;
+	m_bHighScores = false;
 
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
@@ -129,6 +130,8 @@ void mainMenuState::update(float dt)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_OPTIONS));
 		else if(m_bLevelSelect == true)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
+		else if(m_bHighScores == true)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_HIGHSCORES));
 	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
@@ -152,7 +155,8 @@ void mainMenuState::menuHandler()
 	case HOWTO:
 		break;
 	case SCORES:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_HIGHSCORES));
+		m_bIsExited = true;
+		m_bHighScores = true;
 		break;
 	case CREDITS:
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
