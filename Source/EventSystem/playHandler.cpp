@@ -69,7 +69,7 @@ void playHandler::onGameLoad()
 	mousy->setPos(vector3(512,320,0));
 	mousy->setClickPos(pt(32,32));
 
-	char* obid = FL->loadObject("Resource/PS_ironman.psu");
+	char* obid = FL->loadObject("Resource/PS_riley.psu");
 	movingObj* testObj = (movingObj*)OF->spawn(obid);
 
 	delete[] obid;
