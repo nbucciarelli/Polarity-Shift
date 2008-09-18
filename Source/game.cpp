@@ -43,7 +43,7 @@ void game::Initialize(HINSTANCE hInstance)
 	theDisplay->InitWindow(hInstance);
 	CVideoMaster::GetInstance()->Init(theDisplay->getHWnd());
 
-	
+
 
 	if(!theDisplay->getHWnd())
 		return;
@@ -71,7 +71,7 @@ void game::Initialize(HINSTANCE hInstance)
 
 
 	/*if (!m_pixelShader.Create("./Resource/Shaders/gamma.ps", theRenderer->GetDirect3DDevice()))
-		MessageBox(theDisplay->getHWnd(), "Failed to create Pixel Shader", "Error", MB_OK | MB_ICONEXCLAMATION);*/
+	MessageBox(theDisplay->getHWnd(), "Failed to create Pixel Shader", "Error", MB_OK | MB_ICONEXCLAMATION);*/
 
 	theRenderer->GetDirect3DDevice()->CreateTexture(1024, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_pRenderTarget, NULL);
 
@@ -193,11 +193,14 @@ void game::Run()
 
 		if(getInput() &&currentState)
 			currentState->input(dt);
+		if (!CVideoMaster::GetInstance()->GetIsPlaying())
+		{
 
-		if(currentState)
-			currentState->update(dt);
-		else
-			isRunning = false;
+			if(currentState)
+				currentState->update(dt);
+			else
+				isRunning = false;
+		}
 
 		EM->processGlobalEvents();
 	}
@@ -223,17 +226,17 @@ bool game::getInput()
 #pragma region render loop
 unsigned game::renderLoop(void* unused)
 {
-	
 
-		static float timeraslow;
 
-		game* g = GetInstance();
-		g->m_timer.Stop();
+	static float timeraslow;
 
-		g->m_timer.Start();
-		while ( g->isRunning )
-		{
-			if (!CVideoMaster::GetInstance()->GetIsPlaying())
+	game* g = GetInstance();
+	g->m_timer.Stop();
+
+	g->m_timer.Start();
+	while ( g->isRunning )
+	{
+		if (!CVideoMaster::GetInstance()->GetIsPlaying())
 		{
 			Sleep(1);
 			float fElapsedTime = (float)g->m_timer.GetTime();
@@ -291,10 +294,10 @@ unsigned game::renderLoop(void* unused)
 				g->theRenderer->EndScene();
 
 			}
-			}
 		}
-		return 0;
-	
-	
+	}
+	return 0;
+
+
 }
 #pragma endregion
