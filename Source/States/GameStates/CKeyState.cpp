@@ -142,21 +142,27 @@ void CKeyState::update(float dt)
 			switch(menuPos)
 			{
 			case JUMP:
-				if (game::GetInstance()->GetKeys().m_nJump != character)
+				if (game::GetInstance()->GetKeys().m_nRunLeft == character || game::GetInstance()->GetKeys().m_nRunRight == character)
+					MessageBox(0, "Insert a different key", "Key Already Used", MB_OK);
+				else if (game::GetInstance()->GetKeys().m_nJump != character)
 					game::GetInstance()->SetJump(character);
 				else
 					MessageBox(0, "Insert a different key", "Key Already Used", MB_OK);
 				
 				break;
 			case MOVELEFT:
-				if (game::GetInstance()->GetKeys().m_nRunLeft != character)
+				if (game::GetInstance()->GetKeys().m_nJump == character || game::GetInstance()->GetKeys().m_nRunRight == character)
+					MessageBox(0, "Insert a different key", "Key Already Used", MB_OK);
+				else if (game::GetInstance()->GetKeys().m_nRunLeft != character)
 					game::GetInstance()->SetMoveLeft(character);
 				else
 					MessageBox(0, "Insert a different key", "Key Already Used",MB_OK);
 				
 				break;
 			case MOVERIGHT:
-				if (game::GetInstance()->GetKeys().m_nRunRight != character)
+				if (game::GetInstance()->GetKeys().m_nRunLeft == character || game::GetInstance()->GetKeys().m_nJump == character)
+					MessageBox(0, "Insert a different key", "Key Already Used", MB_OK);
+				else if (game::GetInstance()->GetKeys().m_nRunRight != character)
 					game::GetInstance()->SetMoveRight(character);
 				else
 					MessageBox(0, "Insert a different key", "Key Already Used",MB_OK);
