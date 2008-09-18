@@ -31,7 +31,7 @@ protected:
 	bitFont* theFont;
 	debugControl* debugger;
 
-	int m_nParticleImageID, m_nLevelNum;
+	int m_nParticleImageID;
 	float m_fLevelTime;
 	float m_fLevelScore;
 

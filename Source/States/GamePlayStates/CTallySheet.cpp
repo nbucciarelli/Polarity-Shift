@@ -32,6 +32,7 @@ void CTallySheetState::Initialize(int nLevelNum, float fScoreGiven, float fTimeT
 {
 	m_fScoreGiven = fScoreGiven;
 	m_fTimeTaken = fTimeTaken;
+	m_nLevelNum = nLevelNum;
 }
 
 void CTallySheetState::enter(void)
@@ -76,6 +77,8 @@ void CTallySheetState::update(float dt)
 void CTallySheetState::render(void) const
 {
 	
+	char levelbuffer[32];
+	sprintf_s(levelbuffer, "Level %d", m_nLevelNum);
 
 	char buffer1[128];
 	sprintf_s(buffer1,"Score : %.2f", m_fTempScore);
@@ -83,6 +86,7 @@ void CTallySheetState::render(void) const
 	char buffer2[128];
 	sprintf_s(buffer2,"Time : %.2f", m_fTempTime);
 
+	theFont->drawText(levelbuffer, 100,100);
 	theFont->drawText(buffer1, 100,200);
 	theFont->drawText(buffer2, 100,300);
 

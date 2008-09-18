@@ -12,7 +12,8 @@ class CTallySheetState : public menuState
 private:
 	enum menuOptions { 	EXIT, TOTAL	};
 	float somethingtime;
-
+	
+	int m_nLevelNum;
 	float m_fTimeTaken;
 	float m_fTempTime;
 	float m_fScoreGiven;
@@ -73,9 +74,12 @@ public:
 	//	Purpose:		initializes the values in the state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Initialize(int nLevelNum, float fScoreGiven, float fTimeTaken);
-
+	
+	int GetLevelNum() const { return m_nLevelNum; }
 	float GetTimeTaken() const { return m_fTimeTaken; }
 	float GetScoreGiven() const { return m_fScoreGiven; }
+	
+	void SetLevelNum(int val) { m_nLevelNum = val; }
 	void SetTimeTaken(float val) { m_fTimeTaken = val; }
 	void SetScoreGiven(float val) { m_fScoreGiven = val; }	
 
