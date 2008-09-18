@@ -7,6 +7,8 @@
 #include "../gameState.h"
 #include "../../eventsystem/listener.h"
 
+#define NUMLEVELS 10
+
 class objManager;
 class CSGD_DirectInput;
 typedef CSGD_DirectInput inputDevice;
@@ -34,6 +36,8 @@ protected:
 	int m_nParticleImageID;
 	float m_fLevelTime;
 	float m_fLevelScore;
+
+	bool m_bLevelsComplete[NUMLEVELS];
 
 	volatile bool rendering;
 

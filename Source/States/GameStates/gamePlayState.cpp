@@ -38,6 +38,9 @@ gamePlayState* gamePlayState::getInstance()
 
 void gamePlayState::enter(void)
 {
+	for (int i = 0 ; i < NUMLEVELS ; ++i)
+		m_bLevelsComplete[i] = 0;
+	
 	theMouse = mouse::getInstance();
 
 	OM = objManager::getInstance();
