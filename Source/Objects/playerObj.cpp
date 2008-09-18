@@ -12,7 +12,12 @@
 #include "magnetGun.h"
 #include <cmath>
 
-playerObj::playerObj() : jumpTime(0), maxJumpTime(0.2f), jumpCount(0), jumpDone(false),
+#define JUMPS 2
+
+//This can be a float.
+#define JUMPPOWER 125
+
+playerObj::playerObj() : jumpTime(0), maxJumpTime(0.5f), jumpCount(0), jumpDone(true),
 						 actorObj(OBJ_PLAYER)
 {}
 
@@ -24,10 +29,12 @@ void playerObj::update(float dt)
 {
 	actorObj::update(dt);
 
-	if(jumpTime && onSurface)
+	if(onSurface)
 	{
+		jumpCount = 0;
 		jumpTime = 0;
 	}
+	jumping = false;
 }
 
 void playerObj::HandleEvent(gameEvent *ev)
@@ -62,10 +69,18 @@ void playerObj::HandleEvent(gameEvent *ev)
 		this->SetAnimNumber(1);
 		break;
 	case EVENT_PLAYERJUMP:
-		if(true)
+		if(jumpDone && jumpCount < JUMPS)
 		{
-			jumpTime++;
-			velocity.y = -250;
+			jumpTime = 0;
+			jumpCount++;
+			jumpDone = false;
+		}
+
+		if(!jumpDone && jumpTime < maxJumpTime)
+		{
+			jumping = true;
+			jumpTime+=frameTime;
+			velocity.y = -JUMPPOWER;
 		}
 		break;
 	case EVENT_PLAYERJUMPSTOP:

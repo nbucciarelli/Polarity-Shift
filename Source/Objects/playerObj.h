@@ -14,9 +14,9 @@ class playerObj : public actorObj
 protected:
 	vector3 lookVector;
 
-	int jumpCount, jumpTime;
-	float maxJumpTime;
-	bool jumpDone;
+	int jumpCount;
+	float maxJumpTime, jumpTime;
+	bool jumpDone, jumping;
 
 public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -115,10 +115,12 @@ bool gamePlayState::input(float dt)
 		|| theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunRight))
 		EM->sendEvent(EVENT_PLAYERSTOP);
 
-	if(theInput->KeyPressed(game::GetInstance()->GetKeys().m_nJump))
+	if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nJump))
 		EM->sendEvent(EVENT_PLAYERJUMP);
-	}
+	if(theInput->KeyReleased(game::GetInstance()->GetKeys().m_nJump))
+		EM->sendEvent(EVENT_PLAYERJUMPSTOP);
 
+	}
 	if(theInput->MouseButtonPressedEx(0))
 		EM->sendEvent(EVENT_PLAYERFIRE);
 
