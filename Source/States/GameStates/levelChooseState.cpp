@@ -187,10 +187,11 @@ bool levelChooseState::input(float dt)
 		{
 
 			highlightColor = 0xffa4a4ff;
-			if (bIsLevelComplete[menuPos] || menuPos == menuLast)
+			/*if (bIsLevelComplete[menuPos] || menuPos == menuLast)
 			{
 				menuHandler();
-			}
+			}*/
+				menuHandler();
 		}
 		else if (theInput->KeyPressed(DIK_DOWN))
 		{
@@ -241,6 +242,10 @@ bool levelChooseState::input(float dt)
 		{
 			if (m_bIsBuffered == true)
 			{
+				/*if (bIsLevelComplete[menuPos] || menuPos == menuLast)
+				{
+				menuHandler();
+				}*/
 				menuHandler();
 				Player1->Vibrate(65535, 65535);
 				m_bIsBuffered = false;
