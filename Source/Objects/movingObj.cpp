@@ -4,6 +4,8 @@
 #include <cmath>
 #include <windows.h>
 
+#define friction 0.01f
+
 movingObj::movingObj(uint otype) : baseObj(otype, true), onSurface(false),
 leftWall(false),rightWall(false),topWall(false)
 {
@@ -15,12 +17,6 @@ movingObj::~movingObj(void)
 
 void movingObj::update(float dt)
 {
-	velocity += acceleration * dt;
-	position += velocity * dt;
-
-	angVel += angAcc * dt;
-	angPos += angVel * dt;
-
 	mapCollisionCheck();
 
 	//Apply gravity.
@@ -63,8 +59,43 @@ void movingObj::update(float dt)
 	angVel.zeroDrift();
 	angAcc.zeroDrift();
 
+	if(!calc::isZero(velocity))
+	{
+		for(int c = 0; c < 3; c++)
+		{
+			if(velocity.e[c] > 0)
+				velocity.e[c] -= 0.1f;
+			else if(velocity.e[c] < 0)
+				velocity.e[c] += 0.1f;
+		}
+	}
+	if(!calc::isZero(acceleration))
+	{
+		for(int c = 0; c < 3; c++)
+		{
+			if(acceleration.e[c] > 0)
+				acceleration.e[c] -= 0.1f;
+			else if(acceleration.e[c] < 0)
+				acceleration.e[c] += 0.1f;
+		}
+	}
+
+	velocity += acceleration * dt;
+	position += velocity * dt;
+
+	angVel += angAcc * dt;
+	angPos += angVel * dt;
+
 	for(int c = 0; c < 3; c++)
 		if(angPos.e[c] > _2PI) angPos.e[c] -= _2PI;
+
+	if(!calc::isZero(velocity.x))
+	{
+		if(velocity.x > 0)
+			acceleration.x -= friction;
+		else
+			acceleration.x += friction;
+	}
 
 	baseObj::update(dt);
 }
@@ -205,39 +236,61 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 		return false;
 
 	//move out of collision.
-	if(obj && obj->IsMovable())
+#pragma region old collision response
+/*	if(obj && obj->IsMovable())
 	{
+		movingObj* movey = (movingObj*)obj;
+
 		if(result.willCollide)
 		{
-			position += result.responseVect * -0.5f;
-			obj->modPos(result.responseVect * 0.5f);
+			if(movey->onSurface && result.responseVect * vector3(0,1) >= 0)
+			{
+				position += vector3(result.responseVect.x*-0.5f,-result.responseVect.y);
+				movey->position += vector3(result.responseVect.x*0.5f);
+				onSurface = true;
+			}
+			else if(onSurface && result.responseVect * vector3(0,-1) >= 0)
+			{
+				position += vector3(result.responseVect.x * -0.5f);
+				movey->position += vector3(result.responseVect.x *0.5f, result.responseVect.y);
+				movey->onSurface = true;
+			}
+			else
+			{
+				position += result.responseVect * -0.5f;
+				obj->modPos(result.responseVect * 0.5f);
+			}
 		}
 		if(result.overlapped)
 		{
-			movingObj* movey = (movingObj*)obj;
+			vector3 overlap;
+			//if(movey->topWall && result.responseVect * vector3(0,-1) <= 0)
+			if(movey->onSurface && result.overlap * vector3(0,1) > 0)
+				onSurface = true;
+			else if(onSurface && result.overlap * vector3(0,-1) > 0)
+				movey->onSurface = true;
+			else if(movey->topWall && result.overlap * vector3(0,-1) > 0)
+				topWall = true;
+			else if(topWall && result.overlap * vector3(0,1) > 0)
+				movey->topWall = false;
+			else
+				overlap.y = result.overlap.y;
 
-		//if(movey->topWall && result.responseVect * vector3(0,-1) <= 0)
-		if(movey->onSurface && result.overlap * vector3(0,1) <= 0)
-		{
-			position += vector3(result.overlap.x*-0.5f,-result.overlap.y);
-			movey->position += vector3(result.overlap.x*0.5f);
-			onSurface = true;
-		}
-		else if(onSurface && result.overlap * vector3(0,-1) <= 0)
-		{
-			position += vector3(result.overlap.x * -0.5f);
-			movey->position += vector3(result.overlap.x *0.5f, result.overlap.y);
-			movey->onSurface = true;
-		}
-		else
-		{
-			position += result.overlap * -0.5f;
-			obj->modPos(result.overlap * 0.5f);
-		}
+			if(movey->leftWall && result.overlap * vector3(1) > 0)
+				leftWall = true;
+			else if(leftWall && result.overlap * vector3(-1) > 0)
+				movey->leftWall = true;
+			else if(movey->rightWall && result.overlap * vector3(-1) > 0)
+				rightWall = true;
+			else if(movey->rightWall && result.overlap * vector3(1) > 0)
+				movey->rightWall = true;
+			else
+				overlap.x = result.overlap.x;
 
+			position += overlap * -0.5f;
+			obj->modPos(overlap * 0.5f);
 			//	obj->getAngPos();
 		}
-			
 	}
 	else
 	{
@@ -251,9 +304,113 @@ bool movingObj::collisionHandling(const polygon& poly, polyCollision& result, ba
 
 	//Affect velocity based on collision.
 	vector3 mod = result.responseVect.normalized() * result.responseVect.dot2D(velocity) * frameTime;
-	velocity -= mod;
+	velocity -= mod * 0.4f;
 	if(obj && obj->IsMovable())
-		((movingObj*)obj)->modVel(mod);
+		((movingObj*)obj)->modVel(mod * 0.4f);
+*/
+#pragma endregion
+
+	if(!obj || !obj->IsMovable())
+	{
+		if(result.willCollide)
+			position += result.responseVect;
+
+		if(result.overlapped)
+			position += result.overlap;
+
+		vector3 mod = result.responseVect.normalized()
+			* result.responseVect.dot2D(velocity) * frameTime;
+		velocity -= mod * 0.4f;
+		((movingObj*)obj)->modVel(mod * 0.4f);
+	}
+	else //Moving Object collision response
+	{
+		movingObj* other = (movingObj*)obj;
+		vector3 y = vector3(0,1);
+		vector3 x = vector3(1);
+
+		if (other->onSurface && result.responseVect * y > 0)
+		{
+			//obj is on ground, and response tells it to push down.
+			position.x += result.responseVect.x * -0.5f;
+			position.y += -result.responseVect.y;
+			
+			if(velocity.y > 0)
+				velocity.y = 0;
+
+			other->position.x -= result.responseVect.x * 0.5f;
+		}
+		else if(onSurface && result.responseVect * y < 0)
+		{
+			//this is on ground, and response says push up.
+			position.x -= result.overlap.x;
+
+			other->position.y += result.overlap.y;
+			other->position.x += result.overlap.x * 0.5f;
+
+			if(other->velocity.y > 0)
+				other->velocity.y = 0;
+		}
+		else
+		{
+			position -= result.responseVect * 0.5f;
+			other->position += result.responseVect * 0.5f;
+		}
+
+
+		if (other->onSurface && result.overlap * y > 0)
+		{
+			//obj is on ground, and response tells it to push down.
+			position.x += result.overlap.x * -0.5f;
+			position.y += -result.overlap.y;
+			
+			if(velocity.y > 0)
+				velocity.y = 0;
+
+			other->position.x -= result.overlap.x * 0.5f;
+		}
+		else if(onSurface && result.overlap * y < 0)
+		{
+			//this is on ground, and response says push up.
+			position.x -= result.overlap.x;
+
+			other->position.y += result.overlap.y;
+			other->position.x += result.overlap.x * 0.5f;
+
+			if(other->velocity.y > 0)
+				other->velocity.y = 0;
+		}
+		else
+		{
+			position -= result.overlap * 0.5f;
+			other->position += result.overlap * 0.5f;
+		}
+
+		//velocity now.
+		vector3 vel = result.responseVect.normalized()
+			* result.responseVect.dot2D(velocity + other->velocity) * frameTime * 0.4f;
+
+		if(onSurface && other->onSurface && vel * y > 0)
+		{
+			velocity.x -= vel.x;
+			other->velocity.x += vel.x;
+		}
+		else if(onSurface && vel * y > 0)
+		{
+			velocity.x -= vel.x;
+			other->velocity += vel;
+		}
+		else if(other->onSurface && vel * y < 0)
+		{
+			velocity -= vel;
+			other->velocity.x += vel.x;
+		}
+		else
+		{
+			velocity -= vel;
+			other->velocity += vel;
+		}
+	}
 
 	return true;
 }

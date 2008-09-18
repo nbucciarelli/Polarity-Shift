@@ -75,8 +75,6 @@ void objManager::checkCollisions()
 	{
 		for(unsigned d = c+1; d < objList.size(); d++)
 		{
-			//if(c == d)
-			//	continue;
 			objList[c]->checkCollision(objList[d]);
 		}
 	}
