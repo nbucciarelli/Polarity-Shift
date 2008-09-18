@@ -13,6 +13,8 @@
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
+#include "..\..\Wrappers\CSGD_DirectInput.h"
+#include "..\..\Helpers\CXBOXController.h"
 //#include "..\..\Engines\CParticleEffectManager.h"
 
 levelChooseState::levelChooseState(void)
@@ -174,4 +176,85 @@ void levelChooseState::render(void) const
 
 	//menuState::render();
 	//CParticleEffectManager::GetInstance()->Render(m_nParticleImageID, menuState::GetEmitterPosX(), menuState::GetEmitterPosY()); 
+}
+
+bool levelChooseState::input(float dt)
+{
+	bool* bIsLevelComplete = game::GetInstance()->GetLevelComplete();
+	if(m_bIsMoving == false)
+	{
+		if (theInput->KeyPressed(DIK_RETURN))
+		{
+
+			highlightColor = 0xffa4a4ff;
+			if (bIsLevelComplete[menuPos] || menuPos == menuLast)
+			{
+				menuHandler();
+			}
+		}
+		else if (theInput->KeyPressed(DIK_DOWN))
+		{
+			if(menuPos < menuLast)
+				menuPos++;
+			else
+				menuPos = 0;
+		}else if(theInput->KeyPressed(DIK_UP))
+		{
+			if(menuPos > 0)
+				menuPos--;
+			else
+				menuPos = menuLast;
+		}
+	}
+
+
+	if (Player1->IsConnected())
+	{
+		if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+		{
+			if (m_bIsBuffered == true)
+			{
+				Player1->Vibrate(65535, 65535);
+
+				if(menuPos > 0)
+					menuPos--;
+				else
+					menuPos = menuLast;
+
+				m_bIsBuffered = false;
+			}
+
+		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN )
+		{
+			if (m_bIsBuffered == true)
+			{
+				Player1->Vibrate(65535, 65535);
+				if(menuPos < menuLast)
+					menuPos++;
+				else
+					menuPos = 0;
+
+				m_bIsBuffered = false;
+			}
+
+		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A )
+		{
+			if (m_bIsBuffered == true)
+			{
+				menuHandler();
+				Player1->Vibrate(65535, 65535);
+				m_bIsBuffered = false;
+			}
+
+		}else
+		{
+			m_bIsBuffered = true;
+			Player1->Vibrate(0, 0);
+		}
+	}
+	highlightColor = 0xffa4a4ff;
+
+	return true;
+
+
 }
