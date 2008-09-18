@@ -29,7 +29,7 @@ void playerObj::update(float dt)
 {
 	actorObj::update(dt);
 
-	if(onSurface)
+	if(isOnSurface())
 	{
 		jumpCount = 0;
 		jumpTime = 0;
@@ -74,7 +74,6 @@ void playerObj::HandleEvent(gameEvent *ev)
 			jumpCount++;
 			jumpDone = false;
 		}
-
 		if(!jumpDone && jumpTime < maxJumpTime)
 		{
 			jumpTime+=frameTime;

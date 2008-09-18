@@ -7,7 +7,7 @@
 #define friction 0.01f
 
 movingObj::movingObj(uint otype) : baseObj(otype, true), onSurface(false),
-leftWall(false),rightWall(false),topWall(false)
+leftWall(false),rightWall(false),topWall(false),stoodOn(0)
 {
 }
 
@@ -20,7 +20,7 @@ void movingObj::update(float dt)
 	//mapCollisionCheck();
 
 	//Apply gravity.
-	if(!onSurface)
+	if(!isOnSurface())
 		velocity.y += GRAVITY * dt;
 	else
 	{
@@ -97,6 +97,19 @@ void movingObj::update(float dt)
 			acceleration.x += friction;
 	}
 
+	if(stoodOn && (onSurface ||
+		(
+		!calc::sphereOverlap(position, getMaxRadius(),
+							stoodOn->position,
+							stoodOn->getMaxRadius())
+		&&
+		!calc::polygonCollision(*stoodOn->getCollisionPoly(), *getCollisionPoly(),
+								&vector3())
+		)))
+	{
+		stoodOn = 0;
+	}
+
 	baseObj::update(dt);
 }
 
@@ -130,23 +143,30 @@ bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 	vector3 y = vector3(0,1);
 	vector3 x = vector3(1);
 
-	if (other->onSurface && holder.responseVect * y > 0)
+	if (other->isOnSurface() && holder.responseVect * y > 0 && !other->isInStack(this))
 	{
-		onSurface = true;
+		stoodOn = other;
 	}
-	else if(onSurface && holder.responseVect * y < 0)
+	else if(isOnSurface() && holder.responseVect * y < 0 && !isInStack(other))
 	{
-		other->onSurface = true;
+		other->stoodOn = this;
+	}
+	else
+	if (other->isOnSurface() && holder.overlap * y > 0 && !other->isInStack(this))
+	{
+		stoodOn = other;
+	}
+	else if(isOnSurface() && holder.overlap * y < 0 && !isInStack(other))
+	{
+		other->stoodOn = this;
 	}
 
-	if (other->onSurface && holder.overlap * y > 0)
-	{
-		onSurface = true;
-	}
-	else if(onSurface && holder.overlap * y < 0)
-	{
-		other->onSurface = true;
-	}
+	/*if((holder.overlapped && holder.overlap * y > 0)
+		|| (holder.willCollide && holder.responseVect * y > 0))
+			stoodOn = other;
+	else if((holder.overlapped && holder.overlap * y < 0)
+		|| (holder.willCollide && holder.responseVect * y < 0))
+		other->stoodOn = this;*/
 
 	holder.overlap *= 0.5f;
 	holder.responseVect *= 0.5f;
@@ -209,7 +229,7 @@ bool movingObj::mapCollisionCheck()
 		{
 			if(intersect.bottom == overBox.bottom) //bottom hit
 			{
-				if(!onSurface)
+				if(!isOnSurface())
 				{
 					position.y += intersect.top - intersect.bottom + EXCESS;
 					onSurface = true;
@@ -469,7 +489,7 @@ void movingObj::collisionReact()
 	{
 		if(current.overlapped)
 		{
-			if(onSurface && current.overlap * y > 0)
+			if(isOnSurface() && current.overlap * y > 0)
 				position.x += current.overlap.x;
 			else
 				position += current.overlap;
@@ -478,7 +498,7 @@ void movingObj::collisionReact()
 
 		if(current.willCollide)
 		{
-			if(onSurface && current.responseVect * y > 0)
+			if(isOnSurface() && current.responseVect * y > 0)
 				position.x += current.responseVect.x;
 			else
 				position += current.responseVect;
@@ -487,4 +507,23 @@ void movingObj::collisionReact()
 		delete collisionQueue.front();
 		collisionQueue.pop();
 	}
+}
+
+bool movingObj::isOnSurface() const
+{
+	if(stoodOn)
+		return stoodOn->isOnSurface();
+	else
+		return onSurface;
+}
+
+bool movingObj::isInStack(const baseObj* obj)
+{
+	if(!stoodOn)
+		return false;
+
+	if(obj == stoodOn)
+		return true;
+	else
+		return stoodOn->isInStack(obj);
 }

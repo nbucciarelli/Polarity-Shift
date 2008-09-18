@@ -128,6 +128,9 @@ char* objFileLoader::loadObject(char* filename)
 	reader.read((char*)&shorty, sizeof(short));
 	center.mass = (float)shorty;
 
+	float mRadius = 0;
+	reader.read((char*)&mRadius, sizeof(float));
+
 	//Now grab point count
 	reader.read((char*)&holder, sizeof(short));
 
@@ -138,6 +141,7 @@ char* objFileLoader::loadObject(char* filename)
 
 	poly->vertecies = new objectPoint[vc];
 	poly->vertexCount = vc;
+	poly->maxRadius = mRadius;
 
 	for(int c = 0; c < vc; c++)
 	{

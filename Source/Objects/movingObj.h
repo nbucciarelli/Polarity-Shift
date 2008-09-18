@@ -20,6 +20,7 @@ protected:
 	std::queue<colSet*> collisionQueue;
 
 	bool onSurface, leftWall, rightWall, topWall;
+	movingObj* stoodOn;
 
 	bool collisionHandling(const polygon& poly, polyCollision& result, baseObj* obj = NULL);
 	
@@ -38,6 +39,8 @@ public:
 	const vector3& getAcceleration() const { return acceleration; }
 	const vector3& getAngVel() const { return angVel; }
 	const vector3& getAngAcc() const { return angAcc; }
+	bool isOnSurface() const;
+	bool isInStack(const baseObj* obj);
 
 	//Set Mutators: variable = input
 	void setVel(const vector3& vel) { velocity = vel; }
