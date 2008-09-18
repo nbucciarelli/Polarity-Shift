@@ -41,8 +41,9 @@ void CTallySheetState::enter(void)
 
 void CTallySheetState::exit(void)
 {
-
 	somethingtime = 0;
+	m_fTempTime = 0;
+	m_fTempScore = 0;
 	menuState::exit();
 }
 
