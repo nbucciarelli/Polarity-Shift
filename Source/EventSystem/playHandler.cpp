@@ -95,7 +95,7 @@ void playHandler::onGameLoad()
 	OM->addObj(testObj);
 	testObj->release();
 
-		obid = FL->loadObject("Resource/PS_triangle.psu");
+		obid = FL->loadObject("Resource/PS_boxy.psu");
 
 	for(int i = 0; i <CTileEngine::GetInstance()->GetCubes().size(); i ++)
 	{
