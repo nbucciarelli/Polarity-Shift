@@ -51,7 +51,7 @@ void gamePlayState::enter(void)
 	TE = CTileEngine::GetInstance();
 
 	m_fLevelTime = 0;
-	m_fLevelScore = 0;
+	m_fLevelScore = 100;
 
 	//string buff;
 	char buff[256] = {0};
@@ -206,7 +206,7 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 		break;
 	case EVENT_LEVELFINISHED:
 		{
-			m_fLevelScore = m_fLevelScore + 10 * m_fLevelTime;
+			m_fLevelScore = m_fLevelScore - (m_fLevelTime * 5);
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
 			CTallySheetState::getInstance()->Initialize(levelChooseState::getInstance()->GetPlayLevel() ,m_fLevelScore, m_fLevelTime);
 			entered = false;
