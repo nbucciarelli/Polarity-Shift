@@ -73,5 +73,6 @@ public:
 	//	Last Modified:	September 9th, 2008
 	//	Purpose:		modifies certain variables in the level choose state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	void SetPlayLevel(int val) { m_nSelectedLevel = val; }
+	void SetPlayLevel(int val) { m_nSelectedLevel = val; }	
+	
 };

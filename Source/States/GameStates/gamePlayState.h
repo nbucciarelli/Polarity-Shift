@@ -7,7 +7,6 @@
 #include "../gameState.h"
 #include "../../eventsystem/listener.h"
 
-#define NUMLEVELS 10
 
 class objManager;
 class CSGD_DirectInput;
@@ -37,8 +36,7 @@ protected:
 	float m_fLevelTime;
 	float m_fLevelScore;
 
-	bool m_bLevelsComplete[NUMLEVELS];
-
+	
 	volatile bool rendering;
 
 	mouse* theMouse;

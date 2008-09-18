@@ -22,6 +22,8 @@ class CSGD_FModManager;
 #include <vector>
 using std::vector;
 
+#define NUMLEVELS 10
+
 //Game class: Singleton for a game's operations.  Should contain everything.
 class game
 {
@@ -32,7 +34,7 @@ protected:
 
 	int m_nVideoID;
 
-
+	bool m_bLevelsComplete[NUMLEVELS];
 
 	//Singleton Protection
 	game(void);
@@ -98,4 +100,7 @@ public:
 	void SetMoveRight(unsigned val) { m_cKeys.m_nRunRight = val; }
 	
 	int GetSZSCHHHSound() const { return m_SZSCHHHSound; }
+
+	bool* GetLevelComplete() {return m_bLevelsComplete;}
+	void SetLevelComplete(int level) {m_bLevelsComplete[level + 1] = true;}
 };

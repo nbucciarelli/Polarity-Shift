@@ -44,6 +44,10 @@ void game::Initialize(HINSTANCE hInstance)
 	CVideoMaster::GetInstance()->Init(theDisplay->getHWnd());
 
 
+	for (int i = 0 ; i < NUMLEVELS ; ++i)
+		m_bLevelsComplete[i] = 0;
+	
+	m_bLevelsComplete[0] = true;
 
 	if(!theDisplay->getHWnd())
 		return;

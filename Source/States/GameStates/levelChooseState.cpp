@@ -50,6 +50,7 @@ void levelChooseState::enter(void)
 	m_bIsMoving = true;
 	m_bIsExiting = false;
 	m_bIsExited = false;
+	
 	menuState::enter();
 }
 
@@ -153,11 +154,17 @@ void levelChooseState::render(void) const
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
 	theFont->drawText("Level Select", (int)(233 + m_fXLerp), 35, textColor, 1.25f);
-
+	bool* bIsLevelComplete = game::GetInstance()->GetLevelComplete();
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
+			if (bIsLevelComplete[c])
+				theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
+			else if (c == menuLast)
+				theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
+			else
+				theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128));
+						
 		else //For the selected item, use highlight color
 			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, highlightColor);
 
