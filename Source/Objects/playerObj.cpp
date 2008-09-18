@@ -34,7 +34,6 @@ void playerObj::update(float dt)
 		jumpCount = 0;
 		jumpTime = 0;
 	}
-	jumping = false;
 }
 
 void playerObj::HandleEvent(gameEvent *ev)
@@ -69,7 +68,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 		this->SetAnimNumber(1);
 		break;
 	case EVENT_PLAYERJUMP:
-		if(jumpDone && jumpCount < JUMPS)
+		if(jumpDone && jumpCount < JUMPS - 1)
 		{
 			jumpTime = 0;
 			jumpCount++;
@@ -78,7 +77,6 @@ void playerObj::HandleEvent(gameEvent *ev)
 
 		if(!jumpDone && jumpTime < maxJumpTime)
 		{
-			jumping = true;
 			jumpTime+=frameTime;
 			velocity.y = -JUMPPOWER;
 		}
