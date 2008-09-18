@@ -9,7 +9,9 @@ class CHighScoresState : public menuState
 private:
 	
 	enum menuOptions{ EXIT , TOTAL};
-
+	
+	int foregroundID;
+	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
 	void menuHandler(void);
 		
 	//bool CheckScores();

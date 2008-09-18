@@ -11,6 +11,10 @@
 #include <fstream>
 using namespace std;
 #include "..\..\XMLParser\irrXML.h"
+#include "..\..\Wrappers\viewManager.h"
+#include "..\..\Wrappers\CSGD_FModManager.h"
+#include "..\..\Helpers\SGD_Math.h"
+#include "..\..\game.h"
 using namespace irr;
 using namespace io;
 
@@ -66,6 +70,7 @@ namespace
 
 CHighScoresState::CHighScoresState()
 {
+	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 	menuItemString = new char*[TOTAL];
 	menuLast = EXIT;
 
@@ -85,7 +90,9 @@ bool CHighScoresState::input(float delta)
 
 void CHighScoresState::render() const
 {
-	menuState::render();
+	//menuState::render();
+	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
+	theFont->drawText("High Scores", (int)(233 + m_fXLerp), 35, textColor, 1.25f);
 	//mymap::const_reverse_iterator itr = score.rbegin();
 	char s[100];
 	int i = 0;
@@ -117,7 +124,60 @@ void CHighScoresState::exit()
 
 void CHighScoresState::update(float delta)
 {
-	
+	if(!entered)
+		return;
+
+	m_fTime += delta; 
+	if(m_bIsMoving == true)
+	{
+		if (delta >= .016f) 
+		{ 
+			m_fXPer += .1f; 
+			m_fXLerp = Lerp(1024, 0, m_fXPer); 
+			m_fSoundPer -= .2f;
+			m_fSoundLerp = Lerp(100, 0, m_fXPer);
+			m_fSoundLerp *= -1;
+			// SET PAN FROM RIGHT TO CENTER WITH SOUND LERP
+			if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetSZSCHHHSound()))
+				CSGD_FModManager::GetInstance()->SetPan(game::GetInstance()->GetSZSCHHHSound(), m_fSoundLerp);
+			// PLAY SOUND HERE
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
+			if(m_fXPer >= 1)
+			{
+				m_fXPer = 1;
+				// STOP SOUND HERE
+				CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetSZSCHHHSound());
+				m_bIsMoving = false;
+			}
+		}
+	}
+	else if(m_bIsExiting == true)
+	{
+		if (delta >= .016f) 
+		{ 
+			m_fXPer -= .1f; 
+			m_fXLerp = Lerp(1024, 0, m_fXPer);
+			m_fSoundPer -= .2f;
+			m_fSoundLerp = Lerp(0, 100, m_fSoundPer);
+			m_fSoundLerp *= -1;
+			// SET PAN FROM CENTER TO RIGHT WITH SOUND LERP
+			CSGD_FModManager::GetInstance()->SetPan(game::GetInstance()->GetSZSCHHHSound(), m_fSoundLerp);
+			// PLAY SOUND HERE
+			if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetSZSCHHHSound()))
+				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
+			if(m_fXPer <= 0)
+			{
+				m_fXPer = 0;
+				// STOP SOUND HERE
+				CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetSZSCHHHSound());
+				m_bIsExiting = false;
+				m_bIsExited = true;
+			}
+		}
+	}
+
+	if(m_bIsExited == true)
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
 }
 
 void CHighScoresState::menuHandler(void)
@@ -125,7 +185,7 @@ void CHighScoresState::menuHandler(void)
 	switch(menuPos)
 	{
 	case EXIT:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
+		m_bIsExiting = true;
 		break;
 	}
 }
