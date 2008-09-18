@@ -142,6 +142,7 @@ void gamePlayState::update(float dt)
 {
 	m_fLevelTime += dt;
 
+	dt*=2.0f;
 	if(entered)
 	{
 		AIE->update();

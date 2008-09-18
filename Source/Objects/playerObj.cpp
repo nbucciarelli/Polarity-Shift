@@ -35,7 +35,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 	switch(ev->getEventID())
 	{
 	case EVENT_PLAYERGOLEFT:
-		acceleration.x -= 100.0f;
+		acceleration.x -= 50.0f;
 		this->m_pAM->GetEngine(1)->Stop();
 		if(GetAnimNumber() != 0)
 		{
@@ -45,7 +45,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 		this->setFacing(FACE_RIGHT);
 		break;
 	case EVENT_PLAYERGORIGHT:
-		acceleration.x += 100.0f;
+		acceleration.x += 50.0f;
 		this->m_pAM->GetEngine(1)->Stop();
 		if(GetAnimNumber() != 0)
 		{
