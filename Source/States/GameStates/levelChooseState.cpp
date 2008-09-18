@@ -24,6 +24,7 @@ levelChooseState::levelChooseState(void)
 	menuItemString[LEVEL1] = "Level 1 (Tutorial)";
 	menuItemString[LEVEL2] = "Level 2";
 	menuItemString[LEVEL3] = "Level 3";
+	menuItemString[LEVEL4] = "Level 4";
 	menuItemString[BACK] = "Back";
 	menuLast = BACK;
 }
@@ -132,6 +133,10 @@ void levelChooseState::menuHandler()
 		break;
 	case LEVEL3:
 		SetPlayLevel(3);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		break;
+	case LEVEL4:
+		SetPlayLevel(4);
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	case BACK:

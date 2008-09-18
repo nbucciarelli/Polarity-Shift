@@ -10,7 +10,7 @@
 class levelChooseState : public menuState
 {
 protected:
-	enum menuOptions { LEVEL1, LEVEL2, LEVEL3, BACK, TOTAL };
+	enum menuOptions { LEVEL1, LEVEL2, LEVEL3, LEVEL4, BACK, TOTAL };
 
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
