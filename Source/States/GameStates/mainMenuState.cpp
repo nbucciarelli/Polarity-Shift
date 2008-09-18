@@ -155,7 +155,7 @@ void mainMenuState::menuHandler()
 	case HOWTO:
 		break;
 	case SCORES:
-		m_bIsExited = true;
+		m_bIsExiting = true;
 		m_bHighScores = true;
 		break;
 	case CREDITS:
