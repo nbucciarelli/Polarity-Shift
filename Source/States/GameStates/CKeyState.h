@@ -14,7 +14,7 @@ protected:
 	enum keybindingStates { KB_NULL, KB_BEGINCHECK, KB_WAITING, KBS};
 
 	int foregroundID;
-	float m_fTime, m_fXPer, m_fXLerp;
+	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
 
 	int m_nJump;
 	int m_nMoveLeft;
