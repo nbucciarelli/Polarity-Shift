@@ -33,6 +33,7 @@ protected:
 
 	int m_nParticleImageID, m_nLevelNum;
 	float m_fLevelTime;
+	float m_fLevelScore;
 
 	volatile bool rendering;
 
@@ -96,4 +97,5 @@ public:
 	void HandleEvent(gameEvent* ev);
 
 	float GetLevelTime() {return m_fLevelTime;}
+	float GetLevelScore() {return m_fLevelScore;}
 };
