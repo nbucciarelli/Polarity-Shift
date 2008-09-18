@@ -13,7 +13,7 @@ protected:
 	enum menuOptions { LEVEL1, LEVEL2, LEVEL3, BACK, TOTAL };
 
 	int foregroundID;
-	float m_fTime, m_fXPer, m_fXLerp;
+	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
 	int m_nSelectedLevel;
 
 	void menuHandler();
