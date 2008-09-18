@@ -207,6 +207,9 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 	case EVENT_LEVELFINISHED:
 		{
 			m_fLevelScore = m_fLevelScore - (m_fLevelTime * 5);
+			if (m_fLevelScore <= 0.0f)
+				m_fLevelScore = 0.0f;
+			
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
 			CTallySheetState::getInstance()->Initialize(levelChooseState::getInstance()->GetPlayLevel() ,m_fLevelScore, m_fLevelTime);
 			entered = false;
