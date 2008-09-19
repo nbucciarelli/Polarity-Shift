@@ -435,4 +435,41 @@ void calc::rectToPoly(const rect &box, polygon* poly)
 
 }
 
+void calc::projectRectToLine(const rect& box, const vector3& line, float& min, float& max)
+{
+	if(isZero(line.x))
+	{
+		min = box.top * line.y;
+		max = box.bottom * line.y;
+
+		return;
+	}
+	else if(isZero(line.y))
+	{
+		min = box.left * line.x;
+		max = box.right * line.x;
+
+		return;
+	}
+
+	min = (float)_HUGE;
+	max = -(float)_HUGE;
+
+	float dots[4] = 
+	{
+		vector3((float)box.left, (float)box.top).dot2D(line),
+		vector3((float)box.right, (float)box.top).dot2D(line),
+		vector3((float)box.right, (float)box.bottom).dot2D(line),
+		vector3((float)box.left, (float)box.bottom).dot2D(line)
+	};
+
+	for(int c = 0; c < 4; c++)
+	{
+		if(dots[c] < min)
+			min = dots[c];
+		if(dots[c] > max)
+			max = dots[c];
+	}
+}
+
 #pragma endregion

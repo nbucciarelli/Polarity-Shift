@@ -9,6 +9,7 @@
 #include <cmath>
 
 #define baseRadius 10
+#define HOLDRANGE 300
 
 magnetGun::magnetGun() : beamWidthFactor(1), theMouse(mouse::getInstance()),
 mode(0), target(0)
@@ -138,9 +139,16 @@ bool magnetGun::getTarget(const vector3& farPoint)
 		return false;
 }
 
-float magnetGun::levelLimiter()
+float magnetGun::levelLimiter(const vector3& traj)
 {
 	static std::vector<RECT>& colRect = CTileEngine::GetInstance()->GetCollisions();
+
+	float min, max;
+	
+	for(unsigned c = 0; c < colRect.size(); c++)
+	{
+		calc::projectRectToLine(*(rect*)&colRect[c], traj, min, max);
+	}
 
 	return 0;
 }
@@ -166,7 +174,7 @@ void magnetGun::update(float dt)
 		case MAG_HOLD:
 			traj = (theMouse->getPos() - target->getPosition());
 			 len = traj.length();
-			if(len > 100)
+			if(len > HOLDRANGE)
 				ceaseFire();
 			else if(len > 10)
 				target->modPos(traj.normalized() * (power * 0.75f * dt));

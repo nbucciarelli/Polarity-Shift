@@ -22,7 +22,7 @@ protected:
 	mouse* theMouse;
 
 	bool getTarget(const vector3& farPoint);
-	float levelLimiter();
+	float levelLimiter(const vector3& traj);
 
 	movingObj* target;
 

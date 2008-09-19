@@ -44,6 +44,7 @@ public:
 
 	//min & max are return variables.
 	static void projectPolygonToLine(const polygon& poly, const vector3& line, float& min, float& max);
+	static void projectRectToLine(const rect& box, const vector3& line, float& min, float& max);
 
 	//Return the space between each 1d line.  Negative if overlapping
 	static float distanceBetweenLines(float min1, float max1, float min2, float max2);
