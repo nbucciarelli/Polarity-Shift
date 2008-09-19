@@ -70,7 +70,7 @@ namespace
 
 CHighScoresState::CHighScoresState()
 {
-	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
+	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_Menu.png");
 	menuItemString = new char*[TOTAL];
 	menuLast = EXIT;
 

@@ -21,7 +21,7 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 	m_szMoveLeft = new char[128];
 	m_szMoveRight = new char[128];
 
-	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
+	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_Menu.png");
 	
 	char* buffer;
 	
