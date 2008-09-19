@@ -33,6 +33,9 @@ private:
 	vector<POINT> m_vDoorList;
 	vector<POINT> m_vTriggerList;
 	vector<POINT> m_vTrapList;
+	vector<RECT> m_vMagnetList;
+	vector<POINT> m_vBonusList;
+	vector<POINT> m_vInvList;
 	POINT m_PlayerSpawn;
 	POINT m_PlayerEnd;
 
