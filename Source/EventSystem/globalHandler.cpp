@@ -97,6 +97,8 @@ gameState* globalHandler::state(int st)
 		return CTallySheetState::getInstance();
 	case STATE_DEATH:
 		return CDeathState::GetInstance();
+	case STATE_ACHIEVEMENTS:
+		return achievementState::getInstance();
 	default:
 		return NULL;
 	}

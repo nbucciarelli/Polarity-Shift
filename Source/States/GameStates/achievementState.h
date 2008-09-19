@@ -1,67 +1,65 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	File:			"mainManuState.h"
-//	Author:			Scott Smallback (SS) / Nick Bucciarelli (NB) / Jared Hamby (JH)
-//	Purpose:		handles the main menus
+//	File:			"achievementState.h"
+//	Author:			Jared Hamby (JH)
+//	Purpose:		Handles the achievement state
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 #include "menuState.h"
+class CSGD_FModManager;
 
-class mainMenuState : public menuState
+class achievementState : public menuState
 {
 protected:
-	enum menuOptions { PLAY, OPTIONS, HOWTO, ACHIEVEMENTS, SCORES, CREDITS,
-		
-		EXIT, TOTAL
-	};
+	enum menuOptions { BACK, TOTAL };
 
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
-
-	bool m_bOptions, m_bHowTo, m_bScores, m_bCredits, m_bLevelSelect, m_bHighScores, m_bAchievements;
+	CSGD_FModManager* m_pFMOD;
+	bool m_bMainMenu;
 
 	void menuHandler();
 
-	int m_nParticleImageID;
+	//int m_nParticleImageID;
 
-	mainMenuState(void);
-	mainMenuState(const mainMenuState&);
-	mainMenuState& operator=(const mainMenuState&);
-	virtual ~mainMenuState(void);
+	achievementState(void);
+	achievementState(const achievementState&);
+	achievementState& operator=(const achievementState&);
+	virtual ~achievementState(void);
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"getInstance"
-	//	Last Modified:	August 25th, 2008
+	//	Last Modified:	September 19th, 2008
 	//	Purpose:		Gets the instance of the singleton
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	static mainMenuState* getInstance();
+	static achievementState* getInstance();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"enter"
-	//	Last Modified:	August 25, 2008
-	//	Purpose:		enters the main menu state
+	//	Last Modified:	September 19th, 2008
+	//	Purpose:		enters the achievement state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	virtual void enter(void);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"exit"
-	//	Last Modified:	August 25, 2008
-	//	Purpose:		exits the main menu state
+	//	Last Modified:	September 19th, 2008
+	//	Purpose:		exits the achievement state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	virtual void exit(void);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"udpate"
-	//	Last Modified:	August 25, 2008
-	//	Purpose:		updates the main menu state
+	//	Last Modified:	September 19th, 2008
+	//	Purpose:		updates the achievement state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	virtual void update(float dt);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	Function:		"render"
-	//	Last Modified:	August 25, 2008
-	//	Purpose:		renders the main menu state
+	//	Last Modified:	September 19th, 2008
+	//	Purpose:		renders the achievement state
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	virtual void render(void) const;
 };

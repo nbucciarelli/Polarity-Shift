@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	File:			"CCreditsState.cpp"
+//	File:			"achievementState.cpp"
 //	Author:			Jared Hamby (JH)
-//	Purpose:		Handles the credits state
+//	Purpose:		Handles the achievement state
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "CCreditsState.h"
+#include "achievementState.h"
 #include <windows.h>
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\globalEvents.h"
@@ -14,7 +14,7 @@
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
 
-CCreditsState::CCreditsState(void)
+achievementState::achievementState(void)
 {
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_tempmenu.bmp", D3DCOLOR_XRGB(255, 0, 255));
 
@@ -24,18 +24,18 @@ CCreditsState::CCreditsState(void)
 	menuLast = BACK;
 }
 
-CCreditsState::~CCreditsState(void)
+achievementState::~achievementState(void)
 {
 	viewManager::getInstance()->releaseTexture(foregroundID);
 }
 
-CCreditsState* CCreditsState::getInstance()
+achievementState* achievementState::getInstance()
 {
-	static CCreditsState Elgoog;
+	static achievementState Elgoog;
 	return &Elgoog;
 }
 
-void CCreditsState::enter(void)
+void achievementState::enter(void)
 {
 	m_fSoundLerp = 100;
 	m_fXLerp = 1024;
@@ -46,14 +46,14 @@ void CCreditsState::enter(void)
 	menuState::enter();
 }
 
-void CCreditsState::exit(void)
+void achievementState::exit(void)
 {
 	m_bIsMoving = true;
 	m_fXLerp = 1024;
 	m_fSoundLerp = 100;
 	menuState::exit();
 }
-void CCreditsState::update(float dt)
+void achievementState::update(float dt)
 {
 	if(!entered)
 		return;
@@ -114,7 +114,7 @@ void CCreditsState::update(float dt)
 	}
 }
 
-void CCreditsState::menuHandler()
+void achievementState::menuHandler()
 {
 	switch(menuPos)
 	{
@@ -125,22 +125,22 @@ void CCreditsState::menuHandler()
 	}
 }
 
-void CCreditsState::render(void) const
+void achievementState::render(void) const
 {
 	if(!entered)
 		return;
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	theFont->drawText("Credits", (int)(303 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("Achievements", (int)(218 + m_fXLerp), 35, textColor, 1.25f);
 
 	//Draw menu items
-	theFont->drawText("Nick Bucciarelli - Project Officer", (int)(100 + m_fXLerp + xPos), 300, textColor, .55f);
-	theFont->drawText("Jared Hamby - Interface Officer", (int)(100 + m_fXLerp + xPos), 340, textColor, .55f);
-	theFont->drawText("Lee Nyman - Gameplay Officer", (int)(100 + m_fXLerp + xPos), 380, textColor, .55f);
-	theFont->drawText("Scott Smallback - Technical Officer", (int)(100 + m_fXLerp + xPos), 420, textColor, .55f);
+	theFont->drawText("Complete level 1 in 10 secs", (int)(105 + m_fXLerp + xPos), 300, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+	theFont->drawText("Complete level 2 in 15 secs", (int)(105 + m_fXLerp + xPos), 340, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+	theFont->drawText("Complete level 3 in 10 secs", (int)(105 + m_fXLerp + xPos), 380, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+	theFont->drawText("Complete level 4 in 15 secs", (int)(105 + m_fXLerp + xPos), 420, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+	theFont->drawText("Complete level 5 in 15 secs", (int)(105 + m_fXLerp + xPos), 460, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+	theFont->drawText("Complete level 6 in 10 secs", (int)(105 + m_fXLerp + xPos), 500, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
 
-	theFont->drawText("Dustin Clingman - Executive Producer", (int)(100 + m_fXLerp + xPos), 500, textColor, .55f);
-	theFont->drawText("Ronald Powell - Associate Producer", (int)(100 + m_fXLerp + xPos), 540, textColor, .55f);
 	theFont->drawText(menuItemString[BACK], (int)(20 + m_fXLerp + xPos), 675, highlightColor);
 }

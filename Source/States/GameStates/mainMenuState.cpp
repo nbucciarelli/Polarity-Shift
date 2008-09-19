@@ -25,6 +25,7 @@ mainMenuState::mainMenuState(void)
 	menuItemString[PLAY] = "Play";
 	menuItemString[OPTIONS] = "Options";
 	menuItemString[HOWTO] = "How To Play";
+	menuItemString[ACHIEVEMENTS] = "Achievements";
 	menuItemString[SCORES] = "High Scores";
 	menuItemString[CREDITS] = "Credits";
 	menuItemString[EXIT] = "Exit";
@@ -134,6 +135,8 @@ void mainMenuState::update(float dt)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_HIGHSCORES));
 		else if(m_bCredits == true)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
+		else if(m_bAchievements == true)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_ACHIEVEMENTS));
 	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
@@ -155,6 +158,12 @@ void mainMenuState::menuHandler()
 		m_bOptions = true;
 		break;
 	case HOWTO:
+		m_bIsExiting = true;
+		m_bHowTo = true;
+		break;
+	case ACHIEVEMENTS:
+		m_bIsExiting = true;
+		m_bAchievements = true;
 		break;
 	case SCORES:
 		m_bIsExiting = true;
@@ -181,9 +190,9 @@ void mainMenuState::render(void) const
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 100, textColor);
+			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 90, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 100, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 90, highlightColor);
 
 	//Draw meun cursor at the selected item
 	//viewManager::getInstance()->drawTexture(cursorID,
