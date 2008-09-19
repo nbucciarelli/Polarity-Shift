@@ -40,16 +40,25 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	{
 		if(enemyType == ET_SPIDER)
 		{
+			// Saves the position of the spider (since it blows up) so it won't crash
 			m_nExpX = this->position.x;
 			m_nExpY = this->position.y;
+			// Removes the spider enemy since it died
 			objManager::getInstance()->removeObj(this);
+			// Removes the player since she died
+			objManager::getInstance()->removeObj(obj);
+			// Sets the bool to true so it will render the explosion
+			m_bDied = true;
 		}
 	}
 	else if(obj->getType() == OBJ_MOVING)
 	{
+		// Saves the position of the enemy so it won't crash
 		m_nExpX = this->position.x;
 		m_nExpY = this->position.y;
+		// Removes the enemy since it died
 		objManager::getInstance()->removeObj(this);
+		// Sets the bool to true so it will render the explosion
 		m_bDied = true;
 	}
 
