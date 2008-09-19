@@ -9,6 +9,7 @@
 #include "../Helpers/criticalSectionMacros.h"
 
 enum objTypes { OBJ_DEFAULT, OBJ_MOVING, OBJ_ACTOR, OBJ_PLAYER, OBJ_ENEMY,
+				OBJ_POWERUP, OBJ_BULLET,
 				OBJ_MAX };
 enum facing { FACE_LEFT = 1, FACE_RIGHT = -1 };
 
