@@ -92,7 +92,7 @@ void CHighScoresState::render() const
 {
 	//menuState::render();
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
-	theFont->drawText("High Scores", (int)(233 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("High Scores", (int)(313 + m_fXLerp), 65, textColor, 1);
 	//mymap::const_reverse_iterator itr = score.rbegin();
 	char s[100];
 	int i = 0;

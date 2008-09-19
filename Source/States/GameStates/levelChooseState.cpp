@@ -155,7 +155,7 @@ void levelChooseState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	theFont->drawText("Level Select", (int)(233 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("Level Select", (int)(288 + m_fXLerp), 65, textColor, 1);
 	bool* bIsLevelComplete = game::GetInstance()->GetLevelComplete();
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)

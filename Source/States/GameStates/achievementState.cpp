@@ -132,7 +132,7 @@ void achievementState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	theFont->drawText("Achievements", (int)(218 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("Achievements", (int)(293 + m_fXLerp), 65, textColor, 1);
 
 	//Draw menu items
 	theFont->drawText("Complete level 1 in 10 secs", (int)(105 + m_fXLerp + xPos), 300, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);

@@ -14,6 +14,8 @@
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
 
+#define TEXTSIZE .45f
+
 CCreditsState::CCreditsState(void)
 {
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_Menu.png");
@@ -132,15 +134,17 @@ void CCreditsState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	theFont->drawText("Credits", (int)(303 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("Credits", (int)(373 + m_fXLerp), 65, textColor, 1);
 
 	//Draw menu items
-	theFont->drawText("Nick Bucciarelli - Project Officer", (int)(100 + m_fXLerp + xPos), 300, 0xff0000ff, .55f);
-	theFont->drawText("Jared Hamby - Interface Officer", (int)(100 + m_fXLerp + xPos), 340, 0xff0000ff, .55f);
-	theFont->drawText("Lee Nyman - Gameplay Officer", (int)(100 + m_fXLerp + xPos), 380, 0xff0000ff, .55f);
-	theFont->drawText("Scott Smallback - Technical Officer", (int)(100 + m_fXLerp + xPos), 420, 0xff0000ff, .55f);
+	theFont->drawText("Nick Bucciarelli - Project Officer", (int)(200 + m_fXLerp + xPos), 440, textColor, TEXTSIZE);
+	theFont->drawText("Jared Hamby - Interface Officer/Art", (int)(200 + m_fXLerp + xPos), 480, textColor, TEXTSIZE);
+	theFont->drawText("Lee Nyman - Gameplay Officer", (int)(200 + m_fXLerp + xPos), 520, textColor, TEXTSIZE);
+	theFont->drawText("Scott Smallback - Technical Officer", (int)(200 + m_fXLerp + xPos), 560, textColor, TEXTSIZE);
 
-	theFont->drawText("Dustin Clingman - Executive Producer", (int)(100 + m_fXLerp + xPos), 500, 0xff0000ff, .55f);
-	theFont->drawText("Ronald Powell - Associate Producer", (int)(100 + m_fXLerp + xPos), 540, 0xff0000ff, .55f);
+	theFont->drawText("Dustin Clingman - Executive Producer", (int)(200 + m_fXLerp + xPos), 640, textColor, TEXTSIZE);
+	theFont->drawText("Ronald Powell - Associate Producer", (int)(200 + m_fXLerp + xPos), 680, textColor, TEXTSIZE);
+
+	theFont->drawText("Chris Jahosky - Art", (int)(200 + m_fXLerp + xPos), 760, textColor, TEXTSIZE);
 	theFont->drawText(menuItemString[BACK], (int)(20 + m_fXLerp + xPos), 675, highlightColor);
 }

@@ -152,7 +152,7 @@ void optionsState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	theFont->drawText("Options", (int)(303 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("Options", (int)(383 + m_fXLerp), 65, textColor, 1);
 
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)

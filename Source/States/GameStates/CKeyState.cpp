@@ -250,7 +250,7 @@ void CKeyState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	theFont->drawText("Keybindings", (int)(253 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("Keybindings", (int)(313 + m_fXLerp), 65, textColor, 1);
 
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)

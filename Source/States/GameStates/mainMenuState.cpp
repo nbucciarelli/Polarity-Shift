@@ -188,14 +188,14 @@ void mainMenuState::render(void) const
 
 	viewManager::getInstance()->drawTexture(foregroundID, &vector3(20 + m_fXLerp, 0, 0));
 
-	theFont->drawText("Polarity Shift", (int)(193 + m_fXLerp), 35, textColor, 1.25f);
+	theFont->drawText("Polarity Shift", (int)(263 + m_fXLerp), 65, textColor, 1);
 
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 90, textColor);
+			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 70, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 90, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(m_fXLerp + 320), yPos + c * 70, highlightColor);
 
 	//Draw meun cursor at the selected item
 	//viewManager::getInstance()->drawTexture(cursorID,
