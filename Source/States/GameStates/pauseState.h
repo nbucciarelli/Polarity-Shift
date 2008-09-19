@@ -7,6 +7,7 @@
 #include "menuState.h"
 
 class eventManager;
+class CSGD_FModManager;
 
 class pauseState : public menuState
 {
@@ -15,7 +16,12 @@ protected:
 
 	enum menuOptions { RESUME, 
 		
-		EXIT, TOTAL };
+		BACK, TOTAL };
+
+	int foregroundID;
+	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
+	bool m_bBack, m_bResume;
+	CSGD_FModManager* m_pFMOD;
 
 	void menuHandler();
 
