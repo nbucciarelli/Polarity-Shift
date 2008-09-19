@@ -132,6 +132,8 @@ void mainMenuState::update(float dt)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
 		else if(m_bHighScores == true)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_HIGHSCORES));
+		else if(m_bCredits == true)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
 	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
@@ -159,7 +161,8 @@ void mainMenuState::menuHandler()
 		m_bHighScores = true;
 		break;
 	case CREDITS:
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
+		m_bIsExiting = true;
+		m_bCredits = true;
 		break;
 	default:		
 		EM->sendGlobalEvent(GE_STATE_CLEARALL);
