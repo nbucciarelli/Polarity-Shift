@@ -34,6 +34,7 @@ protected:
 
 	int m_nVideoID;
 
+	bool IsTutorialDone;
 	bool m_bLevelsComplete[NUMLEVELS];
 
 	//Singleton Protection
@@ -103,4 +104,6 @@ public:
 
 	bool* GetLevelComplete() {return m_bLevelsComplete;}
 	void SetLevelComplete(int level) {m_bLevelsComplete[level + 1] = true;}
+	bool GetTutorialDone() {return IsTutorialDone;}
+	void SetTutorialDone(bool val) {IsTutorialDone = val;}
 };

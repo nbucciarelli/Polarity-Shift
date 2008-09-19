@@ -21,7 +21,7 @@
 #include "../../Engines/CParticleEffectManager.h"
 #include "..\..\Helpers\bitFont.h"
 #include "../../engines/debugControl.h"
-
+#include "CKeyState.h"
 #include "..\GamePlayStates\CTallySheet.h"
 #include "../../EventSystem\globalEvents.h"
 
@@ -50,6 +50,11 @@ void gamePlayState::enter(void)
 
 	m_fLevelTime = 0;
 	m_fLevelScore = 100;
+	
+	for (int i = 0 ; i < 4 ; ++i)
+	{
+		Tutorials[i] = false;
+	}
 
 	//string buff;
 	char buff[256] = {0};
@@ -106,21 +111,28 @@ bool gamePlayState::input(float dt)
 	if(entered)
 	{
 		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunLeft))
-		EM->sendEvent(EVENT_PLAYERGOLEFT);
-	else if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunRight))
-		EM->sendEvent(EVENT_PLAYERGORIGHT);
-	else if(theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunLeft)
-		|| theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunRight))
-		EM->sendEvent(EVENT_PLAYERSTOP);
+			EM->sendEvent(EVENT_PLAYERGOLEFT);
+		else if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunRight))
+			EM->sendEvent(EVENT_PLAYERGORIGHT);
+		else if(theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunLeft)
+			|| theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunRight))
+			EM->sendEvent(EVENT_PLAYERSTOP);
 
-	if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nJump))
-		EM->sendEvent(EVENT_PLAYERJUMP);
-	if(theInput->KeyReleased(game::GetInstance()->GetKeys().m_nJump))
-		EM->sendEvent(EVENT_PLAYERJUMPSTOP);
+		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nJump))
+		{
+			Tutorials[0] = true;
+			EM->sendEvent(EVENT_PLAYERJUMP);
+		}
+		
+		if(theInput->KeyReleased(game::GetInstance()->GetKeys().m_nJump))
+			EM->sendEvent(EVENT_PLAYERJUMPSTOP);
 
 	}
 	if(theInput->MouseButtonPressedEx(0))
+	{
+		Tutorials[1] = true;
 		EM->sendEvent(EVENT_PLAYERFIRE);
+	}
 
 	if(theInput->MouseButtonPressedEx(1))
 		EM->sendEvent(EVENT_PLAYERFIRE2);
@@ -135,11 +147,11 @@ bool gamePlayState::input(float dt)
 	if(theInput->KeyPressed(DIK_DELETE))
 		EM->sendEvent(EVENT_DEBUG_SWITCH);
 
-// 	if (theInput->KeyPressed(DIK_P))
-// 	{
-// 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
-// 		CTallySheetState::getInstance()->Initialize(/*LevelNum*/1 ,100.0f, m_fLevelTime);
-// 	}
+	// 	if (theInput->KeyPressed(DIK_P))
+	// 	{
+	// 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
+	// 		CTallySheetState::getInstance()->Initialize(/*LevelNum*/1 ,100.0f, m_fLevelTime);
+	// 	}
 
 
 	return true;
@@ -165,8 +177,12 @@ void gamePlayState::update(float dt)
 		if(debugger)
 			debugger->update(dt);
 	}
+		
 
 	EM->processEvents();
+
+	
+
 }
 
 void gamePlayState::render(void) const
@@ -180,7 +196,6 @@ void gamePlayState::render(void) const
 	if(TE)
 		TE->Render();
 
-	
 	theMouse->render();
 
 	char buff[256] = {0};
@@ -193,6 +208,28 @@ void gamePlayState::render(void) const
 	if(m_bTrapActive == true)
 	{
 		CParticleEffectManager::GetInstance()->Render(m_nParticleImageID,TE->GetTraps()[0].x,TE->GetTraps()[0].y);
+	}
+
+	if (game::GetInstance()->GetTutorialDone() == false)
+	{
+		if (Tutorials[0] == false && AIE->GetTrackPos()->x >= 100)
+		{
+			char buffertut[256] = {0};
+			sprintf_s(buffertut, 256, "Press %s to jump over the walls", CKeyState::getInstance()->SetKeyString(game::GetInstance()->GetKeys().m_nJump));
+			theFont->drawText(buffertut, 100, 700);
+						
+		}
+		else if (Tutorials[1] == false && AIE->GetTrackPos()->x >= 250)
+		{
+			//char buffertut[256] = {0};
+			//sprintf_s(buffertut, 256, "Press %s to push the blocks onto each other", "Mouse 1");
+			theFont->drawText("Press Mouse 1 to push", 100, 700);
+			theFont->drawText("the blocks onto each other", 100, 750);
+		}
+		else if (Tutorials[2] == false && AIE->GetTrackPos()->x >= 600)
+		{
+			theFont->drawText("Run through the exit!", 100, 700);
+		}
 	}
 
 	if(debugger)
@@ -209,6 +246,7 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 		break;
 	case EVENT_LEVELFINISHED:
 		{
+			game::GetInstance()->SetTutorialDone(true);
 			m_fLevelScore = m_fLevelScore - (m_fLevelTime * 5);
 			if (m_fLevelScore <= 0.0f)
 				m_fLevelScore = 0.0f;
@@ -216,6 +254,7 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 			game::GetInstance()->SetLevelComplete(currlevel-1);
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
 			CTallySheetState::getInstance()->Initialize(currlevel,m_fLevelScore, m_fLevelTime);
+
 			entered = false;
 		}
 		break;

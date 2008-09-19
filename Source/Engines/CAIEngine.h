@@ -21,7 +21,7 @@ private:
 	vector<enemyObj*> enemyList;
 	playerObj* player;
 	const vector3* trackPos;
-
+	
 public:
 	CAIEngine();
 
@@ -40,4 +40,7 @@ public:
 	//	Purpose:		Handles all events associated with AI
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	void HandleEvent(gameEvent *ev);
+	
+	const vector3* GetTrackPos() const { return trackPos; }
+	
 };

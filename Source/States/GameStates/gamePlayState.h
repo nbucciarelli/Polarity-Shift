@@ -36,6 +36,7 @@ protected:
 	float m_fLevelTime;
 	float m_fLevelScore;
 
+	bool Tutorials[4];
 	
 	volatile bool rendering;
 

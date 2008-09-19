@@ -13,6 +13,7 @@
 #include"../EventSystem/eventManager.h"
 #include "CTileEngine.h"
 #include "../States/GameStates/gamePlayState.h"
+#include "..\Helpers\bitFont.h"
 #include <cmath>
 
 CAIEngine::CAIEngine() : trackPos(NULL)
@@ -69,7 +70,7 @@ void CAIEngine::update()
 	{
 		eventManager::getInstance()->sendEvent(EVENT_LEVELFINISHED);
 	}
-
+	
 }
 
 void CAIEngine::HandleEvent(gameEvent *ev)

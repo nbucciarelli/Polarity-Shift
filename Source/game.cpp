@@ -39,6 +39,7 @@ void game::Initialize(HINSTANCE hInstance)
 	m_cKeys.m_nJump =DIK_W;
 	m_cKeys.m_nRunLeft = DIK_A;
 	m_cKeys.m_nRunRight = DIK_D;
+	IsTutorialDone = false;
 	theDisplay = display::getInstance();
 	theDisplay->InitWindow(hInstance);
 	CVideoMaster::GetInstance()->Init(theDisplay->getHWnd());
