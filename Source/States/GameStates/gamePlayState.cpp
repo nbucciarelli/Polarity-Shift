@@ -123,10 +123,13 @@ bool gamePlayState::input(float dt)
 		EM->sendEvent(EVENT_PLAYERFIRE);
 
 	if(theInput->MouseButtonPressedEx(1))
-		EM->sendEvent(EVENT_PLAYERSPECFIRE);
+		EM->sendEvent(EVENT_PLAYERFIRE2);
 
-	if(theInput->MouseButtonReleased(0) || theInput->MouseButtonReleased(1))
-		EM->sendEvent(EVENT_PLAYERCEASEFIRE);
+	if(theInput->MouseButtonReleased(0))
+		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE));
+
+	if(theInput->MouseButtonReleased(1))
+		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE2));
 
 
 	if(theInput->KeyPressed(DIK_DELETE))

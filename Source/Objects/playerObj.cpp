@@ -38,6 +38,7 @@ void playerObj::update(float dt)
 
 void playerObj::HandleEvent(gameEvent *ev)
 {
+	int a = 0;
 	switch(ev->getEventID())
 	{
 	case EVENT_PLAYERGOLEFT:
@@ -93,7 +94,22 @@ void playerObj::HandleEvent(gameEvent *ev)
 		theWeapon->openFire(0, MAG_HOLD);
 		break;
 	case EVENT_PLAYERCEASEFIRE:
-		theWeapon->ceaseFire();
+		if(ev->getData())
+		{
+			switch(*(int*)ev->getData())
+			{
+			case EVENT_PLAYERFIRE:
+				a = MAG_PUSH;
+				break;
+			case EVENT_PLAYERFIRE2:
+				a = MAG_PULL;
+				break;
+			default:
+				a = 0;
+			}
+			delete ev->getData();
+		}
+		theWeapon->ceaseFire(a);
 		break;
 	default:
 		actorObj::HandleEvent(ev);

@@ -4,6 +4,7 @@
 #include "playerObj.h"
 #include "objManager.h"
 #include "../wrappers/mouse.h"
+#include "../engines/CTileEngine.h"
 #include <vector>
 #include <cmath>
 
@@ -20,9 +21,14 @@ magnetGun::~magnetGun()
 
 void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 {
-	//If already firing, do nothing.
+	//If already firing...do some checks.
 	if(isActive)
-		return;
+	{
+		if(mode == MAG_HOLD || fireMode == mode)
+			return;
+		else
+			fireMode = MAG_HOLD;
+	}
 
 	//Start by putting the range on the trajectory
 	//Also, the perpendicular vector
@@ -63,11 +69,22 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 	}
 }
 
-void magnetGun::ceaseFire()
+void magnetGun::ceaseFire(int dat)
 {
-	if(!isActive)
+	if(mode == MAG_HOLD)
+	{
+		if(dat == MAG_PUSH)
+			mode = MAG_PULL;
+		else if(dat == MAG_PULL)
+			mode = MAG_PUSH;
+
+		if(mode != MAG_HOLD)
+			return;
+	}
+	else if(!isActive)
 		return;
 
+	target->setAcc(vector3());
 	target = NULL;
 	mode = MAG_OFF;
 	isActive = false;
@@ -86,6 +103,8 @@ bool magnetGun::getTarget(const vector3& farPoint)
 	//Just to sneak in this variable.  Makes it look less scary in class declaration.
 	//And magical, too.
 	static const std::vector<baseObj*>& objList = objManager::getInstance()->getList();
+
+	//float mapLimit = 
 
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
@@ -119,13 +138,21 @@ bool magnetGun::getTarget(const vector3& farPoint)
 		return false;
 }
 
+float magnetGun::levelLimiter()
+{
+	static std::vector<RECT>& colRect = CTileEngine::GetInstance()->GetCollisions();
+
+	return 0;
+}
+
 void magnetGun::update(float dt)
 {
 	if(mode != MAG_OFF)
 	{
 		target->setVel(vector3());
-		target->setAcc(vector3());
+		target->setAcc(vector3(0,-GRAVITY));
 
+		float len = 0;
 		vector3 traj = (theMouse->getPos() - owner->getPosition()).normalized();
 
 		switch(mode)
@@ -135,6 +162,14 @@ void magnetGun::update(float dt)
 			break;
 		case MAG_PULL:
 			target->modPos(traj * -(power * dt));
+			break;
+		case MAG_HOLD:
+			traj = (theMouse->getPos() - target->getPosition());
+			 len = traj.length();
+			if(len > 100)
+				ceaseFire();
+			else if(len > 10)
+				target->modPos(traj.normalized() * (power * 0.75f * dt));
 			break;
 		default:
 			break;

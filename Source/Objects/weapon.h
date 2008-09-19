@@ -47,7 +47,7 @@ public:
 	virtual void setMode(int value) { mode = value; }
 
 	virtual void openFire(const vector3* trajectory = 0, int fireMode = 0) = 0;
-	virtual void ceaseFire() = 0;
+	virtual void ceaseFire(int dat = 0) = 0;
 
 	virtual void update(float dt) {}
 	virtual void render() const {}

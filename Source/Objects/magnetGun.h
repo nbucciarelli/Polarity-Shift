@@ -22,6 +22,7 @@ protected:
 	mouse* theMouse;
 
 	bool getTarget(const vector3& farPoint);
+	float levelLimiter();
 
 	movingObj* target;
 
@@ -31,7 +32,7 @@ public:
 	~magnetGun();
 
 	virtual void openFire(const vector3* trajectory = 0, int fireMode = 0);
-	virtual void ceaseFire();
+	virtual void ceaseFire(int dat = 0);
 
 	float getWidthFactor() const { return beamWidthFactor; }
 
