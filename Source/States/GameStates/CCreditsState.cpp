@@ -135,12 +135,12 @@ void CCreditsState::render(void) const
 	theFont->drawText("Credits", (int)(303 + m_fXLerp), 35, textColor, 1.25f);
 
 	//Draw menu items
-	theFont->drawText("Nick Bucciarelli - Project Officer", (int)(100 + m_fXLerp + xPos), 300, textColor, .55f);
-	theFont->drawText("Jared Hamby - Interface Officer", (int)(100 + m_fXLerp + xPos), 340, textColor, .55f);
-	theFont->drawText("Lee Nyman - Gameplay Officer", (int)(100 + m_fXLerp + xPos), 380, textColor, .55f);
-	theFont->drawText("Scott Smallback - Technical Officer", (int)(100 + m_fXLerp + xPos), 420, textColor, .55f);
+	theFont->drawText("Nick Bucciarelli - Project Officer", (int)(100 + m_fXLerp + xPos), 300, 0xff0000ff, .55f);
+	theFont->drawText("Jared Hamby - Interface Officer", (int)(100 + m_fXLerp + xPos), 340, 0xff0000ff, .55f);
+	theFont->drawText("Lee Nyman - Gameplay Officer", (int)(100 + m_fXLerp + xPos), 380, 0xff0000ff, .55f);
+	theFont->drawText("Scott Smallback - Technical Officer", (int)(100 + m_fXLerp + xPos), 420, 0xff0000ff, .55f);
 
-	theFont->drawText("Dustin Clingman - Executive Producer", (int)(100 + m_fXLerp + xPos), 500, textColor, .55f);
-	theFont->drawText("Ronald Powell - Associate Producer", (int)(100 + m_fXLerp + xPos), 540, textColor, .55f);
+	theFont->drawText("Dustin Clingman - Executive Producer", (int)(100 + m_fXLerp + xPos), 500, 0xff0000ff, .55f);
+	theFont->drawText("Ronald Powell - Associate Producer", (int)(100 + m_fXLerp + xPos), 540, 0xff0000ff, .55f);
 	theFont->drawText(menuItemString[BACK], (int)(20 + m_fXLerp + xPos), 675, highlightColor);
 }

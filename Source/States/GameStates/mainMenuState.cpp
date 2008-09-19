@@ -53,6 +53,9 @@ void mainMenuState::enter(void)
 	m_bLevelSelect = false;
 	m_bOptions = false;
 	m_bHighScores = false;
+	m_bAchievements	 = false;
+	m_bHowTo = false;
+	m_bCredits = false;
 
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");
 	CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
