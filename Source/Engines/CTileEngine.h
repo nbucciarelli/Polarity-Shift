@@ -84,6 +84,10 @@ public:
 	vector<POINT> GetDoors() {return m_vDoorList;}
 	vector<POINT> GetTriggers() {return m_vTriggerList;}
 	vector<POINT> GetTraps() {return m_vTrapList;}
+	vector<RECT> GetMagnets() {return m_vMagnetList;}
+	vector<POINT> GetBonuses() {return m_vBonusList;}
+	vector<POINT> GetInv() {return m_vInvList;}
+	vector<POINT> GetMP() {return m_vMPList;}
 	POINT GetPlayerSpawn() {return m_PlayerSpawn;}
 	POINT GetPlayerEnd() {return m_PlayerEnd;}
 
