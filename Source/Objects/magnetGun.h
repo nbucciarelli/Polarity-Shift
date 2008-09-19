@@ -1,6 +1,7 @@
 #pragma once
 
 #include "weapon.h"
+#include "../helpers/datatypes.h"
 
 class movingObj;
 
@@ -20,6 +21,7 @@ class magnetGun : public weapon
 protected:
 	float beamWidthFactor;
 	mouse* theMouse;
+	vector3 pos;
 
 	bool getTarget(const vector3& farPoint);
 	float levelLimiter(const vector3& traj);

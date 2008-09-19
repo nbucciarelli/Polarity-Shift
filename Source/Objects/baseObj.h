@@ -148,6 +148,7 @@ public:
 	void setImgCenter(int x, int y) { imgCenter = pt(x,y); }
 	void setPos(const vector3& pos) { position = pos; }
 	void setAngPos(const vector3& aPos) { angPos = aPos; }
+	void setAngPos(float rad) { angPos.z = rad; }
 	void setScale(const vector3& scl) { scale = scl; }
 	void setImgId(int id);
 	void setCollisionPolyID(int id) { collisionPolyID = id; }

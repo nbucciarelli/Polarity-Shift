@@ -1,5 +1,4 @@
 #include "magnetGun.h"
-#include "../helpers/datatypes.h"
 #include "../helpers/physics.h"
 #include "playerObj.h"
 #include "objManager.h"
@@ -40,13 +39,13 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 	//vector3 radiusLine(fireLine.y, -fireLine.x, 0);
 	else
 	{
-		fireLine = (theMouse->getPos() - owner->getPosition()).normalized();
+		fireLine = (theMouse->getPos() - pos).normalized();
 	}
 
 	fireLine *= (float)range;
 	//radiusLine *= baseRadius * beamWidthFactor;
 
-	isActive = getTarget(fireLine + owner->getPosition());
+	isActive = getTarget(fireLine + pos);
 
 	if(isActive && target)
 		mode = fireMode;
@@ -96,16 +95,19 @@ bool magnetGun::getTarget(const vector3& farPoint)
 	int selection = -1;
 	float minDist = (float)_HUGE, min = 0, max = 0, dist = 0;
 
-	vector3 perp = (farPoint - owner->getPosition()).normalized();
+	vector3 perp = (farPoint - pos).normalized();
 	perp = vector3(perp.y, -perp.x);
-	float centerLineProj = owner->getPosition() * perp;
+	float centerLineProj = pos * perp;
 	float radius = baseRadius * beamWidthFactor;
 
 	//Just to sneak in this variable.  Makes it look less scary in class declaration.
 	//And magical, too.
 	static const std::vector<baseObj*>& objList = objManager::getInstance()->getList();
 
-	//float mapLimit = 
+	float limit = levelLimiter((farPoint - pos).normalized());
+
+//	if(range < limit)
+		limit = (float)range;
 
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
@@ -113,7 +115,7 @@ bool magnetGun::getTarget(const vector3& farPoint)
 			continue;
 
 		if(objList[c]->IsMovable()
-			&&  calc::lineIntersectPoly(owner->getPosition(), farPoint,
+			&&  calc::lineIntersectPoly(pos, farPoint,
 									   *objList[c]->getCollisionPoly(), &dist)
 			&& fabs(dist) < minDist)//  && dist > 0)
 		{
@@ -130,7 +132,7 @@ bool magnetGun::getTarget(const vector3& farPoint)
 		}
 	}
 
-	if(selection != -1 && minDist < range)
+	if(selection != -1 && minDist < limit)
 	{
 		target = (movingObj*)(objList[selection]);
 		return true;
@@ -143,25 +145,41 @@ float magnetGun::levelLimiter(const vector3& traj)
 {
 	static std::vector<RECT>& colRect = CTileEngine::GetInstance()->GetCollisions();
 
-	float min, max;
+	vector3 perp = vector3(traj.y, -traj.x);
+
+	float min, max, value = (float)_HUGE;
+	float posDot = pos.dot2D(perp);
 	
 	for(unsigned c = 0; c < colRect.size(); c++)
 	{
+		calc::projectRectToLine(*(rect*)&colRect[c], perp, min, max);
+
+		if(posDot < min || posDot > max)
+			continue;
+
 		calc::projectRectToLine(*(rect*)&colRect[c], traj, min, max);
+
+		if(min > 0 && min < value)
+			value = min;
+		else if( max > 0 && max < value)
+			value = max;
 	}
 
-	return 0;
+	return pos.dot2D(traj) - value;
 }
 
 void magnetGun::update(float dt)
 {
+	pos = owner->getPosition();
+	pos.y += 15;
+
 	if(mode != MAG_OFF)
 	{
 		target->setVel(vector3());
 		target->setAcc(vector3(0,-GRAVITY));
 
 		float len = 0;
-		vector3 traj = (theMouse->getPos() - owner->getPosition()).normalized();
+		vector3 traj = (theMouse->getPos() - pos).normalized();
 
 		switch(mode)
 		{
