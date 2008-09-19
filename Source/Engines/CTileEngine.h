@@ -36,6 +36,7 @@ private:
 	vector<RECT> m_vMagnetList;
 	vector<POINT> m_vBonusList;
 	vector<POINT> m_vInvList;
+	vector<POINT> m_vMPList;
 	POINT m_PlayerSpawn;
 	POINT m_PlayerEnd;
 

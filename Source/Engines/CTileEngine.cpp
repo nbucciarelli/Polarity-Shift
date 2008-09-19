@@ -85,24 +85,6 @@ void CTileEngine::LoadMap(string szFileName)
 	}
 
 	fin.read((char*)&List, sizeof(int));
-
-	//load in collision rects
-	for (int i = 0; i < List; i++)
-	{
-		RECT tempRect;
-		int nWidth;
-		int nHeight;
-		fin.read((char*)&tempRect.left, sizeof(int));
-		fin.read((char*)&tempRect.top,sizeof(int));
-		fin.read((char*)&nWidth,sizeof(int));
-		fin.read((char*)&nHeight,sizeof(int));
-		tempRect.right = tempRect.left + nWidth;
-		tempRect.bottom = tempRect.top + nHeight;
-
-		m_vMagnetList.push_back(tempRect);
-	}
-
-	fin.read((char*)&List, sizeof(int));
 	
 	//load in cubes
 	for(int i = 0; i < List; i ++)
@@ -186,29 +168,6 @@ void CTileEngine::LoadMap(string szFileName)
 		m_vTrapList.push_back(temp);
 	}
 
-	fin.read((char*)&List, sizeof(int));
-
-	//load in switches
-	for(int i = 0; i < List; i ++)
-	{
-		POINT temp;
-		fin.read((char*)&temp.x, sizeof(int));
-		fin.read((char*)&temp.y, sizeof(int));
-		
-		m_vBonusList.push_back(temp);
-	}
-		fin.read((char*)&List, sizeof(int));
-
-	//load in switches
-	for(int i = 0; i < List; i ++)
-	{
-		POINT temp;
-		fin.read((char*)&temp.x, sizeof(int));
-		fin.read((char*)&temp.y, sizeof(int));
-		
-		m_vInvList.push_back(temp);
-	}
-
 		POINT temp;
 		fin.read((char*)&temp.x, sizeof(int));
 		fin.read((char*)&temp.y, sizeof(int));
@@ -220,7 +179,59 @@ void CTileEngine::LoadMap(string szFileName)
 		m_PlayerEnd = temp;
 		
 
+	fin.read((char*)&List, sizeof(int));
 
+	//load in collision rects
+	for (int i = 0; i < List; i++)
+	{
+		RECT tempRect;
+		int nWidth;
+		int nHeight;
+		fin.read((char*)&tempRect.left, sizeof(int));
+		fin.read((char*)&tempRect.top,sizeof(int));
+		fin.read((char*)&nWidth,sizeof(int));
+		fin.read((char*)&nHeight,sizeof(int));
+		tempRect.right = tempRect.left + nWidth;
+		tempRect.bottom = tempRect.top + nHeight;
+
+		m_vMagnetList.push_back(tempRect);
+	}
+
+	fin.read((char*)&List, sizeof(int));
+
+	//load in switches
+	for(int i = 0; i < List; i ++)
+	{
+		POINT temp;
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		
+		m_vBonusList.push_back(temp);
+	}
+
+	fin.read((char*)&List, sizeof(int));
+
+	//load in switches
+	for(int i = 0; i < List; i ++)
+	{
+		POINT temp;
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		
+		m_vInvList.push_back(temp);
+	}
+
+	fin.read((char*)&List, sizeof(int));
+
+	//load in switches
+	for(int i = 0; i < List; i ++)
+	{
+		POINT temp;
+		fin.read((char*)&temp.x, sizeof(int));
+		fin.read((char*)&temp.y, sizeof(int));
+		
+		m_vMPList.push_back(temp);
+	}
 	fin.close();
 
 	ready = true;
@@ -277,6 +288,10 @@ void CTileEngine::ShutDown()
 	m_vDoorList.clear();
 	m_vTriggerList.clear();
 	m_vTrapList.clear();
+	m_vBonusList.clear();
+	m_vInvList.clear();
+	m_vMPList.clear();
+	m_vMagnetList.clear();
 }
 
 CTileEngine::~CTileEngine()
