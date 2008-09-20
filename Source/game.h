@@ -36,6 +36,8 @@ protected:
 
 	bool IsTutorialDone;
 	bool m_bLevelsComplete[NUMLEVELS];
+	bool m_bAchievementUnlock[NUMLEVELS];
+	float m_fAchievementTimes[NUMLEVELS];
 
 	//Singleton Protection
 	game(void);
@@ -102,8 +104,12 @@ public:
 	
 	int GetSZSCHHHSound() const { return m_SZSCHHHSound; }
 
-	bool* GetLevelComplete() {return m_bLevelsComplete;}
-	void SetLevelComplete(int level) {m_bLevelsComplete[level + 1] = true;}
+	bool* GetLevelComplete() { return m_bLevelsComplete;}
+	void SetLevelComplete(int level) { m_bLevelsComplete[level + 1] = true; }
+	bool* GetAchievementUnlock() { return m_bAchievementUnlock; }
+	void SetAchievementUnlock(int level) { m_bAchievementUnlock[level] = true; }
+	float GetAchievementNumbers(int level) { return m_fAchievementTimes[level]; }
+
 	bool GetTutorialDone() {return IsTutorialDone;}
 	void SetTutorialDone(bool val) {IsTutorialDone = val;}
 };

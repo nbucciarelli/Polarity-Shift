@@ -252,6 +252,8 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 				m_fLevelScore = 0.0f;
 			int currlevel = levelChooseState::getInstance()->GetPlayLevel();
 			game::GetInstance()->SetLevelComplete(currlevel-1);
+			if(m_fLevelTime <= game::GetInstance()->GetAchievementNumbers(currlevel-1))
+				game::GetInstance()->SetAchievementUnlock(currlevel-1);
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
 			CTallySheetState::getInstance()->Initialize(currlevel,m_fLevelScore, m_fLevelTime);
 

@@ -46,9 +46,23 @@ void game::Initialize(HINSTANCE hInstance)
 
 
 	for (int i = 0 ; i < NUMLEVELS ; ++i)
-		m_bLevelsComplete[i] = 0;
+	{
+		m_bLevelsComplete[i] = false;
+		m_bAchievementUnlock[i] = false;
+	}
 	
 	m_bLevelsComplete[0] = true;
+	m_fAchievementTimes[0] = 10.0f;
+	m_fAchievementTimes[1] = 15.0f;
+	m_fAchievementTimes[2] = 10.0f;
+	m_fAchievementTimes[3] = 15.0f;
+	m_fAchievementTimes[4] = 10.0f;
+	m_fAchievementTimes[5] = 15.0f;
+	m_fAchievementTimes[6] = 10.0f;
+	m_fAchievementTimes[7] = 15.0f;
+	m_fAchievementTimes[8] = 10.0f;
+	m_fAchievementTimes[9] = 15.0f;
+
 
 	if(!theDisplay->getHWnd())
 		return;

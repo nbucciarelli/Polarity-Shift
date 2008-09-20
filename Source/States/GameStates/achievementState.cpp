@@ -134,13 +134,50 @@ void achievementState::render(void) const
 
 	theFont->drawText("Achievements", (int)(293 + m_fXLerp), 65, textColor, 1);
 
-	//Draw menu items
-	theFont->drawText("Complete level 1 in 10 secs", (int)(105 + m_fXLerp + xPos), 300, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
-	theFont->drawText("Complete level 2 in 15 secs", (int)(105 + m_fXLerp + xPos), 340, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
-	theFont->drawText("Complete level 3 in 10 secs", (int)(105 + m_fXLerp + xPos), 380, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
-	theFont->drawText("Complete level 4 in 15 secs", (int)(105 + m_fXLerp + xPos), 420, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
-	theFont->drawText("Complete level 5 in 15 secs", (int)(105 + m_fXLerp + xPos), 460, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
-	theFont->drawText("Complete level 6 in 10 secs", (int)(105 + m_fXLerp + xPos), 500, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+	//for(int c = 0; c < menuLast+1; c++)
+	//	if(c != menuPos)
+	//		if (bIsLevelComplete[c])
+	//			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
+	//		else if (c == menuLast)
+	//			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
+	//		else
+	//			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128));
 
+	//	else //For the selected item, use highlight color
+	//		theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, highlightColor);
+	//Draw menu items
+
+	bool* bAchievementUnlocked = game::GetInstance()->GetAchievementUnlock();
 	theFont->drawText(menuItemString[BACK], (int)(20 + m_fXLerp + xPos), 675, highlightColor);
+#pragma region IFSTATEMENTSFORRENDERINGACHIEVEMENTS
+	if(bAchievementUnlocked[0])
+		theFont->drawText("Complete level 1 in 10 secs", (int)(105 + m_fXLerp + xPos), 300, textColor, .55f);
+	else
+		theFont->drawText("Complete level 1 in 10 secs", (int)(105 + m_fXLerp + xPos), 300, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+
+	if(bAchievementUnlocked[1])
+		theFont->drawText("Complete level 2 in 15 secs", (int)(105 + m_fXLerp + xPos), 340, textColor, .55f);
+	else
+		theFont->drawText("Complete level 2 in 15 secs", (int)(105 + m_fXLerp + xPos), 340, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+
+	if(bAchievementUnlocked[2])
+		theFont->drawText("Complete level 3 in 10 secs", (int)(105 + m_fXLerp + xPos), 380, textColor, .55f);
+	else
+		theFont->drawText("Complete level 3 in 10 secs", (int)(105 + m_fXLerp + xPos), 380, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+
+	if(bAchievementUnlocked[3])
+		theFont->drawText("Complete level 4 in 15 secs", (int)(105 + m_fXLerp + xPos), 420, textColor, .55f);
+	else
+		theFont->drawText("Complete level 4 in 15 secs", (int)(105 + m_fXLerp + xPos), 420, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+
+	if(bAchievementUnlocked[4])
+		theFont->drawText("Complete level 5 in 15 secs", (int)(105 + m_fXLerp + xPos), 460, textColor, .55f);
+	else
+		theFont->drawText("Complete level 5 in 15 secs", (int)(105 + m_fXLerp + xPos), 460, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+
+	if(bAchievementUnlocked[5])
+		theFont->drawText("Complete level 6 in 10 secs", (int)(105 + m_fXLerp + xPos), 500, textColor, .55f);
+	else
+		theFont->drawText("Complete level 6 in 10 secs", (int)(105 + m_fXLerp + xPos), 500, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+#pragma endregion
 }
