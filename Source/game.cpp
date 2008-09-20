@@ -61,7 +61,7 @@ void game::Initialize(HINSTANCE hInstance)
 	m_fAchievementTimes[6] = 10.0f;
 	m_fAchievementTimes[7] = 15.0f;
 	m_fAchievementTimes[8] = 10.0f;
-	m_fAchievementTimes[9] = 15.0f;
+	m_fAchievementTimes[9] = 17.0f;
 
 	SetMusicLevel(50);
 	SetSFXLevel(50);
