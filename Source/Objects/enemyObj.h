@@ -17,6 +17,7 @@ public:
 	void update(float dt);
 	void render();
 	int getEnemyType() const { return enemyType; }
+	int getHP() {return m_nHP;}
 	void setEnemyType(int value) { enemyType = value; }
 
 	virtual bool checkCollision(baseObj* obj, polyCollision* result = NULL);

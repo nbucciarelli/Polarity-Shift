@@ -14,11 +14,15 @@
 #include "CTileEngine.h"
 #include "../States/GameStates/gamePlayState.h"
 #include "..\Helpers\bitFont.h"
+#include "../EventSystem/playHandler.h"
 #include <cmath>
 
 CAIEngine::CAIEngine() : trackPos(NULL)
 {
 	player = NULL;
+	movingLeft = true;
+	movingDown = true;
+	spawnTimer = 0.0f;
 	//register events
 	for(int c = BEGIN_AI_EVENTS; c < END_AI_EVENTS; c++)
 		eventManager::getInstance()->registerClient(c, this);
@@ -34,6 +38,7 @@ CAIEngine::~CAIEngine()
 
 void CAIEngine::update(float dt)
 {
+
 	//loop through the enemies
 	for(unsigned int j = 0; j < enemyList.size(); j++)
 	{
@@ -66,7 +71,79 @@ void CAIEngine::update(float dt)
 		}
 		else if(enemyList[j]->getEnemyType() == ET_BOSS)
 		{
-			
+			spawnTimer = spawnTimer + dt;
+			if(spawnTimer >= 10.0f)
+			{
+				eventManager::getInstance()->sendEvent(EVENT_TRAP_ACTIVE);
+				eventManager::getInstance()->sendEvent(EVENT_DIDFALSE);
+				spawnTimer = 0.0f;
+
+			}
+			if(enemyList[j]->getHP() == 3)
+			{
+				enemyList[j]->setVel(vector3(0,0,0));
+				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(), enemyList[j]->GetPosY(),0));
+			}
+			else if(enemyList[j]->getHP() == 2)
+			{
+				enemyList[j]->setVel(vector3(0,0,0));
+				if(enemyList[j]->GetPosX() > 124  && movingLeft == true)
+				{
+					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() - 100*dt,100,0));
+					if(enemyList[j]->GetPosX() <= 124)
+					{
+						movingLeft = false;
+					}
+				}
+				else if(enemyList[j]->GetPosX() < 900 && movingLeft == false)
+				{
+					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() + 100*dt,100,0));
+					if(enemyList[j]->GetPosX() >= 900)
+					{
+						movingLeft = true;
+					}
+				}
+
+
+			}
+			else if(enemyList[j]->getHP() == 1)
+			{
+				//enemyList[j]->setVel(vector3(0,0,0));
+				if(enemyList[j]->GetPosX() > 124  && movingLeft == true)
+				{
+					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() - 100*dt,enemyList[j]->GetPosY(),0));
+					if(enemyList[j]->GetPosX() <= 124)
+					{
+						movingLeft = false;
+					}
+				}
+				else if(enemyList[j]->GetPosX() < 900 && movingLeft == false)
+				{
+					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() + 100*dt,enemyList[j]->GetPosY(),0));
+					if(enemyList[j]->GetPosX() >= 900)
+					{
+						movingLeft = true;
+					}
+				}
+				if(enemyList[j]->GetPosY() < 550  && movingDown == true)
+				{
+					enemyList[j]->setVelY(100);
+					//enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(),enemyList[j]->GetPosY() + 100*dt,0));
+					if(enemyList[j]->GetPosY() >= 550)
+					{
+						movingDown = false;
+					}
+				}
+				else //if(enemyList[j]->GetPosY() > 100 && movingDown == false)
+				{
+					enemyList[j]->setVelY(0);
+					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(),enemyList[j]->GetPosY() - 100,0));
+					if(enemyList[j]->GetPosY() <= 100)
+					{
+						movingDown = true;
+					}
+				}
+			}
 		}
 	}
 	for(unsigned int i = 0; i < CTileEngine::GetInstance()->GetTriggers().size(); i++)

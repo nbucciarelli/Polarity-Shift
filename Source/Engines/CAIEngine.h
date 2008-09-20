@@ -21,6 +21,9 @@ private:
 	vector<enemyObj*> enemyList;
 	playerObj* player;
 	const vector3* trackPos;
+	bool movingLeft;
+	bool movingDown;
+	float spawnTimer;
 	
 public:
 	CAIEngine();

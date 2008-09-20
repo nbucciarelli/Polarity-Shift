@@ -15,6 +15,7 @@
 #include "../Wrappers/Mouse.h"
 #include "../Engines/CTileEngine.h"
 #include "..\States\GameStates\gamePlayState.h"
+#include "../States/GameStates/levelChooseState.h"
 
 #include "../Objects/weapon.h"
 #include "../Objects/playerObj.h"
@@ -62,6 +63,9 @@ void playHandler::HandleEvent(gameEvent* ev)
 	case EVENT_PLAYER_DIED:
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_DEATH));
 		break;
+	case EVENT_DIDFALSE:
+		did = false;
+		break;
 	case EVENT_TRAP_ACTIVE:
 		if(did)
 			break;
@@ -75,6 +79,7 @@ void playHandler::HandleEvent(gameEvent* ev)
 		//EM->unregisterClient(EVENT_TRAP_ACTIVE, this);
 
 		break;
+
 
 
 	//default:
@@ -171,6 +176,8 @@ void playHandler::onGameLoad()
 	testObj->release();
 	}
 
+	if(levelChooseState::getInstance()->GetPlayLevel() == 10)
+	{
 	obid = FL->loadObject("Resource/PS_Boss.psu");
 
 	enemyObj* testObj2 = (enemyObj*)OF->spawn(obid);
@@ -179,6 +186,7 @@ void playHandler::onGameLoad()
 	EM->sendEvent(EVENT_ENEMYLOAD, testObj2);
 	OM->addObj(testObj2);
 	testObj2->release();
+	}
 	delete[] obid;
 
 	//Let play state begin.

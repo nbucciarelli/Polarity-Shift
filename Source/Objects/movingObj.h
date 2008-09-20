@@ -45,6 +45,7 @@ public:
 	//Set Mutators: variable = input
 	void setVel(const vector3& vel) { velocity = vel; }
 	void setVelX(float v) { velocity.x = v; }
+	void setVelY(float v) { velocity.y = v; }
 	void setAcc(const vector3& acc) { acceleration = acc; }
 	void setAngVel(const vector3& aVel) { angVel = aVel; }
 	void setAngAcc(const vector3& aAcc) { angAcc = aAcc; }
