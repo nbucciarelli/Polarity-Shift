@@ -6,7 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "../gameState.h"
 #include "../../eventsystem/listener.h"
-
+#include <queue>
+using std::queue;
 
 class objManager;
 class CSGD_DirectInput;
@@ -32,8 +33,10 @@ protected:
 	bitFont* theFont;
 	debugControl* debugger;
 
+	std::queue<char> m_qCheatCode;
+
 	int m_nParticleImageID, m_nExpX, m_nExpY, m_nExplosionID;
-	bool m_bIsExploding;
+	bool m_bIsExploding, m_bIsGodMode;
 
 	float m_fLevelTime;
 	float m_fLevelScore;
@@ -110,4 +113,6 @@ public:
 	void SetExpY(int val) { m_nExpY = val; }
 	bool GetIsExploding() const { return m_bIsExploding; }
 	void SetIsExploding(bool val) { m_bIsExploding = val; }
+	bool GetIsGodMode() const { return m_bIsGodMode; }
+	void SetIsGodMode(bool val) { m_bIsGodMode = val; }
 };

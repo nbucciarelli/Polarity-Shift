@@ -104,6 +104,14 @@ void gamePlayState::exit(void)
 
 bool gamePlayState::input(float dt)
 {
+	if (theInput->CheckBufferedKeysEx()) 
+	{ 
+		m_qCheatCode.push(theInput->CheckBufferedKeysEx()); 
+		if (m_qCheatCode.size() > 5) 
+		{ 
+			m_qCheatCode.pop(); 
+		}  
+	}
 
 	if (theInput->KeyPressed(DIK_ESCAPE) || theInput->KeyPressed(DIK_F10))
 		EM->sendEvent(EVENT_GAMEPAUSE);
@@ -181,8 +189,56 @@ void gamePlayState::update(float dt)
 
 	EM->processEvents();
 
-	
+	if (m_qCheatCode.size() == 5) 
+	{ 
+		if(m_qCheatCode.front() == 'u') 
+		{ 
+			m_qCheatCode.pop(); 
+			if (m_qCheatCode.front() == 'd') 
+			{ 
+				m_qCheatCode.pop(); 
+				if (m_qCheatCode.front() == 'i') 
+				{ 
+					m_qCheatCode.pop(); 
+					if (m_qCheatCode.front() == 'e') 
+					{ 
+						m_qCheatCode.pop(); 
+						if(m_qCheatCode.front() = 'd')
+						{
+							m_qCheatCode.pop();
+							SetIsGodMode(true);
+						}
+					} 
+				} 
+			} 
+		}
+	}
 
+	if (m_qCheatCode.size() == 5) 
+	{ 
+		if(m_qCheatCode.front() == 'l') 
+		{ 
+			m_qCheatCode.pop(); 
+			if (m_qCheatCode.front() == 'e') 
+			{ 
+				m_qCheatCode.pop(); 
+				if (m_qCheatCode.front() == 'v') 
+				{ 
+					m_qCheatCode.pop(); 
+					if (m_qCheatCode.front() == 'e') 
+					{ 
+						m_qCheatCode.pop(); 
+						if(m_qCheatCode.front() = 'l')
+						{
+							m_qCheatCode.pop();
+							for(int i = 0; i < 10; i++)
+								game::GetInstance()->SetLevelComplete(i);
+						}
+					} 
+				} 
+			} 
+		}
+	}
 }
 
 void gamePlayState::render(void) const

@@ -5,6 +5,7 @@
 #include "../Engines/CParticleEffectManager.h"
 #include "../eventsystem/eventmanager.h"
 #include "../eventsystem/eventids.h"
+#include "..\States\GameStates\gamePlayState.h"
 
 enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
@@ -40,7 +41,8 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 		{
 			// Removes the spider enemy since it died
 //			EM->sendEvent(EVENT_ACTORDIED, this);
-			EM->sendEvent(EVENT_PLAYERKILLED, obj);
+			if(gamePlayState::getInstance()->GetIsGodMode() != true)
+				EM->sendEvent(EVENT_PLAYERKILLED, obj);
 			// Sets the bool to true so it will render the explosion
 			//m_bDied = true;
 		}
