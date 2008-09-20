@@ -99,6 +99,8 @@ gameState* globalHandler::state(int st)
 		return CDeathState::GetInstance();
 	case STATE_ACHIEVEMENTS:
 		return achievementState::getInstance();
+	case STATE_HOWTO:
+		return howToState::getInstance();
 	default:
 		return NULL;
 	}

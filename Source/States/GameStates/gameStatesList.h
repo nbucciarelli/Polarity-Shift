@@ -22,3 +22,4 @@
 #include "..\GamePlayStates\CTallySheet.h"
 #include "..\GamePlayStates\CDeathState.h"
 #include "achievementState.h"
+#include "howToState.h"

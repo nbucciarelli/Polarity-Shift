@@ -140,6 +140,8 @@ void mainMenuState::update(float dt)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_CREDITS));
 		else if(m_bAchievements == true)
 			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_ACHIEVEMENTS));
+		else if(m_bHowTo == true)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int (STATE_HOWTO));
 	}
 
 	CParticleEffectManager::GetInstance()->Update(dt);
