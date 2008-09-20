@@ -159,6 +159,6 @@ void playHandler::onGameLoad()
 
 void playHandler::killActor(baseObj* obj)
 {
-//	EM->unregisterClient((actorObj*)obj);
-//	OM->removeObj(obj);
+	EM->unregisterClient((actorObj*)obj);
+	obj->setIsActive(false);
 }

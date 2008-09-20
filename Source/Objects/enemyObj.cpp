@@ -49,7 +49,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 			m_nExpX = this->position.x;
 			m_nExpY = this->position.y;
 			// Removes the spider enemy since it died
-			EM->sendEvent(EVENT_ACTORDIED, this);
+//			EM->sendEvent(EVENT_ACTORDIED, this);
 			EM->sendEvent(EVENT_PLAYERKILLED, obj);
 			// Sets the bool to true so it will render the explosion
 			//m_bDied = true;

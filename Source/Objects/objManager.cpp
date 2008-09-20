@@ -18,13 +18,15 @@ objManager* objManager::getInstance()
 void objManager::update(float dt)
 {
 	for(unsigned c = 0; c < objList.size(); c++)
-		objList[c]->update(dt);
+		if(objList[c]->getIsActive())
+			objList[c]->update(dt);
 }
 
 void objManager::render() const
 {
 	for(unsigned c = 0; c < objList.size(); c++)
-		objList[c]->render();
+		if(objList[c]->getIsActive())
+			objList[c]->render();
 }
 
 //Add an object
@@ -73,23 +75,27 @@ void objManager::checkCollisions()
 {
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
-		objList[c]->mapCollisionCheck();
+		if(objList[c]->getIsActive())
+			objList[c]->mapCollisionCheck();
 	}
 
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
-		for(unsigned d = 0; d < objList.size(); d++)
-		{
-			if(c == d)
-				continue;
+		if(objList[c]->getIsActive())
+			for(unsigned d = 0; d < objList.size(); d++)
+			{
+				if(c == d)
+					continue;
 
-			objList[c]->checkCollision(objList[d]);
-		}
+				if(objList[d]->getIsActive())
+					objList[c]->checkCollision(objList[d]);
+			}
 	}
 
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
-		objList[c]->collisionReact();
+		if(objList[c]->getIsActive())
+			objList[c]->collisionReact();
 	}
 }
 

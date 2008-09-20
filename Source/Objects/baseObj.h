@@ -34,7 +34,7 @@ protected:
 	int imgId;
 
 	uint refCount;
-	bool isActive;
+	volatile bool isActive;
 
 	//Size of rendered portion
 	pt dimension;
@@ -138,6 +138,7 @@ public:
 	int getFacing() const { return (int)scale.x; }
 	virtual rect getCollisionRect() const;
 	int GetAnimNumber() const { return nAnimNumber; }
+	bool getIsActive() const { return isActive; }
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Mutators”
@@ -155,6 +156,7 @@ public:
 	void setCollisionPolyID(int id) { collisionPolyID = id; }
 	void setFacing(int face) { scale.x = (float)face; }
 	void SetAnimNumber(int val) { nAnimNumber = val; }
+	void setIsActive(bool set) { isActive = false; }
 
 	//Mod Mutators: Add given data to variable
 	void modPos(const vector3& change) { position += change; }
