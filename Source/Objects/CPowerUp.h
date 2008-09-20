@@ -8,22 +8,23 @@
 
 #pragma once
 
-#include "baseObj.h"
+#include "actorObj.h"
 
 enum powerupType {POWERUP_INVULNERABLE, POWERUP_SCORE, POWERUP_NUMTYPES};
 
-class CPowerUp : public baseObj
+class CPowerUp : public actorObj
 {
 protected:
-	int type;
+	int powerupType;
 public:
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: Constructor
 	//
 	// Purpose: Sets the default values
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	CPowerUp(int Type = 0) : baseObj(OBJ_POWERUP), type(Type) {}
+	CPowerUp(int type = POWERUP_SCORE);
+	~CPowerUp();
 
-	int getType() const { return type; }
-	void setType(int t) { type = t; }
+	int getPowerType() const { return powerupType; }
+	void setPowerType(int t) { powerupType = t; }
 };

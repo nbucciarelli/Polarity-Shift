@@ -10,6 +10,7 @@
 #include"../EventSystem/gameEvent.h"
 #include"../Objects/enemyObj.h"
 #include"../Objects/playerObj.h"
+#include"../Objects/CPowerUp.h"
 #include"../EventSystem/eventManager.h"
 #include "CTileEngine.h"
 #include "../States/GameStates/gamePlayState.h"
@@ -173,5 +174,9 @@ void CAIEngine::HandleEvent(gameEvent *ev)
 		player = (playerObj*)(ev->getData());
 		trackPos = &((baseObj*)(ev->getData()))->getPosition();
 		break;
+	case EVENT_POWERUPLOAD:
+		powerUpList.push_back((CPowerUp*)(ev->getData()));
+		break;
+
 	}
 }

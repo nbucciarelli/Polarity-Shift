@@ -20,6 +20,7 @@
 #include "../Objects/weapon.h"
 #include "../Objects/playerObj.h"
 #include "../Objects/enemyObj.h"
+#include "../Objects/CPowerUp.h"
 
 void playHandler::initialize()
 {
@@ -174,6 +175,16 @@ void playHandler::onGameLoad()
 	EM->sendEvent(EVENT_ENEMYLOAD, testObj);
 	OM->addObj(testObj);
 	testObj->release();
+	}
+	obid = FL->loadObject("Resource/PS_Banna.psu");
+	for(int i = 0; i <CTileEngine::GetInstance()->GetBonuses().size(); i++)
+	{
+		CPowerUp* testObj3 = (CPowerUp*)OF->spawn(obid);
+		testObj3->setPos(vector3(CTileEngine::GetInstance()->GetBonuses()[i].x,CTileEngine::GetInstance()->GetBonuses()[i].y,0));
+		testObj3->setPowerType(POWERUP_SCORE);
+		EM->sendEvent(EVENT_POWERUPLOAD, testObj3);
+		OM->addObj(testObj3);
+		testObj3->release();
 	}
 
 	if(levelChooseState::getInstance()->GetPlayLevel() == 10)
