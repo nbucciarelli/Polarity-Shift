@@ -78,6 +78,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	if(obj->getType() != OBJ_MOVING && enemyType == ET_SCORE)
 	{
 		EM->sendEvent(EVENT_ACTORDIED, this);
+		gamePlayState::getInstance()->SetLevelScore(gamePlayState::getInstance()->GetLevelScore() + 100.0f);
 	}
 	if(obj->getType() != OBJ_MOVING && enemyType == ET_INV)
 	{
