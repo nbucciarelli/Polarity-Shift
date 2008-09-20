@@ -2,9 +2,7 @@
 
 #include "actorObj.h"
 
-enum enemyTypes { ET_SPIDER, ET_TURRET,
-	ET_COUNT,
-};
+enum enemyTypes { ET_SPIDER, ET_TURRET, ET_COUNT};
 
 class enemyObj : public actorObj
 {
