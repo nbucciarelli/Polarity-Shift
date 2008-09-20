@@ -216,19 +216,19 @@ void gamePlayState::render(void) const
 		{
 			char buffertut[256] = {0};
 			sprintf_s(buffertut, 256, "Press %s to jump over the walls", CKeyState::getInstance()->SetKeyString(game::GetInstance()->GetKeys().m_nJump));
-			theFont->drawText(buffertut, 100, 700);
+			theFont->drawText(buffertut, 100, 700, 0xffff0000);
 						
 		}
 		else if (Tutorials[1] == false && AIE->GetTrackPos()->x >= 250)
 		{
 			//char buffertut[256] = {0};
 			//sprintf_s(buffertut, 256, "Press %s to push the blocks onto each other", "Mouse 1");
-			theFont->drawText("Press Mouse 1 to push", 100, 700);
-			theFont->drawText("the blocks onto each other", 100, 750);
+			theFont->drawText("Press Mouse 1 to push", 100, 700, 0xffff0000);
+			theFont->drawText("the blocks onto each other", 100, 750, 0xffff0000);
 		}
 		else if (Tutorials[2] == false && AIE->GetTrackPos()->x >= 600)
 		{
-			theFont->drawText("Run through the exit!", 100, 700);
+			theFont->drawText("Run through the exit!", 100, 700, 0xffff0000);
 		}
 	}
 
