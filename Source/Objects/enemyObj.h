@@ -7,7 +7,7 @@ enum enemyTypes { ET_SPIDER, ET_TURRET, ET_COUNT};
 class enemyObj : public actorObj
 {
 protected:
-	int enemyType, m_nExplosionID, m_nExpX, m_nExpY;
+	int enemyType;
 	bool m_bDied;
 public:
 	enemyObj(int type = ET_SPIDER);

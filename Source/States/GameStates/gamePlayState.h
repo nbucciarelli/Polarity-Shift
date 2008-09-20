@@ -32,7 +32,9 @@ protected:
 	bitFont* theFont;
 	debugControl* debugger;
 
-	int m_nParticleImageID;
+	int m_nParticleImageID, m_nExpX, m_nExpY, m_nExplosionID;
+	bool m_bIsExploding;
+
 	float m_fLevelTime;
 	float m_fLevelScore;
 
@@ -101,4 +103,10 @@ public:
 
 	float GetLevelTime() {return m_fLevelTime;}
 	float GetLevelScore() {return m_fLevelScore;}
+	int GetExpX() const { return m_nExpX; }
+	void SetExpX(int val) { m_nExpX = val; }
+	int GetExpY() const { return m_nExpY; }
+	void SetExpY(int val) { m_nExpY = val; }
+	bool GetIsExploding() const { return m_bIsExploding; }
+	void SetIsExploding(bool val) { m_bIsExploding = val; }
 };

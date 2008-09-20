@@ -9,7 +9,6 @@
 enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
 	m_bDied = false;
-	m_nExplosionID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Explosion.prt");
 }
 
 enemyObj::~enemyObj()
@@ -18,22 +17,11 @@ enemyObj::~enemyObj()
 void enemyObj::update(float dt)
 {
 	actorObj::update(dt);
-	if (m_bDied == true)
-	{
-		CParticleEffectManager::GetInstance()->Update(dt);
-	}
 }
 
 void enemyObj::render()
 {
-	if(m_bDied == false)
-	{
 		baseObj::render();
-	}
-	else if(m_bDied == true)
-	{
-		CParticleEffectManager::GetInstance()->Render(m_nExplosionID, m_nExpX, m_nExpY);
-	}
 }
 
 bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
@@ -49,9 +37,6 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	{
 		if(enemyType == ET_SPIDER)
 		{
-			// Saves the position of the spider (since it blows up) so it won't crash
-			m_nExpX = this->position.x;
-			m_nExpY = this->position.y;
 			// Removes the spider enemy since it died
 //			EM->sendEvent(EVENT_ACTORDIED, this);
 			EM->sendEvent(EVENT_PLAYERKILLED, obj);
@@ -61,14 +46,8 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	}
 	else if(obj->getType() == OBJ_MOVING)
 	{
-		// Saves the position of the enemy so it won't crash
-		m_nExpX = this->position.x;
-		m_nExpY = this->position.y;
 		// Removes the enemy since it died
-		CParticleEffectManager::GetInstance()->Play(m_nExplosionID, false);
 		EM->sendEvent(EVENT_ACTORDIED, this);
-		// Sets the bool to true so it will render the explosion
-		m_bDied = true;
 	}
 
 	return holder.overlapped || holder.willCollide;

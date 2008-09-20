@@ -14,6 +14,7 @@
 #include "../Helpers/objFileLoader.h"
 #include "../Wrappers/Mouse.h"
 #include "../Engines/CTileEngine.h"
+#include "..\States\GameStates\gamePlayState.h"
 
 #include "../Objects/weapon.h"
 #include "../Objects/playerObj.h"
@@ -159,6 +160,9 @@ void playHandler::onGameLoad()
 
 void playHandler::killActor(baseObj* obj)
 {
+	gamePlayState::getInstance()->SetExpX(obj->GetPosX());
+	gamePlayState::getInstance()->SetExpY(obj->GetPosY());
+	gamePlayState::getInstance()->SetIsExploding(true);
 	EM->unregisterClient((actorObj*)obj);
 	obj->setIsActive(false);
 }

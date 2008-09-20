@@ -200,10 +200,10 @@ void gamePlayState::render(void) const
 
 	char buff[256] = {0};
 	sprintf_s(buff,256,"Level: %d",levelChooseState::getInstance()->GetPlayLevel());
-	theFont->drawText(buff, 200, 30, 0xffffffff, .5f);
+	theFont->drawText(buff, 200, 30, 0xffff0000, .5f);
 
 	sprintf_s(buff, 256, "Time: %.2f", m_fLevelTime);
-	theFont->drawText(buff, 1600, 30, 0xffffffff, .5f);
+	theFont->drawText(buff, 1600, 30, 0xffff0000, .5f);
 
 	if(m_bTrapActive == true)
 	{

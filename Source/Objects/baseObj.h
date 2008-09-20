@@ -139,6 +139,8 @@ public:
 	virtual rect getCollisionRect() const;
 	int GetAnimNumber() const { return nAnimNumber; }
 	bool getIsActive() const { return isActive; }
+	int GetPosX() { return position.x; }
+	int GetPosY() { return position.y; }
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “Mutators”
