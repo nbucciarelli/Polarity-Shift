@@ -18,6 +18,10 @@ enemyObj::~enemyObj()
 void enemyObj::update(float dt)
 {
 	actorObj::update(dt);
+	if (m_bDied == true)
+	{
+		CParticleEffectManager::GetInstance()->Update(dt);
+	}
 }
 
 void enemyObj::render()
@@ -28,7 +32,7 @@ void enemyObj::render()
 	}
 	else if(m_bDied == true)
 	{
-		CParticleEffectManager::GetInstance()->Play(m_nExplosionID, false);
+		CParticleEffectManager::GetInstance()->Render(m_nExplosionID, m_nExpX, m_nExpY);
 	}
 }
 
@@ -61,9 +65,10 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 		m_nExpX = this->position.x;
 		m_nExpY = this->position.y;
 		// Removes the enemy since it died
+		CParticleEffectManager::GetInstance()->Play(m_nExplosionID, false);
 		EM->sendEvent(EVENT_ACTORDIED, this);
 		// Sets the bool to true so it will render the explosion
-		//m_bDied = true;
+		m_bDied = true;
 	}
 
 	return holder.overlapped || holder.willCollide;
