@@ -147,25 +147,29 @@ float magnetGun::levelLimiter(const vector3& traj)
 
 	vector3 perp = vector3(traj.y, -traj.x);
 
-	float min, max, minDist = (float)_HUGE;
+	float dist, minDist = (float)_HUGE;
 	float posDotP = pos.dot2D(perp);
 	float posDot = pos.dot2D(traj);
 	polygon poly;
 
-	for(unsigned c = 0; c < colRect.size(); c++)
+/*	for(unsigned c = 0; c < colRect.size(); c++)
 	{
-	//	calc::rectToPoly(*(rect*)&colRect[c], &poly);
+		calc::rectToPoly(*(rect*)&colRect[c], &poly);
 
-//		if(posDot < min || posDot > max)
-			continue;
+		if(calc::lineIntersectPoly(pos, farPoint,
+									   poly, &dist)
+			&& fabs(dist) < minDist)//  && dist > 0)
+		{
+			float miny, maxy;
+			calc::projectPolygonToLine(*objList[c]->getCollisionPoly(), perp, miny, maxy);
 
-//		calc::projectRectToLine(*(rect*)&colRect[c], traj, min, max);
+			if(pos + radius < miny || centerLineProj - radius > maxy)
+				continue;
 
-//		if(min > 0 && min < value)
-//			value = min;
-//		else if( max > 0 && max < value)
-//			value = max;
-	}
+			minDist = dist;
+			selection = c;
+		}
+	}*/
 
 	return minDist - posDot;
 }

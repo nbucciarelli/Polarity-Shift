@@ -4,6 +4,7 @@
 // Purpose: This is the code file for the object that will be made into the player
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "playerObj.h"
+#include "../EventSystem/eventManager.h"
 #include "../EventSystem/gameEvent.h"
 #include "../EventSystem/eventIDs.h"
 #include "../Engines/CAnimationManager.h"
@@ -110,6 +111,9 @@ void playerObj::HandleEvent(gameEvent *ev)
 			delete ev->getData();
 		}
 		theWeapon->ceaseFire(a);
+		break;
+	case EVENT_PLAYERKILLED:
+		eventManager::getInstance()->sendEvent(EVENT_ACTORDIED, this);
 		break;
 	default:
 		actorObj::HandleEvent(ev);

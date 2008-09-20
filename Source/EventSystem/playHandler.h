@@ -12,6 +12,7 @@ class eventManager;
 class objManager;
 class objFactory;
 class objFileLoader;
+class baseObj;
 
 class playHandler : public listener
 {
@@ -22,6 +23,7 @@ protected:
 	objFileLoader* FL;
 
 	void onGameLoad();
+	void killActor(baseObj* obj);
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////////

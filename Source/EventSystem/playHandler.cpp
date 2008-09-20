@@ -53,6 +53,9 @@ void playHandler::HandleEvent(gameEvent* ev)
 	case EVENT_GAMEPAUSE:
 		EM->sendGlobalEvent(GE_STATE_PUSH, new int(STATE_PAUSE));
 		break;
+	case EVENT_ACTORDIED:
+		killActor((baseObj*)ev->getData());
+		break;
 	default:
 		break;
 	}
@@ -150,4 +153,9 @@ void playHandler::onGameLoad()
 
 	//Let play state begin.
 	EM->sendEvent(EVENT_LEVELLOADED);
+}
+
+void playHandler::killActor(baseObj* obj)
+{
+	OM->removeObj(obj);
 }

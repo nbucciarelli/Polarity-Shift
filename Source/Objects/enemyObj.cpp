@@ -3,6 +3,8 @@
 #include "../helpers/datatypes.h"
 #include "objManager.h"
 #include "../Engines/CParticleEffectManager.h"
+#include "../eventsystem/eventmanager.h"
+#include "../eventsystem/eventids.h"
 
 enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
@@ -34,7 +36,10 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 {
 	polyCollision holder;
 
-	actorObj::checkCollision(obj, &holder);
+	if(!actorObj::checkCollision(obj, &holder))
+		return false;
+
+	eventManager* EM = eventManager::getInstance();
 
 	if(obj->getType() == OBJ_PLAYER)
 	{
@@ -44,9 +49,8 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 			m_nExpX = this->position.x;
 			m_nExpY = this->position.y;
 			// Removes the spider enemy since it died
-			objManager::getInstance()->removeObj(this);
-			// Removes the player since she died
-			objManager::getInstance()->removeObj(obj);
+			EM->sendEvent(EVENT_ACTORDIED, this);
+			EM->sendEvent(EVENT_PLAYERKILLED, obj);
 			// Sets the bool to true so it will render the explosion
 			m_bDied = true;
 		}
@@ -57,7 +61,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 		m_nExpX = this->position.x;
 		m_nExpY = this->position.y;
 		// Removes the enemy since it died
-		objManager::getInstance()->removeObj(this);
+		EM->sendEvent(EVENT_ACTORDIED, this);
 		// Sets the bool to true so it will render the explosion
 		m_bDied = true;
 	}
