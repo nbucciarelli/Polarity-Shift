@@ -63,6 +63,9 @@ void game::Initialize(HINSTANCE hInstance)
 	m_fAchievementTimes[8] = 10.0f;
 	m_fAchievementTimes[9] = 15.0f;
 
+	SetMusicLevel(50);
+	SetSFXLevel(50);
+
 
 	if(!theDisplay->getHWnd())
 		return;

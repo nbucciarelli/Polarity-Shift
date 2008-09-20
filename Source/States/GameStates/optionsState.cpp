@@ -13,6 +13,7 @@
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
+#include "..\..\Wrappers\CSGD_DirectInput.h"
 
 #include <fstream>
 using std::ifstream;
@@ -25,8 +26,8 @@ optionsState::optionsState(void)
 
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[SFX] = "SFX: 0";
-	menuItemString[MUSIC] = "Music: 0";
+	//menuItemString[SFX] = "SFX: 0";
+	//menuItemString[MUSIC] = "Music: 0";
 	menuItemString[KEYBINDINGS] = "Keybindings";
 	menuItemString[SAVE] = "Save";
 	menuItemString[LOAD] = "Load";
@@ -133,6 +134,65 @@ void optionsState::update(float dt)
 	}
 }
 
+bool optionsState::input(float dt)
+{
+	if(m_bIsMoving == false)
+	{
+		if (theInput->KeyPressed(DIK_RETURN))
+		{
+
+			highlightColor = 0xffa4a4ff;
+			menuHandler();
+		}
+		else if (theInput->KeyPressed(DIK_DOWN))
+		{
+			if(menuPos < menuLast)
+				menuPos++;
+			else
+				menuPos = 0;
+		}
+		else if(theInput->KeyPressed(DIK_UP))
+		{
+			if(menuPos > 0)
+				menuPos--;
+			else
+				menuPos = menuLast;
+		}
+		else if(theInput->KeyPressed(DIK_LEFT))
+		{
+			if(menuPos == SFX)
+			{
+				game::GetInstance()->SetSFXLevel(game::GetInstance()->GetSFXLevel() - 5);
+				if(game::GetInstance()->GetSFXLevel() <= 0)
+					game::GetInstance()->SetSFXLevel(0);
+			}
+			else if(menuPos == MUSIC)
+			{
+				game::GetInstance()->SetMusicLevel(game::GetInstance()->GetMusicLevel() - 5);
+				if(game::GetInstance()->GetMusicLevel() <= 0)
+					game::GetInstance()->SetMusicLevel(0);
+			}
+		}
+		else if(theInput->KeyPressed(DIK_RIGHT))
+		{
+			if(menuPos == SFX)
+			{
+				game::GetInstance()->SetSFXLevel(game::GetInstance()->GetSFXLevel() + 5);
+				if(game::GetInstance()->GetSFXLevel() >= 100)
+					game::GetInstance()->SetSFXLevel(100);
+			}
+			else if(menuPos == MUSIC)
+			{
+				game::GetInstance()->SetMusicLevel(game::GetInstance()->GetMusicLevel() + 5);
+				if(game::GetInstance()->GetMusicLevel() >= 100)
+					game::GetInstance()->SetMusicLevel(100);
+			}
+		}
+	}
+
+	return true;
+}
+
 void optionsState::menuHandler()
 {
 	switch(menuPos)
@@ -207,8 +267,23 @@ void optionsState::render(void) const
 
 	theFont->drawText("Options", (int)(383 + m_fXLerp), 65, textColor, 1);
 
+	char buffer[32];
+	sprintf_s(buffer, "SFX: %d", (game::GetInstance()->GetSFXLevel()));
+	if(menuPos != SFX)
+		theFont->drawText(buffer, (int)(20 + m_fXLerp + xPos), yPos, textColor);
+	else
+		theFont->drawText(buffer, (int)(20 + m_fXLerp + xPos), yPos, highlightColor);
+
+
+	char buffer2[32];
+	sprintf_s(buffer2, "Music: %d", (game::GetInstance()->GetMusicLevel()));
+	if(menuPos != MUSIC)
+		theFont->drawText(buffer2, (int)(20 + m_fXLerp + xPos), yPos + 80, textColor);
+	else
+		theFont->drawText(buffer2, (int)(20 + m_fXLerp + xPos), yPos + 80, highlightColor);
+
 	//Draw menu items
-	for(int c = 0; c < menuLast+1; c++)
+	for(int c = 2; c < menuLast+1; c++)
 		if(c != menuPos)
 			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, textColor);
 		else //For the selected item, use highlight color

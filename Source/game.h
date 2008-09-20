@@ -38,6 +38,7 @@ protected:
 	bool m_bLevelsComplete[NUMLEVELS];
 	bool m_bAchievementUnlock[NUMLEVELS];
 	float m_fAchievementTimes[NUMLEVELS];
+	int m_nMusicLevel, m_nSFXLevel;
 
 	//Singleton Protection
 	game(void);
@@ -109,6 +110,10 @@ public:
 	bool* GetAchievementUnlock() { return m_bAchievementUnlock; }
 	void SetAchievementUnlock(int level) { m_bAchievementUnlock[level] = true; }
 	float GetAchievementNumbers(int level) { return m_fAchievementTimes[level]; }
+	int GetMusicLevel() const { return m_nMusicLevel; }
+	void SetMusicLevel(int val) { m_nMusicLevel = val; }
+	int GetSFXLevel() const { return m_nSFXLevel; }
+	void SetSFXLevel(int val) { m_nSFXLevel = val; }
 
 	bool GetTutorialDone() {return IsTutorialDone;}
 	void SetTutorialDone(bool val) {IsTutorialDone = val;}
