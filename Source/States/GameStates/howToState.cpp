@@ -144,9 +144,5 @@ void howToState::render(void) const
 	theFont->drawText("Right click to pull", (int)(20 + m_fXLerp + xPos), 440, textColor);
 	theFont->drawText("Both clicked to grab", (int)(20 + m_fXLerp + xPos), 480, textColor);
 
-	//theFont->drawText("Dustin Clingman - Executive Producer", (int)(200 + m_fXLerp + xPos), 640, textColor, TEXTSIZE);
-	//theFont->drawText("Ronald Powell - Associate Producer", (int)(200 + m_fXLerp + xPos), 680, textColor, TEXTSIZE);
-
-	//theFont->drawText("Chris Jahosky - Art", (int)(200 + m_fXLerp + xPos), 760, textColor, TEXTSIZE);
 	theFont->drawText(menuItemString[BACK], (int)(20 + m_fXLerp + xPos), 675, highlightColor);
 }
