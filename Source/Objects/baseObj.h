@@ -97,8 +97,8 @@ public:
 	// Purpose: This is the check collision for the base object touching other objects
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	virtual bool checkCollision(baseObj* obj, polyCollision* result = NULL);
-	virtual bool mapCollisionCheck() = 0;
-	virtual void collisionReact() = 0;
+	virtual bool mapCollisionCheck() { return false; }
+	virtual void collisionReact() {}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Function: “checkTerrainCollision”

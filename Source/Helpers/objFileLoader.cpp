@@ -15,6 +15,7 @@ using std::exception;
 
 #include "../Objects/playerObj.h"
 #include "../Objects/enemyObj.h"
+#include "../Objects/CPowerup.h"
 
 #include "../Engines/canimationmanager.h"
 
@@ -24,7 +25,8 @@ enum objectTypes {
 	SWITCH,
 	EXIT,
 	PLATFORM,
-	CRATE
+	CRATE,
+	POWERUP
 };
 
 objFileLoader::objFileLoader()
@@ -51,12 +53,16 @@ char* objFileLoader::loadObject(char* filename)
 	int holder = 0;
 	short shorty = 0;
 	short type = 0;
+	short etype = 0;
 
 	//Grab & ignore version information
 	reader.read((char*)&holder, sizeof(int));
 
 	//Grab object class
 	reader.read((char*)&type, sizeof(short));
+
+	if(type == ENEMY || type == POWERUP)
+		reader.read((char*)&etype, sizeof(short));
 
 	// *((short*)&holder);
 
@@ -69,7 +75,7 @@ char* objFileLoader::loadObject(char* filename)
 		obj = new playerObj;
 		break;
 	case ENEMY:
-		obj = new enemyObj;
+		obj = new enemyObj(etype);
 		break;
 	case SWITCH:
 	case EXIT:
@@ -78,6 +84,8 @@ char* objFileLoader::loadObject(char* filename)
 	case CRATE:
 		obj = new movingObj;
 		break;
+	case POWERUP:
+		obj = new CPowerUp(etype);
 	default:
 		return 0;
 	}
@@ -196,6 +204,8 @@ char* objFileLoader::loadObject(char* filename)
 	case SWITCH:
 	case EXIT:
 	case PLATFORM:
+	case POWERUP:
+		OF->registerClass<CPowerUp>(objectID, obj);
 	default:
 		obj->release();
 		return 0;

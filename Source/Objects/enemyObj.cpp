@@ -4,7 +4,7 @@
 #include "objManager.h"
 #include "../Engines/CParticleEffectManager.h"
 
-enemyObj::enemyObj() : actorObj(OBJ_ENEMY)
+enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
 	m_bDied = false;
 	m_nExplosionID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Explosion.prt");

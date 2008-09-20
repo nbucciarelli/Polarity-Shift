@@ -93,7 +93,7 @@ void magnetGun::ceaseFire(int dat)
 bool magnetGun::getTarget(const vector3& farPoint)
 {
 	int selection = -1;
-	float minDist = (float)_HUGE, min = 0, max = 0, dist = 0;
+	float minDist = (float)_HUGE, dist = 0;
 
 	vector3 perp = (farPoint - pos).normalized();
 	perp = vector3(perp.y, -perp.x);
@@ -147,25 +147,27 @@ float magnetGun::levelLimiter(const vector3& traj)
 
 	vector3 perp = vector3(traj.y, -traj.x);
 
-	float min, max, value = (float)_HUGE;
-	float posDot = pos.dot2D(perp);
-	
+	float min, max, minDist = (float)_HUGE;
+	float posDotP = pos.dot2D(perp);
+	float posDot = pos.dot2D(traj);
+	polygon poly;
+
 	for(unsigned c = 0; c < colRect.size(); c++)
 	{
-		calc::projectRectToLine(*(rect*)&colRect[c], perp, min, max);
+	//	calc::rectToPoly(*(rect*)&colRect[c], &poly);
 
-		if(posDot < min || posDot > max)
+//		if(posDot < min || posDot > max)
 			continue;
 
-		calc::projectRectToLine(*(rect*)&colRect[c], traj, min, max);
+//		calc::projectRectToLine(*(rect*)&colRect[c], traj, min, max);
 
-		if(min > 0 && min < value)
-			value = min;
-		else if( max > 0 && max < value)
-			value = max;
+//		if(min > 0 && min < value)
+//			value = min;
+//		else if( max > 0 && max < value)
+//			value = max;
 	}
 
-	return pos.dot2D(traj) - value;
+	return minDist - posDot;
 }
 
 void magnetGun::update(float dt)

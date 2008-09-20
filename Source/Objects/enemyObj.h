@@ -10,7 +10,7 @@ protected:
 	int enemyType, m_nExplosionID, m_nExpX, m_nExpY;
 	bool m_bDied;
 public:
-	enemyObj();
+	enemyObj(int type = ET_SPIDER);
 	~enemyObj();
 
 	void update(float dt);
