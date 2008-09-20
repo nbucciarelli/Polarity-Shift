@@ -165,6 +165,7 @@ bool optionsState::input(float dt)
 				game::GetInstance()->SetSFXLevel(game::GetInstance()->GetSFXLevel() - 5);
 				if(game::GetInstance()->GetSFXLevel() <= 0)
 					game::GetInstance()->SetSFXLevel(0);
+				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
 			}
 			else if(menuPos == MUSIC)
 			{
@@ -180,6 +181,7 @@ bool optionsState::input(float dt)
 				game::GetInstance()->SetSFXLevel(game::GetInstance()->GetSFXLevel() + 5);
 				if(game::GetInstance()->GetSFXLevel() >= 100)
 					game::GetInstance()->SetSFXLevel(100);
+				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
 			}
 			else if(menuPos == MUSIC)
 			{

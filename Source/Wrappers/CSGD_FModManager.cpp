@@ -188,10 +188,10 @@ bool CSGD_FModManager::PlaySound( int nID, bool bIsMusic)
 	//	hold on to channel pointer for late use
 	m_SoundList[ nID ].m_SoundChannels.push_back( channel );
 
-	//if (bIsMusic)
-	//	SetVolume(nID, (float)(CGame::GetInstance()->GetMusicVolume()/100.0f));
-	//else
-	//	SetVolume(nID, (float)(CGame::GetInstance()->GetSFXVolume()/100.0f));
+	if (bIsMusic)
+		SetVolume(nID, (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+	else
+		SetVolume(nID, (float)(game::GetInstance()->GetSFXLevel()/100.0f));
 
 	//	return success
 	return true;
