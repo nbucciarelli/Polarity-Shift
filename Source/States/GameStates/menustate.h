@@ -27,7 +27,7 @@ protected:
 	int m_nEmitterPosY;
 	float m_fUpdateTimer;
 
-	
+	float m_fTimerNotClicked;	
 
 	bool m_bIsMoving, m_bIsExiting, m_bIsExited;
 

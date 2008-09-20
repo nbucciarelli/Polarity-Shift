@@ -32,8 +32,9 @@ protected:
 	volatile bool isWindowed;
 	volatile bool renderLock;
 
-	int m_nVideoID;
-
+	int m_nVideoID[2];
+	
+	
 	bool IsTutorialDone;
 	bool m_bLevelsComplete[NUMLEVELS];
 	bool m_bAchievementUnlock[NUMLEVELS];
@@ -119,4 +120,6 @@ public:
 
 	bool GetTutorialDone() {return IsTutorialDone;}
 	void SetTutorialDone(bool val) {IsTutorialDone = val;}
+	
+	int GetVideoID2() const { return m_nVideoID[1]; }
 };

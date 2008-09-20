@@ -174,7 +174,7 @@ void CVideoMaster::HandleEvent()
 		if ((evCode == EC_COMPLETE) || (evCode == EC_USERABORT))
 		{
 			Stop();
-			//m_bPlaying = false;
+			m_bPlaying = false;
 			//m_pVW->put_Visible(OAFALSE);
 			//Shutdown();
 			break;
@@ -193,6 +193,7 @@ void CVideoMaster::Stop()
 		if(m_pMS)
 			m_pMS->SetPositions( &rt,AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
 		m_bPlaying = false;
+	
 	
 }
 

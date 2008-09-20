@@ -16,6 +16,9 @@
 #include "../../EventSystem/eventManager.h"
 #include "..\..\Helpers\CXBOXController.h"
 #include "../../Helpers/SGD_Math.h"
+#include "..\..\display.h"
+
+#include "..\..\Wrappers\CVideoMaster.h"
 
 #define CURSOR "Resource/PS_menuCursor.png"
 
@@ -44,9 +47,10 @@ void menuState::enter(void)
 	m_bIsBuffered = true;
 	m_nEmitterPosX = 500;
 	m_nEmitterPosY = 500;
+	CVideoMaster::GetInstance()->Init(display::getInstance()->getHWnd());
 
 	menuPos = 0;
-	
+
 	gameState::enter();
 }
 
@@ -63,18 +67,20 @@ bool menuState::input(float dt)
 	{
 		if (theInput->KeyPressed(DIK_RETURN))
 		{
-			
+			m_fTimerNotClicked = 0;
 			highlightColor = 0xffa4a4ff;
 			menuHandler();
 		}
 		else if (theInput->KeyPressed(DIK_DOWN))
 		{
+			m_fTimerNotClicked = 0;
 			if(menuPos < menuLast)
 				menuPos++;
 			else
 				menuPos = 0;
 		}else if(theInput->KeyPressed(DIK_UP))
 		{
+			m_fTimerNotClicked = 0;
 			if(menuPos > 0)
 				menuPos--;
 			else
@@ -87,6 +93,7 @@ bool menuState::input(float dt)
 	{
 		if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
 		{
+			m_fTimerNotClicked = 0;
 			if (m_bIsBuffered == true)
 			{
 				Player1->Vibrate(65535, 65535);
@@ -101,6 +108,7 @@ bool menuState::input(float dt)
 
 		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN )
 		{
+			m_fTimerNotClicked = 0;
 			if (m_bIsBuffered == true)
 			{
 				Player1->Vibrate(65535, 65535);
@@ -114,6 +122,7 @@ bool menuState::input(float dt)
 
 		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A )
 		{
+			m_fTimerNotClicked = 0;
 			if (m_bIsBuffered == true)
 			{
 				menuHandler();
@@ -127,8 +136,25 @@ bool menuState::input(float dt)
 			Player1->Vibrate(0, 0);
 		}
 	}
+	m_fTimerNotClicked += dt;
+	if (!CVideoMaster::GetInstance()->GetIsPlaying())
+	{
+		if (m_fTimerNotClicked >= 10.0f)
+		{
+			CVideoMaster::GetInstance()->Play(game::GetInstance()->GetVideoID2(), 1024, 600, true);
+		
+		}else 
+		{
+			CVideoMaster::GetInstance()->Stop();
+		}
+	}
+
+	if (theInput->KeyPressed(DIK_ESCAPE))
+	{
+		CVideoMaster::GetInstance()->Stop();
+	}
 	highlightColor = 0xffa4a4ff;
-	
+
 
 #pragma region "Thumb Sticks"
 	//float leftThumbY = Player1->GetState().Gamepad.sThumbLX;
@@ -162,24 +188,26 @@ bool menuState::input(float dt)
 
 void menuState::update(float dt)
 {
-			
+
 }
 
 void menuState::render(void) const
 {
-	if(!menuItemString)
-		return;
+	if (!CVideoMaster::GetInstance()->GetIsPlaying())
+	{
+		if(!menuItemString)
+			return;
 
-	//Draw menu items
-	for(int c = 0; c < menuLast+1; c++)
-		if(c != menuPos)
-			theFont->drawText(menuItemString[c], xPos, yPos + c * 50, textColor);
-		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], xPos, yPos + c * 50, highlightColor);
-
+		//Draw menu items
+		for(int c = 0; c < menuLast+1; c++)
+			if(c != menuPos)
+				theFont->drawText(menuItemString[c], xPos, yPos + c * 50, textColor);
+			else //For the selected item, use highlight color
+				theFont->drawText(menuItemString[c], xPos, yPos + c * 50, highlightColor);
+	}
 	//Draw meun cursor at the selected item
 	//viewManager::getInstance()->drawTexture(cursorID,
 	//	&vector3(float(xPos-70), float(yPos-20 + menuPos * 50), 0));
 
-	
+
 }
