@@ -39,6 +39,8 @@ protected:
 	int m_nParticleImageID, m_nExpX, m_nExpY, m_nExplosionID;
 	bool m_bIsExploding, m_bIsGodMode;
 
+	float m_fInvulnerableTime;
+
 	float m_fLevelTime;
 	float m_fLevelScore;
 

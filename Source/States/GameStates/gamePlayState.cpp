@@ -40,6 +40,8 @@ void gamePlayState::enter(void)
 {
 	timeMod = 2.0f;
 
+	m_fInvulnerableTime = 0.0f;
+
 	theMouse = mouse::getInstance();
 
 	OM = objManager::getInstance();
@@ -173,6 +175,16 @@ bool gamePlayState::input(float dt)
 void gamePlayState::update(float dt)
 {
 	m_fLevelTime += dt;
+
+	if (m_bIsGodMode)
+	{
+		m_fInvulnerableTime += dt;
+		if (m_bIsGodMode && m_fInvulnerableTime >= 5.0f)
+		{
+			m_bIsGodMode = false;
+		}
+
+	}
 
 	dt*=timeMod;
 	if(entered)

@@ -83,6 +83,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	if(obj->getType() != OBJ_MOVING && enemyType == ET_INV)
 	{
 		EM->sendEvent(EVENT_ACTORDIED, this);
+		gamePlayState::getInstance()->SetIsGodMode(true);
 	}
 
 
