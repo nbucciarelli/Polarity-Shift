@@ -58,7 +58,7 @@ void levelChooseState::enter(void)
 	m_bIsMoving = true;
 	m_bIsExiting = false;
 	m_bIsExited = false;
-	
+
 	menuState::enter();
 }
 
@@ -216,9 +216,9 @@ bool levelChooseState::input(float dt)
 			highlightColor = 0xffa4a4ff;
 			/*if (bIsLevelComplete[menuPos] || menuPos == menuLast)
 			{
-				menuHandler();
+			menuHandler();
 			}*/
-				menuHandler();
+			menuHandler();
 		}
 		else if (theInput->KeyPressed(DIK_DOWN))
 		{
@@ -232,6 +232,29 @@ bool levelChooseState::input(float dt)
 				menuPos--;
 			else
 				menuPos = menuLast;
+		}else if (theInput->KeyPressed(DIK_RIGHT))
+		{
+			if (menuPos != menuLast)
+			{
+
+				if (menuPos>=0 && menuPos <= 4)
+					menuPos += 5;
+				else if (menuPos > 4 && menuPos <= 9)
+					menuPos -= 5;
+
+			}
+		}else if (theInput->KeyPressed(DIK_LEFT))
+		{
+			if (menuPos != menuLast)
+			{
+
+				if (menuPos>=0 && menuPos <= 4)
+					menuPos += 5;
+				else if (menuPos > 4 && menuPos <= 9)
+					menuPos -= 5;
+
+			}
+
 		}
 	}
 
