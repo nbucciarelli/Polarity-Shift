@@ -23,10 +23,16 @@ levelChooseState::levelChooseState(void)
 
 	menuItemString = new char*[TOTAL];
 
-	menuItemString[LEVEL1] = "Level 1 (Tutorial)";
+	menuItemString[LEVEL1] = "Level 1";
 	menuItemString[LEVEL2] = "Level 2";
 	menuItemString[LEVEL3] = "Level 3";
 	menuItemString[LEVEL4] = "Level 4";
+	menuItemString[LEVEL5] = "Level 5";
+	menuItemString[LEVEL6] = "Level 6";
+	menuItemString[LEVEL7] = "Level 7";
+	menuItemString[LEVEL8] = "Level 8";
+	menuItemString[LEVEL9] = "Level 9";
+	menuItemString[LEVEL10] = "Level 10";
 	menuItemString[BACK] = "Back";
 	menuLast = BACK;
 }
@@ -158,17 +164,38 @@ void levelChooseState::render(void) const
 	theFont->drawText("Level Select", (int)(288 + m_fXLerp), 65, textColor, 1);
 	bool* bIsLevelComplete = game::GetInstance()->GetLevelComplete();
 	//Draw menu items
-	for(int c = 0; c < menuLast+1; c++)
-		if(c != menuPos)
-			if (bIsLevelComplete[c])
-				theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
-			else if (c == menuLast)
-				theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
-			else
-				theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128));
-						
-		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, highlightColor);
+	for(int c = 0; c < menuLast; c++)
+	{
+		if(c <= 4)
+		{
+			if(c != menuPos)
+				if (bIsLevelComplete[c])
+					theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, textColor);
+				else
+					theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128));
+
+			else //For the selected item, use highlight color
+				theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, highlightColor);
+		}
+		else
+		{
+			if(c != menuPos)
+				if (bIsLevelComplete[c])
+					theFont->drawText(menuItemString[c], (int)(400 + m_fXLerp + xPos), yPos + (c-5) * 80, textColor);
+				else
+					theFont->drawText(menuItemString[c], (int)(400 + m_fXLerp + xPos), yPos + (c-5) * 80, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128));
+
+			else //For the selected item, use highlight color
+				theFont->drawText(menuItemString[c], (int)(400 + m_fXLerp + xPos), yPos + (c-5) * 80, highlightColor);
+		}
+
+	}
+
+	if(menuPos == menuLast)
+		theFont->drawText(menuItemString[menuLast], (int)(20 + m_fXLerp + xPos), yPos + 5 * 80, highlightColor);
+	else
+		theFont->drawText(menuItemString[menuLast], (int)(20 + m_fXLerp + xPos), yPos + 5 * 80, textColor);
+
 
 	//Draw meun cursor at the selected item
 	//viewManager::getInstance()->drawTexture(cursorID,
