@@ -26,7 +26,7 @@
 #include "../../EventSystem\globalEvents.h"
 
 
-gamePlayState::gamePlayState() : debugger(0) {}
+gamePlayState::gamePlayState() : debugger(0) {timeMod = 2.0f;}
 gamePlayState::~gamePlayState() {}
 
 gamePlayState* gamePlayState::getInstance()
@@ -38,6 +38,7 @@ gamePlayState* gamePlayState::getInstance()
 
 void gamePlayState::enter(void)
 {
+	timeMod = 2.0f;
 
 	theMouse = mouse::getInstance();
 
@@ -154,6 +155,10 @@ bool gamePlayState::input(float dt)
 
 	if(theInput->KeyPressed(DIK_DELETE))
 		EM->sendEvent(EVENT_DEBUG_SWITCH);
+	if(theInput->KeyPressed(DIK_NUMPADPLUS))
+		timeMod+=.5f;
+	if(theInput->KeyPressed(DIK_NUMPADMINUS))
+		timeMod-=.5f;
 
 	// 	if (theInput->KeyPressed(DIK_P))
 	// 	{
@@ -169,7 +174,7 @@ void gamePlayState::update(float dt)
 {
 	m_fLevelTime += dt;
 
-	dt*=2.0f;
+	dt*=timeMod;
 	if(entered)
 	{
 		AIE->update(dt);

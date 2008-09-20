@@ -32,6 +32,7 @@ protected:
 	playHandler* handler;
 	bitFont* theFont;
 	debugControl* debugger;
+	float timeMod;
 
 	std::queue<char> m_qCheatCode;
 

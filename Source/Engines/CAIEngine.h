@@ -20,7 +20,6 @@ class CAIEngine: public listener
 {
 private:
 	vector<enemyObj*> enemyList;
-	vector<CPowerUp*> powerUpList;
 	playerObj* player;
 	const vector3* trackPos;
 	bool movingLeft;

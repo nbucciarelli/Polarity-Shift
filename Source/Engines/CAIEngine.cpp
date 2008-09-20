@@ -145,6 +145,8 @@ void CAIEngine::update(float dt)
 					}
 				}
 			}
+			else
+				eventManager::getInstance()->sendEvent(EVENT_LEVELFINISHED);
 		}
 	}
 	for(unsigned int i = 0; i < CTileEngine::GetInstance()->GetTriggers().size(); i++)
@@ -177,9 +179,6 @@ void CAIEngine::HandleEvent(gameEvent *ev)
 	case EVENT_PLAYERLOAD:
 		player = (playerObj*)(ev->getData());
 		trackPos = &((baseObj*)(ev->getData()))->getPosition();
-		break;
-	case EVENT_POWERUPLOAD:
-		powerUpList.push_back((CPowerUp*)(ev->getData()));
 		break;
 
 	}

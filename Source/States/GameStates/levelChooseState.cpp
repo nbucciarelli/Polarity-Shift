@@ -148,6 +148,30 @@ void levelChooseState::menuHandler()
 		SetPlayLevel(4);
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
+	case LEVEL5:
+		SetPlayLevel(5);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		break;
+	case LEVEL6:
+		SetPlayLevel(6);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		break;
+	case LEVEL7:
+		SetPlayLevel(7);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		break;
+	case LEVEL8:
+		SetPlayLevel(8);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		break;
+	case LEVEL9:
+		SetPlayLevel(9);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		break;
+	case LEVEL10:
+		SetPlayLevel(10);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		break;
 	case BACK:
 		m_bIsExiting = true;
 		break;

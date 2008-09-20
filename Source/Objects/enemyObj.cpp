@@ -9,6 +9,7 @@
 
 enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
+	m_nImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Explosion.prt");
 	m_bDied = false;
 	m_nHP = 3;
 }
@@ -19,11 +20,16 @@ enemyObj::~enemyObj()
 void enemyObj::update(float dt)
 {
 	actorObj::update(dt);
+	CParticleEffectManager::GetInstance()->Update(dt);
+
 }
 
 void enemyObj::render()
 {
+	CParticleEffectManager::GetInstance()->Render(m_nImageID, m_nExpX, m_nExpY); 
+
 		baseObj::render();
+
 }
 
 bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
@@ -49,11 +55,18 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	}
 	else if(obj->getType() == OBJ_MOVING && enemyType != ET_BOSS)
 	{
+		CParticleEffectManager::GetInstance()->Play(m_nImageID, false);
+		m_nExpX = this->GetPosX();
+		m_nExpY = this->GetPosY();
+
 		// Removes the enemy since it died
 		EM->sendEvent(EVENT_ACTORDIED, this);
 	}
 	else if(enemyType == ET_SPIDER)
 	{
+		CParticleEffectManager::GetInstance()->Play(m_nImageID, false);
+		m_nExpX = this->GetPosX();
+		m_nExpY = this->GetPosY();
 		EM->sendEvent(EVENT_ACTORDIED, this);
 	}
 	if(enemyType == ET_BOSS && obj->getType() != OBJ_MOVING)
@@ -62,7 +75,11 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 		if(m_nHP <= 0)
 			EM->sendEvent(EVENT_ACTORDIED, this);
 	}
-	if(enemyType == ET_SCORE)
+	if(obj->getType() != OBJ_MOVING && enemyType == ET_SCORE)
+	{
+		EM->sendEvent(EVENT_ACTORDIED, this);
+	}
+	if(obj->getType() != OBJ_MOVING && enemyType == ET_INV)
 	{
 		EM->sendEvent(EVENT_ACTORDIED, this);
 	}
