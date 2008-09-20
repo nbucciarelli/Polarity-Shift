@@ -189,9 +189,15 @@ bool CSGD_FModManager::PlaySound( int nID, bool bIsMusic)
 	m_SoundList[ nID ].m_SoundChannels.push_back( channel );
 
 	if (bIsMusic)
+	{
 		SetVolume(nID, (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+		SetFrequency(nID, (float)(game::GetInstance()->GetFreqLevel()));
+	}
 	else
+	{
 		SetVolume(nID, (float)(game::GetInstance()->GetSFXLevel()/100.0f));
+		SetFrequency(nID, (float)(game::GetInstance()->GetFreqLevel()));
+	}
 
 	//	return success
 	return true;

@@ -173,6 +173,13 @@ bool optionsState::input(float dt)
 				if(game::GetInstance()->GetMusicLevel() <= 0)
 					game::GetInstance()->SetMusicLevel(0);
 			}
+			else if(menuPos == FREQ)
+			{
+				game::GetInstance()->SetFreqLevel(game::GetInstance()->GetFreqLevel() - 5000);
+				if(game::GetInstance()->GetFreqLevel() <= 0)
+					game::GetInstance()->SetFreqLevel(0);
+				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
+			}
 		}
 		else if(theInput->KeyPressed(DIK_RIGHT))
 		{
@@ -189,6 +196,13 @@ bool optionsState::input(float dt)
 				if(game::GetInstance()->GetMusicLevel() >= 100)
 					game::GetInstance()->SetMusicLevel(100);
 			}
+			else if(menuPos == FREQ)
+			{
+				game::GetInstance()->SetFreqLevel(game::GetInstance()->GetFreqLevel() + 5000);
+				if(game::GetInstance()->GetFreqLevel() >= 100000)
+					game::GetInstance()->SetFreqLevel(100000);
+				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
+			}
 		}
 	}
 
@@ -201,6 +215,7 @@ void optionsState::menuHandler()
 	{
 	case SFX:
 	case MUSIC:
+	case FREQ:
 		break;
 	case KEYBINDINGS:
 		m_bIsExiting = true;
@@ -280,16 +295,24 @@ void optionsState::render(void) const
 	char buffer2[32];
 	sprintf_s(buffer2, "Music: %d", (game::GetInstance()->GetMusicLevel()));
 	if(menuPos != MUSIC)
-		theFont->drawText(buffer2, (int)(20 + m_fXLerp + xPos), yPos + 80, textColor);
+		theFont->drawText(buffer2, (int)(20 + m_fXLerp + xPos), yPos + 60, textColor);
 	else
-		theFont->drawText(buffer2, (int)(20 + m_fXLerp + xPos), yPos + 80, highlightColor);
+		theFont->drawText(buffer2, (int)(20 + m_fXLerp + xPos), yPos + 60, highlightColor);
+
+	char buffer3[32];
+	int freq = game::GetInstance()->GetFreqLevel()/500.0f;
+	sprintf_s(buffer3, "Frequency: %d", freq);
+	if(menuPos != FREQ)
+		theFont->drawText(buffer3, (int)(20 + m_fXLerp + xPos), yPos + 120, textColor);
+	else
+		theFont->drawText(buffer3, (int)(20 + m_fXLerp + xPos), yPos + 120, highlightColor);
 
 	//Draw menu items
-	for(int c = 2; c < menuLast+1; c++)
+	for(int c = 3; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, textColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 60, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 60, highlightColor);
 
 	//Draw meun cursor at the selected item
 	//viewManager::getInstance()->drawTexture(cursorID,

@@ -38,7 +38,7 @@ protected:
 	bool m_bLevelsComplete[NUMLEVELS];
 	bool m_bAchievementUnlock[NUMLEVELS];
 	float m_fAchievementTimes[NUMLEVELS];
-	int m_nMusicLevel, m_nSFXLevel;
+	int m_nMusicLevel, m_nSFXLevel, m_nFreqLevel;
 
 	//Singleton Protection
 	game(void);
@@ -114,6 +114,8 @@ public:
 	void SetMusicLevel(int val) { m_nMusicLevel = val; }
 	int GetSFXLevel() const { return m_nSFXLevel; }
 	void SetSFXLevel(int val) { m_nSFXLevel = val; }
+	int GetFreqLevel() const { return m_nFreqLevel; }
+	void SetFreqLevel(int val) { m_nFreqLevel = val; }
 
 	bool GetTutorialDone() {return IsTutorialDone;}
 	void SetTutorialDone(bool val) {IsTutorialDone = val;}

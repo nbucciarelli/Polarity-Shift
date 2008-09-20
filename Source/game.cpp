@@ -65,6 +65,7 @@ void game::Initialize(HINSTANCE hInstance)
 
 	SetMusicLevel(50);
 	SetSFXLevel(50);
+	SetFreqLevel(50000);
 
 
 	if(!theDisplay->getHWnd())
