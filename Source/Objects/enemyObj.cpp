@@ -52,7 +52,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 			EM->sendEvent(EVENT_ACTORDIED, this);
 			EM->sendEvent(EVENT_PLAYERKILLED, obj);
 			// Sets the bool to true so it will render the explosion
-			m_bDied = true;
+			//m_bDied = true;
 		}
 	}
 	else if(obj->getType() == OBJ_MOVING)
@@ -63,7 +63,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 		// Removes the enemy since it died
 		EM->sendEvent(EVENT_ACTORDIED, this);
 		// Sets the bool to true so it will render the explosion
-		m_bDied = true;
+		//m_bDied = true;
 	}
 
 	return holder.overlapped || holder.willCollide;

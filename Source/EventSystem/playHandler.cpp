@@ -56,6 +56,8 @@ void playHandler::HandleEvent(gameEvent* ev)
 	case EVENT_ACTORDIED:
 		killActor((baseObj*)ev->getData());
 		break;
+	case EVENT_PLAYER_DIED:
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_DEATH));
 	default:
 		break;
 	}
@@ -118,38 +120,38 @@ void playHandler::onGameLoad()
 	}
 	delete[] obid;
 
-	//obid = FL->loadObject("Resource/PS_spider.psu");
-	//for(int i = 0; i <CTileEngine::GetInstance()->GetEnemies().size(); i ++)
-	//{
-	//	testObj = (enemyObj*)OF->spawn(obid);
+	obid = FL->loadObject("Resource/PS_spider.psu");
+	for(int i = 0; i <CTileEngine::GetInstance()->GetEnemies().size(); i ++)
+	{
+		testObj = (enemyObj*)OF->spawn(obid);
 
-	//	testObj->setPos(vector3(CTileEngine::GetInstance()->GetEnemies()[i].x,CTileEngine::GetInstance()->GetEnemies()[i].y,0));
-	////testObj->setAngPos(vector3(0,0,PI));
-	////testObj->setVel(vector3(0, -200,0));
-	////testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
-	//
-	////*polygon* poly = new polygon;
-	////objectPoint *points = new objectPoint[3];
+		testObj->setPos(vector3(CTileEngine::GetInstance()->GetEnemies()[i].x,CTileEngine::GetInstance()->GetEnemies()[i].y,0));
+	//testObj->setAngPos(vector3(0,0,PI));
+	//testObj->setVel(vector3(0, -200,0));
+	//testObj->setImgId(viewManager::getInstance()->loadTexture("resource/PS_triangle2.bmp", 0xffffffff));
+	
+	//*polygon* poly = new polygon;
+	//objectPoint *points = new objectPoint[3];
 
-	////points[2].coords = vector3(5, -27, 0);
-	////points[1].coords = vector3(29,22,0);
-	////points[0].coords = vector3(-28,22,0);
+	//points[2].coords = vector3(5, -27, 0);
+	//points[1].coords = vector3(29,22,0);
+	//points[0].coords = vector3(-28,22,0);
 
-	////poly->vertecies = points;
-	////poly->vertexCount = 3;
-	////poly->maxRadius = 32;
+	//poly->vertecies = points;
+	//poly->vertexCount = 3;
+	//poly->maxRadius = 32;
 
-	////testObj->setCollisionPolyID(OM->addPoly(poly));
+	//testObj->setCollisionPolyID(OM->addPoly(poly));
 
-	////testObj->setImgCenter(32,32);
-	////testObj->setDimensions(64,64);*/
+	//testObj->setImgCenter(32,32);
+	//testObj->setDimensions(64,64);*/
 
 
-	//EM->sendEvent(EVENT_ENEMYLOAD, testObj);
-	//OM->addObj(testObj);
-	//testObj->release();
-	//}
-	//delete[] obid;
+	EM->sendEvent(EVENT_ENEMYLOAD, testObj);
+	OM->addObj(testObj);
+	testObj->release();
+	}
+	delete[] obid;
 
 	//Let play state begin.
 	EM->sendEvent(EVENT_LEVELLOADED);
@@ -157,5 +159,6 @@ void playHandler::onGameLoad()
 
 void playHandler::killActor(baseObj* obj)
 {
-	OM->removeObj(obj);
+//	EM->unregisterClient((actorObj*)obj);
+//	OM->removeObj(obj);
 }

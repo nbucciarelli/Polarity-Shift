@@ -53,8 +53,8 @@ void CDeathState::menuHandler()
 	switch(menuPos)
 	{
 	case EXIT:
-		EM->sendGlobalEvent(GE_STATE_POP);
-		//EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_MAINMENU));
+		//EM->sendGlobalEvent(GE_STATE_POP);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
 		break;
 	}
 }

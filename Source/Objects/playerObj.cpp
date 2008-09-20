@@ -113,7 +113,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 		theWeapon->ceaseFire(a);
 		break;
 	case EVENT_PLAYERKILLED:
-		eventManager::getInstance()->sendEvent(EVENT_ACTORDIED, this);
+		eventManager::getInstance()->sendEvent(EVENT_PLAYER_DIED);
 		break;
 	default:
 		actorObj::HandleEvent(ev);
