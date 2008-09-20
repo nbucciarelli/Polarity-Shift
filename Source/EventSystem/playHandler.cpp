@@ -113,10 +113,12 @@ void playHandler::onGameLoad()
 		OM->addObj(testObj);
 		testObj->release();
 	}
+	delete[] obid;
 
+	//obid = FL->loadObject("Resource/PS_spider.psu");
 	//for(int i = 0; i <CTileEngine::GetInstance()->GetEnemies().size(); i ++)
 	//{
-	//	testObj = (movingObj*)OF->spawn(obid);
+	//	testObj = (enemyObj*)OF->spawn(obid);
 
 	//	testObj->setPos(vector3(CTileEngine::GetInstance()->GetEnemies()[i].x,CTileEngine::GetInstance()->GetEnemies()[i].y,0));
 	////testObj->setAngPos(vector3(0,0,PI));
@@ -144,7 +146,7 @@ void playHandler::onGameLoad()
 	//OM->addObj(testObj);
 	//testObj->release();
 	//}
-	delete[] obid;
+	//delete[] obid;
 
 	//Let play state begin.
 	EM->sendEvent(EVENT_LEVELLOADED);

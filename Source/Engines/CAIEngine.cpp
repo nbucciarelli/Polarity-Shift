@@ -45,18 +45,23 @@ void CAIEngine::update()
 			if(trackPos->x < enemyList[j]->getPosition().x)
 			{
 				enemyList[j]->modAcc(vector3(-10,0,0));
+				if(enemyList[j]->getVelocity().x < -100)
+					enemyList[j]->setVel(vector3(-100));
 			}
 			else if(trackPos->x > enemyList[j]->getPosition().x)
 			{
 				enemyList[j]->modAcc(vector3(10,0,0));
+				if(enemyList[j]->getVelocity().x > 100)
+					enemyList[j]->setVel(vector3(100));
+
 			}
 		}
 		else
 		{
 			//make enemy stop when player is not visible
-			if(fabs(enemyList[j]->getVelocity().x) < 10)
+			//if(fabs(enemyList[j]->getVelocity().x) < 50)
 				enemyList[j]->setVelX(0);
-			enemyList[j]->setVel( vector3((float)(enemyList[j]->getVelocity().x * .99),enemyList[j]->getVelocity().y,0));
+			//enemyList[j]->setVel( vector3((float)(enemyList[j]->getVelocity().x * .1),enemyList[j]->getVelocity().y,0));
 		}
 	}
 	for(unsigned int i = 0; i < CTileEngine::GetInstance()->GetTriggers().size(); i++)
