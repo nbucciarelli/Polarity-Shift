@@ -103,6 +103,7 @@ public:
 
 	float GetLevelTime() {return m_fLevelTime;}
 	float GetLevelScore() {return m_fLevelScore;}
+	void SetLevelScore(float val;) { m_fLevelScore = val; }
 	int GetExpX() const { return m_nExpX; }
 	void SetExpX(int val) { m_nExpX = val; }
 	int GetExpY() const { return m_nExpY; }
