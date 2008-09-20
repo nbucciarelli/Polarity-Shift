@@ -81,8 +81,9 @@ bool CHighScoresState::input(float delta)
 {
 	if(theInput->KeyPressed(DIK_ESCAPE))
 	{
-		EM->sendGlobalEvent(GE_STATE_POP);
+		m_bIsExiting = true;
 	}
+	
 		
 	return menuState::input(delta);
 	
