@@ -24,7 +24,7 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 	//If already firing...do some checks.
 	if(isActive)
 	{
-		if(mode == MAG_HOLD || fireMode == mode)
+		if(!target || mode == MAG_HOLD || fireMode == mode)
 			return;
 		else
 			fireMode = MAG_HOLD;
@@ -47,7 +47,7 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 
 	isActive = getTarget(fireLine + pos);
 
-	if(isActive && target)
+	if(isActive)
 		mode = fireMode;
 	else
 	{
@@ -61,8 +61,8 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 	case MAG_PUSH:
 	case MAG_PULL:
 	case MAG_HOLD:
-		target->setAcc(vector3());
-		target->setVel(vector3());
+		//target->setAcc(vector3());
+		//target->setVel(vector3());
 		break;
 	default:
 		break;
@@ -84,6 +84,7 @@ void magnetGun::ceaseFire(int dat)
 	else if(!isActive)
 		return;
 
+	if(target)
 	target->setAcc(vector3());
 	target = NULL;
 	mode = MAG_OFF;
@@ -104,10 +105,10 @@ bool magnetGun::getTarget(const vector3& farPoint)
 	//And magical, too.
 	static const std::vector<baseObj*>& objList = objManager::getInstance()->getList();
 
-	float limit = levelLimiter((farPoint - pos).normalized());
+//	float limit = levelLimiter((farPoint - pos).normalized());
 
 //	if(range < limit)
-		limit = (float)range;
+float		limit = (float)range;
 
 	for(unsigned c = 0; c < objList.size(); c++)
 	{
@@ -138,41 +139,76 @@ bool magnetGun::getTarget(const vector3& farPoint)
 		return true;
 	}
 	else
-		return false;
-}
-
-float magnetGun::levelLimiter(const vector3& traj)
-{
-	static std::vector<RECT>& colRect = CTileEngine::GetInstance()->GetCollisions();
-
-	vector3 perp = vector3(traj.y, -traj.x);
-
-	float dist, minDist = (float)_HUGE;
-	float posDotP = pos.dot2D(perp);
-	float posDot = pos.dot2D(traj);
-	polygon poly;
-
-/*	for(unsigned c = 0; c < colRect.size(); c++)
 	{
-		calc::rectToPoly(*(rect*)&colRect[c], &poly);
+		static std::vector<RECT>& magRect = CTileEngine::GetInstance()->GetMagnets();
 
-		if(calc::lineIntersectPoly(pos, farPoint,
-									   poly, &dist)
-			&& fabs(dist) < minDist)//  && dist > 0)
+		minDist = (float)_HUGE;
+		polygon poly;
+		for(unsigned c = 0; c < magRect.size(); c++)
 		{
-			float miny, maxy;
-			calc::projectPolygonToLine(*objList[c]->getCollisionPoly(), perp, miny, maxy);
+			calc::rectToPoly(*(rect*)&magRect[c], &poly);
 
-			if(pos + radius < miny || centerLineProj - radius > maxy)
-				continue;
+			if(calc::lineIntersectPoly(pos, farPoint,
+				poly, &dist)
+				&& fabs(dist) < minDist)//  && dist > 0)
+			{
+				//So, we have a potential.  Let's make sure it's within radius.
+				//If not, this isn't it.  Keep going.
+				float miny, maxy;
+				calc::projectPolygonToLine(poly, perp, miny, maxy);
 
-			minDist = dist;
-			selection = c;
+				delete[] poly.vertecies;
+				poly.vertecies = 0;
+
+				if(centerLineProj + radius < miny || centerLineProj - radius > maxy)
+					continue;
+
+				minDist = dist;
+				selection = c;
+			}
 		}
-	}*/
+		if(selection != -1 && minDist < limit)
+		{
+			target = 0;
+			return true;
+		}
+	}
 
-	return minDist - posDot;
+	return false;
 }
+
+//float magnetGun::levelLimiter(const vector3& traj)
+//{
+//	static std::vector<RECT>& colRect = CTileEngine::GetInstance()->GetCollisions();
+//
+//	vector3 perp = vector3(traj.y, -traj.x);
+//
+//	float dist, minDist = (float)_HUGE;
+//	float posDotP = pos.dot2D(perp);
+//	float posDot = pos.dot2D(traj);
+//	polygon poly;
+//
+///*	for(unsigned c = 0; c < colRect.size(); c++)
+//	{
+//		calc::rectToPoly(*(rect*)&colRect[c], &poly);
+//
+//		if(calc::lineIntersectPoly(pos, farPoint,
+//									   poly, &dist)
+//			&& fabs(dist) < minDist)//  && dist > 0)
+//		{
+//			float miny, maxy;
+//			calc::projectPolygonToLine(*objList[c]->getCollisionPoly(), perp, miny, maxy);
+//
+//			if(pos + radius < miny || centerLineProj - radius > maxy)
+//				continue;
+//
+//			minDist = dist;
+//			selection = c;
+//		}
+//	}*/
+//
+//	return minDist - posDot;
+//}
 
 void magnetGun::update(float dt)
 {
@@ -181,8 +217,16 @@ void magnetGun::update(float dt)
 
 	if(mode != MAG_OFF)
 	{
+		if(target)
+		{
 		target->setVel(vector3());
 		target->setAcc(vector3(0,-GRAVITY));
+		}
+		else
+		{
+			((movingObj*)owner)->setVel(vector3());
+			((movingObj*)owner)->setAcc(vector3(0,-GRAVITY));
+		}
 
 		float len = 0;
 		vector3 traj = (theMouse->getPos() - pos).normalized();
@@ -190,10 +234,16 @@ void magnetGun::update(float dt)
 		switch(mode)
 		{
 		case MAG_PUSH:
-			target->modPos(traj * (power * dt));
+			if(target)
+				target->modPos(traj * (power * dt));
+			else
+				owner->modPos(traj * -(power * dt));
 			break;
 		case MAG_PULL:
-			target->modPos(traj * -(power * dt));
+			if(target)
+				target->modPos(traj * -(power * dt));
+			else
+				owner->modPos(traj * (power * dt));
 			break;
 		case MAG_HOLD:
 			traj = (theMouse->getPos() - target->getPosition());

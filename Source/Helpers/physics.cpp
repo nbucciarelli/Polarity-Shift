@@ -420,19 +420,15 @@ void calc::rectToPoly(const rect &box, polygon* poly)
 		(float)box.bottom, (float)box.right, 0)
 		- vector3((float)box.top, (float)box.left, 0);
 
-	polygon boxy;
-	boxy.maxRadius = (bc - vector3((float)box.top, (float)box.left, 0)).length();
+	poly->maxRadius = (bc - vector3((float)box.top, (float)box.left, 0)).length();
 
-	boxy.vertexCount = 4;
-	boxy.vertecies = new objectPoint[4];
+	poly->vertexCount = 4;
+	poly->vertecies = new objectPoint[4];
 
-	boxy.vertecies[0] = objectPoint((float)box.top, (float)box.left);
-	boxy.vertecies[1] = objectPoint((float)box.top, (float)box.right);
-	boxy.vertecies[2] = objectPoint((float)box.bottom, (float)box.right);
-	boxy.vertecies[3] = objectPoint((float)box.bottom, (float)box.left);
-
-	*poly = boxy;
-
+	poly->vertecies[0] = objectPoint((float)box.left, (float)box.top);
+	poly->vertecies[1] = objectPoint((float)box.right, (float)box.top);
+	poly->vertecies[2] = objectPoint((float)box.right, (float)box.bottom);
+	poly->vertecies[3] = objectPoint((float)box.left, (float)box.bottom);
 }
 
 void calc::projectRectToLine(const rect& box, const vector3& line, float& min, float& max)

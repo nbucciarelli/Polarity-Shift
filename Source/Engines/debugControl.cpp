@@ -120,6 +120,17 @@ void debugControl::render()
 			Re->drawLine(mapLines[c].pts[mapLines[c].pts.size() -1], mapLines[c].pts[0], 0xff00ffff);
 	
 	}
+	for(unsigned c = 0; c < magLines.size(); c++)
+	{
+		for(unsigned d = 1; d < magLines[c].pts.size(); d++)
+		{
+			Re->drawLine(magLines[c].pts[d - 1],
+				magLines[c].pts[d], 0xff88ffff);
+		}
+		if(magLines[c].pts.size() > 2)
+			Re->drawLine(magLines[c].pts[magLines[c].pts.size() -1], magLines[c].pts[0], 0xff00ffff);
+
+	}
 	rect draw;
 	for(unsigned c = 0; c < posPts.size(); c++)
 	{
@@ -155,8 +166,10 @@ void debugControl::HandleEvent(gameEvent *ev)
 void debugControl::getMapCollisions()
 {
 	vector<RECT>& colRects= TE->GetCollisions();
+	vector<RECT>& magRects = TE->GetMagnets();
 
 	mapLines.clear();
+	magLines.clear();
 
 	for(unsigned c = 0; c < colRects.size(); c++)
 	{
@@ -168,5 +181,17 @@ void debugControl::getMapCollisions()
 		lines.pts.push_back(vector3((float)colRects[c].left, (float)colRects[c].bottom));
 
 		mapLines.push_back(lines);
+	}
+
+	for(unsigned c = 0; c < magRects.size(); c++)
+	{
+		drawGroup lines;
+
+		lines.pts.push_back(vector3((float)magRects[c].left, (float)magRects[c].top));
+		lines.pts.push_back(vector3((float)magRects[c].right, (float)magRects[c].top));
+		lines.pts.push_back(vector3((float)magRects[c].right, (float)magRects[c].bottom));
+		lines.pts.push_back(vector3((float)magRects[c].left, (float)magRects[c].bottom));
+
+		magLines.push_back(lines);
 	}
 }

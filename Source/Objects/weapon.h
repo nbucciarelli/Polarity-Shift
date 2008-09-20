@@ -19,7 +19,7 @@ protected:
 	type typeID;
 	bool isActive; //Weapon being fired, update
 
-	const baseObj* owner;
+	baseObj* owner;
 
 	int range;
 	int cooldownTime;
@@ -41,7 +41,7 @@ public:
 	virtual int getMode() const { return mode; }
 	bool IsActive() const { return isActive; }
 
-	void setOwner(const baseObj* obj) { owner = obj; }
+	void setOwner(baseObj* obj) { owner = obj; }
 	virtual void setRange(int value) { range = value; }
 	virtual void setPower(int value) { power = value; }
 	virtual void setMode(int value) { mode = value; }

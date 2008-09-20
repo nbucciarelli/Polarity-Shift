@@ -24,7 +24,7 @@ protected:
 	vector3 pos;
 
 	bool getTarget(const vector3& farPoint);
-	float levelLimiter(const vector3& traj);
+	//float levelLimiter(const vector3& traj);
 
 	movingObj* target;
 

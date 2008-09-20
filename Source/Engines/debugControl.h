@@ -34,6 +34,7 @@ protected:
 
 	std::vector<drawGroup> lineGroups;
 	std::vector<drawGroup> mapLines;
+	std::vector<drawGroup> magLines;
 	std::vector<vector3> posPts;
 
 	void getMapCollisions();
