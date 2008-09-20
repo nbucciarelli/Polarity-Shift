@@ -15,6 +15,8 @@
 #include "..\..\Wrappers\CSGD_DirectInput.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
 
+#include "..\..\Helpers\CCodeProfiler.h"
+
 CKeyState::CKeyState(void) : state(NULL), character(0)
 {
 	m_szJump = new char[128];
@@ -35,6 +37,7 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nJump);
 	sprintf_s(m_szJump, 128, "Jump: %s", buffer);
+	
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunLeft);
 	sprintf_s(m_szMoveLeft, 128, "Move Left: %s", buffer);
 	buffer = SetKeyString(game::GetInstance()->GetKeys().m_nRunRight);
@@ -267,6 +270,8 @@ void CKeyState::render(void) const
 
 char* CKeyState::SetKeyString(unsigned int nKey)
 {
+	CCodeProfiler::GetInstance()->Start("SetKeyString");
+	
 	char* szString;
 
 #pragma region "Bitchin' huge switch"
@@ -421,7 +426,8 @@ char* CKeyState::SetKeyString(unsigned int nKey)
 		break;
 	}
 #pragma endregion
-
+	CCodeProfiler::GetInstance()->Stop("SetKeyString");
 	return szString;
+
 
 }
