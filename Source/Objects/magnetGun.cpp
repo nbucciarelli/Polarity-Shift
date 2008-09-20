@@ -140,7 +140,7 @@ float		limit = (float)range;
 	}
 	else
 	{
-		static std::vector<RECT>& magRect = CTileEngine::GetInstance()->GetMagnets();
+		std::vector<RECT>& magRect = CTileEngine::GetInstance()->GetMagnets();
 
 		minDist = (float)_HUGE;
 		polygon poly;
