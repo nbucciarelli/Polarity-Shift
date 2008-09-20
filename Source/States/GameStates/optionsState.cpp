@@ -13,6 +13,10 @@
 #include "..\..\game.h"
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
+
+#include <fstream>
+using std::ifstream;
+using std::ofstream;
 //#include "..\..\Engines\CParticleEffectManager.h"
 
 optionsState::optionsState(void)
@@ -24,6 +28,8 @@ optionsState::optionsState(void)
 	menuItemString[SFX] = "SFX: 0";
 	menuItemString[MUSIC] = "Music: 0";
 	menuItemString[KEYBINDINGS] = "Keybindings";
+	menuItemString[SAVE] = "Save";
+	menuItemString[LOAD] = "Load";
 	menuItemString[BACK] = "Back";
 	menuLast = BACK;
 }
@@ -138,6 +144,53 @@ void optionsState::menuHandler()
 		m_bIsExiting = true;
 		m_bKeyBind = true;
 		break;
+	case SAVE:
+		{
+			ofstream ofl;
+			ofl.open("Resource//SavedGames//game.sav");
+			if (ofl.is_open())
+			{
+				game* gameinstance = game::GetInstance();
+				ofl << 	gameinstance->GetTutorialDone();
+				bool* levelsdone = gameinstance->GetLevelComplete();
+				for (int i = 0 ; i < NUMLEVELS ; ++i)
+					ofl << levelsdone[i];
+				bool* achievementsunlocked = gameinstance->GetAchievementUnlock();
+				for (int i = 0 ; i < NUMLEVELS ; ++i)
+					ofl << achievementsunlocked[i];				
+			}
+			break;
+			ofl.close();
+		}
+	case LOAD:
+		{		
+			ifstream fin;
+			fin.open("Resource//SavedGames//game.sav");
+			if (fin.is_open())
+			{
+				game* gameinstance = game::GetInstance();
+				char buffer;
+				fin >> buffer;
+				gameinstance->SetTutorialDone(buffer);
+				char levelsdone[10];
+				for (int i = 0 ; i < NUMLEVELS ; ++i)
+				{
+					fin >> levelsdone[i];
+  					if (levelsdone[i] == '1')
+  						gameinstance->SetLevelComplete(i-1);															
+				}
+				char achievementsunlocked[10];
+				for (int i = 0 ; i < NUMLEVELS ; ++i)
+				{
+					fin >> achievementsunlocked[i];
+					if (achievementsunlocked[i] == '1')
+						gameinstance->SetAchievementUnlock(i);					
+				}
+				
+			}
+			fin.close();
+			break;
+		}
 	case BACK:
 		m_bIsExiting = true;
 		m_bMainMenu = true;
@@ -157,9 +210,9 @@ void optionsState::render(void) const
 	//Draw menu items
 	for(int c = 0; c < menuLast+1; c++)
 		if(c != menuPos)
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, textColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, textColor);
 		else //For the selected item, use highlight color
-			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 100, highlightColor);
+			theFont->drawText(menuItemString[c], (int)(20 + m_fXLerp + xPos), yPos + c * 80, highlightColor);
 
 	//Draw meun cursor at the selected item
 	//viewManager::getInstance()->drawTexture(cursorID,

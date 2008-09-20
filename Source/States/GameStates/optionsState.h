@@ -11,7 +11,7 @@ class CSGD_FModManager;
 class optionsState : public menuState
 {
 protected:
-	enum menuOptions { SFX, MUSIC, KEYBINDINGS, BACK, TOTAL };
+	enum menuOptions { SFX, MUSIC, KEYBINDINGS, SAVE, LOAD, BACK, TOTAL };
 
 	int foregroundID;
 	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
