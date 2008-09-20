@@ -1,8 +1,8 @@
 #include "CPowerUp.h"
 
-CPowerUp::CPowerUp(int type): actorObj(OBJ_POWERUP)
+CPowerUp::CPowerUp(int type): actorObj(OBJ_POWERUP),powerupType(type)
 {
-	powerupType = type;
+
 }
 
 CPowerUp::~CPowerUp()

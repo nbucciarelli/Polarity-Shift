@@ -158,6 +158,10 @@ void CAIEngine::update(float dt)
 	{
 		eventManager::getInstance()->sendEvent(EVENT_LEVELFINISHED);
 	}
+	if(trackPos->y >= 650)
+	{
+		eventManager::getInstance()->sendEvent(EVENT_PLAYERKILLED);
+	}
 	
 }
 

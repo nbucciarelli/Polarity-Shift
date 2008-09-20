@@ -40,7 +40,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 		if(enemyType == ET_SPIDER)
 		{
 			// Removes the spider enemy since it died
-//			EM->sendEvent(EVENT_ACTORDIED, this);
+			//EM->sendEvent(EVENT_ACTORDIED, this);
 			if(gamePlayState::getInstance()->GetIsGodMode() != true)
 				EM->sendEvent(EVENT_PLAYERKILLED, obj);
 			// Sets the bool to true so it will render the explosion
@@ -61,6 +61,10 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 		m_nHP-=1;
 		if(m_nHP <= 0)
 			EM->sendEvent(EVENT_ACTORDIED, this);
+	}
+	if(enemyType == ET_SCORE)
+	{
+		EM->sendEvent(EVENT_ACTORDIED, this);
 	}
 
 

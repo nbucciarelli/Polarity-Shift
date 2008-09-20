@@ -145,6 +145,30 @@ void playHandler::onGameLoad()
 	}
 	delete[] obid;
 
+	obid = FL->loadObject("Resource/PS_banana.psu");
+	enemyObj* testObj3;
+	for(int i = 0; i <CTileEngine::GetInstance()->GetBonuses().size(); i++)
+	{
+		testObj3 = (enemyObj*)OF->spawn(obid);
+		testObj3->setEnemyType(ET_SCORE);
+		testObj3->setPos(vector3(CTileEngine::GetInstance()->GetBonuses()[i].x,CTileEngine::GetInstance()->GetBonuses()[i].y,0));
+		EM->sendEvent(EVENT_POWERUPLOAD, testObj3);
+		OM->addObj(testObj3);
+		testObj3->release();
+	}
+//	delete[] obid;
+
+	for(int i = 0; i <CTileEngine::GetInstance()->GetInv().size(); i++)
+	{
+		testObj3 = (enemyObj*)OF->spawn(obid);
+		testObj3->setEnemyType(ET_INV);
+		testObj3->setPos(vector3(CTileEngine::GetInstance()->GetInv()[i].x,CTileEngine::GetInstance()->GetInv()[i].y,0));
+		EM->sendEvent(EVENT_POWERUPLOAD, testObj3);
+		OM->addObj(testObj3);
+		testObj3->release();
+	}
+	delete[] obid;
+
 	obid = FL->loadObject("Resource/PS_spider.psu");
 	for(int i = 0; i <CTileEngine::GetInstance()->GetEnemies().size(); i ++)
 	{
@@ -176,16 +200,7 @@ void playHandler::onGameLoad()
 	OM->addObj(testObj);
 	testObj->release();
 	}
-	obid = FL->loadObject("Resource/PS_Banna.psu");
-	for(int i = 0; i <CTileEngine::GetInstance()->GetBonuses().size(); i++)
-	{
-		CPowerUp* testObj3 = (CPowerUp*)OF->spawn(obid);
-		testObj3->setPos(vector3(CTileEngine::GetInstance()->GetBonuses()[i].x,CTileEngine::GetInstance()->GetBonuses()[i].y,0));
-		testObj3->setPowerType(POWERUP_SCORE);
-		EM->sendEvent(EVENT_POWERUPLOAD, testObj3);
-		OM->addObj(testObj3);
-		testObj3->release();
-	}
+	delete[] obid;
 
 	if(levelChooseState::getInstance()->GetPlayLevel() == 10)
 	{
@@ -197,8 +212,9 @@ void playHandler::onGameLoad()
 	EM->sendEvent(EVENT_ENEMYLOAD, testObj2);
 	OM->addObj(testObj2);
 	testObj2->release();
-	}
 	delete[] obid;
+	}
+
 
 	//Let play state begin.
 	EM->sendEvent(EVENT_LEVELLOADED);

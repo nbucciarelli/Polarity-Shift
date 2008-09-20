@@ -159,6 +159,7 @@ public:
 	void setFacing(int face) { scale.x = (float)face; }
 	void SetAnimNumber(int val) { nAnimNumber = val; }
 	void setIsActive(bool set) { isActive = false; }
+	void setType(int v) {type = v;}
 
 	//Mod Mutators: Add given data to variable
 	void modPos(const vector3& change) { position += change; }
