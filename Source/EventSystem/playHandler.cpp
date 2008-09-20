@@ -46,9 +46,11 @@ void playHandler::shutdown()
 
 void playHandler::HandleEvent(gameEvent* ev)
 {
+	static bool did = false;
 	switch(ev->getEventID())
 	{
 	case EVENT_GAMELOADING:
+		did = false;
 		onGameLoad();
 		break;
 	case EVENT_GAMEPAUSE:
@@ -59,8 +61,24 @@ void playHandler::HandleEvent(gameEvent* ev)
 		break;
 	case EVENT_PLAYER_DIED:
 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_DEATH));
-	default:
 		break;
+	case EVENT_TRAP_ACTIVE:
+		if(did)
+			break;
+		enemyObj* newEnemyObj = (enemyObj*)OF->spawn("spider");
+
+		newEnemyObj->setPos(vector3(CTileEngine::GetInstance()->GetTraps()[0].x,CTileEngine::GetInstance()->GetTraps()[0].y,0));
+		EM->sendEvent(EVENT_ENEMYLOAD, newEnemyObj);
+		OM->addObj(newEnemyObj);
+		newEnemyObj->release();
+		did = true;
+		//EM->unregisterClient(EVENT_TRAP_ACTIVE, this);
+
+		break;
+
+
+	//default:
+	//	break;
 	}
 }
 
@@ -152,6 +170,15 @@ void playHandler::onGameLoad()
 	OM->addObj(testObj);
 	testObj->release();
 	}
+
+	obid = FL->loadObject("Resource/PS_Boss.psu");
+
+	enemyObj* testObj2 = (enemyObj*)OF->spawn(obid);
+	testObj2->setEnemyType(ET_BOSS);
+	testObj2->setPos(vector3(900,100,0));
+	EM->sendEvent(EVENT_ENEMYLOAD, testObj2);
+	OM->addObj(testObj2);
+	testObj2->release();
 	delete[] obid;
 
 	//Let play state begin.

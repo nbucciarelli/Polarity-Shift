@@ -32,43 +32,48 @@ CAIEngine::~CAIEngine()
 
 }
 
-void CAIEngine::update()
+void CAIEngine::update(float dt)
 {
 	//loop through the enemies
 	for(unsigned int j = 0; j < enemyList.size(); j++)
 	{
-		//check players y position
-		//if(player->getPosition().e[1] < (enemyList[j]->getPosition().e[1] + 50) && player->getPosition().e[1] > (enemyList[j]->getPosition().e[1] - 50))
-		if(trackPos->y < (enemyList[j]->getPosition().e[1] + 50) && trackPos->y > (enemyList[j]->getPosition().e[1] - 50))
+		if(enemyList[j]->getEnemyType() == ET_SPIDER)
 		{
-			//check players x position
-			if(trackPos->x < enemyList[j]->getPosition().x)
+			//check players y position
+			//if(player->getPosition().e[1] < (enemyList[j]->getPosition().e[1] + 50) && player->getPosition().e[1] > (enemyList[j]->getPosition().e[1] - 50))
+			if(trackPos->y < (enemyList[j]->getPosition().e[1] + 50) && trackPos->y > (enemyList[j]->getPosition().e[1] - 50))
 			{
-				enemyList[j]->modAcc(vector3(-10,0,0));
-				if(enemyList[j]->getVelocity().x < -100)
-					enemyList[j]->setVel(vector3(-100));
-			}
-			else if(trackPos->x > enemyList[j]->getPosition().x)
-			{
-				enemyList[j]->modAcc(vector3(10,0,0));
-				if(enemyList[j]->getVelocity().x > 100)
-					enemyList[j]->setVel(vector3(100));
+				//check players x position
+				if(trackPos->x < enemyList[j]->getPosition().x)
+				{
+					enemyList[j]->modAcc(vector3(-10,0,0));
+					if(enemyList[j]->getVelocity().x < -100)
+						enemyList[j]->setVel(vector3(-100));
+				}
+				else if(trackPos->x > enemyList[j]->getPosition().x)
+				{
+					enemyList[j]->modAcc(vector3(10,0,0));
+					if(enemyList[j]->getVelocity().x > 100)
+						enemyList[j]->setVel(vector3(100));
 
+				}
+			}
+			else
+			{
+				enemyList[j]->setAcc(vector3(0,0,0));
+				enemyList[j]->setVel( vector3((float)(enemyList[j]->getVelocity().x * .99),enemyList[j]->getVelocity().y,0));
 			}
 		}
-		else
+		else if(enemyList[j]->getEnemyType() == ET_BOSS)
 		{
-			//make enemy stop when player is not visible
-			//if(fabs(enemyList[j]->getVelocity().x) < 50)
-				enemyList[j]->setVelX(0);
-			//enemyList[j]->setVel( vector3((float)(enemyList[j]->getVelocity().x * .1),enemyList[j]->getVelocity().y,0));
+			
 		}
 	}
 	for(unsigned int i = 0; i < CTileEngine::GetInstance()->GetTriggers().size(); i++)
 	{
 		if(trackPos->x > CTileEngine::GetInstance()->GetTriggers()[i].x)
 		{
-			gamePlayState::getInstance()->m_bTrapActive = true;
+			eventManager::getInstance()->sendEvent(EVENT_TRAP_ACTIVE);
 		}
 	}
 	if(trackPos->y < (CTileEngine::GetInstance()->GetPlayerEnd().y + 25) && trackPos->y > (CTileEngine::GetInstance()->GetPlayerEnd().y - 25) && trackPos->x >= CTileEngine::GetInstance()->GetPlayerEnd().x)

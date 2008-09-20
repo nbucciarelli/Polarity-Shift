@@ -9,6 +9,7 @@
 enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
 	m_bDied = false;
+	m_nHP = 3;
 }
 
 enemyObj::~enemyObj()
@@ -44,11 +45,22 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 			//m_bDied = true;
 		}
 	}
-	else if(obj->getType() == OBJ_MOVING)
+	else if(obj->getType() == OBJ_MOVING && enemyType != ET_BOSS)
 	{
 		// Removes the enemy since it died
 		EM->sendEvent(EVENT_ACTORDIED, this);
 	}
+	else if(enemyType == ET_SPIDER)
+	{
+		EM->sendEvent(EVENT_ACTORDIED, this);
+	}
+	if(enemyType == ET_BOSS && obj->getType() != OBJ_MOVING)
+	{
+		m_nHP-=1;
+		if(m_nHP <= 0)
+			EM->sendEvent(EVENT_ACTORDIED, this);
+	}
+
 
 	return holder.overlapped || holder.willCollide;
 }

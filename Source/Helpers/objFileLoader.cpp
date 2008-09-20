@@ -109,9 +109,9 @@ char* objFileLoader::loadObject(char* filename)
 	char animFile[100] = {0};
 
 	if(textbuffer[0] == '\\')
-		strcpy_s(animFile, len, &textbuffer[1]);
+		strcpy_s(animFile, 100, &textbuffer[1]);
 	else
-		strcpy_s(animFile, len, textbuffer);
+		strcpy_s(animFile, 100, textbuffer);
 
 	memset(textbuffer, 0, sizeof(textbuffer));
 
@@ -123,9 +123,9 @@ char* objFileLoader::loadObject(char* filename)
 	char textureFile[100] = {0};
 
 	if(textbuffer[0] == '\\')
-		strcpy_s(textureFile, len, &textbuffer[1]);
+		strcpy_s(textureFile, 100, &textbuffer[1]);
 	else
-		strcpy_s(textureFile, len, textbuffer);
+		strcpy_s(textureFile, 100, textbuffer);
 
 	//Read center information.  (Dump for now.)
 	objectPoint center;
