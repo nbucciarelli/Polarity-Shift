@@ -16,6 +16,7 @@ leftWall(false),rightWall(false),topWall(false),stoodOn(0)
 
 movingObj::~movingObj(void)
 {
+	eventManager::getInstance()->unregisterClient(this);
 	eventManager::getInstance()->sendEvent(EVENT_OBJDIED, this);
 }
 
