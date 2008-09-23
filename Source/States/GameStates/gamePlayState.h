@@ -37,7 +37,7 @@ protected:
 	std::queue<char> m_qCheatCode;
 
 	int m_nParticleImageID, m_nExpX, m_nExpY, m_nExplosionID;
-	bool m_bIsExploding, m_bIsGodMode;
+	bool m_bIsExploding, m_bIsGodMode, m_bGodMode;
 
 	float m_fInvulnerableTime;
 
@@ -118,4 +118,7 @@ public:
 	void SetIsExploding(bool val) { m_bIsExploding = val; }
 	bool GetIsGodMode() const { return m_bIsGodMode; }
 	void SetIsGodMode(bool val) { m_bIsGodMode = val; }
+	bool GetGodMode() const { return m_bGodMode; }
+	void SetGodMode(bool val) { m_bGodMode = val; }
+	
 };

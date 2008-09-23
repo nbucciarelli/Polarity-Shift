@@ -193,6 +193,7 @@ void gamePlayState::update(float dt)
 		}
 
 	}
+	
 
 	dt*=timeMod;
 	if(entered)
@@ -231,7 +232,7 @@ void gamePlayState::update(float dt)
 						if(m_qCheatCode.front() = 'd')
 						{
 							m_qCheatCode.pop();
-							SetIsGodMode(true);
+							SetGodMode(true);
 						}
 					} 
 				} 
