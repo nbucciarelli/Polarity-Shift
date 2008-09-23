@@ -83,22 +83,23 @@ void CAIEngine::update(float dt)
 			if(enemyList[j]->getHP() == 3)
 			{
 				enemyList[j]->setVel(vector3(0,0,0));
-				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(), enemyList[j]->GetPosY(),0));
+				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(), 100,0));
 			}
 			else if(enemyList[j]->getHP() == 2)
 			{
-				enemyList[j]->setVel(vector3(0,0,0));
-				if(enemyList[j]->GetPosX() > 124  && movingLeft == true)
+				enemyList[j]->setVelY(0);
+				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(),100,0));
+				if(movingLeft)
 				{
-					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() - 100*dt,100,0));
+					enemyList[j]->setVelX(-200);
 					if(enemyList[j]->GetPosX() <= 124)
 					{
 						movingLeft = false;
 					}
 				}
-				else if(enemyList[j]->GetPosX() < 900 && movingLeft == false)
+				else if(!movingLeft)
 				{
-					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() + 100*dt,100,0));
+					enemyList[j]->setVelX(200);
 					if(enemyList[j]->GetPosX() >= 900)
 					{
 						movingLeft = true;
@@ -109,36 +110,33 @@ void CAIEngine::update(float dt)
 			}
 			else if(enemyList[j]->getHP() == 1)
 			{
-				//enemyList[j]->setVel(vector3(0,0,0));
-				if(enemyList[j]->GetPosX() > 124  && movingLeft == true)
+				if(movingLeft)
 				{
-					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() - 100*dt,enemyList[j]->GetPosY(),0));
+					enemyList[j]->setVelX(-200);
 					if(enemyList[j]->GetPosX() <= 124)
 					{
 						movingLeft = false;
 					}
 				}
-				else if(enemyList[j]->GetPosX() < 900 && movingLeft == false)
+				else if(!movingLeft)
 				{
-					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX() + 100*dt,enemyList[j]->GetPosY(),0));
+					enemyList[j]->setVelX(200);
 					if(enemyList[j]->GetPosX() >= 900)
 					{
 						movingLeft = true;
 					}
 				}
-				if(enemyList[j]->GetPosY() < 550  && movingDown == true)
+				if(movingDown)
 				{
-					enemyList[j]->setVelY(100);
-					//enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(),enemyList[j]->GetPosY() + 100*dt,0));
-					if(enemyList[j]->GetPosY() >= 550)
+					enemyList[j]->setVelY(500);
+					if(enemyList[j]->GetPosY() >= 525)
 					{
 						movingDown = false;
 					}
 				}
-				else //if(enemyList[j]->GetPosY() > 100 && movingDown == false)
+				else if(!movingDown)
 				{
-					enemyList[j]->setVelY(0);
-					enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(),enemyList[j]->GetPosY() - 100,0));
+					enemyList[j]->setVelY(-100);
 					if(enemyList[j]->GetPosY() <= 100)
 					{
 						movingDown = true;

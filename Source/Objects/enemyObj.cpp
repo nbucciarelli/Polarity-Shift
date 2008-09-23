@@ -43,7 +43,7 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 
 	if(obj->getType() == OBJ_PLAYER)
 	{
-		if(enemyType == ET_SPIDER)
+		if(enemyType == ET_SPIDER || enemyType == ET_BOSS)
 		{
 			// Removes the spider enemy since it died
 			//EM->sendEvent(EVENT_ACTORDIED, this);
