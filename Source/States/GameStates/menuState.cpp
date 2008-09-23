@@ -141,7 +141,7 @@ bool menuState::input(float dt)
 	{
 		if (m_fTimerNotClicked >= 20.0f)
 		{
-			CVideoMaster::GetInstance()->Play(game::GetInstance()->GetVideoID2(), 1024, 600, true);
+			//CVideoMaster::GetInstance()->Play(game::GetInstance()->GetVideoID2(), 1024, 600, true);
 		
 		}else 
 		{
