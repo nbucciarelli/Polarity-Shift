@@ -39,7 +39,8 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 	//vector3 radiusLine(fireLine.y, -fireLine.x, 0);
 	else
 	{
-		fireLine = (theMouse->getPos() - pos).normalized();
+		//fireLine = (theMouse->getPos() - pos).normalized();
+		fireLine = aimVect;
 	}
 
 	fireLine *= (float)range;
@@ -96,9 +97,9 @@ bool magnetGun::getTarget(const vector3& farPoint)
 	int selection = -1;
 	float minDist = (float)_HUGE, dist = 0;
 
-	vector3 perp = (farPoint - pos).normalized();
-	perp = vector3(perp.y, -perp.x);
-	float centerLineProj = pos * perp;
+	//vector3 perp = (farPoint - pos).normalized();
+	vector3 perp = vector3(aimVect.y, -aimVect.x);
+	float centerLineProj = pos.dot2D(perp);
 	float radius = baseRadius * beamWidthFactor;
 
 	//Just to sneak in this variable.  Makes it look less scary in class declaration.
@@ -182,6 +183,15 @@ void magnetGun::update(float dt)
 	pos = owner->getPosition();
 	pos.y += 15;
 
+	if(target)
+		aimVect = target->getPosition() - pos;
+	else
+		aimVect = theMouse->getPos() - pos;
+
+	aimVect.normalize();
+
+#define traj aimVect
+
 	if(mode != MAG_OFF)
 	{
 		if(target)
@@ -196,13 +206,16 @@ void magnetGun::update(float dt)
 		}
 
 		float len = 0;
-		vector3 traj = (theMouse->getPos() - pos).normalized();
+		//vector3 traj = (theMouse->getPos() - pos).normalized();
 
 		switch(mode)
 		{
 		case MAG_PUSH:
 			if(target)
-				target->modPos(traj * (power * dt));
+			{
+				if((target->getPosition() - pos).length() < range)
+					target->modPos(traj * (power * dt));
+			}
 			else
 				owner->modPos(traj * -(power * dt));
 			break;
