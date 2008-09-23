@@ -1,6 +1,8 @@
 #include "movingObj.h"
 #include "..\Helpers\physics.h"
 #include "../engines/ctileengine.h"
+#include "../eventsystem/eventmanager.h"
+#include "../eventsystem/eventids.h"
 #include <cmath>
 #include <windows.h>
 
@@ -9,10 +11,12 @@
 movingObj::movingObj(uint otype) : baseObj(otype, true), onSurface(false),
 leftWall(false),rightWall(false),topWall(false),stoodOn(0)
 {
+	eventManager::getInstance()->registerClient(EVENT_OBJDIED, this);
 }
 
 movingObj::~movingObj(void)
 {
+	eventManager::getInstance()->sendEvent(EVENT_OBJDIED, this);
 }
 
 void movingObj::update(float dt)
@@ -97,25 +101,15 @@ void movingObj::update(float dt)
 			acceleration.x += friction;
 	}
 
-	if(stoodOn && (onSurface ||
-		(
-		!calc::sphereOverlap(position, getMaxRadius(),
-							stoodOn->position,
-							stoodOn->getMaxRadius())
-		&&
-		!calc::polygonCollision(*stoodOn->getCollisionPoly(), *getCollisionPoly(),
-								&vector3())
-		)))
-	{
-		stoodOn = 0;
-	}
-
 	baseObj::update(dt);
 }
 
 bool movingObj::checkCollision(baseObj* obj, polyCollision* result)
 {
 	polyCollision holder;
+
+	if(stoodOn && (stoodOn->position.y > 1000 || stoodOn->position.y < 0))
+		stoodOn = 0;
 
 	const polygon* thisPoly = getCollisionPoly();
 
@@ -189,6 +183,30 @@ bool movingObj::mapCollisionCheck()
 	const vector<RECT>& collisionBox = CTileEngine::GetInstance()->GetCollisions();
 
 	const polygon& poly = *getCollisionPoly();
+
+	if(stoodOn)
+	{
+		if((stoodOn->position.y > 1000 || stoodOn->position.y < 0))
+			stoodOn = 0;
+		else// if(!onSurface)
+		{
+			const polygon * otherPoly = stoodOn->getCollisionPoly();
+
+			if(!otherPoly)
+				stoodOn = 0;
+			else
+			{
+				float thisBottom, thatTop, other, thisLeft, thisRight, thatLeft, thatRight;
+				calc::projectPolygonToLine(poly, vector3(0,1), other, thisBottom);
+				calc::projectPolygonToLine(poly, vector3(1), thisLeft, thisRight);
+				calc::projectPolygonToLine(*otherPoly, vector3(0,1), thatTop, other);
+				calc::projectPolygonToLine(*otherPoly, vector3(1), thatLeft, thatRight);
+
+				if(thisBottom + 2 < thatTop || thisLeft > thatRight || thisRight < thatLeft)
+					stoodOn = 0;
+			}
+		}
+	}
 
 #define EXCESS 2
 
@@ -526,4 +544,18 @@ bool movingObj::isInStack(const baseObj* obj)
 		return true;
 	else
 		return stoodOn->isInStack(obj);
+}
+
+void movingObj::HandleEvent(gameEvent *ev)
+{
+	switch(ev->getEventID())
+	{
+	case EVENT_OBJDIED:
+		if(stoodOn == (movingObj*)(ev->getData()))
+		{
+			stoodOn = 0;
+			onSurface = false;
+		}
+		break;
+	}
 }

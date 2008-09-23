@@ -18,8 +18,8 @@
 //This can be a float.
 #define JUMPPOWER 125
 
-playerObj::playerObj() : jumpTime(0), maxJumpTime(0.5f), jumpCount(0), jumpDone(true),
-						 actorObj(OBJ_PLAYER)
+playerObj::playerObj() : actorObj(OBJ_PLAYER), jumpTime(0), maxJumpTime(0.5f), jumpCount(0),
+						jumpDone(true)
 {}
 
 playerObj::~playerObj()

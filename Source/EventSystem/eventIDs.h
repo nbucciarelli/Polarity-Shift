@@ -8,6 +8,7 @@
 enum eventIDs { NULL_EVENT,
 
 	EVENT_ENEMYFIRE,
+	EVENT_OBJDIED,
 
 //Player events are specific to the...player, amazingly.
 	BEGIN_PLAYER_EVENTS,
@@ -36,6 +37,7 @@ enum eventIDs { NULL_EVENT,
 //Handler events are all routed through the playHandler.
 	BEGIN_HANDLER_EVENTS,
 	
+	EVENT_KILLOBJ,
 	EVENT_ACTORDIED,
 	EVENT_PLAYERLOADED,
 	EVENT_PLAYER_DIED,

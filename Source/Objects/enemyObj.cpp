@@ -1,5 +1,4 @@
 #include "enemyObj.h"
-#include <cmath>
 #include "../helpers/datatypes.h"
 #include "objManager.h"
 #include "../Engines/CParticleEffectManager.h"
@@ -21,6 +20,9 @@ void enemyObj::update(float dt)
 {
 	actorObj::update(dt);
 	CParticleEffectManager::GetInstance()->Update(dt);
+
+	if(m_bDied && isActive)
+		isActive = false;
 
 }
 

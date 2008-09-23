@@ -8,6 +8,7 @@ class objManager;
 class viewManager;
 class renderer;
 class CTileEngine;
+class bitFont;
 
 class debugControl : public listener
 {
@@ -16,6 +17,14 @@ protected:
 	viewManager* VM;
 	CTileEngine* TE;
 	renderer* Re;
+	bitFont* font;
+
+	char calcString[154];
+	//char rendString[154];
+	float time;
+	int updCount;
+	int rendCount;
+
 	volatile bool ready;
 	volatile bool locked;
 

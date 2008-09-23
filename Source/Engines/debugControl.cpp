@@ -6,15 +6,17 @@
 #include "../eventSystem/eventIDs.h"
 #include "../eventSystem/gameEvent.h"
 #include "../objects/baseObj.h"
+#include "../helpers/bitfont.h"
 
 #define RENDERER dxRenderer
 
-debugControl::debugControl() : ready(false), locked(false)
+debugControl::debugControl() : ready(false), locked(false), time(0), updCount(0)//, rendCount(0)
 {
 	OM = objManager::getInstance();
 	VM = viewManager::getInstance();
 	TE = CTileEngine::GetInstance();
 	Re = RENDERER::getInstance();
+	font = bitFont::getInstance();
 
 	dot.top = dot.left = -2;
 	dot.bottom = dot.right = 2;
@@ -31,6 +33,9 @@ void debugControl::initialize()
 	getMapCollisions();
 
 	ready = true;
+
+	sprintf_s(calcString, 154, "Updates Per Sec: 120");
+	//sprintf_s(rendString, 154, "Frames Per Sec: 60");
 }
 
 void debugControl::shutdown()
@@ -46,6 +51,17 @@ void debugControl::update(float dt)
 		Sleep(1);
 
 	locked = true;
+
+	time += dt;
+	updCount++;
+	if(time >= 0.5f)
+	{
+		time -= 0.5f;
+		sprintf_s(calcString, 154, "Frames Per Sec: %d", updCount * 2);
+		updCount = 0;
+		rendCount = 0;
+	}
+
 	lineGroups.clear();
 	posPts.clear();
 	
@@ -88,13 +104,14 @@ void debugControl::render()
 	if(!ready)
 		return;
 
-	Re->EndSprites();
-	Re->BeginLines();
-
 	if(locked)
 		Sleep(1);
 
 	locked = true;
+
+	Re->EndSprites();
+	Re->BeginLines();
+
 	for(unsigned c = 0; c < lineGroups.size(); c++)
 	{
 		for(unsigned d = 1; d < lineGroups[c].pts.size(); d++)
@@ -125,10 +142,10 @@ void debugControl::render()
 		for(unsigned d = 1; d < magLines[c].pts.size(); d++)
 		{
 			Re->drawLine(magLines[c].pts[d - 1],
-				magLines[c].pts[d], 0xff88ffff);
+				magLines[c].pts[d], 0x3366ffff);
 		}
 		if(magLines[c].pts.size() > 2)
-			Re->drawLine(magLines[c].pts[magLines[c].pts.size() -1], magLines[c].pts[0], 0xff00ffff);
+			Re->drawLine(magLines[c].pts[magLines[c].pts.size() -1], magLines[c].pts[0], 0x3366ffff);
 
 	}
 	rect draw;
@@ -142,12 +159,19 @@ void debugControl::render()
 		Re->drawRect(draw, 0x000000ff);
 	}
 	rCount++;
-	locked = false;
 
 	Re->EndLines();
+
+	Re->BeginSprites();
+	font->drawText(calcString, 50, 100, -1, 0.5f);
+//	font->drawText(rendString, 50, 150, -1, 0.5f);
+	Re->EndSprites();
+
 	Re->EndNoPresent();
 	Re->BeginScene();
 	Re->BeginSprites();
+
+	locked = false;
 }
 
 void debugControl::HandleEvent(gameEvent *ev)

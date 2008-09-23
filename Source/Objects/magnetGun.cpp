@@ -177,39 +177,6 @@ float		limit = (float)range;
 	return false;
 }
 
-//float magnetGun::levelLimiter(const vector3& traj)
-//{
-//	static std::vector<RECT>& colRect = CTileEngine::GetInstance()->GetCollisions();
-//
-//	vector3 perp = vector3(traj.y, -traj.x);
-//
-//	float dist, minDist = (float)_HUGE;
-//	float posDotP = pos.dot2D(perp);
-//	float posDot = pos.dot2D(traj);
-//	polygon poly;
-//
-///*	for(unsigned c = 0; c < colRect.size(); c++)
-//	{
-//		calc::rectToPoly(*(rect*)&colRect[c], &poly);
-//
-//		if(calc::lineIntersectPoly(pos, farPoint,
-//									   poly, &dist)
-//			&& fabs(dist) < minDist)//  && dist > 0)
-//		{
-//			float miny, maxy;
-//			calc::projectPolygonToLine(*objList[c]->getCollisionPoly(), perp, miny, maxy);
-//
-//			if(pos + radius < miny || centerLineProj - radius > maxy)
-//				continue;
-//
-//			minDist = dist;
-//			selection = c;
-//		}
-//	}*/
-//
-//	return minDist - posDot;
-//}
-
 void magnetGun::update(float dt)
 {
 	pos = owner->getPosition();
@@ -219,8 +186,8 @@ void magnetGun::update(float dt)
 	{
 		if(target)
 		{
-		target->setVel(vector3());
-		target->setAcc(vector3(0,-GRAVITY));
+			target->setVel(vector3());
+			target->setAcc(vector3(0,-GRAVITY));
 		}
 		else
 		{

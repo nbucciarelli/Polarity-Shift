@@ -1,5 +1,7 @@
 #include "objManager.h"
 #include "baseObj.h"
+#include "../eventsystem/eventmanager.h"
+#include "../eventsystem/eventids.h"
 
 objManager::objManager(void)
 {
@@ -20,6 +22,8 @@ void objManager::update(float dt)
 	for(unsigned c = 0; c < objList.size(); c++)
 		if(objList[c]->getIsActive())
 			objList[c]->update(dt);
+		else
+			eventManager::getInstance()->sendEvent(EVENT_KILLOBJ, objList[c]);
 }
 
 void objManager::render() const
@@ -49,7 +53,6 @@ void objManager::removeObj(baseObj* obj)
 		if ((*iter) == obj)
 		{
 			(*iter)->release();
-
 			objList.erase(iter);
 			break;
 		}
@@ -108,5 +111,8 @@ int objManager::addPoly(polygon* p)
 
 polygon* objManager::getPoly(int id)
 {
+	if(id < 0 || (unsigned)id > polyList.size())
+		return 0;
+
 	return polyList[id];
 }

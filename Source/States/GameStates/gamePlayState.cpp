@@ -86,6 +86,8 @@ void gamePlayState::exit(void)
 	while(rendering)
 		Sleep(1);
 
+	gameState::exit();
+
 	if(debugger)
 	{
 		debugger->shutdown();
@@ -93,7 +95,6 @@ void gamePlayState::exit(void)
 		debugger = 0;
 	}
 
-	gameState::exit();
 	m_bTrapActive = false;
 
 	TE->ShutDown();
@@ -209,7 +210,7 @@ void gamePlayState::update(float dt)
 		CParticleEffectManager::GetInstance()->Update(dt);
 
 		if(debugger)
-			debugger->update(dt);
+			debugger->update(dt/timeMod);
 	}
 		
 

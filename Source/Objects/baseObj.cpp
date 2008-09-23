@@ -157,6 +157,10 @@ void baseObj::setImgId(int id)
 const polygon* baseObj::getCollisionPoly()
 {
 	const polygon* collisionPoly = objManager::getInstance()->getPoly(collisionPolyID);
+
+	if(!collisionPoly)
+		return 0;
+
 	if(instancePoly.vertexCount != collisionPoly->vertexCount)
 	{
 		instancePoly.vertexCount = collisionPoly->vertexCount;

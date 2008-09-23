@@ -1,10 +1,11 @@
 #pragma once
 #include "baseObj.h"
+#include "../eventsystem/listener.h"
 #include <queue>
 
 struct polygon;
 
-class movingObj : public baseObj
+class movingObj : public baseObj, public listener
 {
 protected:
 	struct colSet
@@ -56,4 +57,6 @@ public:
 	void modAcc(const vector3& change) { acceleration += change; }
 	void modAngVel(const vector3& change) { angVel += change; }
 	void modAngAcc(const vector3& change) { angAcc += change; }
+
+	virtual void HandleEvent(gameEvent *ev);
 };

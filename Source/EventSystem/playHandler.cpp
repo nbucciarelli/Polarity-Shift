@@ -59,6 +59,9 @@ void playHandler::HandleEvent(gameEvent* ev)
 	case EVENT_GAMEPAUSE:
 		EM->sendGlobalEvent(GE_STATE_PUSH, new int(STATE_PAUSE));
 		break;
+	case EVENT_KILLOBJ:
+		OM->removeObj((baseObj*)ev->getData());
+		break;
 	case EVENT_ACTORDIED:
 		killActor((baseObj*)ev->getData());
 		break;
@@ -224,6 +227,7 @@ void playHandler::killActor(baseObj* obj)
 	gamePlayState::getInstance()->SetExpX(obj->GetPosX());
 	gamePlayState::getInstance()->SetExpY(obj->GetPosY());
 	gamePlayState::getInstance()->SetIsExploding(true);
-	EM->unregisterClient((actorObj*)obj);
 	obj->setIsActive(false);
+	//EM->unregisterClient((movingObj*)obj);
+	//OM->removeObj(obj);
 }

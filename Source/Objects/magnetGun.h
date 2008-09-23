@@ -22,6 +22,7 @@ protected:
 	float beamWidthFactor;
 	mouse* theMouse;
 	vector3 pos;
+	vector3 aimVect;
 
 	bool getTarget(const vector3& farPoint);
 	//float levelLimiter(const vector3& traj);

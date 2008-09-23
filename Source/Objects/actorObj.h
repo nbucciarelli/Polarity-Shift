@@ -1,10 +1,9 @@
 #pragma once
 #include "movingObj.h"
-#include "../eventsystem/listener.h"
 
 class weapon;
 
-class actorObj : public movingObj, public listener
+class actorObj : public movingObj
 {
 protected:
 	float maxAcc;

@@ -33,6 +33,7 @@ void actorObj::setWeapon(int weapID)
 
 void actorObj::HandleEvent(gameEvent *ev)
 {
+	movingObj::HandleEvent(ev);
 }
 
 void actorObj::update(float dt)
