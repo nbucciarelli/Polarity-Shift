@@ -21,7 +21,7 @@ using namespace io;
 namespace
 {
 #define numScores 10
-#define _FileName "Resource/highscores.xml"
+#define _FileName "Resource/PS_highscores.xml"
 	struct structTStamp 
 	{
 		std::string timeStamp;

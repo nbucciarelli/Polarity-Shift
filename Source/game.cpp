@@ -101,7 +101,7 @@ void game::Initialize(HINSTANCE hInstance)
 	globalHandler::getInstance()->HandleEvent(&gameEvent(GE_GAME_START));
 
 
-	/*if (!m_pixelShader.Create("./Resource/Shaders/gamma.ps", theRenderer->GetDirect3DDevice()))
+	/*if (!m_pixelShader.Create("./Resource/Shaders/PS_gamma.ps", theRenderer->GetDirect3DDevice()))
 	MessageBox(theDisplay->getHWnd(), "Failed to create Pixel Shader", "Error", MB_OK | MB_ICONEXCLAMATION);*/
 
 	theRenderer->GetDirect3DDevice()->CreateTexture(1024, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_pRenderTarget, NULL);
