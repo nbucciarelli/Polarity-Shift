@@ -36,7 +36,7 @@ protected:
 
 	std::queue<char> m_qCheatCode;
 
-	int m_nParticleImageID, m_nExpX, m_nExpY, m_nExplosionID;
+	int m_nParticleImageID, m_nExpX, m_nExpY;
 	bool m_bIsExploding, m_bIsGodMode, m_bGodMode;
 
 	float m_fInvulnerableTime;

@@ -8,7 +8,6 @@
 
 enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
-	m_nImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Explosion.prt");
 	m_bDied = false;
 	m_nHP = 6;
 }
@@ -28,7 +27,7 @@ void enemyObj::update(float dt)
 
 void enemyObj::render()
 {
-	CParticleEffectManager::GetInstance()->Render(m_nImageID, m_nExpX, m_nExpY); 
+	//CParticleEffectManager::GetInstance()->Render(m_nImageID, m_nExpX, m_nExpY); 
 
 		baseObj::render();
 
@@ -57,7 +56,6 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	}
 	else if(obj->getType() == OBJ_MOVING && enemyType != ET_BOSS)
 	{
-		CParticleEffectManager::GetInstance()->Play(m_nImageID, false);
 		m_nExpX = this->GetPosX();
 		m_nExpY = this->GetPosY();
 
@@ -66,7 +64,6 @@ bool enemyObj::checkCollision(baseObj* obj, polyCollision* result)
 	}
 	else if(enemyType == ET_SPIDER)
 	{
-		CParticleEffectManager::GetInstance()->Play(m_nImageID, false);
 		m_nExpX = this->GetPosX();
 		m_nExpY = this->GetPosY();
 		EM->sendEvent(EVENT_ACTORDIED, this);
