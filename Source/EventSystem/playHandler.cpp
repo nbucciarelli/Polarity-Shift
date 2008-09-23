@@ -22,6 +22,7 @@
 #include "../Objects/enemyObj.h"
 #include "../Objects/CPowerUp.h"
 
+#include "..\Wrappers\CSGD_FModManager.h"
 void playHandler::initialize()
 {
 	EM = eventManager::getInstance();
@@ -70,6 +71,8 @@ void playHandler::HandleEvent(gameEvent* ev)
 	case EVENT_TRAP_ACTIVE:
 		if(did)
 			break;
+
+
 		enemyObj* newEnemyObj = (enemyObj*)OF->spawn("spider");
 
 		newEnemyObj->setPos(vector3(CTileEngine::GetInstance()->GetTraps()[0].x,CTileEngine::GetInstance()->GetTraps()[0].y,0));
