@@ -10,7 +10,7 @@ enemyObj::enemyObj(int type) : actorObj(OBJ_ENEMY), enemyType(type)
 {
 	m_nImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Explosion.prt");
 	m_bDied = false;
-	m_nHP = 3;
+	m_nHP = 6;
 }
 
 enemyObj::~enemyObj()

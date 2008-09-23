@@ -80,12 +80,12 @@ void CAIEngine::update(float dt)
 				spawnTimer = 0.0f;
 
 			}
-			if(enemyList[j]->getHP() == 3)
+			if(enemyList[j]->getHP() == 6)
 			{
 				enemyList[j]->setVel(vector3(0,0,0));
 				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(), 100,0));
 			}
-			else if(enemyList[j]->getHP() == 2)
+			else if(enemyList[j]->getHP() <= 5 && enemyList[j]->getHP() > 3 )
 			{
 				enemyList[j]->setVelY(0);
 				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(),100,0));
@@ -108,7 +108,7 @@ void CAIEngine::update(float dt)
 
 
 			}
-			else if(enemyList[j]->getHP() == 1)
+			else if(enemyList[j]->getHP() <=3)
 			{
 				if(movingLeft)
 				{
