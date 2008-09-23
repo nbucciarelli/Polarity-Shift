@@ -53,15 +53,10 @@ void CAIEngine::update(float dt)
 				if(trackPos->x < enemyList[j]->getPosition().x)
 				{
 					enemyList[j]->modAcc(vector3(-10,0,0));
-					if(enemyList[j]->getVelocity().x < -100)
-						enemyList[j]->setVel(vector3(-100));
 				}
 				else if(trackPos->x > enemyList[j]->getPosition().x)
 				{
 					enemyList[j]->modAcc(vector3(10,0,0));
-					if(enemyList[j]->getVelocity().x > 100)
-						enemyList[j]->setVel(vector3(100));
-
 				}
 			}
 			else
@@ -83,12 +78,12 @@ void CAIEngine::update(float dt)
 			if(enemyList[j]->getHP() == 6)
 			{
 				enemyList[j]->setVel(vector3(0,0,0));
-				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(), 100,0));
+				enemyList[j]->setPos(vector3((float)enemyList[j]->GetPosX(), 100,0));
 			}
 			else if(enemyList[j]->getHP() <= 5 && enemyList[j]->getHP() > 3 )
 			{
 				enemyList[j]->setVelY(0);
-				enemyList[j]->setPos(vector3(enemyList[j]->GetPosX(),100,0));
+				enemyList[j]->setPos(vector3((float)enemyList[j]->GetPosX(),100,0));
 				if(movingLeft)
 				{
 					enemyList[j]->setVelX(-200);
@@ -178,6 +173,22 @@ void CAIEngine::HandleEvent(gameEvent *ev)
 		player = (playerObj*)(ev->getData());
 		trackPos = &((baseObj*)(ev->getData()))->getPosition();
 		break;
+	case EVENT_OBJDIED:
+		if(!ev->getData())
+			break;
 
+		std::vector<enemyObj*>::iterator iter = enemyList.begin();
+
+		while(iter != enemyList.end())
+		{
+			if(*iter == ev->getData())
+			{
+				iter = enemyList.erase(iter);
+				break;
+			}
+			else
+				iter++;
+		}
+		break;
 	}
 }

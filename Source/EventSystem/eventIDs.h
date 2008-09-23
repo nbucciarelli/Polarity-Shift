@@ -8,7 +8,6 @@
 enum eventIDs { NULL_EVENT,
 
 	EVENT_ENEMYFIRE,
-	EVENT_OBJDIED,
 
 //Player events are specific to the...player, amazingly.
 	BEGIN_PLAYER_EVENTS,
@@ -63,6 +62,7 @@ enum eventIDs { NULL_EVENT,
 	EVENT_ENEMYLOAD,
 	EVENT_TURRETLOAD,
 	EVENT_POWERUPLOAD,
+	EVENT_OBJDIED,
 
 	END_AI_EVENTS,
 
