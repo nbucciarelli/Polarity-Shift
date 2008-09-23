@@ -205,10 +205,10 @@ bool CHighScoresState::AddHighScore(unsigned int nScore)
 	if (itr->first < nScore)
 	{
 		char s[64];
-		//tm TempTime;
-		//tm TempTime2;
-		__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
-		sprintf_s(s,"%s",asctime_s(s,sizeof(localtime(&ltime)),localtime(&ltime)));
+		tm TempTime;
+		localtime_s(&TempTime, NULL);
+		//__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
+		sprintf_s(s,"%s",asctime_s(s,sizeof(TempTime),&TempTime));
 		
 		//sprintf_s(s,"%s",asctime_s(s,sizeof(localtime_s(&TempTime,&ltime)),(tm*)localtime_s(&TempTime,&ltime)));
 		score[nScore] = new structTStamp(s);	
