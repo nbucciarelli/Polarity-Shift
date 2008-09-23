@@ -19,7 +19,7 @@
 using std::ifstream;
 using std::ofstream;
 //#include "..\..\Engines\CParticleEffectManager.h"
-
+//
 optionsState::optionsState(void)
 {
 	foregroundID = viewManager::getInstance()->loadTexture("Resource/Images/PS_Menu.png");
@@ -248,7 +248,9 @@ void optionsState::menuHandler()
 				game* gameinstance = game::GetInstance();
 				char buffer;
 				fin >> buffer;
-				gameinstance->SetTutorialDone(buffer);
+				//bool buff;
+				//buff = (bool)buffer;
+				gameinstance->SetTutorialDone(buffer != 0);
 				char levelsdone[10];
 				for (int i = 0 ; i < NUMLEVELS ; ++i)
 				{
@@ -300,7 +302,7 @@ void optionsState::render(void) const
 		theFont->drawText(buffer2, (int)(20 + m_fXLerp + xPos), yPos + 60, highlightColor);
 
 	char buffer3[32];
-	int freq = game::GetInstance()->GetFreqLevel()/500.0f;
+	int freq = (int)(game::GetInstance()->GetFreqLevel()/500.0f);
 	sprintf_s(buffer3, "Frequency: %d", freq);
 	if(menuPos != FREQ)
 		theFont->drawText(buffer3, (int)(20 + m_fXLerp + xPos), yPos + 120, textColor);

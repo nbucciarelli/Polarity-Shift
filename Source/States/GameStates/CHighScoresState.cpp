@@ -105,7 +105,7 @@ void CHighScoresState::render() const
 		sprintf_s(s, "%i -- %s", itr->first, itr->second->timeStamp.c_str());
 		//ViewManager::GetInstance().RenderText(300, (float)(i+1) * 20 , s, Color(255,255,255,255));
 		//theFont->drawText(s,(float)(i+1) * 20, 20, 0xffff0000 );
-		bitFont::getInstance()->drawText(s, (int)(m_fXLerp + 20), (float)(i+7) * 40, 0xffffffff);
+		bitFont::getInstance()->drawText(s, (int)(m_fXLerp + 20), (int)(i+7) * 40, 0xffffffff);
 		i++;
 	}
 }
@@ -205,9 +205,12 @@ bool CHighScoresState::AddHighScore(unsigned int nScore)
 	if (itr->first < nScore)
 	{
 		char s[64];
-
+		//tm TempTime;
+		//tm TempTime2;
 		__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
-		sprintf_s(s,"%s",asctime(localtime(&ltime)));
+		sprintf_s(s,"%s",asctime_s(s,sizeof(localtime(&ltime)),localtime(&ltime)));
+		
+		//sprintf_s(s,"%s",asctime_s(s,sizeof(localtime_s(&TempTime,&ltime)),(tm*)localtime_s(&TempTime,&ltime)));
 		score[nScore] = new structTStamp(s);	
 		write();
 		changed = true;
