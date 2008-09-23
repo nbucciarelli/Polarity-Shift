@@ -29,8 +29,10 @@ class game
 {
 protected:
 	volatile bool isRunning;
-	volatile bool isWindowed;
 	volatile bool renderLock;
+	
+	bool windowSet;
+	volatile bool isWindowed;
 
 	int m_nVideoID[2];
 	

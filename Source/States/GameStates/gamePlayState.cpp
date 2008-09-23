@@ -110,15 +110,6 @@ void gamePlayState::exit(void)
 
 bool gamePlayState::input(float dt)
 {
-	if (theInput->CheckBufferedKeysEx()) 
-	{ 
-		m_qCheatCode.push(theInput->CheckBufferedKeysEx()); 
-		if (m_qCheatCode.size() > 5) 
-		{ 
-			m_qCheatCode.pop(); 
-		}  
-	}
-
 	if (theInput->KeyPressed(DIK_ESCAPE) || theInput->KeyPressed(DIK_F10))
 		EM->sendEvent(EVENT_GAMEPAUSE);
 
@@ -176,7 +167,14 @@ bool gamePlayState::input(float dt)
 	// 		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
 	// 		CTallySheetState::getInstance()->Initialize(/*LevelNum*/1 ,100.0f, m_fLevelTime);
 	// 	}
-
+	if (theInput->CheckBufferedKeysEx()) 
+	{ 
+		m_qCheatCode.push(theInput->CheckBufferedKeysEx()); 
+		if (m_qCheatCode.size() > 5) 
+		{ 
+			m_qCheatCode.pop(); 
+		}  
+	}
 
 	return true;
 }

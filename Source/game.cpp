@@ -95,7 +95,7 @@ void game::Initialize(HINSTANCE hInstance)
 	EM = eventManager::getInstance();
 	globalHandler::getInstance()->initialize();
 
-	isWindowed = true;
+	isWindowed = windowSet = true;
 	theRenderer->changeResolution(DEFAULT_WNDHEIGHT, DEFAULT_WNDWIDTH, isWindowed);
 
 	globalHandler::getInstance()->HandleEvent(&gameEvent(GE_GAME_START));
@@ -248,8 +248,6 @@ bool game::getInput()
 		{
 			isWindowed = !isWindowed;
 
-			theRenderer->changeResolution(DEFAULT_WNDHEIGHT, DEFAULT_WNDWIDTH, isWindowed);
-
 			return false;
 		}
 	}
@@ -328,6 +326,12 @@ unsigned game::renderLoop(void* unused)
 				g->theRenderer->EndScene();
 
 			}
+		}
+
+		if(g->isWindowed != g->windowSet)
+		{
+			g->theRenderer->changeResolution(DEFAULT_WNDHEIGHT, DEFAULT_WNDWIDTH, g->isWindowed);
+			g->windowSet = g->isWindowed;
 		}
 	}
 	return 0;

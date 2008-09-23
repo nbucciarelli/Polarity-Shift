@@ -40,6 +40,10 @@ void debugControl::initialize()
 
 void debugControl::shutdown()
 {
+	while(locked)
+		Sleep(1);
+
+	locked = true;
 }
 
 void debugControl::update(float dt)
