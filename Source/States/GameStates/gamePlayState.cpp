@@ -24,6 +24,8 @@
 #include "CKeyState.h"
 #include "..\GamePlayStates\CTallySheet.h"
 #include "../../EventSystem\globalEvents.h"
+#include "../../Wrappers/CSGD_FModManager.h"
+
 
 
 gamePlayState::gamePlayState() : debugger(0) {timeMod = 2.0f;}
@@ -143,10 +145,16 @@ bool gamePlayState::input(float dt)
 	{
 		Tutorials[1] = true;
 		EM->sendEvent(EVENT_PLAYERFIRE);
+		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound1()))
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetGunSound1());
 	}
 
 	if(theInput->MouseButtonPressedEx(1))
+	{
 		EM->sendEvent(EVENT_PLAYERFIRE2);
+		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound2()))
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetGunSound2());
+	}
 
 	if(theInput->MouseButtonReleased(0))
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE));
