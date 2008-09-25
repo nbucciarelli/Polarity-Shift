@@ -60,7 +60,7 @@ protected:
 	inputDevice* theInput;
 	eventManager* EM;
 	CSGD_FModManager* m_pFMOD;
-	int m_SZSCHHHSound, m_nGunSound[3], m_nPowerUpSound, m_nBossMusic, m_nLevelMusic, m_nDeathSound;
+	int m_SZSCHHHSound, m_nGunSound[2], m_nPowerUpSound, m_nBossMusic, m_nLevelMusic, m_nDeathSound;
 
 	CPixelShader			m_pixelShader;
 	LPDIRECT3DTEXTURE9		m_pRenderTarget;			//	Where we're going to render the scene to.
@@ -127,7 +127,6 @@ public:
 	//m_nGunSound, m_nPowerUpSound, m_nBossMusic, m_nLevelMusic, m_nDeathSound;
 	int GetGunSound1() { return m_nGunSound[0]; }
 	int GetGunSound2() { return m_nGunSound[1]; }
-	int GetGunSound3() { return m_nGunSound[2]; }
 	int GetPowerUpSound() { return m_nPowerUpSound; }
 	int GetBossMusic() { return m_nBossMusic; }
 	int GetLevelMusic() { return m_nLevelMusic; }

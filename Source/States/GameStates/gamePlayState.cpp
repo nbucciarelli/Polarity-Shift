@@ -175,10 +175,16 @@ bool gamePlayState::input(float dt)
 	}
 
 	if(theInput->MouseButtonReleased(0) || m_cLeftTrigger == '0')
+	{
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE));
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound1());
+	}
 
 	if(theInput->MouseButtonReleased(1) || m_cRightTrigger == '0')
+	{
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE2));
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound2());
+	}
 
 
 	if(theInput->KeyPressed(DIK_DELETE))

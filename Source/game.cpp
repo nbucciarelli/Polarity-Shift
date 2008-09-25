@@ -81,9 +81,8 @@ void game::Initialize(HINSTANCE hInstance)
 	m_pFMOD->InitFModManager(theDisplay->getHWnd());
 	m_SZSCHHHSound = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
 	//m_nGunSound, m_nPowerUpSound, m_nBossMusic, m_nLevelMusic, m_nDeathSound;
-	m_nGunSound[0] = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
-	m_nGunSound[1] = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
-	m_nGunSound[2] = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
+	m_nGunSound[0] = m_pFMOD->LoadSound("Resource/Sounds/PS_PullSound.mp3", FMOD_LOOP_NORMAL);
+	m_nGunSound[1] = m_pFMOD->LoadSound("Resource/Sounds/PS_PushSound.mp3", FMOD_LOOP_NORMAL);
 	m_nPowerUpSound = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
 	m_nBossMusic = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
 	m_nLevelMusic = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
