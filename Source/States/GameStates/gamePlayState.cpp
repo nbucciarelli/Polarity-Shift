@@ -157,7 +157,36 @@ bool gamePlayState::input(float dt)
 	else
 		m_cRightTrigger = '0';
 
+	float pos = Player1->GetState().Gamepad.sThumbRX;
+	if(fabs(pos) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+	{
+		if(Player1->GetState().Gamepad.sThumbRX < 0)
+		{
+			float mod = Player1->GetState().Gamepad.sThumbRX/40;
+			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(mod*dt,0,0));
+		}
+		else
+		{
+			float mod = Player1->GetState().Gamepad.sThumbRX/40;
+			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(mod*dt,0,0));
+		}
 
+	}
+	pos = Player1->GetState().Gamepad.sThumbRY;
+	if(fabs(pos) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+	{
+		if(Player1->GetState().Gamepad.sThumbRY < 0)
+		{
+			float mod = Player1->GetState().Gamepad.sThumbRY/40;
+			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(0,-mod*dt,0));
+		}
+		else
+		{
+			float mod = Player1->GetState().Gamepad.sThumbRY/40;
+			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(0,-mod*dt,0));
+		}
+
+	}	
 
 	if(theInput->MouseButtonPressedEx(0) || m_cLeftTrigger == '1')
 	{
