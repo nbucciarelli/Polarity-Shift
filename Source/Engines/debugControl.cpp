@@ -7,6 +7,7 @@
 #include "../eventSystem/gameEvent.h"
 #include "../objects/baseObj.h"
 #include "../helpers/bitfont.h"
+#include "../wrappers/mouse.h"
 
 #define RENDERER dxRenderer
 
@@ -162,6 +163,15 @@ void debugControl::render()
 
 		Re->drawRect(draw, 0x000000ff);
 	}
+	vector3 mpos = mouse::getInstance()->getPos();
+
+	draw.left = dot.left + (int)mpos.x;
+	draw.right = dot.right + (int)mpos.x;
+	draw.top = dot.top + (int)mpos.y;
+	draw.bottom = dot.bottom + (int)mpos.y;
+
+	Re->drawRect(draw, 0xff0000ff);
+
 	rCount++;
 
 	Re->EndLines();
