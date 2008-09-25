@@ -25,6 +25,7 @@
 #include "..\GamePlayStates\CTallySheet.h"
 #include "../../EventSystem\globalEvents.h"
 #include "../../Wrappers/CSGD_FModManager.h"
+#include "..\..\Helpers\CXBOXController.h"
 
 
 
@@ -41,6 +42,11 @@ gamePlayState* gamePlayState::getInstance()
 void gamePlayState::enter(void)
 {
 	timeMod = 2.0f;
+	//for (int i = 0 ; i < 4 ; ++i)
+	//	m_bIsBuffered[i] = true;
+	m_cLeftRight = '0';
+	m_cRightTrigger = '0';
+	m_cLeftTrigger = '0';
 
 	m_fInvulnerableTime = 0.0f;
 
@@ -50,7 +56,7 @@ void gamePlayState::enter(void)
 	theInput = CSGD_DirectInput::GetInstance();
 	EM = eventManager::getInstance();
 	theFont = bitFont::getInstance();
-
+	Player1 = new CXBOXController(1);
 	TE = CTileEngine::GetInstance();
 
 	m_fLevelTime = 0;
@@ -115,15 +121,22 @@ bool gamePlayState::input(float dt)
 
 	if(entered)
 	{
-		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunLeft))
+		if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
+			m_cLeftRight = '1';
+		else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
+			m_cLeftRight = '2';
+		else
+			m_cLeftRight = '0';
+
+		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunLeft) || m_cLeftRight == '1')
 			EM->sendEvent(EVENT_PLAYERGOLEFT);
-		else if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunRight))
+		else if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nRunRight) || m_cLeftRight == '2')
 			EM->sendEvent(EVENT_PLAYERGORIGHT);
-		else if(theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunLeft)
-			|| theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunRight))
+		else if((theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunLeft)
+			|| theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunRight)) || m_cLeftRight == '0')
 			EM->sendEvent(EVENT_PLAYERSTOP);
 
-		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nJump))
+		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nJump) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A))
 		{
 			Tutorials[0] = true;
 			EM->sendEvent(EVENT_PLAYERJUMP);
@@ -133,7 +146,20 @@ bool gamePlayState::input(float dt)
 			EM->sendEvent(EVENT_PLAYERJUMPSTOP);
 
 	}
-	if(theInput->MouseButtonPressedEx(0))
+
+	if (Player1->GetState().Gamepad.bLeftTrigger)
+		m_cLeftTrigger = '1';
+	else 
+		m_cLeftTrigger = '0';
+
+	if (Player1->GetState().Gamepad.bRightTrigger)
+		m_cRightTrigger = '1';
+	else
+		m_cRightTrigger = '0';
+
+
+
+	if(theInput->MouseButtonPressedEx(0) || m_cLeftTrigger == '1')
 	{
 		Tutorials[1] = true;
 		EM->sendEvent(EVENT_PLAYERFIRE);
@@ -141,17 +167,17 @@ bool gamePlayState::input(float dt)
 			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetGunSound1());
 	}
 
-	if(theInput->MouseButtonPressedEx(1))
+	if(theInput->MouseButtonPressedEx(1) || m_cRightTrigger == '1')
 	{
 		EM->sendEvent(EVENT_PLAYERFIRE2);
 		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound2()))
 			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetGunSound2());
 	}
 
-	if(theInput->MouseButtonReleased(0))
+	if(theInput->MouseButtonReleased(0) || m_cLeftTrigger == '0')
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE));
 
-	if(theInput->MouseButtonReleased(1))
+	if(theInput->MouseButtonReleased(1) || m_cRightTrigger == '0')
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE2));
 
 

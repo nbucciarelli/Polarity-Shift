@@ -20,6 +20,7 @@ union vector3;
 class mouse;
 class bitFont;
 class debugControl;
+class CXBOXController;
 
 class gamePlayState : public gameState, public listener
 {
@@ -32,7 +33,12 @@ protected:
 	playHandler* handler;
 	bitFont* theFont;
 	debugControl* debugger;
+	CXBOXController* Player1;
 	float timeMod;
+	//bool m_bIsBuffered[4];
+	char m_cLeftRight;
+	char m_cLeftTrigger;
+	char m_cRightTrigger;
 
 	std::queue<char> m_qCheatCode;
 
