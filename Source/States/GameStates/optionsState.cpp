@@ -205,6 +205,7 @@ bool optionsState::input(float dt)
 			}
 		}
 	}
+	menuState::input(dt);
 
 	return true;
 }
