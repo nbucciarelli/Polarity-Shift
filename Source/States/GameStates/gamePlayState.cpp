@@ -92,6 +92,7 @@ void gamePlayState::exit(void)
 	while(rendering)
 		Sleep(1);
 
+	delete Player1;
 	gameState::exit();
 
 	if(debugger)
@@ -162,12 +163,12 @@ bool gamePlayState::input(float dt)
 	{
 		if(Player1->GetState().Gamepad.sThumbRX < 0)
 		{
-			float mod = Player1->GetState().Gamepad.sThumbRX/40;
+			float mod = Player1->GetState().Gamepad.sThumbRX/40.0f;
 			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(mod*dt,0,0));
 		}
 		else
 		{
-			float mod = Player1->GetState().Gamepad.sThumbRX/40;
+			float mod = Player1->GetState().Gamepad.sThumbRX/40.0f;
 			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(mod*dt,0,0));
 		}
 
@@ -177,12 +178,12 @@ bool gamePlayState::input(float dt)
 	{
 		if(Player1->GetState().Gamepad.sThumbRY < 0)
 		{
-			float mod = Player1->GetState().Gamepad.sThumbRY/40;
+			float mod = Player1->GetState().Gamepad.sThumbRY/40.0f;
 			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(0,-mod*dt,0));
 		}
 		else
 		{
-			float mod = Player1->GetState().Gamepad.sThumbRY/40;
+			float mod = Player1->GetState().Gamepad.sThumbRY/40.0f;
 			mouse::getInstance()->setPos(mouse::getInstance()->getPos()+vector3(0,-mod*dt,0));
 		}
 
