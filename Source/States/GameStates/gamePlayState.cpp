@@ -148,12 +148,26 @@ bool gamePlayState::input(float dt)
 
 	}
 
-	if (Player1->GetState().Gamepad.bLeftTrigger)
+	/*if (Player1->GetState().Gamepad.bLeftTrigger)
 		m_cLeftTrigger = '1';
 	else 
 		m_cLeftTrigger = '0';
 
 	if (Player1->GetState().Gamepad.bRightTrigger)
+		m_cRightTrigger = '1';
+	else
+		m_cRightTrigger = '0';*/
+
+	if(!Player1->GetState().Gamepad.bLeftTrigger && m_cLeftTrigger == '1')
+		m_cLeftTrigger = '2';
+	else if(Player1->GetState().Gamepad.bLeftTrigger)
+		m_cLeftTrigger = '1';
+	else
+		m_cLeftTrigger = '0';
+
+	if(!Player1->GetState().Gamepad.bRightTrigger && m_cRightTrigger == '1')
+		m_cRightTrigger = '2';
+	else if (Player1->GetState().Gamepad.bRightTrigger)
 		m_cRightTrigger = '1';
 	else
 		m_cRightTrigger = '0';
@@ -204,13 +218,13 @@ bool gamePlayState::input(float dt)
 			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetGunSound2());
 	}
 
-	if(theInput->MouseButtonReleased(0) || m_cLeftTrigger == '0')
+	if(theInput->MouseButtonReleased(0) || m_cLeftTrigger == '2')
 	{
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE));
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound1());
 	}
 
-	if(theInput->MouseButtonReleased(1) || m_cRightTrigger == '0')
+	if(theInput->MouseButtonReleased(1) || m_cRightTrigger == '2')
 	{
 		EM->sendEvent(EVENT_PLAYERCEASEFIRE, new int(EVENT_PLAYERFIRE2));
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound2());

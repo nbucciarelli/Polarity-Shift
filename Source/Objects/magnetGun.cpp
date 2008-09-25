@@ -72,6 +72,9 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 
 void magnetGun::ceaseFire(int dat)
 {
+	if(mode)
+		mode = mode;
+
 	if(mode == MAG_HOLD)
 	{
 		if(dat == MAG_PUSH)
@@ -83,6 +86,9 @@ void magnetGun::ceaseFire(int dat)
 			return;
 	}
 	else if(!isActive)
+		return;
+
+	if(mode != dat)
 		return;
 
 	if(target)
