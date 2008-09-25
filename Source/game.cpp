@@ -160,6 +160,9 @@ void game::pushState(gameState* state)
 	if(!state) //Never put NULL in the state stack
 		return;
 
+	while(renderLock)
+		Sleep(0);
+
 	stateStack.push_back(state);
 	currentState = state;
 	currentState->enter();
@@ -169,6 +172,9 @@ void game::popState()
 {
 	if(stateStack.empty())
 		return;
+
+	while(renderLock)
+		Sleep(0);
 
 	currentState->exit();
 
