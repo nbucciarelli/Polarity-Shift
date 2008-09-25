@@ -223,13 +223,14 @@ void magnetGun::update(float dt)
 	pos = owner->getPosition();
 	pos.y -= 30;
 
+	float mod = 0;
 	if(((playerObj*)owner)->GetAnimNumber() == 1)
-		pos.x -= 4;
+		mod -= 4;
 	else
-		pos.x += 4;
+		mod += 4;
 
-	pos.x *= owner->getFacing();
-
+	mod *= owner->getFacing();
+	pos.x += mod;
 	if(target)
 		aimVect = target->getPosition() - pos;
 	else
@@ -237,10 +238,13 @@ void magnetGun::update(float dt)
 
 	aimVect.normalize();
 
-	if(aimVect.x > 0)
+	if(fabs(pos.x - theMouse->getPos().x) < 3)
+	{
+	if(aimVect.x < 0)
 		owner->setFacing(FACE_LEFT);
 	else
 		owner->setFacing(FACE_RIGHT);
+	}
 
 	updateWorldMatrix();
 
