@@ -136,7 +136,7 @@ bool gamePlayState::input(float dt)
 			|| theInput->KeyReleased(game::GetInstance()->GetKeys().m_nRunRight)) || m_cLeftRight == '0')
 			EM->sendEvent(EVENT_PLAYERSTOP);
 
-		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nJump) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A))
+		if(theInput->KeyDown(game::GetInstance()->GetKeys().m_nJump) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP))
 		{
 			Tutorials[0] = true;
 			EM->sendEvent(EVENT_PLAYERJUMP);
