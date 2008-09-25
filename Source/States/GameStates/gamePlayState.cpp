@@ -173,7 +173,7 @@ bool gamePlayState::input(float dt)
 		m_cRightTrigger = '0';
 
 	float pos = Player1->GetState().Gamepad.sThumbRX;
-	if(fabs(pos) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+	if(fabs(pos) > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 	{
 		if(Player1->GetState().Gamepad.sThumbRX < 0)
 		{
