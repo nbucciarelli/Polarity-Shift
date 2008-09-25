@@ -56,6 +56,7 @@ void menuState::enter(void)
 
 void menuState::exit(void)
 {
+	Player1->Vibrate(0, 0);
 	delete Player1;
 
 	gameState::exit();
