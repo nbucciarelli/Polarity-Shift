@@ -223,7 +223,12 @@ void magnetGun::update(float dt)
 	pos = owner->getPosition();
 	pos.y -= 30;
 
-	pos.x += owner->getFacing() * -4;
+	if(((playerObj*)owner)->GetAnimNumber() == 1)
+		pos.x -= 4;
+	else
+		pos.x += 4;
+
+	pos.x *= owner->getFacing();
 
 	if(target)
 		aimVect = target->getPosition() - pos;
