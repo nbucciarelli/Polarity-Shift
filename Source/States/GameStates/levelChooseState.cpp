@@ -52,6 +52,7 @@ void levelChooseState::enter(void)
 {
 	//m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
 	//CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
+	m_fCounter = 0.0f;
 	m_nSelectedLevel = 1;
 	m_fXPer = 0;
 	m_fXLerp = 1024;
@@ -281,8 +282,11 @@ bool levelChooseState::input(float dt)
 
 		}
 	}
-
-
+	
+	m_fCounter += dt;
+	if (m_fCounter >= 1.0f)
+	{
+	
 	if (Player1->IsConnected())
 	{
 		if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
@@ -331,6 +335,8 @@ bool levelChooseState::input(float dt)
 			Player1->Vibrate(0, 0);
 		}
 	}
+	}
+
 	highlightColor = 0xffa4a4ff;
 
 	return true;

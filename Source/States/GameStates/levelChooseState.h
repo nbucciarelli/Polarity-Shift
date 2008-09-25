@@ -16,6 +16,8 @@ protected:
 	float m_fTime, m_fXPer, m_fXLerp, m_fSoundPer, m_fSoundLerp;
 	int m_nSelectedLevel;
 
+	float m_fCounter;
+
 	void menuHandler();
 
 	//int m_nParticleImageID;
