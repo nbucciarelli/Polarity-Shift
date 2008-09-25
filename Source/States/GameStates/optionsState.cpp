@@ -14,6 +14,7 @@
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
 #include "..\..\Wrappers\CSGD_DirectInput.h"
+#include "..\..\Helpers\CXBOXController.h"
 
 #include <fstream>
 using std::ifstream;
@@ -158,7 +159,7 @@ bool optionsState::input(float dt)
 			else
 				menuPos = menuLast;
 		}
-		else if(theInput->KeyPressed(DIK_LEFT))
+		else if(theInput->KeyPressed(DIK_LEFT)  || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT))
 		{
 			if(menuPos == SFX)
 			{
@@ -181,7 +182,7 @@ bool optionsState::input(float dt)
 				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
 			}
 		}
-		else if(theInput->KeyPressed(DIK_RIGHT))
+		else if(theInput->KeyPressed(DIK_RIGHT) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT))
 		{
 			if(menuPos == SFX)
 			{
