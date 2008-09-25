@@ -241,7 +241,7 @@ bool levelChooseState::input(float dt)
 			highlightColor = 0xffa4a4ff;
 			if (bIsLevelComplete[menuPos] || menuPos == menuLast)
 			{
-			menuHandler();
+				menuHandler();
 			}
 			//menuHandler();
 		}
@@ -282,59 +282,59 @@ bool levelChooseState::input(float dt)
 
 		}
 	}
-	
+
 	m_fCounter += dt;
 	if (m_fCounter >= 1.0f)
 	{
-	
-	if (Player1->IsConnected())
-	{
-		if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+
+		if (Player1->IsConnected())
 		{
-			if (m_bIsBuffered == true)
+			if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
 			{
-				Player1->Vibrate(65535, 65535);
-
-				if(menuPos > 0)
-					menuPos--;
-				else
-					menuPos = menuLast;
-
-				m_bIsBuffered = false;
-			}
-
-		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN )
-		{
-			if (m_bIsBuffered == true)
-			{
-				Player1->Vibrate(65535, 65535);
-				if(menuPos < menuLast)
-					menuPos++;
-				else
-					menuPos = 0;
-
-				m_bIsBuffered = false;
-			}
-
-		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A )
-		{
-			if (m_bIsBuffered == true)
-			{
-				if (bIsLevelComplete[menuPos] || menuPos == menuLast)
+				if (m_bIsBuffered == true)
 				{
-				menuHandler();
-				}
-				//menuHandler();
-				Player1->Vibrate(65535, 65535);
-				m_bIsBuffered = false;
-			}
+					Player1->Vibrate(65535, 65535);
 
-		}else
-		{
-			m_bIsBuffered = true;
-			Player1->Vibrate(0, 0);
+					if(menuPos > 0)
+						menuPos--;
+					else
+						menuPos = menuLast;
+
+					m_bIsBuffered = false;
+				}
+
+			}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN )
+			{
+				if (m_bIsBuffered == true)
+				{
+					Player1->Vibrate(65535, 65535);
+					if(menuPos < menuLast)
+						menuPos++;
+					else
+						menuPos = 0;
+
+					m_bIsBuffered = false;
+				}
+
+			}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A )
+			{
+				if (m_bIsBuffered == true)
+				{
+					if (bIsLevelComplete[menuPos] || menuPos == menuLast)
+					{
+						menuHandler();
+					}
+					//menuHandler();
+					Player1->Vibrate(65535, 65535);
+					m_bIsBuffered = false;
+				}
+
+			}else
+			{
+				m_bIsBuffered = true;
+				Player1->Vibrate(0, 0);
+			}
 		}
-	}
 	}
 
 	highlightColor = 0xffa4a4ff;
