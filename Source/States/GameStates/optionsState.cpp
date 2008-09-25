@@ -206,7 +206,54 @@ bool optionsState::input(float dt)
 			}
 		}
 	}
-	menuState::input(dt);
+	if (Player1->IsConnected())
+	{
+		if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+		{
+			m_fTimerNotClicked = 0;
+			if (m_bIsBuffered == true)
+			{
+				Player1->Vibrate(65535, 65535);
+
+				if(menuPos > 0)
+					menuPos--;
+				else
+					menuPos = menuLast;
+
+				m_bIsBuffered = false;
+			}
+
+		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN )
+		{
+			m_fTimerNotClicked = 0;
+			if (m_bIsBuffered == true)
+			{
+				Player1->Vibrate(65535, 65535);
+				if(menuPos < menuLast)
+					menuPos++;
+				else
+					menuPos = 0;
+
+				m_bIsBuffered = false;
+			}
+
+		}else if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A )
+		{
+			m_fTimerNotClicked = 0;
+			if (m_bIsBuffered == true)
+			{
+				menuHandler();
+				Player1->Vibrate(65535, 65535);
+				m_bIsBuffered = false;
+			}
+
+		}else
+		{
+			m_bIsBuffered = true;
+			Player1->Vibrate(0, 0);
+		}
+	}
+	//menuState::input(dt);
 
 	return true;
 }
