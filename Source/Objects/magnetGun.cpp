@@ -35,8 +35,11 @@ void magnetGun::updateWorldMatrix()
 
 	float ang = calc::angleBetweenVects(vector3(-1), aimVect);
 
-//	calc::matrixScale(transform, vector3(0,(float)owner->getFacing()));
-//	combined *= transform;
+	if(pos.y < theMouse->getPos().y)
+		ang *= -1;
+
+	//calc::matrixScale(transform, vector3((float)owner->getFacing()));
+	//combined *= transform;
 
 	calc::matrixRotationZ(transform, ang - PI);
 	combined *= transform;
