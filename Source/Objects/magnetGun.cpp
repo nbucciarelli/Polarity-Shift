@@ -38,10 +38,13 @@ void magnetGun::updateWorldMatrix()
 	if(pos.y < theMouse->getPos().y)
 		ang *= -1;
 
-	//calc::matrixScale(transform, vector3((float)owner->getFacing()));
-	//combined *= transform;
+	if(pos.x < theMouse->getPos().x)
+		ang -= PI;
 
-	calc::matrixRotationZ(transform, ang - PI);
+	calc::matrixScale(transform, vector3((float)owner->getFacing(),1,1));
+	combined *= transform;
+
+	calc::matrixRotationZ(transform, ang);
 	combined *= transform;
 
 	calc::matrixTranslate(transform, pos);
@@ -219,7 +222,8 @@ void magnetGun::update(float dt)
 {
 	pos = owner->getPosition();
 	pos.y -= 30;
-	pos.x -= 2;
+
+	pos.x += owner->getFacing() * -4;
 
 	if(target)
 		aimVect = target->getPosition() - pos;
