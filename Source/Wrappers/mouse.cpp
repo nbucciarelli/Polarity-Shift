@@ -28,6 +28,15 @@ void mouse::update(float dt)
 	CRITICAL({
 	position += vector3((float)theInput->MouseMovementX(),
 						(float)theInput->MouseMovementY(), 0);
+
+	if(position.x < 0)
+		position.x = 0;
+	if(position.y < 0)
+		position.y = 0;
+	if(position.x > 1024)
+		position.x = 1024;
+	if(position.y > 600)
+		position.y = 600;
 	});
 }
 
