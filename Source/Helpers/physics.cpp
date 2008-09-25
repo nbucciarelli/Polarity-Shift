@@ -35,6 +35,26 @@ void vector3::zeroDrift()
 }
 #pragma endregion
 
+#pragma region vec calculations
+float calc::angleBetweenVects(vector3& v1, vector3& v2)
+{
+	float dot = v1.dot2D(v2); 
+
+//	float len =  (v2 - v1).length();
+
+	//if (len == 0.0f)
+	//	return 0;
+
+	float ang = acos( dot );
+
+	//	Make sure the number is not indefinite.
+	if (_isnan(ang))
+		return 0.0f;
+
+	return ang;
+}
+#pragma endregion
+
 #pragma region matrix rotation
 
 void calc::matrixRotationX(matrix& out, float rad)

@@ -50,7 +50,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 			this->m_pAM->GetEngine(0)->Play(true);
 			this->SetAnimNumber(0);
 		}
-		this->setFacing(FACE_RIGHT);
+		//this->setFacing(FACE_RIGHT);
 		break;
 	case EVENT_PLAYERGORIGHT:
 		acceleration.x += 50.0f;
@@ -60,7 +60,7 @@ void playerObj::HandleEvent(gameEvent *ev)
 			this->m_pAM->GetEngine(0)->Play(true);
 			this->SetAnimNumber(0);
 		}
-		this->setFacing(FACE_LEFT);
+		//this->setFacing(FACE_LEFT);
 		break;
 	case EVENT_PLAYERSTOP:
 		acceleration.x = 0;
@@ -118,4 +118,11 @@ void playerObj::HandleEvent(gameEvent *ev)
 	default:
 		actorObj::HandleEvent(ev);
 	}
+}
+
+void playerObj::render()
+{
+	actorObj::render();
+
+	theWeapon->render();
 }

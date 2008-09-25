@@ -2,6 +2,7 @@
 
 #include "weapon.h"
 #include "../helpers/datatypes.h"
+#include "../helpers/criticalsectionmacros.h"
 
 class movingObj;
 
@@ -23,13 +24,21 @@ protected:
 	mouse* theMouse;
 	vector3 pos;
 	vector3 aimVect;
+	matrix worldMatrix;
 
 	bool getTarget(const vector3& farPoint);
 	//float levelLimiter(const vector3& traj);
 
+	CRITICAL_VARS;
+
 	movingObj* target;
 
 	int mode;
+	int imgId;
+	pt imgCenter;
+
+	void updateWorldMatrix();
+
 public:
 	magnetGun();
 	~magnetGun();

@@ -4,6 +4,9 @@
 #include "objManager.h"
 #include "../wrappers/mouse.h"
 #include "../engines/CTileEngine.h"
+#include "../wrappers/viewmanager.h"
+#include "../helpers/criticalSection.h"
+#include "../helpers/physics.h"
 #include <vector>
 #include <cmath>
 
@@ -11,12 +14,37 @@
 #define HOLDRANGE 300
 
 magnetGun::magnetGun() : beamWidthFactor(1), theMouse(mouse::getInstance()),
-mode(0), target(0)
+mode(0), target(0), imgCenter(3,8)
 {
+	imgId = viewManager::getInstance()->loadTexture("resource/images/PS_arm.png");
+	CRITICAL_INIT;
 }
 
 magnetGun::~magnetGun()
 {
+	CRITICAL_RELEASE;
+}
+
+void magnetGun::updateWorldMatrix()
+{
+	matrix combined;
+	matrix transform;
+
+	calc::matrixTranslate(transform, vector3((float)-imgCenter.x,(float)-imgCenter.y,0));
+	combined *= transform;
+
+	float ang = calc::angleBetweenVects(vector3(-1), aimVect);
+
+	calc::matrixScale(transform, vector3(0,(float)owner->getFacing()));
+	combined *= transform;
+
+	calc::matrixRotationZ(transform, ang - PI);
+	combined *= transform;
+
+	calc::matrixTranslate(transform, pos);
+	combined *= transform;
+
+	CRITICAL(worldMatrix = combined);
 }
 
 void magnetGun::openFire(const vector3 *trajectory, int fireMode)
@@ -187,7 +215,8 @@ float		limit = (float)range;
 void magnetGun::update(float dt)
 {
 	pos = owner->getPosition();
-	pos.y += 15;
+	pos.y -= 30;
+	pos.x -= 2;
 
 	if(target)
 		aimVect = target->getPosition() - pos;
@@ -196,7 +225,12 @@ void magnetGun::update(float dt)
 
 	aimVect.normalize();
 
-#define traj aimVect
+	if(aimVect.x > 0)
+		owner->setFacing(FACE_LEFT);
+	else
+		owner->setFacing(FACE_RIGHT);
+
+	updateWorldMatrix();
 
 	if(mode != MAG_OFF)
 	{
@@ -214,6 +248,7 @@ void magnetGun::update(float dt)
 		float len = 0;
 		//vector3 traj = (theMouse->getPos() - pos).normalized();
 
+#define traj aimVect
 		switch(mode)
 		{
 		case MAG_PUSH:
@@ -247,4 +282,7 @@ void magnetGun::update(float dt)
 
 void magnetGun::render() const
 {
+	CRITICAL({
+		viewManager::getInstance()->drawTexture(imgId, 0, &worldMatrix);
+	});
 }

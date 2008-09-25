@@ -12,6 +12,8 @@ class calc
 {
 public:
 	static const float infinity;
+
+	static float angleBetweenVects(vector3& v1, vector3& v2);
 	//matrix Rotation functions:  Return a rotation matrix for given radians
 	static void matrixRotationX(matrix& out, float rad);
 	static void matrixRotationY(matrix& out, float rad);
