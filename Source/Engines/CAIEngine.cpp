@@ -27,13 +27,15 @@ CAIEngine::CAIEngine() : trackPos(NULL)
 	//register events
 	for(int c = BEGIN_AI_EVENTS; c < END_AI_EVENTS; c++)
 		eventManager::getInstance()->registerClient(c, this);
+
+	eventManager::getInstance()->registerClient(EVENT_KILLOBJ, this);
 }
 
 CAIEngine::~CAIEngine()
 {
 	//unregister events
-	for(int c = BEGIN_AI_EVENTS; c < END_AI_EVENTS; c++)
-		eventManager::getInstance()->unregisterClient(c, this);
+	//for(int c = BEGIN_AI_EVENTS; c < END_AI_EVENTS; c++)
+		eventManager::getInstance()->unregisterClient(this);
 
 }
 
@@ -173,7 +175,7 @@ void CAIEngine::HandleEvent(gameEvent *ev)
 		player = (playerObj*)(ev->getData());
 		trackPos = &((baseObj*)(ev->getData()))->getPosition();
 		break;
-	case EVENT_OBJDIED:
+	case EVENT_KILLOBJ:
 		if(!ev->getData())
 			break;
 
