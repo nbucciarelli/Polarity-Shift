@@ -11,6 +11,8 @@
 #include "..\..\EventSystem\globalEvents.h"
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\viewManager.h"
+#include "..\..\Wrappers\CSGD_FModManager.h"
+#include "..\..\game.h"
 
 CDeathState::CDeathState()
 {
@@ -27,6 +29,11 @@ CDeathState::~CDeathState()
 
 void CDeathState::enter(void)
 {
+	if(CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound1()))
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound1());
+
+	if(CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound2()))
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound2());
 	menuState::enter();
 	m_nBackGroundImageID = viewManager::getInstance()->loadTexture("Resource/PS_death.png");
 }

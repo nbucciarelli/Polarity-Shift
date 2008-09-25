@@ -42,6 +42,12 @@ pauseState* pauseState::getInstance()
 #pragma region enter/exit
 void pauseState::enter(void)
 {
+	if(CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound1()))
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound1());
+
+	if(CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound2()))
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound2());
+
 	m_fSoundLerp = 100;
 	m_fXLerp = 1024;
 	m_bBack = false;
