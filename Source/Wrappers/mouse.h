@@ -36,7 +36,7 @@ public:
 	void update(float dt);
 	void render() const;
 
-	void setPos(const vector3& val) { position = val; }
+	void setPos(const vector3& val);
 	void setClickPos(const pt& val) { clickPos = val; }
 	void setImgID(int val);
 

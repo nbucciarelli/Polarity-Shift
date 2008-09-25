@@ -23,6 +23,11 @@ mouse* mouse::getInstance()
 	return &mickey;
 }
 
+void mouse::setPos(const vector3& val)
+{
+	CRITICAL({position = val;});
+}
+
 void mouse::update(float dt)
 {
 	CRITICAL({
