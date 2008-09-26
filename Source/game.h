@@ -43,6 +43,8 @@ protected:
 	float m_fAchievementTimes[NUMLEVELS];
 	int m_nMusicLevel, m_nSFXLevel, m_nFreqLevel;
 
+	float m_fHighScoreCheck[NUMLEVELS];
+	
 	//Singleton Protection
 	game(void);
 	game(const game&);
@@ -133,4 +135,11 @@ public:
 	int GetLevel15Music() { return m_nLevelMusic[0]; }
 	int GetLevel69Music() { return m_nLevelMusic[1]; }
 	int GetMenuMusic() { return m_nMenuMusic; }
+
+
+	void SetHighScore(int nLevel, float fScore) { m_fHighScoreCheck[nLevel-1] = fScore; }
+	float GetHighScore(int nLevel) const { return m_fHighScoreCheck[nLevel-1]; }
+	
+
 };
+

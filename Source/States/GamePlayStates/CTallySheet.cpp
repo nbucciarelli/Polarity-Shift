@@ -36,6 +36,9 @@ void CTallySheetState::Initialize(int nLevelNum, float fScoreGiven, float fTimeT
 	m_fScoreGiven = fScoreGiven;
 	m_fTimeTaken = fTimeTaken;
 	m_nLevelNum = nLevelNum;
+	game* theGame = game::GetInstance();
+	if (m_fScoreGiven > theGame->GetHighScore(m_nLevelNum))
+		theGame->SetHighScore(m_nLevelNum, m_fScoreGiven);
 }
 
 void CTallySheetState::enter(void)

@@ -24,7 +24,7 @@ public:
 	bool input(float);
 	void render(void) const;
 	void update(float);
-	static bool AddHighScore(unsigned int nScore);
+	static void AddHighScore(unsigned int nScore);
 	
 
 	

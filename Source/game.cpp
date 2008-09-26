@@ -49,6 +49,7 @@ void game::Initialize(HINSTANCE hInstance)
 	{
 		m_bLevelsComplete[i] = false;
 		m_bAchievementUnlock[i] = false;
+		m_fHighScoreCheck[i] = 0;
 	}
 	
 	m_bLevelsComplete[0] = true;

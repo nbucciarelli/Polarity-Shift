@@ -197,24 +197,32 @@ void CHighScoresState::menuHandler(void)
 	}
 }
 
-bool CHighScoresState::AddHighScore(unsigned int nScore)
+void CHighScoresState::AddHighScore(unsigned int nScore)
 {
 	bool changed = false;
 	Load();
 	mymap::iterator itr = score.begin();
 	if (itr->first < nScore)
 	{
-		char s[64];
-		tm TempTime;
-		localtime_s(&TempTime, NULL);
-		//__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
-		sprintf_s(s,"%s",asctime_s(s,sizeof(TempTime),&TempTime));
+		char s[64];	
 		
+		//////////////////////////////////////
+		//This section of code is the one i commented out
+		//tm TempTime;
+		//localtime_s(&TempTime, NULL);
+		//__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
+		//sprintf_s(s,"%s",asctime_s(s,sizeof(TempTime),&TempTime));
+		//////////////////////////////////////
+
+
 		//sprintf_s(s,"%s",asctime_s(s,sizeof(localtime_s(&TempTime,&ltime)),(tm*)localtime_s(&TempTime,&ltime)));
+
+		__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
+		sprintf(s,"%s",asctime(localtime(&ltime)));
 		score[nScore] = new structTStamp(s);	
 		write();
-		changed = true;
+		//changed = true;
 	}
 	reset();
-	return changed;
+	//return changed;
 }

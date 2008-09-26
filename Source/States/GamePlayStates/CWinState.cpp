@@ -13,6 +13,7 @@
 #include "..\..\Wrappers\viewManager.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
 #include "..\..\game.h"
+#include "..\GameStates\CHighScoresState.h"
 
 CWinState::CWinState()
 {
@@ -37,6 +38,11 @@ void CWinState::enter(void)
 
 	menuState::enter();
 	m_nBackGroundImageID = viewManager::getInstance()->loadTexture("Resource/PS_WinScreen.png");
+	float fScores = 0;
+	for (int i = 0 ; i < NUMLEVELS ; ++i)
+		fScores += game::GetInstance()->GetHighScore(i);
+
+	CHighScoresState::AddHighScore((int)fScores);
 }
 
 void CWinState::exit(void)
