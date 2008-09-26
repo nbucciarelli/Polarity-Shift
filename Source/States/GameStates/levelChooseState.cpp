@@ -50,6 +50,11 @@ levelChooseState* levelChooseState::getInstance()
 
 void levelChooseState::enter(void)
 {
+	CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel15Music());
+	CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel69Music());
+	CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetBossMusic());
+	if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetMenuMusic()))
+		CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetMenuMusic());
 	//m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_Test4.prt");
 	//CParticleEffectManager::GetInstance()->Play(m_nParticleImageID, true);
 	m_fCounter = 0.0f;

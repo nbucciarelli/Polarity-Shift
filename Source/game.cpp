@@ -63,7 +63,7 @@ void game::Initialize(HINSTANCE hInstance)
 	m_fAchievementTimes[8] = 10.0f;
 	m_fAchievementTimes[9] = 17.0f;
 
-	SetMusicLevel(50);
+	SetMusicLevel(20);
 	SetSFXLevel(50);
 	SetFreqLevel(50000);
 
@@ -78,15 +78,16 @@ void game::Initialize(HINSTANCE hInstance)
 	bitFont::getInstance()->initialize(viewManager::getInstance());
 
 	m_pFMOD = CSGD_FModManager::GetInstance();
-	m_pFMOD->InitFModManager(theDisplay->getHWnd());
+	m_pFMOD->InitFModManager(theDisplay->getHWnd(), 100);
 	m_SZSCHHHSound = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
 	//m_nGunSound, m_nPowerUpSound, m_nBossMusic, m_nLevelMusic, m_nDeathSound;
 	m_nGunSound[0] = m_pFMOD->LoadSound("Resource/Sounds/PS_PullSound.mp3", FMOD_LOOP_NORMAL);
 	m_nGunSound[1] = m_pFMOD->LoadSound("Resource/Sounds/PS_PushSound.mp3", FMOD_LOOP_NORMAL);
-	m_nPowerUpSound = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
-	m_nBossMusic = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
-	m_nLevelMusic = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
-	m_nDeathSound = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
+	//m_nPowerUpSound = m_pFMOD->LoadSound("Resource/Sounds/PS_SZSCHHH.mp3");
+	m_nBossMusic = m_pFMOD->LoadSound("Resource/Sounds/PS_BossMusic.mp3", FMOD_LOOP_NORMAL);
+	m_nLevelMusic[0] = m_pFMOD->LoadSound("Resource/Sounds/PS_Level1-5Music.mp3", FMOD_LOOP_NORMAL);
+	m_nLevelMusic[1] = m_pFMOD->LoadSound("Resource/Sounds/PS_Level6-9Music.mp3", FMOD_LOOP_NORMAL);
+	m_nMenuMusic = m_pFMOD->LoadSound("Resource/Sounds/PS_MenuMusic.mp3", FMOD_LOOP_NORMAL);
 
 	theInput = inputDevice::GetInstance();
 	theInput->InitDirectInput(theDisplay->getHWnd(), hInstance, DI_KEYBOARD | DI_MOUSE, DI_MOUSE);

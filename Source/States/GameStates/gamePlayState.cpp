@@ -70,6 +70,43 @@ void gamePlayState::enter(void)
 	//string buff;
 	char buff[256] = {0};
 	sprintf_s(buff,256,"Resource/PS_Level%d.bmf",levelChooseState::getInstance()->GetPlayLevel());
+	if(levelChooseState::getInstance()->GetPlayLevel() == 1 ||
+		levelChooseState::getInstance()->GetPlayLevel() == 2 ||
+		levelChooseState::getInstance()->GetPlayLevel() == 3 ||
+		levelChooseState::getInstance()->GetPlayLevel() == 4 ||
+		levelChooseState::getInstance()->GetPlayLevel() == 5)
+	{
+		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetLevel15Music()))
+		{
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetLevel15Music());
+		}
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetMenuMusic());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel69Music());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetBossMusic());
+	}
+	else if(levelChooseState::getInstance()->GetPlayLevel() == 6 ||
+		levelChooseState::getInstance()->GetPlayLevel() == 7 ||
+		levelChooseState::getInstance()->GetPlayLevel() == 8 ||
+		levelChooseState::getInstance()->GetPlayLevel() == 9)
+	{
+		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetLevel69Music()))
+		{
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetLevel69Music());
+		}
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetMenuMusic());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel15Music());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetBossMusic());
+	}
+	else if(levelChooseState::getInstance()->GetPlayLevel() == 10)
+	{
+		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetBossMusic()))
+		{
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetBossMusic());
+		}
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetMenuMusic());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel15Music());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel69Music());
+	}
 	TE->LoadMap(string(buff));
 
 	m_nParticleImageID = CParticleEffectManager::GetInstance()->LoadEffect("Resource/PS_SmokeBottomRight.prt");

@@ -45,6 +45,13 @@ mainMenuState* mainMenuState::getInstance()
 
 void mainMenuState::enter(void)
 {
+	if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetMenuMusic()))
+	{
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel15Music());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel69Music());
+		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetBossMusic());
+		CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetMenuMusic());
+	}
 	m_fXPer = 0;
 	m_fXLerp = 1024;
 	m_bIsMoving = true;
