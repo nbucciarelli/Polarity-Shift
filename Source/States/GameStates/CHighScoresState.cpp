@@ -9,7 +9,7 @@
 #include <map>
 #include <iostream>
 #include <fstream>
-using namespace std;
+using namespace std; 
 #include "..\..\XMLParser\irrXML.h"
 #include "..\..\Wrappers\viewManager.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"

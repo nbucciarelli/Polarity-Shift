@@ -74,7 +74,7 @@ void game::Initialize(HINSTANCE hInstance)
 
 	theRenderer = RENDERER::getInstance();
 	theRenderer->Init(theDisplay->getHWnd());
-
+ 
 	viewManager::getInstance()->initialize(theRenderer);
 	bitFont::getInstance()->initialize(viewManager::getInstance());
 

@@ -10,7 +10,7 @@
 using std::queue;
 
 class objManager;
-class CSGD_DirectInput;
+class CSGD_DirectInput; 
 typedef CSGD_DirectInput inputDevice;
 class eventManager;
 class playHandler;

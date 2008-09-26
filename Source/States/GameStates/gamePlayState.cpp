@@ -9,7 +9,7 @@
 #include "..\..\EventSystem\eventManager.h"
 #include "..\..\EventSystem\eventIDs.h"
 #include "../../EventSystem/gameEvent.h"
-#include "../../EventSystem/playHandler.h"
+#include "../../EventSystem/playHandler.h" 
 #include "../../Objects/objManager.h"
 #include "..\..\Engines\CTileEngine.h"
 #include "..\..\Engines\CAIEngine.h"
@@ -446,7 +446,12 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 			m_fLevelScore = m_fLevelScore - (m_fLevelTime * 5);
 			if (m_fLevelScore <= 0.0f)
 				m_fLevelScore = 0.0f;
+
 			int currlevel = levelChooseState::getInstance()->GetPlayLevel();
+
+			if (m_fLevelScore > theGame->GetHighScore(currlevel))
+				theGame->SetHighScore(currlevel, m_fLevelScore);
+
 
 			theGame->SetLevelComplete(currlevel-1);
 			if(m_fLevelTime <= theGame->GetAchievementNumbers(currlevel-1))

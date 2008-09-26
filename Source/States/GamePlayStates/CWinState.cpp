@@ -35,9 +35,10 @@ void CWinState::enter(void)
 
 	if(CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetGunSound2()))
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetGunSound2());
-
+ 
 	menuState::enter();
 	m_nBackGroundImageID = viewManager::getInstance()->loadTexture("Resource/PS_WinScreen.png");
+	
 	float fScores = 0;
 	for (int i = 0 ; i < NUMLEVELS ; ++i)
 		fScores += game::GetInstance()->GetHighScore(i);

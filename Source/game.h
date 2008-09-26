@@ -100,7 +100,7 @@ public:
 	void popState();
 	void clearStates();
 
-	bool getIsRunning() { return isRunning; }
+	bool getIsRunning() { return isRunning; } 
 	void setIsRunning(bool set) { isRunning = set; }
 	float getGameTime() { return gameTime; }
 
