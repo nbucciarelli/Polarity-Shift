@@ -415,11 +415,10 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 			if (currlevel < 10)
 				EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
 			else
+			{
 				//game::GetInstance()->Reset();
 				EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_WINSTATE));
-				
-			
-			
+			}		
 			
 			CTallySheetState::getInstance()->Initialize(currlevel,m_fLevelScore, m_fLevelTime);
 
