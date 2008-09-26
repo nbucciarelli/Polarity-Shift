@@ -123,7 +123,7 @@ void dxRenderer::changeResolution(int height, int width, bool isWindowed)
 							styleFlags,
 							FALSE, 
 							WS_EX_APPWINDOW);
-		
+
 		int windowWidth		= window.right - window.left;
 		int windowHeight	= window.bottom - window.top;
 
@@ -133,7 +133,11 @@ void dxRenderer::changeResolution(int height, int width, bool isWindowed)
 	}
 	else
 	{
-		SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
+		//SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
+		SetWindowPos(hWnd, HWND_NOTOPMOST, 0,0,
+			GetSystemMetrics(SM_CXSCREEN),
+			GetSystemMetrics(SM_CYSCREEN),
+			SWP_FRAMECHANGED | SWP_SHOWWINDOW );
 	}
 }
 
