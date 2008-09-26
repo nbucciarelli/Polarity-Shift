@@ -184,6 +184,10 @@ bool optionsState::input(float dt)
 				if(game::GetInstance()->GetFreqLevel() <= 0)
 					game::GetInstance()->SetFreqLevel(0);
 				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetMenuMusic(), (float)(game::GetInstance()->GetFreqLevel()));
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetLevel15Music(), (float)(game::GetInstance()->GetFreqLevel()));
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetLevel69Music(), (float)(game::GetInstance()->GetFreqLevel()));
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetBossMusic(), (float)(game::GetInstance()->GetFreqLevel()));
 			}
 		}
 		else if(theInput->KeyPressed(DIK_RIGHT) || (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT))
@@ -211,6 +215,10 @@ bool optionsState::input(float dt)
 				if(game::GetInstance()->GetFreqLevel() >= 100000)
 					game::GetInstance()->SetFreqLevel(100000);
 				CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetSZSCHHHSound());
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetMenuMusic(), (float)(game::GetInstance()->GetFreqLevel()));
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetLevel15Music(), (float)(game::GetInstance()->GetFreqLevel()));
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetLevel69Music(), (float)(game::GetInstance()->GetFreqLevel()));
+				CSGD_FModManager::GetInstance()->SetFrequency(game::GetInstance()->GetBossMusic(), (float)(game::GetInstance()->GetFreqLevel()));
 			}
 		}
 	}
