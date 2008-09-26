@@ -144,7 +144,7 @@ bool magnetGun::getTarget(const vector3& farPoint)
 
 	//Just to sneak in this variable.  Makes it look less scary in class declaration.
 	//And magical, too.
-	static const std::vector<baseObj*>& objList = objManager::getInstance()->getList();
+	const std::vector<baseObj*>& objList = objManager::getInstance()->getList();
 
 //	float limit = levelLimiter((farPoint - pos).normalized());
 

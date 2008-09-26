@@ -60,7 +60,8 @@ void playHandler::HandleEvent(gameEvent* ev)
 		EM->sendGlobalEvent(GE_STATE_PUSH, new int(STATE_PAUSE));
 		break;
 	case EVENT_KILLOBJ:
-		OM->removeObj((baseObj*)ev->getData());
+		//OM->removeObj((baseObj*)ev->getData());
+		((baseObj*)ev->getData())->setPos(vector3(2000,2000));
 		break;
 	case EVENT_ACTORDIED:
 		killActor((baseObj*)ev->getData());

@@ -40,6 +40,9 @@ baseObj::~baseObj(void)
 		viewManager::getInstance()->releaseTexture(imgId);
 
 	m_pAM->releaseInstance();
+
+//	if(instancePoly.vertecies)
+//		delete[] instancePoly.vertecies;
 }
 
 void baseObj::updateWorldMatrix()  //Accounts for world position as well.

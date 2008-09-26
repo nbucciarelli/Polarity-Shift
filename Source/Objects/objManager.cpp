@@ -52,6 +52,7 @@ void objManager::removeObj(baseObj* obj)
 	{
 		if ((*iter) == obj)
 		{
+			(*iter)->setPos(vector3(2000,2000));
 			(*iter)->release();
 			objList.erase(iter);
 			break;
@@ -69,6 +70,8 @@ void objManager::clear()
 
 	while(polyList.size())
 	{
+//		if(polyList.back()->vertecies)
+//			delete[] polyList.back()->vertecies;
 		delete polyList.back();
 		polyList.pop_back();
 	}
