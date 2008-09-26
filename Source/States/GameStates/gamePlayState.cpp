@@ -456,18 +456,9 @@ void gamePlayState::HandleEvent(gameEvent* ev)
 			theGame->SetLevelComplete(currlevel-1);
 			if(m_fLevelTime <= theGame->GetAchievementNumbers(currlevel-1))
 				theGame->SetAchievementUnlock(currlevel-1);
-			if (currlevel < 10)
-			{
-				EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
-				CTallySheetState::getInstance()->Initialize(currlevel,m_fLevelScore, m_fLevelTime);
-			}
-			else
-			{
-				//game::GetInstance()->Reset();
-				EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_WINSTATE));
-			}		
-			
-			
+
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_TALLYSHEET));
+			CTallySheetState::getInstance()->Initialize(currlevel,m_fLevelScore, m_fLevelTime);			
 
 			entered = false;
 		}

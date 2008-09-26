@@ -105,7 +105,7 @@ void CHighScoresState::render() const
 		sprintf_s(s, "%i -- %s", itr->first, itr->second->timeStamp.c_str());
 		//ViewManager::GetInstance().RenderText(300, (float)(i+1) * 20 , s, Color(255,255,255,255));
 		//theFont->drawText(s,(float)(i+1) * 20, 20, 0xffff0000 );
-		bitFont::getInstance()->drawText(s, (int)(m_fXLerp + 20), (int)(i+7) * 40, 0xffffffff);
+		bitFont::getInstance()->drawText(s, (int)(m_fXLerp + 475), (int)(i+12) * 40, 0xffffffff, .5f);
 		i++;
 	}
 }

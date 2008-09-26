@@ -110,7 +110,10 @@ void CTallySheetState::menuHandler()
 	case EXIT:
 		//EM->sendGlobalEvent(GE_STATE_POP);
 		levelChooseState::getInstance()->SetPlayLevel(levelChooseState::getInstance()->GetPlayLevel()+1);
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		if(levelChooseState::getInstance()->GetPlayLevel() < 11)
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
+		else
+			EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_WINSTATE));
 		break;
 	}
 }
