@@ -78,7 +78,7 @@ void playHandler::HandleEvent(gameEvent* ev)
 
 		enemyObj* newEnemyObj = (enemyObj*)OF->spawn("spider");
 
-		newEnemyObj->setPos(vector3(CTileEngine::GetInstance()->GetTraps()[0].x,CTileEngine::GetInstance()->GetTraps()[0].y,0));
+		newEnemyObj->setPos(vector3((float)CTileEngine::GetInstance()->GetTraps()[0].x,(float)CTileEngine::GetInstance()->GetTraps()[0].y,0));
 		EM->sendEvent(EVENT_ENEMYLOAD, newEnemyObj);
 		OM->addObj(newEnemyObj);
 		newEnemyObj->release();
@@ -133,13 +133,13 @@ void playHandler::onGameLoad()
 
 		obid = FL->loadObject("Resource/PS_boxy.psu");
 
-	for(int i = 0; i <CTileEngine::GetInstance()->GetCubes().size(); i ++)
+	for(unsigned i = 0; i <CTileEngine::GetInstance()->GetCubes().size(); i ++)
 	{
 
 		//
 		testObj = (movingObj*)OF->spawn(obid);
 
-		testObj->setPos(vector3(CTileEngine::GetInstance()->GetCubes()[i].x,CTileEngine::GetInstance()->GetCubes()[i].y,0));
+		testObj->setPos(vector3((float)CTileEngine::GetInstance()->GetCubes()[i].x,(float)CTileEngine::GetInstance()->GetCubes()[i].y,0));
 		//testObj->setAngPos(vector3(0,0,PI));
 		//testObj->setVel(vector3(0, -200,0));
 
@@ -153,11 +153,11 @@ void playHandler::onGameLoad()
 
 	obid = FL->loadObject("Resource/PS_banana.psu");
 	enemyObj* testObj3;
-	for(int i = 0; i <CTileEngine::GetInstance()->GetBonuses().size(); i++)
+	for(unsigned i = 0; i <CTileEngine::GetInstance()->GetBonuses().size(); i++)
 	{
 		testObj3 = (enemyObj*)OF->spawn(obid);
 		testObj3->setEnemyType(ET_SCORE);
-		testObj3->setPos(vector3(CTileEngine::GetInstance()->GetBonuses()[i].x,CTileEngine::GetInstance()->GetBonuses()[i].y,0));
+		testObj3->setPos(vector3((float)CTileEngine::GetInstance()->GetBonuses()[i].x,(float)CTileEngine::GetInstance()->GetBonuses()[i].y,0));
 		EM->sendEvent(EVENT_POWERUPLOAD, testObj3);
 		OM->addObj(testObj3);
 		testObj3->release();
@@ -165,11 +165,11 @@ void playHandler::onGameLoad()
 	delete[] obid;
 	
 	obid = FL->loadObject("Resource/PS_light.psu");
-	for(int i = 0; i <CTileEngine::GetInstance()->GetInv().size(); i++)
+	for(unsigned i = 0; i <CTileEngine::GetInstance()->GetInv().size(); i++)
 	{
 		testObj3 = (enemyObj*)OF->spawn(obid);
 		testObj3->setEnemyType(ET_INV);
-		testObj3->setPos(vector3(CTileEngine::GetInstance()->GetInv()[i].x,CTileEngine::GetInstance()->GetInv()[i].y,0));
+		testObj3->setPos(vector3((float)CTileEngine::GetInstance()->GetInv()[i].x,(float)CTileEngine::GetInstance()->GetInv()[i].y,0));
 		EM->sendEvent(EVENT_POWERUPLOAD, testObj3);
 		OM->addObj(testObj3);
 		testObj3->release();
@@ -177,11 +177,11 @@ void playHandler::onGameLoad()
 	delete[] obid;
 
 	obid = FL->loadObject("Resource/PS_spider.psu");
-	for(int i = 0; i <CTileEngine::GetInstance()->GetEnemies().size(); i ++)
+	for(unsigned i = 0; i <CTileEngine::GetInstance()->GetEnemies().size(); i ++)
 	{
 		testObj = (enemyObj*)OF->spawn(obid);
 
-		testObj->setPos(vector3(CTileEngine::GetInstance()->GetEnemies()[i].x,CTileEngine::GetInstance()->GetEnemies()[i].y,0));
+		testObj->setPos(vector3((float)CTileEngine::GetInstance()->GetEnemies()[i].x,(float)CTileEngine::GetInstance()->GetEnemies()[i].y,0));
 
 
 		EM->sendEvent(EVENT_ENEMYLOAD, testObj);
@@ -191,11 +191,11 @@ void playHandler::onGameLoad()
 	delete[] obid;
 
 	obid = FL->loadObject("Resource/PS_turret.psu");
-	for(int i = 0; i <CTileEngine::GetInstance()->GetTurrets().size(); i ++)
+	for(unsigned i = 0; i <CTileEngine::GetInstance()->GetTurrets().size(); i ++)
 	{
 		testObj = (enemyObj*)OF->spawn(obid);
 
-		testObj->setPos(vector3(CTileEngine::GetInstance()->GetTurrets()[i].x,CTileEngine::GetInstance()->GetTurrets()[i].y,0));
+		testObj->setPos(vector3((float)CTileEngine::GetInstance()->GetTurrets()[i].x,(float)CTileEngine::GetInstance()->GetTurrets()[i].y,0));
 
 
 		EM->sendEvent(EVENT_ENEMYLOAD, testObj);

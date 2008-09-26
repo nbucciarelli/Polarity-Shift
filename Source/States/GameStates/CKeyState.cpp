@@ -55,6 +55,9 @@ CKeyState::CKeyState(void) : state(NULL), character(0)
 
 CKeyState::~CKeyState(void)
 {
+	delete[] m_szJump;
+	delete[] m_szMoveLeft;
+	delete[] m_szMoveRight;
 
 	viewManager::getInstance()->releaseTexture(foregroundID);
 }

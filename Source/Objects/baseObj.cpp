@@ -136,9 +136,12 @@ bool baseObj::checkCollision(baseObj* obj, polyCollision* result)
 
 void baseObj::release()
 {
+	if(abs(refCount) > 10)
+		refCount = refCount;
+
 	refCount--;
 
-	if(refCount < 1)
+	if(refCount == 0)
 		delete this;
 }
 
@@ -165,8 +168,8 @@ const polygon* baseObj::getCollisionPoly()
 	{
 		instancePoly.vertexCount = collisionPoly->vertexCount;
 		
-		if(instancePoly.vertecies)
-			delete[] instancePoly.vertecies;
+		//if(instancePoly.vertecies)
+		//	delete[] instancePoly.vertecies;
 
 		instancePoly.vertecies = new objectPoint[collisionPoly->vertexCount];
 		for(int c = 0; c < collisionPoly->vertexCount; c++)

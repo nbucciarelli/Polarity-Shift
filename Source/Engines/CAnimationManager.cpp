@@ -20,8 +20,11 @@ void CAnimationManager::releaseInstance()
 {
 	references--;
 
-	if(references < 1)
+	if(references == 0)
+	{
+		this->Shutdown();
 		delete this;
+	}
 }
 
 void CAnimationManager::acquireInstance()

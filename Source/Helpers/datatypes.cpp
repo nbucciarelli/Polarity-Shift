@@ -40,6 +40,7 @@ polygon::~polygon()
 {
 	if(vertecies)
 		delete[] vertecies;
+	vertecies = 0;
 }
 
 #pragma endregion
