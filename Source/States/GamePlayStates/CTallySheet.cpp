@@ -100,7 +100,12 @@ void CTallySheetState::render(void) const
 	theFont->drawText(levelbuffer, 100,100);
 	theFont->drawText(buffer1, 100,200);
 	theFont->drawText(buffer2, 100,300);
-
+	if(m_fTimeTaken <= game::GetInstance()->GetAchievementNumbers(m_nLevelNum - 1))
+	{
+		char achievementbuffer[64];
+		sprintf_s(achievementbuffer, "Achievement for level %d unlocked!", m_nLevelNum);
+		theFont->drawText(achievementbuffer, 100, 400);
+	}
 }
 
 void CTallySheetState::menuHandler()
