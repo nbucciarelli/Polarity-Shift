@@ -101,6 +101,8 @@ gameState* globalHandler::state(int st)
 		return achievementState::getInstance();
 	case STATE_HOWTO:
 		return howToState::getInstance();
+	case STATE_WINSTATE:
+		return CWinState::GetInstance();
 	default:
 		return NULL;
 	}

@@ -343,4 +343,15 @@ unsigned game::renderLoop(void* unused)
 
 
 }
+
+void game::Reset()
+{
+	for (int i = 0 ; i < NUMLEVELS ; ++i)
+	{
+		m_bLevelsComplete[i] = false;
+		m_bAchievementUnlock[i] = false;
+	}
+	m_bLevelsComplete[0] = true;
+
+}
 #pragma endregion

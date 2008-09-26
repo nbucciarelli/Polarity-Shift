@@ -21,5 +21,6 @@
 #include "levelChooseState.h"
 #include "..\GamePlayStates\CTallySheet.h"
 #include "..\GamePlayStates\CDeathState.h"
+#include "..\GamePlayStates\CWinState.h"
 #include "achievementState.h"
 #include "howToState.h"

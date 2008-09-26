@@ -90,6 +90,7 @@ public:
 	void Initialize(HINSTANCE hInstance);
 	void Run();
 	void Shutdown();
+	void Reset();
 
 	//State machine operations
 	void changeState(gameState*);
