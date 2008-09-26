@@ -204,22 +204,15 @@ void CHighScoresState::AddHighScore(unsigned int nScore)
 	mymap::iterator itr = score.begin();
 	if (itr->first < nScore)
 	{
-		char s[64];	
-		
-		//////////////////////////////////////
-		//This section of code is the one i commented out
-		//tm TempTime;
-		//localtime_s(&TempTime, NULL);
-		//__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
-		//sprintf_s(s,"%s",asctime_s(s,sizeof(TempTime),&TempTime));
-		//////////////////////////////////////
-
-
-		//sprintf_s(s,"%s",asctime_s(s,sizeof(localtime_s(&TempTime,&ltime)),(tm*)localtime_s(&TempTime,&ltime)));
+		//char s[128] = {0};	
+		char t[64] = {0};
+		tm TempTime;
 
 		__int64 ltime = time(NULL);	/* calendar time */	/* get current cal time */ // __int64 = time_t
-		sprintf(s,"%s",asctime(localtime(&ltime)));
-		score[nScore] = new structTStamp(s);	
+		localtime_s(&TempTime,&ltime);
+		asctime_s(t, 64, &TempTime);
+		//sprintf_s(s,128, "%s",asctime(localtime(&ltime)));
+		score[nScore] = new structTStamp(t);	
 		write();
 		//changed = true;
 	}
