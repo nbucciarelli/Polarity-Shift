@@ -91,6 +91,9 @@ void magnetGun::openFire(const vector3 *trajectory, int fireMode)
 		return;
 	}
 
+	if(!target)
+		((movingObj*)owner)->modAcc(vector3(0,-GRAVITY));
+
 	switch(mode)
 	{
 	case MAG_PUSH:
@@ -262,8 +265,8 @@ void magnetGun::update(float dt)
 		}
 		else
 		{
-			((movingObj*)owner)->setVel(vector3());
-			((movingObj*)owner)->setAcc(vector3(0,-GRAVITY));
+		//	((movingObj*)owner)->setVel(vector3());
+		//	((movingObj*)owner)->setAcc(vector3(0,-GRAVITY));
 		}
 
 		float len = 0;
