@@ -154,7 +154,7 @@ void gamePlayState::exit(void)
 
 bool gamePlayState::input(float dt)
 {
-	if (theInput->KeyPressed(DIK_ESCAPE) || theInput->KeyPressed(DIK_F10))
+	if (theInput->KeyPressed(DIK_ESCAPE) || theInput->KeyPressed(DIK_F10) || Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_START)
 		EM->sendEvent(EVENT_GAMEPAUSE);
 
 	if(entered)
