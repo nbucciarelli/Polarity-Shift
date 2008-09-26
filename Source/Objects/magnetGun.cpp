@@ -238,9 +238,9 @@ void magnetGun::update(float dt)
 
 	aimVect.normalize();
 
-	if(fabs(pos.x - theMouse->getPos().x) < 3)
+	if(fabs(pos.x - theMouse->getPos().x) > 3)
 	{
-	if(aimVect.x < 0)
+	if(aimVect.x > 0)
 		owner->setFacing(FACE_LEFT);
 	else
 		owner->setFacing(FACE_RIGHT);
