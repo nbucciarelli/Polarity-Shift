@@ -173,6 +173,10 @@ bool optionsState::input(float dt)
 				game::GetInstance()->SetMusicLevel(game::GetInstance()->GetMusicLevel() - 5);
 				if(game::GetInstance()->GetMusicLevel() <= 0)
 					game::GetInstance()->SetMusicLevel(0);
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetMenuMusic(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetLevel15Music(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetLevel69Music(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetBossMusic(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
 			}
 			else if(menuPos == FREQ)
 			{
@@ -196,6 +200,10 @@ bool optionsState::input(float dt)
 				game::GetInstance()->SetMusicLevel(game::GetInstance()->GetMusicLevel() + 5);
 				if(game::GetInstance()->GetMusicLevel() >= 100)
 					game::GetInstance()->SetMusicLevel(100);
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetMenuMusic(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetLevel15Music(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetLevel69Music(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
+				CSGD_FModManager::GetInstance()->SetVolume(game::GetInstance()->GetBossMusic(), (float)(game::GetInstance()->GetMusicLevel()/100.0f));
 			}
 			else if(menuPos == FREQ)
 			{

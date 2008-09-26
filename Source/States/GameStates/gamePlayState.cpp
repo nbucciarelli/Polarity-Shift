@@ -78,7 +78,7 @@ void gamePlayState::enter(void)
 	{
 		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetLevel15Music()))
 		{
-			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetLevel15Music());
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetLevel15Music(), true);
 		}
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetMenuMusic());
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel69Music());
@@ -91,7 +91,7 @@ void gamePlayState::enter(void)
 	{
 		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetLevel69Music()))
 		{
-			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetLevel69Music());
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetLevel69Music(), true);
 		}
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetMenuMusic());
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel15Music());
@@ -101,7 +101,7 @@ void gamePlayState::enter(void)
 	{
 		if(!CSGD_FModManager::GetInstance()->IsSoundPlaying(game::GetInstance()->GetBossMusic()))
 		{
-			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetBossMusic());
+			CSGD_FModManager::GetInstance()->PlaySound(game::GetInstance()->GetBossMusic(), true);
 		}
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetMenuMusic());
 		CSGD_FModManager::GetInstance()->StopSound(game::GetInstance()->GetLevel15Music());
