@@ -126,8 +126,13 @@ void magnetGun::ceaseFire(int dat)
 		return;
 
 	if(target)
+	{
 	target->setAcc(vector3());
 	target = NULL;
+	}
+	else
+		((movingObj*)owner)->modAcc(vector3(0,GRAVITY));
+
 	mode = MAG_OFF;
 	isActive = false;
 }
