@@ -105,7 +105,7 @@ void CAIEngine::update(float dt)
 
 
 			}
-			else if(enemyList[j]->getHP() <=3)
+			else if(enemyList[j]->getHP() <=3 && enemyList[j]->getHP() > 0)
 			{
 				if(movingLeft)
 				{
