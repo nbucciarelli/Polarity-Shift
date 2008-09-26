@@ -10,6 +10,7 @@
 #include "..\..\Helpers\bitFont.h"
 #include "..\..\Wrappers\CSGD_FModManager.h"
 #include "..\..\game.h"
+#include "..\GameStates\levelChooseState.h"
 
 CTallySheetState::CTallySheetState()
 {
@@ -105,7 +106,8 @@ void CTallySheetState::menuHandler()
 	{
 	case EXIT:
 		//EM->sendGlobalEvent(GE_STATE_POP);
-		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_LEVELSELECT));
+		levelChooseState::getInstance()->SetPlayLevel(levelChooseState::getInstance()->GetPlayLevel()+1);
+		EM->sendGlobalEvent(GE_STATE_CHANGETO, new int(STATE_PLAY));
 		break;
 	}
 }
