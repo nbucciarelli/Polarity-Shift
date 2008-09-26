@@ -184,8 +184,8 @@ void achievementState::render(void) const
 		theFont->drawText("Complete level 9 in 10 seconds", (int)(105 + m_fXLerp + xPos), 660, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
 
 	if(bAchievementUnlocked[9])
-		theFont->drawText("Complete level 10 in 17 seconds", (int)(105 + m_fXLerp + xPos), 700, textColor, .55f);
+		theFont->drawText("Complete level 10 in 35 seconds", (int)(105 + m_fXLerp + xPos), 700, textColor, .55f);
 	else
-		theFont->drawText("Complete level 10 in 17 seconds", (int)(105 + m_fXLerp + xPos), 700, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
+		theFont->drawText("Complete level 10 in 35 seconds", (int)(105 + m_fXLerp + xPos), 700, viewManager::getInstance()->color_argb((char)128, (char)128,(char)128,(char)128), .55f);
 #pragma endregion
 }

@@ -52,7 +52,7 @@ void mouse::render() const
 
 	CRITICAL({
 		viewManager::getInstance()->drawTexture(imgID,
-			&(position - clickPos), 0, 0, 0, 0xff000000);
+			&(position - clickPos), 0, 0, 0, 0xffff0000);
 	});
 }
 
